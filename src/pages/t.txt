@@ -1,0 +1,7 @@
+├── pages/
+│   ├── HomePage.tsx
+│   ├── HowItWorksPage.tsx
+│   ├── ShopGiftsPage.tsx
+│   ├── ForProfessionalsPage.tsx
+│   ├── BulkAutomationPage.tsx
+│   └── ContactUsPage.tsx
