@@ -3,7 +3,8 @@ export default {
   theme: {
     extend: {
       maxWidth: {
-        main: "1920px",
+        main: "20px",
+        container: "1480px",
       },
     },
   },
