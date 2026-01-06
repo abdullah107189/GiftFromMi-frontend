@@ -1,82 +1,82 @@
 import React from "react";
-import { cn } from "@/lib/utils";
-import "./ActionButton.css";
 
-interface ActionButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface GradientOutlineProps {
   children: React.ReactNode;
-  icons?: boolean;
-  variant?: "primary" | "outline";
+  type?: "button" | "submit" | "reset";
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
   className?: string;
+  width?: number;
+  height?: number;
 }
 
-const ActionButton = ({
+const GradientOutline: React.FC<GradientOutlineProps> = ({
   children,
-  variant = "primary",
-  icons = false,
-  className,
-  ...props
-}: ActionButtonProps) => {
-  const variantStyles = variant === "primary" ? "" : "action-button-outline";
+  type = "button",
+  onClick,
+  disabled = false,
+  className = "",
+  width = 260,
+  height = 64,
+}) => {
 
   return (
     <button
-      className={cn(
-        "flex items-center justify-center cursor-pointer transition-all active:scale-95",
-        "px-8 py-4 gap-2.5 rounded-[16px]",
-        "font-medium text-base",
-        variantStyles,
-        className
-      )}
-      {...props}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`inline-flex bg-transparent border-none p-0 cursor-pointer disabled:cursor-not-allowed ${className}`}
+      aria-disabled={disabled}
     >
-      {variant === "outline" ? (
-        <span className="flex items-center justify-center gap-2.5">
-          <>
-            {children}
-            <div className={`${icons ? "ml-2.5" : "hidden"}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M14 5L21 12M21 12L14 19M21 12H3"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </>
-        </span>
-      ) : (
-        <>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        width={width}
+        height={height}
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <linearGradient
+            id="orange-gradient-outline"
+            x1="5.18%"
+            y1="0%"
+            x2="96.62%"
+            y2="0%"
+          >
+            <stop offset="0%" stopColor="#d0a15a" />
+            <stop offset="100%" stopColor="#c57200" />
+          </linearGradient>
+        </defs>
+
+        {/* Border */}
+        <rect
+          x="2"
+          y="2"
+          width={width - 4}
+          height={height - 4}
+          rx={16} // radius fixed to 16px as per your requirement
+          fill="none"
+          stroke="url(#orange-gradient-outline)"
+          strokeWidth="2"
+        />
+
+        {/* Text */}
+        <text
+          x="50%"
+          y="50%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="16"
+          fontFamily="Inter, sans-serif"
+          fontWeight="500"
+          fill="#c57200"
+          pointerEvents="none"
+        >
           {children}
-          <div className={`${icons ? "ml-2.5" : "hidden"}`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M14 5L21 12M21 12L14 19M21 12H3"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
-        </>
-      )}
+        </text>
+      </svg>
     </button>
   );
 };
 
-export default ActionButton;
+export default GradientOutline;
