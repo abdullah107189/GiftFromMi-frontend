@@ -1,7 +1,8 @@
-import ActionButton from "./button/ActionButton";
+
 import logo from "@/assets/common/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
+import { Button } from "../ui/button";
 
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
@@ -32,10 +33,10 @@ const ResponsiveNavbar = () => {
                 <Link
                   to={item.path}
                   className={cn(
-                    "text-base transition-all duration-300 hover:text-[#C57200] pb-1",
+                    "text-base transition-all duration-300 hover:text-primary pb-1",
                     isActive
-                      ? "text-[#C57200] border-b-2 border-[#C57200] "
-                      : "text-[#364153] font-normal"
+                      ? "text-primary border-b-2 border-primary "
+                      : "text-gray-700 font-normal"
                   )}
                 >
                   {item.label}
@@ -47,8 +48,9 @@ const ResponsiveNavbar = () => {
 
         {/* action buttons */}
         <div className="items-center gap-4 flex">
-          <ActionButton variant="outline">Login</ActionButton>
-          <ActionButton icons={true}>Book A Setup Call</ActionButton>
+          {/* <ActionButton variant="outline">Login</ActionButton> */}
+          <Button variant={"outline"}>Login</Button>
+          <Button variant={"default"}>Book A Setup Call</Button>
 
           {/* Cart Icon */}
           <div className="relative cursor-pointer ml-2">
@@ -88,7 +90,7 @@ const ResponsiveNavbar = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <div className="absolute -top-1 -right-1 bg-[#DF1C41] border border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
+            <div className="absolute -top-1 -right-1 bg-destructive border border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
               2
             </div>
           </div>

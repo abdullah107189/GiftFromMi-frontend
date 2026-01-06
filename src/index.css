@@ -1,9 +1,10 @@
-@import "tailwindcss";
-@import "tw-animate-css";
 /* Google Fonts Import */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
+@import "tailwindcss";
+@import "tw-animate-css";
+@tailwind utilities;
 @theme {
   --max-width-main: 1920px;
   --max-width-container: 1480px;
@@ -51,17 +52,25 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /* Gray - Scale - samim */
+
+  /* Adding to Tailwind Theme for Utility Classes */
+  --color-primary-50: #fdf9f2;
+  --color-primary-100: #f8edd8;
+  --color-primary-300: #e6c695;
+  --color-primary-400: #dbb176;
+  /* --color-primary-500: #c57200; Main Primary */
+
+  /* Text / Gray Colors */
   --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  --color-gray-100: #f2f4f7;
+  --color-gray-200: #e4e7ec;
+  --color-gray-300: #d0d5dd;
+  --color-gray-400: #98a2b3;
+
+  --color-gray-600: #475467;
+  --color-gray-700: #344054;
+  --color-gray-800: #1d2939;
+  --color-gray-900: #101828;
 }
 
 :root {
@@ -87,7 +96,7 @@
   --popover-foreground: #1e2939;
 
   /* Primary brand color (buttons, links, highlights) */
-  --primary: #c57200;
+  --primary: #ca8a32;
 
   /* Text color on primary elements */
   --primary-foreground: oklch(0.985 0 0);
@@ -111,7 +120,7 @@
   --accent-foreground: #c57200;
 
   /* Color used for destructive actions (delete, danger) */
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: #df1c41;
 
   /* Border color for UI elements */
   --border: oklch(0.922 0 0);
