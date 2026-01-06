@@ -1,10 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Google Fonts Import */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @theme {
   --max-width-main: 1920px;
   --max-width-container: 1480px;
+  --font-playfair: "Playfair Display", serif;
   --font-inter: "Inter", ui-sans-serif, system-ui;
 }
 @custom-variant dark (&:is(.dark *));

@@ -16,9 +16,8 @@ const ResponsiveNavbar = () => {
   ];
 
   return (
-    // ১. header কে absolute করায় এটি হিরো সেকশনের উপরে চলে যাবে
-    <header className="absolute top-0 left-0 w-full z-50">
-      <nav className="flex items-center justify-between max-w-container mx-auto h-24 px-5 lg:px-0">
+    <header className="absolute top-0 left-0 w-full z-50 mt-13.75">
+      <nav className="flex items-center justify-between max-w-container mx-auto">
         {/* logo */}
         <Link to="/" className="shrink-0">
           <img src={logo} className="h-12 md:h-16 w-auto" alt="logo" />
@@ -89,7 +88,7 @@ const ResponsiveNavbar = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <div className="absolute -top-1 -right-1 bg-[#DF1C41] border-2 border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
+            <div className="absolute -top-1 -right-1 bg-[#DF1C41] border border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
               2
             </div>
           </div>
