@@ -2,8 +2,7 @@ import logo from "@/assets/common/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
 import { Button } from "../ui/button";
-import GradientOutline from "./button/ActionButton";
-
+import "@/components/shared/button/ActionButton.css";
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
 
@@ -50,7 +49,6 @@ const ResponsiveNavbar = () => {
         <div className="items-center gap-4 flex">
           {/* <ActionButton variant="outline">Login</ActionButton> */}
           <Button variant={"outline"}>Login</Button>
-          {/* <GradientOutline>Login</GradientOutline> */}
           <Button variant={"default"}>Book A Setup Call</Button>
 
           {/* Cart Icon */}

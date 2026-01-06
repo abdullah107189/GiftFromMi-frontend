@@ -62,3 +62,11 @@
   width: 100%;
   background: #c57200;
 }
+
+.borderTry {
+  border-image: linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1;
+  border-radius: 50px; /* this doesn't work */
+  border-width: 2px;
+  border-style: solid;
+  padding: 5px;
+}
