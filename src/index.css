@@ -48,52 +48,118 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* Gray - Scale - samim */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
 }
 
 :root {
+  /* Global border radius for buttons, cards, inputs */
   --radius: 0.625rem;
-  --background: ffff;
-  --foreground: oklch(0.145 0 0);
+
+  /* Main background color of the app  */
+  --background: #ffff;
+
+  /* Default text color */
+  --foreground: #1e2939;
+
+  /* Card background color */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+
+  /* Text color inside cards */
+  --card-foreground: #1e2939;
+
+  /* Popover / dropdown background */
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #C57200;
+
+  /* Popover text color */
+  --popover-foreground: #1e2939;
+
+  /* Primary brand color (buttons, links, highlights) */
+  --primary: #c57200;
+
+  /* Text color on primary elements */
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
+
+  /* Secondary UI color */
+  --secondary: #6a7282;
+
+  /* Text color on secondary elements */
+  --secondary-foreground: #c57200;
+
+  /* Muted / disabled element color */
+  --muted: #6a7282;
+
+  /* Text color for muted elements */
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+
+  /* Accent color for hover / active states */
+  --accent: #6a7282;
+
+  /* Text color on accent elements */
+  --accent-foreground: #c57200;
+
+  /* Color used for destructive actions (delete, danger) */
   --destructive: oklch(0.577 0.245 27.325);
+
+  /* Border color for UI elements */
   --border: oklch(0.922 0 0);
+
+  /* Input field border/background */
   --input: oklch(0.922 0 0);
+
+  /* Focus ring color */
   --ring: oklch(0.708 0 0);
+
+  /* Chart color palette */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar background color */
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+
+  /* Sidebar text color */
+  --sidebar-foreground: #1e2939;
+
+  /* Sidebar primary action color */
+  --sidebar-primary: #c57200;
+
+  /* Text color on sidebar primary elements */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+
+  /* Sidebar accent / hover color */
+  --sidebar-accent: #6a7282;
+
+  /* Sidebar accent text color */
+  --sidebar-accent-foreground: #c57200;
+
+  /* Sidebar border color */
   --sidebar-border: oklch(0.922 0 0);
+
+  /* Sidebar focus ring color */
   --sidebar-ring: oklch(0.708 0 0);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #1e2939;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: #c57200;
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: #c57200;
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary-foreground: #c57200;
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -109,7 +175,7 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: #c57200;
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);

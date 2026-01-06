@@ -4,7 +4,7 @@ import Footer from "../shared/Footer";
 
 function MainLayout() {
   return (
-    <div className="max-w-main mx-auto border border-black ">
+    <div className="max-w-main mx-auto ">
       <Navbar></Navbar>
       <Outlet></Outlet>
       <Footer></Footer>

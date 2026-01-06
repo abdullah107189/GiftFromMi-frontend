@@ -16,37 +16,43 @@ const ResponsiveNavbar = () => {
   ];
 
   return (
-    <nav className="flex border items-center justify-between max-w-container mx-auto mt-13.75 ">
-      {/* logo */}
-      <img src={logo} className="h-16.75" alt="logo" />
+    // ১. header কে absolute করায় এটি হিরো সেকশনের উপরে চলে যাবে
+    <header className="absolute top-0 left-0 w-full z-50">
+      <nav className="flex items-center justify-between max-w-container mx-auto h-24 px-5 lg:px-0">
+        {/* logo */}
+        <Link to="/" className="shrink-0">
+          <img src={logo} className="h-12 md:h-16 w-auto" alt="logo" />
+        </Link>
 
-      {/* nav links */}
-      <ul className="flex items-center gap-8">
-        {navItems.map((item) => {
-          const isActive = pathname === item.path;
-          return (
-            <li key={item.path}>
-              <Link
-                to={item.path}
-                className={cn(
-                  "text-base transition-all duration-300 hover:text-[#C57200]",
-                  isActive ? "text-primary border-b border-primary" : "text-[#364153] "
-                )}
-              >
-                {item.label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+        {/* nav links */}
+        <ul className="hidden lg:flex items-center gap-8">
+          {navItems.map((item) => {
+            const isActive = pathname === item.path;
+            return (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  className={cn(
+                    "text-base transition-all duration-300 hover:text-[#C57200] pb-1",
+                    isActive
+                      ? "text-[#C57200] border-b-2 border-[#C57200] "
+                      : "text-[#364153] font-normal"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
 
-      {/* action buttons */}
-      <div className="items-center gap-4 flex">
-        <ActionButton variant="outline">Login</ActionButton>
-        <ActionButton className="">Book A Setup Call</ActionButton>
+        {/* action buttons */}
+        <div className="items-center gap-4 flex">
+          <ActionButton variant="outline">Login</ActionButton>
+          <ActionButton icons={true}>Book A Setup Call</ActionButton>
 
-        <div className="relative cursor-pointer">
-          <div>
+          {/* Cart Icon */}
+          <div className="relative cursor-pointer ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -83,13 +89,13 @@ const ResponsiveNavbar = () => {
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
-          <div className="absolute -top-1 -right-1 bg-[#DF1C41] border-2 border-white px-1.5 py-0.5 text-white text-[10px] rounded-full">
-            2
+            <div className="absolute -top-1 -right-1 bg-[#DF1C41] border-2 border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
+              2
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 
