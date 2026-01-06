@@ -1,7 +1,7 @@
 import logo from "@/assets/common/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import "@/components/shared/button/ActionButton.css";
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
