@@ -26,8 +26,8 @@ const ChooseOccasionSection = () => {
           </div>
 
           {/* Right Side: Overlapping Images */}
-          <div className="flex-1 w-1/2 relative">
-            <div className="relative">
+          <div className="flex-1 w-1/2">
+            <div className="relative flex justify-end">
               {/* Main Large Image */}
               <div className="rounded-2xl overflow-hidden w-149 h-127">
                 <img
@@ -38,7 +38,7 @@ const ChooseOccasionSection = () => {
               </div>
 
               {/* Overlapping Small Image */}
-              <div className="absolute -bottom-10 -left-40 w-1/2 ">
+              <div className="absolute -bottom-10 -left-30 w-1/2 ">
                 <div className="rounded-2xl w-57 h-50.5 overflow-hidden">
                   <img
                     src={secondaryImage}
