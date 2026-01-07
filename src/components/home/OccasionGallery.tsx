@@ -48,7 +48,7 @@ const OccasionGallery: React.FC = () => {
 
   return (
     <section className="pb-15">
-      <div className="max-w-container mx-auto px-4 lg:px-0">
+      <div className="max-w-container mx-auto ">
         {/* Title Section */}
         <div className="lg:my-15 text-center">
           <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">

@@ -53,7 +53,7 @@ const faqData = [
 const FAQ = () => {
   return (
     <section className="pb-15 bg-primary-50">
-      <div className="max-w-container mx-auto px-4 lg:px-0">
+      <div className="max-w-container mx-auto">
         {/* Using your custom SectionHeader */}
         <SectionHeader
           title="Frequently Asked Questions"

@@ -41,7 +41,7 @@ function GiftCollection() {
 
   return (
     <section className="pb-15">
-      <div className="max-w-container mx-auto px-4 lg:px-0">
+      <div className="max-w-container mx-auto ">
         {/* Header Section */}
         <SectionHeader
           title="Featured Gift Collections"

@@ -34,7 +34,7 @@ const STEPS_DATA: Step[] = [
 const HowItWorks: React.FC = () => {
   return (
     <section className="pb-15">
-      <div className="max-w-container mx-auto px-4 lg:px-0">
+      <div className="max-w-container mx-auto">
         <SectionHeader
           title="How It Works"
           subtitle="Three simple steps to start delighting your clients with unforgettable gifts."
