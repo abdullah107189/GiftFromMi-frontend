@@ -1,15 +1,14 @@
 import React from "react";
-import { Star } from "lucide-react";
 import type { Product } from "@/types";
 import { Button } from "@/components/ui/button";
+import Rating from "../Rating";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { image, title, description, price, oldPrice, rating, reviewsCount } =
-    product;
+  const { image, title, description, price, oldPrice, rating } = product;
 
   return (
     <div className="flex flex-col items-center p-6 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all hover:shadow-lg">
@@ -42,22 +41,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Rating Section */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={18}
-                fill={i < Math.floor(rating) ? "#D0A15A" : "none"}
-                stroke={i < Math.floor(rating) ? "#D0A15A" : "#D0D5DD"}
-              />
-            ))}
-          </div>
-          <span className="text-sm font-semibold text-primary-400">
-            ({reviewsCount})
-          </span>
-        </div>
+        <Rating rating={rating}></Rating>
 
         <div className="mt-2">
           <Button variant={"outline"} className="w-full rounded-lg">

@@ -50,7 +50,7 @@ const OccasionGallery: React.FC = () => {
     <section className="py-15">
       <div className="max-w-container mx-auto px-4 lg:px-0">
         {/* Title Section */}
-        <div className="lg:my-8 text-center">
+        <div className="lg:my-15 text-center">
           <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">
             Celebrate Every <span className="text-primary">Occasion</span>{" "}
             <br />

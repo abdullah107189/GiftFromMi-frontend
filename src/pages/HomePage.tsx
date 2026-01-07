@@ -1,4 +1,5 @@
 import FeatureSection from "@/components/home/FeatureSection";
+import FeedbackSection from "@/components/home/FeedbackSection";
 import GiftCollection from "@/components/home/GiftCollection";
 import HeroSection from "@/components/home/HeroSection";
 import HowItWorks from "@/components/home/HowItWorks";
@@ -13,6 +14,7 @@ function HomePage() {
         <GiftCollection></GiftCollection>
         <OccasionGallery></OccasionGallery>
         <FeatureSection></FeatureSection>
+        <FeedbackSection></FeedbackSection>
       </div>
     </div>
   );
