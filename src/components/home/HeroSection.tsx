@@ -9,7 +9,7 @@ function HeroSection() {
   ];
 
   return (
-    <div className="max-width-main">
+    <div className=" pb-15">
       <div
         className="min-h-225 w-full relative overflow-hidden"
         style={{

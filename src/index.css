@@ -1,26 +1,30 @@
 /* Google Fonts Import */
-/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
 @tailwind utilities;
+
 @theme {
   --max-width-main: 1920px;
   --max-width-container: 1480px;
   --font-playfair: "Playfair Display", serif;
   --font-inter: "Inter", ui-sans-serif, system-ui;
 }
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  /* Tailwind Official Border Radius Values (Manual Override) */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px; /* Official Tailwind 3xl */
+  --radius-4xl: 32px;
+
+  /* Color Mappings */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -39,11 +43,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Chart Colors */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Sidebar Colors */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -53,12 +61,12 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Adding to Tailwind Theme for Utility Classes */
+  /* Brand Specific Utility Classes */
   --color-primary-50: #fdf9f2;
   --color-primary-100: #f8edd8;
   --color-primary-300: #e6c695;
   --color-primary-400: #dbb176;
-  /* --color-primary-500: #c57200; Main Primary */
+  --color-primary-500: #c57200;
 
   /* Text / Gray Colors */
   --color-gray-50: #f9fafb;
@@ -66,7 +74,6 @@
   --color-gray-200: #e4e7ec;
   --color-gray-300: #d0d5dd;
   --color-gray-400: #98a2b3;
-
   --color-gray-600: #475467;
   --color-gray-700: #344054;
   --color-gray-800: #1d2939;
@@ -74,92 +81,40 @@
 }
 
 :root {
-  /* Global border radius for buttons, cards, inputs */
+  /* Base radius stays for fallback, but theme inline overrides specific classes */
   --radius: 0.625rem;
-
-  /* Main background color of the app  */
-  --background: #ffff;
-
-  /* Default text color */
+  --background: #ffffff;
   --foreground: #1e2939;
-
-  /* Card background color */
   --card: oklch(1 0 0);
-
-  /* Text color inside cards */
   --card-foreground: #1e2939;
-
-  /* Popover / dropdown background */
   --popover: oklch(1 0 0);
-
-  /* Popover text color */
   --popover-foreground: #1e2939;
-
-  /* Primary brand color (buttons, links, highlights) */
   --primary: #ca8a32;
-
-  /* Text color on primary elements */
   --primary-foreground: oklch(0.985 0 0);
-
-  /* Secondary UI color */
   --secondary: #6a7282;
-
-  /* Text color on secondary elements */
   --secondary-foreground: #c57200;
-
-  /* Muted / disabled element color */
   --muted: #6a7282;
-
-  /* Text color for muted elements */
   --muted-foreground: oklch(0.556 0 0);
-
-  /* Accent color for hover / active states */
   --accent: #6a7282;
-
-  /* Text color on accent elements */
   --accent-foreground: #c57200;
-
-  /* Color used for destructive actions (delete, danger) */
   --destructive: #df1c41;
-
-  /* Border color for UI elements */
   --border: oklch(0.922 0 0);
-
-  /* Input field border/background */
   --input: oklch(0.922 0 0);
-
-  /* Focus ring color */
   --ring: oklch(0.708 0 0);
 
-  /* Chart color palette */
+  /* Chart & Sidebar OKLCH Values */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-
-  /* Sidebar background color */
   --sidebar: oklch(0.985 0 0);
-
-  /* Sidebar text color */
   --sidebar-foreground: #1e2939;
-
-  /* Sidebar primary action color */
   --sidebar-primary: #c57200;
-
-  /* Text color on sidebar primary elements */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-
-  /* Sidebar accent / hover color */
   --sidebar-accent: #6a7282;
-
-  /* Sidebar accent text color */
   --sidebar-accent-foreground: #c57200;
-
-  /* Sidebar border color */
   --sidebar-border: oklch(0.922 0 0);
-
-  /* Sidebar focus ring color */
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -182,30 +137,16 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: #c57200;
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-
   html {
     font-family: "Inter", sans-serif;
   }
-
   body {
     @apply bg-background text-foreground;
   }
