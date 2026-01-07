@@ -74,7 +74,7 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <h3 className="font-bold text-gray-900 text-lg">Contract Us</h3>
             <ul className="flex flex-col gap-3">
-              <li className="flex items-center gap-3 text-gray-700">
+              <li className="flex items-center gap-3 text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -89,7 +89,7 @@ const Footer = () => {
                 </svg>
                 <span>demomail@gmail.com</span>
               </li>
-              <li className="flex items-center gap-3 text-gray-700">
+              <li className="flex items-center gap-3 text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -135,7 +135,7 @@ const Footer = () => {
                   +880 123456789
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-gray-700">
+              <li className="flex items-center gap-3 text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -159,8 +159,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-15 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-center items-center gap-6">
-          <div className="flex gap-8 text-[#667085] text-sm">
+        <div className="mt-15 pt-8 border-t border-[#BABABA] flex flex-col md:flex-row justify-center items-center gap-6">
+          <div className="flex gap-8 text-gray-500 text-sm">
             <a href="#" className="hover:text-[#C57200]">
               Terms of Service
             </a>
