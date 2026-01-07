@@ -40,7 +40,7 @@ function GiftCollection() {
   ];
 
   return (
-    <section className="py-15">
+    <section className="pb-15">
       <div className="max-w-container mx-auto px-4 lg:px-0">
         {/* Header Section */}
         <SectionHeader

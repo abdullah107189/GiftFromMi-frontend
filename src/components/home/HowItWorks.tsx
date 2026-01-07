@@ -33,7 +33,7 @@ const STEPS_DATA: Step[] = [
 
 const HowItWorks: React.FC = () => {
   return (
-    <section className="py-15">
+    <section className="pb-15">
       <div className="max-w-container mx-auto px-4 lg:px-0">
         <SectionHeader
           title="How It Works"

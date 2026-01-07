@@ -1,3 +1,4 @@
+import FAQ from "@/components/home/FAQ";
 import FeatureSection from "@/components/home/FeatureSection";
 import FeedbackSection from "@/components/home/FeedbackSection";
 import GiftCollection from "@/components/home/GiftCollection";
@@ -16,6 +17,7 @@ function HomePage() {
         <FeatureSection></FeatureSection>
         <FeedbackSection></FeedbackSection>
       </div>
+      <FAQ></FAQ>
     </div>
   );
 }

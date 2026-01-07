@@ -57,7 +57,7 @@ const testimonials = [
 
 const FeedbackSection = () => {
   return (
-    <section className="py-15">
+    <section className="pb-15">
       <SectionHeader
         title=" Loved by professionals"
         subtitle="   Join hundreds of professionals who are building stronger client
