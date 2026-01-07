@@ -10,7 +10,7 @@ function HomePage() {
   return (
     <div>
       <HeroSection></HeroSection>
-      <div className="max-w-container mx-auto">
+      <div className="max-w-container mx-auto px-3">
         <HowItWorks></HowItWorks>
         <GiftCollection></GiftCollection>
         <OccasionGallery></OccasionGallery>

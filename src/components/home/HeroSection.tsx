@@ -19,7 +19,7 @@ function HeroSection() {
           backgroundPosition: "center",
         }}
       >
-        <div className="relative max-w-container mx-auto h-full pt-41.25">
+        <div className="relative max-w-container mx-auto px-3 h-full pt-41.25">
           <div className="flex flex-col items-center text-center">
             <span className="border border-primary-300 text-gray-700  px-14 py-3 rounded-xl  mb-15 text-2xl font-semibold">
               Perfect Gift Made Simple

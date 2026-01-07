@@ -17,7 +17,7 @@ const ResponsiveNavbar = () => {
 
   return (
     <header className="absolute top-0 left-0 w-full z-50 mt-13.75">
-      <nav className="flex items-center justify-between max-w-container mx-auto">
+      <nav className="flex items-center justify-between max-w-container mx-auto px-3">
         {/* logo */}
         <Link to="/" className="shrink-0">
           <img src={logo} className="h-12 md:h-16 w-auto" alt="logo" />
