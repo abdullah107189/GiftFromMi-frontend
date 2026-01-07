@@ -1,3 +1,4 @@
+import FeatureSection from "@/components/home/FeatureSection";
 import GiftCollection from "@/components/home/GiftCollection";
 import HeroSection from "@/components/home/HeroSection";
 import HowItWorks from "@/components/home/HowItWorks";
@@ -11,6 +12,7 @@ function HomePage() {
         <HowItWorks></HowItWorks>
         <GiftCollection></GiftCollection>
         <OccasionGallery></OccasionGallery>
+        <FeatureSection></FeatureSection>
       </div>
     </div>
   );
