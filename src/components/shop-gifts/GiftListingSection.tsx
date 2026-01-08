@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "../ui/button";
 const GiftListingSection = () => {
   const PRODUCTS = [
     {
@@ -164,7 +165,7 @@ const GiftListingSection = () => {
           {/* Right Side: Product Listing */}
           <main className="flex-1">
             {/* Top Bar: Search & Sort */}
-            <div className="flex flex-col md:flex-row gap-4 justify-between mb-10">
+            <div className="flex flex-col md:flex-row gap-4 justify-between mb-8">
               <div className="relative rounded-2xl flex-1 border border-gray-200">
                 <input
                   type="text"
@@ -226,11 +227,13 @@ const GiftListingSection = () => {
             </div>
 
             {/* Gift Grid Header */}
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-800">Gift Boxes</h2>
-              <button className="text-primary font-medium border border-primary px-6 py-2 rounded-xl hover:bg-primary hover:text-white transition-all">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-[20px] font-medium text-gray-900">
+                Gift Boxes
+              </h2>
+              <Button variant={"outline"} className="text-gray-700 font-medium">
                 View All
-              </button>
+              </Button>
             </div>
 
             {/* Product Grid */}
