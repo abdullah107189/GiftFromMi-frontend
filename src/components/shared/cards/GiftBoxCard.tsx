@@ -47,7 +47,7 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
         <div className="mt-2">
           <Button
             variant={"outline"}
-            className="w-full rounded-lg bg-primary-500 text-primary-50 hover:bg-primary-500"
+            className="w-full rounded-2xl bg-primary-500 text-primary-50 hover:bg-primary-500"
           >
             View Details
           </Button>

@@ -67,7 +67,7 @@ const ResponsiveNavbar = () => {
         </ul>
 
         {/* action buttons */}
-        <div className="items-center gap-4 flex">
+        <div className="items-center gap-4 flex pr-3">
           <Button variant={"outline"}>Login</Button>
           <Button variant={"default"}>Book A Setup Call</Button>
 

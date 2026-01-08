@@ -22,5 +22,5 @@ export interface IFeaturedCard {
   price: number;
   oldPrice?: number;
   rating: number;
-  reviewsCount: string;
+  reviewsCount?: string;
 }
