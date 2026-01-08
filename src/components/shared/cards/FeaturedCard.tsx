@@ -1,14 +1,15 @@
 import React from "react";
-import type { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import Rating from "../Rating";
+import type { IFeaturedCard } from "@/types";
 
-interface ProductCardProps {
-  product: Product;
+interface FeaturedCardProps {
+  featured: IFeaturedCard;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { image, title, description, price, oldPrice, rating } = product;
+const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
+  if (!featured) return null;
+  const { image, title, description, price, oldPrice, rating } = featured;
 
   return (
     <div className="flex flex-col items-center p-6 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all hover:shadow-lg">
@@ -53,4 +54,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-export default ProductCard;
+export default FeaturedCard;

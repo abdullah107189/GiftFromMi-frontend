@@ -4,10 +4,10 @@ import sidbar1 from "@/assets/banner_and_background/sidebar1.png";
 import sidbar2 from "@/assets/banner_and_background/sidebar2.png";
 const ShopGiftsHero = () => {
   return (
-    <section className="relative max-w-main py-37.5  overflow-hidden">
+    <section className="relative max-w-main md:mt-36 py-15    overflow-hidden">
       <div>
         <img
-          className="absolute w-[676.301px] h-[347.417px] rotate-[23.2deg] -top-20 -left-70"
+          className="absolute w-[676.301px] h-[347.417px] rotate-[23.2deg] -top-50 -left-80"
           src={sidbar1}
           alt=""
         />
@@ -18,7 +18,7 @@ const ShopGiftsHero = () => {
         />
       </div>
       <div className="max-w-container mx-auto px-3">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-18">
+        <div className="flex items-center justify-between gap-12 lg:gap-18">
           {/* Left Side: Content Area */}
           <div className="flex-1 flex flex-col items-start gap-4 order-2 lg:order-1">
             <span className="text-gray-900 font-medium text-[18px]">

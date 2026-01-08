@@ -1,4 +1,4 @@
-import ProductCard from "../shared/cards/ProductCard";
+import FeaturedCard from "../shared/cards/FeaturedCard";
 import { SectionHeader } from "../shared/headers/SectionHeader";
 import { Button } from "../ui/button";
 import p1 from "@/assets/products/p1.png";
@@ -51,7 +51,7 @@ function GiftCollection() {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {PRODUCTS.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <FeaturedCard key={product.id} featured={product} />
           ))}
         </div>
 

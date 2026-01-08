@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 const HowItWorkHero = () => {
   return (
-    <section className="mt-37.5 py-15 bg-gray-100">
+    <section className="mt-36 py-15 bg-gray-100">
       <div className="max-w-container mx-auto px-3">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-18">
           {/* Left Side: Content Area */}

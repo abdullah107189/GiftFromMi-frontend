@@ -30,9 +30,7 @@ const Rating: React.FC<RatingProps> = ({
       </div>
 
       {showText && (
-        <span className="text-sm font-bold text-primary-400">
-          ({rating.toFixed(1)})
-        </span>
+        <span className="text-sm font-bold text-primary-500">({rating}/5)</span>
       )}
     </div>
   );

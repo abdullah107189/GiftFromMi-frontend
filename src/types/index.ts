@@ -14,7 +14,7 @@ export interface Step {
   icon: ReactNode;
 }
 
-export interface Product {
+export interface IFeaturedCard {
   id: string | number;
   image: string;
   title: string;
