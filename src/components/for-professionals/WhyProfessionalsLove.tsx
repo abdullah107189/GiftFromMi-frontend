@@ -47,7 +47,7 @@ const WhyProfessionalsLove: React.FC = () => {
           {WHY_LOVE_DATA.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col bg-white border border-primary-200 rounded-2xl overflow-hidden transition-all"
+              className="flex flex-col bg-background border border-primary-200 rounded-2xl overflow-hidden transition-all"
             >
               {/* Image Container */}
               <div className="w-full h-63.5 overflow-hidden">
