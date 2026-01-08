@@ -2,9 +2,26 @@ import logo from "@/assets/common/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
 import { Button } from "../../ui/button";
+import { useEffect, useState } from "react"; // Added hooks
 import "@/components/shared/button/ActionButton.css";
+
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Effect to handle scroll event
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { label: "Home", path: "/" },
@@ -16,11 +33,23 @@ const ResponsiveNavbar = () => {
   ];
 
   return (
-    <header className="absolute top-0 left-0 w-full z-50 mt-13.75">
-      <nav className="flex items-center justify-between max-w-container mx-auto pr-3">
+    <header
+      className={cn(
+        "fixed top-0 left-0 w-full z-50 transition-all duration-300",
+        isScrolled ? "bg-background shadow-md py-4" : "bg-transparent mt-10"
+      )}
+    >
+      <nav className="flex items-center justify-between max-w-container mx-auto px-4 lg:px-0">
         {/* logo */}
         <Link to="/" className="shrink-0">
-          <img src={logo} className="h-12 md:h-16 w-auto" alt="logo" />
+          <img
+            src={logo}
+            className={cn(
+              "transition-all duration-300 w-auto",
+              isScrolled ? "h-10 md:h-12" : "h-12 md:h-16"
+            )}
+            alt="logo"
+          />
         </Link>
 
         {/* nav links */}
@@ -32,10 +61,12 @@ const ResponsiveNavbar = () => {
                 <Link
                   to={item.path}
                   className={cn(
-                    "text-base transition-all duration-300 hover:text-primary pb-1",
+                    "text-base transition-all duration-300 hover:text-primary pb-1 font-medium",
                     isActive
-                      ? "text-primary border-b-2 border-primary "
-                      : "text-gray-700 font-normal"
+                      ? "text-primary border-b-2 border-primary"
+                      : isScrolled
+                      ? "text-gray-800"
+                      : "text-gray-700"
                   )}
                 >
                   {item.label}
@@ -47,7 +78,6 @@ const ResponsiveNavbar = () => {
 
         {/* action buttons */}
         <div className="items-center gap-4 flex">
-          {/* <ActionButton variant="outline">Login</ActionButton> */}
           <Button variant={"outline"}>Login</Button>
           <Button variant={"default"}>Book A Setup Call</Button>
 

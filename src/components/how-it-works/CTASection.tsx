@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import ctaBg from "@/assets/vectors/b1.png";
+import ctaBg from "@/assets/banner_and_background/bg1.png";
 
 const CTASection = () => {
   return (
