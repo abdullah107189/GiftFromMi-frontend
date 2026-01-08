@@ -1,9 +1,9 @@
 import App from "@/App";
 import BulkAutomationPage from "@/pages/BulkAutomationPage";
 import ContactUsPage from "@/pages/ContactUsPage";
+import ForProfessionalsPage from "@/pages/ForProfessionalsPage";
 import HomePage from "@/pages/HomePage";
 import HowItWorksPage from "@/pages/HowItWorksPage";
-import ProfessionalsPage from "@/pages/ProfessionalsPage";
 import ShopGiftsPage from "@/pages/ShopGiftsPage";
 import { createBrowserRouter } from "react-router";
 const router = createBrowserRouter([
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/for-professionals",
-        Component: ProfessionalsPage,
+        Component: ForProfessionalsPage,
       },
       {
         path: "/bulk-automation",
