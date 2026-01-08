@@ -21,7 +21,7 @@ const ShopGiftsHero = () => {
         <div className="flex items-center justify-between gap-12 lg:gap-18">
           {/* Left Side: Content Area */}
           <div className="flex-1 flex flex-col items-start gap-4 order-2 lg:order-1">
-            <span className="text-gray-900 font-medium text-[18px]">
+            <span className="text-gray-900 font-medium text-lg">
               Shop Gifts
             </span>
 

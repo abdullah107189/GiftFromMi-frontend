@@ -24,3 +24,13 @@ export interface IFeaturedCard {
   rating: number;
   reviewsCount?: string;
 }
+export interface PricingPlan {
+  plan: string;
+  description: string;
+  price?: string;
+  priceNote?: string;
+  chatNote?: string;
+  buttonText: string;
+  footerText: string;
+  features: string[];
+}
