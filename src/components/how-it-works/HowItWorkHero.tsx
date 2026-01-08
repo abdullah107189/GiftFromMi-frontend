@@ -12,7 +12,7 @@ const HowItWorkHero = () => {
               How Its Work
             </h1>
 
-            <p className="text-=gray-500 text-lg md:text-[18px] leading-relaxed">
+            <p className="text-gray-600  md:text-2xl leading-relaxed">
               Sending the perfect gift doesn&apos;t have to be complicated.
               We&apos;ve made the entire process simple, fast, and beautifully
               seamless from selecting your gift to delivery. Just follow a few

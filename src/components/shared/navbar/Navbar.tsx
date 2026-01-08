@@ -2,14 +2,16 @@ import logo from "@/assets/common/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
 import { Button } from "../../ui/button";
-import { useEffect, useState } from "react"; // Added hooks
+import { useEffect, useState } from "react";
 import "@/components/shared/button/ActionButton.css";
 
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Effect to handle scroll event
+  // Check if current page is Home
+  const isHomePage = pathname === "/";
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -23,20 +25,11 @@ const ResponsiveNavbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { label: "Home", path: "/" },
-    { label: "How It Works", path: "/how-it-works" },
-    { label: "Shop Gifts", path: "/shop-gifts" },
-    { label: "For Professionals", path: "/for-professionals" },
-    { label: "Bulk Automation", path: "/bulk-automation" },
-    { label: "Contact Us", path: "/contact-us" },
-  ];
-
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-300",
-        isScrolled ? "bg-background shadow-md py-4" : "bg-transparent mt-10"
+        "fixed top-0 left-0 pt-12.5 pb-7.5 w-full z-50 transition-all duration-300",
+        !isHomePage || isScrolled ? "bg-background" : "bg-transparent "
       )}
     >
       <nav className="flex items-center justify-between max-w-container mx-auto px-4 lg:px-0">
@@ -44,10 +37,7 @@ const ResponsiveNavbar = () => {
         <Link to="/" className="shrink-0">
           <img
             src={logo}
-            className={cn(
-              "transition-all duration-300 w-auto",
-              isScrolled ? "h-10 md:h-12" : "h-12 md:h-16"
-            )}
+            className={cn("transition-all duration-300 w-auto h-12 md:h-16")}
             alt="logo"
           />
         </Link>
@@ -64,7 +54,7 @@ const ResponsiveNavbar = () => {
                     "text-base transition-all duration-300 hover:text-primary pb-1 font-medium",
                     isActive
                       ? "text-primary border-b-2 border-primary"
-                      : isScrolled
+                      : !isHomePage || isScrolled
                       ? "text-gray-800"
                       : "text-gray-700"
                   )}
@@ -128,5 +118,14 @@ const ResponsiveNavbar = () => {
     </header>
   );
 };
+
+const navItems = [
+  { label: "Home", path: "/" },
+  { label: "How It Works", path: "/how-it-works" },
+  { label: "Shop Gifts", path: "/shop-gifts" },
+  { label: "For Professionals", path: "/for-professionals" },
+  { label: "Bulk Automation", path: "/bulk-automation" },
+  { label: "Contact Us", path: "/contact-us" },
+];
 
 export default ResponsiveNavbar;
