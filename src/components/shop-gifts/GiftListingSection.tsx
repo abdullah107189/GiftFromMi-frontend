@@ -1,10 +1,15 @@
-import { Search, ChevronDown } from "lucide-react";
-
 import p1 from "@/assets/products/p1.png";
 import p2 from "@/assets/products/p2.png";
 import p3 from "@/assets/products/p3.png";
 import GiftBoxCard from "../shared/cards/GiftBoxCard";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const GiftListingSection = () => {
   const PRODUCTS = [
     {
@@ -54,6 +59,7 @@ const GiftListingSection = () => {
     "$200-$250",
     "$250+",
   ];
+
   return (
     <section className="py-15">
       <div className="max-w-container mx-auto px-3">
@@ -159,22 +165,63 @@ const GiftListingSection = () => {
           <main className="flex-1">
             {/* Top Bar: Search & Sort */}
             <div className="flex flex-col md:flex-row gap-4 justify-between mb-10">
-              <div className="relative flex-1 max-w-xl">
+              <div className="relative rounded-2xl flex-1 border border-gray-200">
                 <input
                   type="text"
                   placeholder="Search"
-                  className="w-full py-3 px-12 border border-gray-200 rounded-full focus:outline-none focus:border-primary"
+                  className="w-full text-gray-700 py-3 pl-4 focus:outline-none focus:border-primary"
                 />
-                <Search
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
+                <button className="absolute p-2 cursor-pointer right-2 top-1/2 -translate-y-1/2 text-gray-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <g clip-path="url(#clip0_845_25336)">
+                      <path
+                        d="M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z"
+                        stroke="#364153"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M21 21L15 15"
+                        stroke="#364153"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_845_25336">
+                        <rect width="24" height="24" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </button>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 px-4 py-3 border border-gray-200 rounded-full text-gray-500 cursor-pointer min-w-[180px] justify-between">
-                  <span>Sort by: Featured</span>
-                  <ChevronDown size={18} />
-                </div>
+              <div className="flex items-center gap-4 ">
+                <Select>
+                  <SelectTrigger className="w-45 rounded-2xl h-12! z-10">
+                    <SelectValue placeholder="Sort by: Featured" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl mt-12">
+                    <SelectGroup>
+                      <SelectItem className="bg-transparent!" value="apple">
+                        Price: Low to High
+                      </SelectItem>
+                      <SelectItem className="bg-transparent!" value="banana">
+                        Price: High to Low
+                      </SelectItem>
+                      <SelectItem className="bg-transparent!" value="blueberry">
+                        Newest
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
