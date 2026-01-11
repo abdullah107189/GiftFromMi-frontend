@@ -23,11 +23,11 @@ const FeatureSection = () => {
 
         <div className={`flex flex-col  gap-4 w-full `}>
           {/* Header Section */}
-          <h2 className="text-[48px] font-bold text-gray-700 leading-[1.1]">
+          <h2 className="xl:text-5xl md:text-4xl text-3xl font-bold text-gray-700 leading-[1.1]">
             Build For Busy Professional
           </h2>
 
-          <p className="text-gray-500 text-xl font-medium">
+          <p className="text-gray-500 xl:text-xl md:text-lg  font-medium">
             Never forgeta closing, anniversary, or VIP clientagain.
           </p>
 
@@ -62,7 +62,7 @@ const FeatureSection = () => {
                 </div>
 
                 {/* Feature Text */}
-                <span className="text-gray-600 text-lg font-medium">
+                <span className="text-gray-600 lg:text-lg font-medium">
                   {item}
                 </span>
               </div>
