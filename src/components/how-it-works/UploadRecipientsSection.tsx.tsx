@@ -12,14 +12,14 @@ const UploadRecipientsSection = () => {
   ];
 
   return (
-    <section className=" overflow-hidden">
+    <section className="overflow-hidden">
       <div className="max-w-container mx-auto px-3 overflow-hidden py-35">
-        <div className="flex flex-col lg:flex-row items-center   gap-12 lg:gap-24">
+        <div className="flex flex-col xl:flex-row items-center gap-15 md:gap-20 xl:gap-24">
           {/* Left Side: Overlapping Images Area */}
-          <div className="flex-1  relative order-2 lg:order-1">
+          <div className="flex-1 relative order-2 lg:order-1">
             <div className="relative flex justify-end">
               {/* Main Image (Envelope) */}
-              <div className="rounded-2xl overflow-hidden w-[499.825px] h-[460.474px]">
+              <div className="rounded-2xl overflow-hidden xl:w-[499.825px] xl:h-[460.474px] md:w-140 md:h-80 w-80 h-72 ">
                 <img
                   src={mainImage}
                   alt="Envelope with card"
@@ -28,23 +28,23 @@ const UploadRecipientsSection = () => {
               </div>
 
               {/* Top Overlapping Image (Mailbox Icon) */}
-              <div className="absolute -top-12 right-0 lg:-top-30 lg:-right-15">
-                <div className="overflow-hidden w-37.5 lg:w-55">
+              <div className="absolute xl:-top-30 xl:-right-15 -top-15 -right-10 ">
+                <div className="overflow-hidden w-37.5 xl:w-55">
                   <img
                     src={secondaryImage}
                     alt="Mailbox icon"
-                    className="w-full h-full object-contain rounded-2xl "
+                    className="w-full h-full object-contain  xl:rounded-2xl rounded-xl "
                   />
                 </div>
               </div>
 
               {/* Bottom Overlapping Image (Hands/Lists) */}
-              <div className="absolute -bottom-10 left-0 lg:-bottom-20 lg:left-0 w-45 lg:w-57 ">
-                <div className="rounded-2xl overflow-hidden h-50">
+              <div className="absolute xl:-bottom-20 -bottom-10 xl:left-0 -left-10 w-35 xl:w-57 ">
+                <div className=" overflow-hidden xl:h-50 h-35">
                   <img
                     src={mailboxIcon}
                     alt="Managing lists"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover xl:rounded-2xl rounded-xl"
                   />
                 </div>
               </div>
@@ -52,7 +52,7 @@ const UploadRecipientsSection = () => {
           </div>
 
           {/* Right Side: Content Block */}
-          <div className="w-full lg:w-1/2 order-1 flex justify-end  lg:order-2 ">
+          <div className="w-full xl:w-1/2 order-1 xl:flex justify-end  lg:order-2 ">
             <FeatureContent
               title="Upload Your Recipients"
               description="Import your client list via CSV or add recipients manually. Include personalized notes, preferred delivery dates, and any special instructions for each recipient."
