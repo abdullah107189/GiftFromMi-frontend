@@ -62,13 +62,13 @@ const GiftListingSection = () => {
   ];
 
   return (
-    <section className="py-15">
+    <section className="xl:py-15 md:py-10 py-5">
       <div className="max-w-container mx-auto px-3">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side: Sidebar */}
-          <aside className="w-full lg:w-1/4 flex flex-col gap-8">
+          <aside className="w-full lg:w-1/4 flex flex-col xl:gap-8 md:gap-5 gap-4">
             {/* Categories Card */}
-            <div className="border border-gray-200 rounded-2xl px-8 py-4">
+            <div className="border border-gray-200 rounded-2xl xl:px-8 md:px-5 p-4 py-4  ">
               <div className="flex items-center gap-2 mb-6 p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -90,9 +90,11 @@ const GiftListingSection = () => {
                   </defs>
                 </svg>
 
-                <h3 className="text-xl font-bold text-gray-700">Categories</h3>
+                <h3 className="md:text-xl text-lg font-bold text-gray-700">
+                  Categories
+                </h3>
               </div>
-              <ul className="flex flex-col gap-4">
+              <ul className="flex flex-col xl:gap-4 gap-2">
                 {menu?.map((cat, idx) => (
                   <li
                     key={idx}
@@ -105,11 +107,11 @@ const GiftListingSection = () => {
               </ul>
 
               {/* Price Range Card */}
-              <hr className="my-6 text-gray-200" />
+              <hr className="xl:my-6 md:my-4 my-2 text-gray-200" />
               <h3 className="text-xl font-bold text-gray-700 mb-6 p-2">
                 Price Range
               </h3>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col xl:gap-4 gap-2">
                 {priceRanges?.map((range, idx) => (
                   <label
                     key={idx}
