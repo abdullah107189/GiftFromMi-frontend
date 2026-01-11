@@ -60,16 +60,16 @@ const FeedbackSection = () => {
     <section className="pb-15">
       <SectionHeader
         title=" Loved by professionals"
-        subtitle="   Join hundreds of professionals who are building stronger client
+        subtitle="Join hundreds of professionals who are building stronger client
             relationships"
       ></SectionHeader>
 
       {/* Testimonials Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:gap-6 gap-3">
         {testimonials.map((item, index) => (
           <div
             key={index}
-            className="bg-[radial-gradient(29.47%_53.61%_at_13.52%_10.21%,#FFFFFF_0%,#F8F8F8_100%)] p-5 rounded-2xl border border-gray-200 relative flex flex-col "
+            className="bg-[radial-gradient(29.47%_53.61%_at_13.52%_10.21%,#FFFFFF_0%,#F8F8F8_100%)] xl:p-5 p-3 rounded-2xl border border-gray-200 relative flex flex-col "
           >
             {/* Profile and Quote Icon */}
             <div className="flex justify-between items-start mb-5">
