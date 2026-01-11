@@ -24,12 +24,12 @@ const ResponsiveNavbar = () => {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 pt-12.5 pb-7.5 w-full z-50 transition-all duration-300",
+        "fixed top-0 left-0 pt-5 md:pt-12.5 pb-3 md:pb-7.5 w-full z-50 transition-all duration-300",
         !isHomePage || isScrolled ? "bg-background" : "bg-transparent"
       )}
     >
       <nav className="flex items-center justify-between max-w-container mx-auto px-4 lg:px-0">
-        <Link to="/" className="shrink-0 relative z-[60]">
+        <Link to="/" className="shrink-0 relative z-60">
           <img
             src={logo}
             className={cn("transition-all duration-300 w-auto h-12 md:h-16")}

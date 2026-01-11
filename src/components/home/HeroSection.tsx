@@ -1,5 +1,6 @@
-import hero from "@/assets/heros/hero.png";
-import heroImage from "@/assets/heros/heroImage.png";
+import hero from "@/assets/banner_and_background/HomeHeroBg.png";
+import bgStar from "@/assets/banner_and_background/heroStar.png";
+import heroImage from "@/assets/gallery/heroImage.png";
 import { Button } from "../ui/button";
 function HeroSection() {
   const statsData = [
@@ -11,7 +12,7 @@ function HeroSection() {
   return (
     <div className=" pb-15">
       <div
-        className="min-h-225 w-full relative overflow-hidden"
+        className="md:min-h-225 w-full relative overflow-hidden"
         style={{
           backgroundImage: `url(${hero})`,
           backgroundSize: "cover",
@@ -19,16 +20,16 @@ function HeroSection() {
           backgroundPosition: "center",
         }}
       >
-        <div className="relative max-w-container mx-auto px-3 h-full pt-41.25">
+        <div className="relative max-w-container mx-auto px-3 h-full pt-21 md:pt-41.25">
           <div className="flex flex-col items-center text-center">
-            <span className="border border-primary-300 text-gray-700  px-14 py-3 rounded-xl  mb-15 text-2xl font-semibold">
+            <span className="border border-primary-300 text-gray-700  px-5 md:px-10 xl:px-14 py-1 md:py-3 rounded-xl mb-5 md:mb-10 xl:mb-15 xl:text-2xl md:text-lg font-semibold">
               Perfect Gift Made Simple
             </span>
 
-            <div className="flex items-center justify-between gap-12  w-full">
+            <div className="xl:flex items-center justify-between md:gap-10 xl:gap-12 w-full">
               {/* left side  */}
-              <div className="w-1/2  flex flex-col items-start text-left">
-                <h1 className="text-5xl lg:text-[80px] leading-[1.2] font-playfair text-gray-800 font-bold mb-6">
+              <div className="xl:w-1/2 flex flex-col xl:items-start [1440px]:bg-red-600 items-center xl:text-left">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-[80px] leading-[1.2] font-playfair text-gray-800 font-bold mb-6">
                   Automated Gifting. <br /> Shipped All Year.
                 </h1>
 
@@ -64,7 +65,16 @@ function HeroSection() {
               </div>
 
               {/* right side  */}
-              <div className="relative   flex items-center justify-center lg:justify-end lg:w-1/2">
+              <div className="hidden xl:flex relative items-center justify-center lg:justify-end lg:w-1/2">
+                <div
+                  className="absolute -right-4 -bottom-55"
+                  style={{
+                    width: "782.43px",
+                    height: "640.394px",
+                  }}
+                >
+                  <img src={bgStar} alt="Gifting Box" className="absolute" />
+                </div>
                 <div
                   className="absolute left-23 -bottom-73 overflow-hidden "
                   style={{
