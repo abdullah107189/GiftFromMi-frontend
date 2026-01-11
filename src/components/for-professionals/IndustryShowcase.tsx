@@ -37,24 +37,24 @@ const IndustryShowcase = () => {
   ];
 
   return (
-    <section className="max-w-container mx-auto px-4 py-15">
+    <section className="max-w-container mx-auto px-4 xl:py-15 md:py-10 py-5">
       {/* Industry Section Header */}
       <SectionHeader
         title="Build For Your Industry"
         subtitle="Tailored gifting solutions designed to match the unique needs of your business."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:gap-8 lg:gap-6 md:gap-4 gap-3 ">
         {INDUSTRY_DATA.map((item, idx) => (
           <div key={idx} className="bg-gray-50 rounded-2xl overflow-hidden">
             {/* Industry Image */}
             <img
               src={item.image}
               alt={item.title}
-              className="w-full h-83 object-cover"
+              className="w-full xl:h-83 md:h-40 h-50 object-cover"
             />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold mb-6 text-[#1F2937]">
+            <div className="xl:p-6 md:p-4 p-3">
+              <h3 className="text-2xl font-bold md:mb-6 mb-3 text-gray-900">
                 {item.title}
               </h3>
               {/* Feature List with Checkmarks */}
@@ -62,7 +62,7 @@ const IndustryShowcase = () => {
                 {item.features.map((feat, i) => (
                   <li
                     key={i}
-                    className="flex items-center gap-2.5 text-gray-600 p-2.5"
+                    className="flex items-center gap-2.5 text-gray-600 py-2.5"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
