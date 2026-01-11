@@ -50,7 +50,7 @@ const TestimonialSlider = () => {
           slidesPerView={1}
           pagination={{ clickable: true }}
           autoplay={{ delay: 5000 }}
-          className="testimonial-swiper !pb-14"
+          className="testimonial-swiper !pb-14 hover:cursor-grab"
         >
           {testimonials.map((item) => (
             <SwiperSlide key={item.id}>

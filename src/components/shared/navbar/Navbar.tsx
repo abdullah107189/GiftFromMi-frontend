@@ -3,24 +3,20 @@ import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
 import { Button } from "../../ui/button";
 import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import "@/components/shared/button/ActionButton.css";
 
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Check if current page is Home
   const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -29,21 +25,19 @@ const ResponsiveNavbar = () => {
     <header
       className={cn(
         "fixed top-0 left-0 pt-12.5 pb-7.5 w-full z-50 transition-all duration-300",
-        !isHomePage || isScrolled ? "bg-background" : "bg-transparent "
+        !isHomePage || isScrolled ? "bg-background" : "bg-transparent"
       )}
     >
       <nav className="flex items-center justify-between max-w-container mx-auto px-4 lg:px-0">
-        {/* logo */}
-        <Link to="/" className="shrink-0">
+        <Link to="/" className="shrink-0 relative z-[60]">
           <img
             src={logo}
             className={cn("transition-all duration-300 w-auto h-12 md:h-16")}
             alt="logo"
           />
         </Link>
-
-        {/* nav links */}
-        <ul className="hidden lg:flex items-center gap-8">
+        {/* desktop */}
+        <ul className="hidden xl:flex items-center md:gap-4 lg:gap-6 xl:gap-8">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
@@ -66,10 +60,12 @@ const ResponsiveNavbar = () => {
           })}
         </ul>
 
-        {/* action buttons */}
-        <div className="items-center gap-4 flex pr-3">
-          <Button variant={"outline"}>Login</Button>
-          <Button variant={"default"}>Book A Setup Call</Button>
+        {/* action buttons & Mobile Toggle */}
+        <div className="items-center gap-4 flex pr-3 relative z-60">
+          <div className="hidden sm:flex items-center gap-4">
+            <Button variant={"outline"}>Login</Button>
+            <Button variant={"default"}>Book A Setup Call</Button>
+          </div>
 
           {/* Cart Icon */}
           <div className="relative cursor-pointer ml-2">
@@ -112,6 +108,49 @@ const ResponsiveNavbar = () => {
             <div className="absolute -top-1 -right-1 bg-destructive border border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
               2
             </div>
+          </div>
+
+          <button
+            className="xl:hidden p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        <div
+          className={cn(
+            "fixed inset-0 bg-background z-50 xl:hidden flex flex-col pt-32 px-6 transition-transform duration-300 ease-in-out",
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          )}
+        >
+          <ul className="flex flex-col md:gap-6 gap-4 mt-8">
+            {navItems.map((item) => {
+              const isActive = pathname === item.path;
+
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={cn(
+                    "text-xl font-medium transition-all duration-300",
+
+                    isActive ? "text-primary font-bold" : "text-gray-800"
+                  )}
+                >
+                  <li>{item.label}</li>
+                </Link>
+              );
+            })}
+          </ul>
+          <div className="mt-10 flex flex-col gap-4">
+            <Button variant={"outline"} className="w-full h-12">
+              Login
+            </Button>
+            <Button variant={"default"} className="w-full h-12">
+              Book A Setup Call
+            </Button>
           </div>
         </div>
       </nav>
