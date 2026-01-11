@@ -186,12 +186,12 @@ const GiftCategoriesSection = () => {
     },
   ];
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-container mx-auto px-4 flex flex-col gap-10">
+    <section className="py-16 bg-background">
+      <div className="max-w-container mx-auto px-3 flex flex-col xl:gap-10 md:gap-8 gap-6">
         {GIFT_DATA.map((group, index) => (
           <div key={index} className="flex flex-col gap-8">
             {/* Header: Title and View All */}
-            <div className="flex justify-between items-center  pb-4">
+            <div className="flex justify-between items-center pb-4">
               <h2 className="text-xl font-semibold text-gray-900">
                 {group.category}
               </h2>
@@ -204,7 +204,7 @@ const GiftCategoriesSection = () => {
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6 lg:gap-5 md:gap-4 gap-4">
               {group.products.map((product) => (
                 <GiftBoxCard key={product.id} product={product} />
               ))}
