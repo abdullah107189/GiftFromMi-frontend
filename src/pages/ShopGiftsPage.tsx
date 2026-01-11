@@ -13,4 +13,3 @@ function ShopGiftsPage() {
 }
 
 export default ShopGiftsPage;
-  

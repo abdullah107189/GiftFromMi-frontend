@@ -5,15 +5,15 @@ import sidbar2 from "@/assets/banner_and_background/sidebar2.png";
 import bg2 from "@/assets/banner_and_background/bg2.png";
 function ForProfessionalsHero() {
   return (
-    <section className="relative max-w-main md:mt-36 py-15 overflow-hidden">
+    <section className="relative max-w-main xl:mt-36 md:mt-30 mt-20 xl:py-15 md:py-10 py-5 overflow-hidden">
       <div>
         <img
-          className="absolute w-[676.301px] h-[347.417px] rotate-[23.2deg] -top-50 -left-80"
+          className="absolute xl:w-[676.301px] xl:h-[347.417px] rotate-[23.2deg] -top-50 -left-80"
           src={sidbar1}
           alt=""
         />
         <img
-          className="absolute w-[676.301px] h-[233.475px] rotate-[23.2deg] -bottom-17 -left-70"
+          className="absolute xl:w-[676.301px] xl:h-[233.475px] rotate-[23.2deg] -bottom-17 -left-70"
           src={sidbar2}
           alt=""
         />
@@ -21,25 +21,25 @@ function ForProfessionalsHero() {
       {/* second bg */}
       <div>
         <img
-          className="absolute w-165.5 h-112 right-1/7 -top-1/14 -z-1"
+          className="absolute xl:w-165.5 xl:h-112 right-1/7 -top-1/14 -z-1"
           src={bg2}
           alt="background image"
         />
       </div>
       <div className="max-w-container mx-auto px-3 flex flex-col items-center text-center">
         {/* Main Heading */}
-        <h1 className="text-[56px] font-semibold text-gray-900 leading-[1.1] max-w-[60%] mx-auto font-playfair">
+        <h1 className="xl:text-[56px] lg:text-5xl md:text-4xl text-3xl font-semibold text-gray-900 leading-[1.1] xl:max-w-[60%] mx-auto font-playfair">
           Client gifting made effortless for busy professionals.
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-4 text-xl text-gray-700 max-w-2xl leading-relaxed">
+        <p className="mt-4 xl:text-xl md:text-lg text-base text-gray-700 max-w-2xl leading-relaxed">
           Automate your client appreciation strategy and build lasting
           relationships without a hassle.
         </p>
 
         {/* Action Buttons */}
-        <div className="mt-17.5 flex flex-wrap items-center justify-center gap-4">
+        <div className="xl:mt-17.5 lg:mt-13 md:mt-10 mt-8 flex flex-wrap items-center justify-center gap-4">
           {/* Primary Button: Create Free Account */}
           <Button showIcon={true}>Create Free Account</Button>
 
