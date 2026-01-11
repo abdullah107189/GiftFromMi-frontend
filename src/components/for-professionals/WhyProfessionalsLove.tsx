@@ -36,14 +36,14 @@ const WhyProfessionalsLove: React.FC = () => {
     },
   ];
   return (
-    <section className="py-15">
+    <section className="xl:py-15 md:py-10 py-5">
       <div className="max-w-container mx-auto px-3">
         <SectionHeader
           title="Why Professionals Love GiftFromMi"
           subtitle="Everything you need to manage client gifting at scale."
         ></SectionHeader>
         {/* Info Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6 lg:gap-5 md:gap-4 gap-3">
           {WHY_LOVE_DATA.map((item) => (
             <div
               key={item.id}
