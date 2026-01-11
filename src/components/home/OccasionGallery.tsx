@@ -47,16 +47,16 @@ const OccasionGallery: React.FC = () => {
   ];
 
   return (
-    <section className="pb-15">
+    <section className=" pb-5 md:pb-10 xl:pb-15">
       <div className="max-w-container mx-auto px-3 ">
         {/* Title Section */}
-        <div className="lg:my-15 text-center">
-          <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">
+        <div className="lg:my-10 xl:my-12 text-center">
+          <h2 className="text-2xl md:text-4xl xl:text-5xl font-semibold text-gray-900 tracking-tight md:mb-4 xl:mb-6">
             Celebrate Every <span className="text-primary">Occasion</span>{" "}
             <br />
             with the Right Gift.
           </h2>
-          <p className="text-lg md:text-xl text-gray-700 w-[90%] mx-auto leading-relaxed">
+          <p className="md:text-lg xl:text-xl text-gray-700 w-[90%] mx-auto leading-relaxed mb-4 lg:mb-0">
             Life is full of moments worth celebrating. That's why we've curated
             thoughtful gifts for every occasion birthdays, holidays,
             anniversaries, housewarmings, and more. Choose your moment and make
@@ -69,11 +69,19 @@ const OccasionGallery: React.FC = () => {
           {galleryItems1.map((item) => (
             <div
               key={item.id}
-              className={`relative overflow-hidden rounded-2xl group ${item.className} h-[230px] md:h-[278px]`}
+              className={`relative overflow-hidden rounded-2xl group ${
+                // Mobile: col-span-1 (full width)
+                // Desktop: follows your specific span logic
+                item.id === 1
+                  ? "md:col-span-2"
+                  : item.id === 2
+                  ? "md:col-span-7"
+                  : "md:col-span-3"
+              } h-70 md:h-50 xl:h-54.5`}
             >
               {/* Badge/Tag */}
-              <div className="absolute top-2 right-2 z-10">
-                <span className="bg-primary-100 backdrop-blur-sm text-gray-700 text-xs font-medium px-3 py-1 rounded-lg ">
+              <div className="absolute top-2 md:top-4 right-2 md:right-4 z-10">
+                <span className="bg-primary-100/80 backdrop-blur-sm text-gray-700 text-[10px] md:text-xs font-medium px-3 py-1 rounded-lg">
                   {item.tag}
                 </span>
               </div>
@@ -90,15 +98,24 @@ const OccasionGallery: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 md:mt-6">
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mt-4 md:mt-6">
           {galleryItems2.map((item) => (
             <div
               key={item.id}
-              className={`relative overflow-hidden rounded-2xl group ${item.className} h-[136px] md:h-[166px]`}
+              className={`relative overflow-hidden rounded-2xl group ${
+                // Mobile: col-span-1 (full width)
+                // Desktop: follows your specific span logic
+                item.id === 4
+                  ? "md:col-span-3"
+                  : item.id === 5
+                  ? "md:col-span-3"
+                  : "md:col-span-6"
+              } h-70 md:h-45 xl:h-50`}
             >
               {/* Badge/Tag */}
-              <div className="absolute top-2 right-2 z-10">
-                <span className="bg-primary-100 backdrop-blur-sm text-gray-700 text-xs font-medium px-3 py-1 rounded-lg ">
+              <div className="absolute top-2 md:top-4 right-2 md:right-4 z-10">
+                <span className="bg-primary-100/80 backdrop-blur-sm text-gray-700 text-[10px] md:text-xs font-medium px-3 py-1 rounded-lg">
                   {item.tag}
                 </span>
               </div>

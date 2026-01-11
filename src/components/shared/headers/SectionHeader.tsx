@@ -12,7 +12,7 @@ export const SectionHeader: React.FC<ISectionHeaderProps> = ({
         centered ? "text-center" : "text-left"
       }`}
     >
-      <h2 className="text-3xl md:text-4xl xl:text-5xl font-semibold text-gray-900 tracking-tight mb-2  lg:mb-4">
+      <h2 className="text-2xl md:text-4xl xl:text-5xl font-semibold text-gray-900 tracking-tight mb-2  lg:mb-4">
         {title}
       </h2>
       <p className="md:text-lg xl:text-xl text-gray-700 w-[90%] mx-auto leading-relaxed">

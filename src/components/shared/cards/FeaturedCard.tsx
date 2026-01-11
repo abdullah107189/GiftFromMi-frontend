@@ -12,9 +12,9 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
   const { image, title, description, price, oldPrice, rating } = featured;
 
   return (
-    <div className="flex flex-col items-center p-6 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all hover:shadow-lg">
+    <div className="flex flex-col items-center x:p-6 md:p-6 p-4 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all hover:shadow-lg">
       {/* Product Image */}
-      <div className="w-full h-70 overflow-hidden rounded-t-xl bg-gray-50">
+      <div className="w-full xl:h-70 h-60 overflow-hidden rounded-t-xl bg-gray-50">
         <img src={image} alt={title} className="w-full h-full object-cover" />
       </div>
 
