@@ -8,11 +8,11 @@ const HowItWorkHero = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-18">
           {/* Left Side: Content Area */}
           <div className="flex-1 flex flex-col items-start gap-4">
-            <h1 className="text-5xl font-playfair md:text-[56px]  font-bold text-gray-900 leading-[1.2]">
+            <h1 className=" xl:text-5xl md:text-4xl text-3xl font-playfair md:text-[56px]  font-bold text-gray-900 leading-[1.2]">
               How Its Work
             </h1>
 
-            <p className="text-gray-600  md:text-2xl leading-relaxed">
+            <p className="text-gray-600  xl:text-2xl md:text-xl text-base leading-relaxed">
               Sending the perfect gift doesn&apos;t have to be complicated.
               We&apos;ve made the entire process simple, fast, and beautifully
               seamless from selecting your gift to delivery. Just follow a few
