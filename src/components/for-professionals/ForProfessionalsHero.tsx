@@ -2,6 +2,7 @@ import { Button } from "../ui/button";
 
 import sidbar1 from "@/assets/banner_and_background/sidebar1.png";
 import sidbar2 from "@/assets/banner_and_background/sidebar2.png";
+import bg2 from "@/assets/banner_and_background/bg2.png";
 function ForProfessionalsHero() {
   return (
     <section className="relative max-w-main md:mt-36 py-15 overflow-hidden">
@@ -15,6 +16,14 @@ function ForProfessionalsHero() {
           className="absolute w-[676.301px] h-[233.475px] rotate-[23.2deg] -bottom-17 -left-70"
           src={sidbar2}
           alt=""
+        />
+      </div>
+      {/* second bg */}
+      <div>
+        <img
+          className="absolute w-165.5 h-112 right-1/7 -top-1/14 -z-1"
+          src={bg2}
+          alt="background image"
         />
       </div>
       <div className="max-w-container mx-auto px-3 flex flex-col items-center text-center">

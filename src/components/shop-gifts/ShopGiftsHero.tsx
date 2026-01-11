@@ -17,6 +17,7 @@ const ShopGiftsHero = () => {
           alt=""
         />
       </div>
+
       <div className="max-w-container mx-auto px-3">
         <div className="flex items-center justify-between gap-12 lg:gap-18">
           {/* Left Side: Content Area */}
