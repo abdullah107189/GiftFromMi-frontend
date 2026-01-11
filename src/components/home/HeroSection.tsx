@@ -54,7 +54,7 @@ function HeroSection() {
                   </Button>
                 </div>
 
-                <div className="flex flex-wrap gap-8 ml-4 items-center">
+                <div className="flex flex-wrap gap-8 ml-4 items-center sm:pb-0 pb-4">
                   {statsData.map((stat) => (
                     <div key={stat.id} className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded-full bg-primary" />
