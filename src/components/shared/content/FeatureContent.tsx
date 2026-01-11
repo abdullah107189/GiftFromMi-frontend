@@ -16,16 +16,18 @@ const FeatureContent: React.FC<FeatureContentProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`flex flex-col  gap-6 w-full ${className}`}>
+    <div
+      className={`flex flex-col xl:gap-6 md:gap-4 gap-3 w-full ${className}`}
+    >
       {/* Header Section */}
-      <h2 className="text-[40px] font-bold text-gray-700 leading-[1.1]">
+      <h2 className="xl:text-[40px] lg:text-4xl text-3xl font-bold text-gray-700 leading-[1.1]">
         {title}
       </h2>
 
-      <p className="text-gray-500 text-[16px] font-medium">{description}</p>
+      <p className="text-gray-500 text-base font-medium">{description}</p>
 
       {/* Feature List Section */}
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-col gap-4 w-full mb-4 sm:mb-0">
         {features.map((item, index) => (
           <div key={index} className="flex items-center gap-4">
             <div className="text-primary-400 shrink-0">
@@ -55,7 +57,7 @@ const FeatureContent: React.FC<FeatureContentProps> = ({
             </div>
 
             {/* Feature Text */}
-            <span className="text-gray-600 text-lg font-medium">{item}</span>
+            <span className="text-gray-600 xl:text-lg font-medium">{item}</span>
           </div>
         ))}
       </div>
