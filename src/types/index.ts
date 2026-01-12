@@ -14,16 +14,6 @@ export interface Step {
   icon: ReactNode;
 }
 
-export interface IFeaturedCard {
-  id: string | number;
-  image: string;
-  title: string;
-  description: string;
-  price: number;
-  oldPrice?: number;
-  rating: number;
-  reviewsCount?: string;
-}
 export interface IProduct {
   id: string | number;
   title: string;

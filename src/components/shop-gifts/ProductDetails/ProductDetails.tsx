@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
 import Rating from "@/components/shared/Rating";
 import { Loader2 } from "lucide-react";
+import RelatedProdect from "./RelatedProdect";
 
 export interface IProduct {
   id: string | number;
@@ -44,6 +45,82 @@ const ProductDetails = () => {
       description:
         "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
     },
+    {
+      id: "1",
+      title: "Tech Accessories Pack",
+      price: 500,
+      oldPrice: 750,
+      image: [
+        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
+      ],
+      rating: 5,
+      reviewsCount: 124,
+      stockCount: 12,
+      inStock: true,
+      description:
+        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
+    },
+    {
+      id: "1",
+      title: "Tech Accessories Pack",
+      price: 500,
+      oldPrice: 750,
+      image: [
+        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
+      ],
+      rating: 5,
+      reviewsCount: 124,
+      stockCount: 12,
+      inStock: true,
+      description:
+        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
+    },
+    {
+      id: "1",
+      title: "Tech Accessories Pack",
+      price: 500,
+      oldPrice: 750,
+      image: [
+        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
+      ],
+      rating: 5,
+      reviewsCount: 124,
+      stockCount: 12,
+      inStock: true,
+      description:
+        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
+    },
+    {
+      id: "1",
+      title: "Tech Accessories Pack",
+      price: 500,
+      oldPrice: 750,
+      image: [
+        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
+      ],
+      rating: 5,
+      reviewsCount: 124,
+      stockCount: 12,
+      inStock: true,
+      description:
+        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
+    },
   ];
 
   useEffect(() => {
@@ -64,7 +141,7 @@ const ProductDetails = () => {
     );
 
   return (
-    <section className="relative max-w-main xl:mt-36 md:mt-30 mt-15 overflow-hidden">
+    <main className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5 overflow-hidden">
       <div className="max-w-container mx-auto px-3">
         <DynamicBreadcrumb customLabel={product?.title} />
 
@@ -262,7 +339,8 @@ const ProductDetails = () => {
           </div>
         )}
       </div>
-    </section>
+      <RelatedProdect></RelatedProdect>
+    </main>
   );
 };
 
