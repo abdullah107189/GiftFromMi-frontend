@@ -12,7 +12,7 @@ const BulkOperationsSection = () => {
   return (
     <section className="xl:py-15 md:py-10 py-5 overflow-hidden">
       <div className="max-w-container mx-auto px-3">
-        <div className="flex flex-col lg:flex-row items-center gap-4">
+        <div className="flex flex-col lg:flex-row items-center xl:gap-4 md:gap-3 gap-2">
           {/* Left Side: Content */}
           <div className="lg:w-full ">
             {/* Top Label */}
@@ -50,15 +50,13 @@ const BulkOperationsSection = () => {
           </div>
 
           {/* Right Side: Image with Border Frame */}
-          <div className="lg:w-full flex justify-center lg:justify-end mt-8 lg:mt-0">
-            <div className="relative p-2 md:p-3">
-              <div className="relative rounded-2xl w-full max-w-85 md:max-w-150 xl:w-167.5 xl:h-100 xl:aspect-auto overflow-hidden shadow-2xl xl:border-4 md:border-3 border-2 border-primary-200">
-                <img
-                  src={warehouseImg}
-                  alt="Warehouse Bulk Processing"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          <div className="w-full flex justify-center lg:justify-end mt-8 lg:mt-0">
+            <div className="relative rounded-2xl xl:w-167.5 w-full xl:h-100 md:h-90 sm:h-70 h-60 overflow-hidden xl:border-4 md:border-3 border-2 border-primary-200">
+              <img
+                src={warehouseImg}
+                alt="Warehouse Bulk Processing"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
