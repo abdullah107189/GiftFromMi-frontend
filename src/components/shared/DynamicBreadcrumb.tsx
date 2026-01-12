@@ -20,7 +20,7 @@ const DynamicBreadcrumb = ({ customLabel }: DynamicBreadcrumbProps) => {
     <Breadcrumb className="mb-6">
       <BreadcrumbList>
         {/* Home Link */}
-        <BreadcrumbItem>
+        <BreadcrumbItem className="text-gray-500">
           <BreadcrumbLink asChild>
             <Link to="/">Home</Link>
           </BreadcrumbLink>
