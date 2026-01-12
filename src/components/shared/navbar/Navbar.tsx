@@ -12,7 +12,6 @@ const ResponsiveNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isHomePage = pathname === "/";
-  const isShopActive = pathname.startsWith("/shop-gifts");
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);

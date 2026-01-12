@@ -11,37 +11,44 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "../ui/button";
+import type { IProduct } from "@/types";
 const GiftListingSection = () => {
-  const PRODUCTS = [
+  const PRODUCTS: IProduct[] = [
     {
       id: 1,
-      image: p1,
+      image: [p1], // Array structure as per IProduct interface
       title: "Chocolate With Premium Box",
       description: "Experience the Taste of True Luxury",
       price: 20,
       oldPrice: 30,
       rating: 5,
-      reviewsCount: "5/5",
+      reviewsCount: 124, // Changed from "5/5" string to number
+      stockCount: 15,
+      inStock: true,
     },
     {
       id: 2,
-      image: p2,
+      image: [p2],
       title: "Tech Accessories Pack",
       description: "Premium Wireless Charger, Phone Stand",
       price: 220,
       oldPrice: 300,
       rating: 5,
-      reviewsCount: "5/5",
+      reviewsCount: 85,
+      stockCount: 12,
+      inStock: true,
     },
     {
       id: 3,
-      image: p3,
+      image: [p3],
       title: "Perfume box",
       description: "Experience the Premium Perfume",
       price: 20,
       oldPrice: 30,
       rating: 5,
-      reviewsCount: "5/5",
+      reviewsCount: 210,
+      stockCount: 8,
+      inStock: true,
     },
   ];
   const menu = [

@@ -14,7 +14,7 @@ const UploadRecipientsSection = () => {
   return (
     <section className="overflow-hidden">
       <div className="max-w-container mx-auto px-3 overflow-hidden py-35">
-        <div className="flex lg:flex-col-reverse flex-col items-center gap-15 md:gap-20 xl:gap-24">
+        <div className="flex xl:flex-row flex-col-reverse items-center gap-15 md:gap-20 xl:gap-24">
           {/* Left Side: Overlapping Images Area */}
           <div className="flex-1 relative order-2 lg:order-1">
             <div className="relative flex justify-end">
