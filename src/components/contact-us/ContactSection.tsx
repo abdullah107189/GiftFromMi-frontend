@@ -75,7 +75,7 @@ const ContactSection = () => {
     <section className="xl:py-15 md:py-10 py-5">
       <div className="max-w-container mx-auto px-3">
         {/* Main Wrapper with light border */}
-        <div className="border border-gray-300 rounded-2xl xl:p-12 lg:p-10 md:p-8 p-6 flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <div className="border border-gray-300 rounded-2xl xl:p-12 lg:p-10 md:p-8 p-6 flex flex-col lg:flex-row gap-12 lg:gap-20 w-[90%] mx-auto">
           {/* Left Side: Contact Info */}
           <div className="w-full lg:w-1/2 xl:p-8 lg:p-6 md:p-4 p-3 border border-gray-300 rounded-2xl">
             <h2 className="flex items-center gap-3 mb-4">
