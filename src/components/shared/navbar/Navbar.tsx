@@ -12,7 +12,7 @@ const ResponsiveNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isHomePage = pathname === "/";
-
+  const isShopActive = pathname.startsWith("/shop-gifts");
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -39,7 +39,11 @@ const ResponsiveNavbar = () => {
         {/* desktop */}
         <ul className="hidden xl:flex items-center md:gap-4 lg:gap-6 xl:gap-8">
           {navItems.map((item) => {
-            const isActive = pathname === item.path;
+            const isActive =
+              item.path === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.path);
+
             return (
               <li key={item.path}>
                 <Link
@@ -47,7 +51,7 @@ const ResponsiveNavbar = () => {
                   className={cn(
                     "text-base transition-all duration-300 hover:text-primary pb-1 font-medium",
                     isActive
-                      ? "text-primary border-b-2 border-primary"
+                      ? "text-primary border-b-2 border-primary" // Active Style
                       : !isHomePage || isScrolled
                       ? "text-gray-800"
                       : "text-gray-700"
@@ -126,7 +130,10 @@ const ResponsiveNavbar = () => {
         >
           <ul className="flex flex-col md:gap-6 gap-4 mt-8">
             {navItems.map((item) => {
-              const isActive = pathname === item.path;
+              const isActive =
+                item.path === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.path);
 
               return (
                 <Link
@@ -135,7 +142,6 @@ const ResponsiveNavbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
                     "text-xl font-medium transition-all duration-300",
-
                     isActive ? "text-primary font-bold" : "text-gray-800"
                   )}
                 >
