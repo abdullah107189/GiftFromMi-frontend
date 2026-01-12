@@ -2,15 +2,16 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Rating from "../Rating";
 import type { IFeaturedCard } from "@/types";
+import { useNavigate } from "react-router";
 
 interface GiftBoxCardProps {
   product: IFeaturedCard;
 }
 
 const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
+  const navigate = useNavigate();
   if (!product) return null;
-  const { image, title, description, price, oldPrice, rating } = product;
-
+  const { id, image, title, description, price, oldPrice, rating } = product;
   return (
     <div className="flex flex-col items-center md:p-4 p-3 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
       {/* Product Image */}
@@ -48,6 +49,7 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
           <Button
             variant={"outline"}
             className="w-full rounded-2xl bg-primary-500 text-primary-50 hover:bg-primary-500"
+            onClick={() => navigate(`/shop-gifts/${id}`)}
           >
             View Details
           </Button>

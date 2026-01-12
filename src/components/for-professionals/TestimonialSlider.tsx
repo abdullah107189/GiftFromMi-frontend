@@ -23,14 +23,14 @@ const TestimonialSlider = () => {
       image: say2,
     },
     {
-      id: 2,
+      id: 3,
       name: "Jennifer Adams",
       role: "HR Director, Tech Solutions Inc.",
       text: "Employee appreciation has never been easier. Our team morale has improved significantly. GiftFromMi has transformed how I thank my clients. The automation saves me hours every week!",
       image: say1,
     },
     {
-      id: 2,
+      id: 4,
       name: "Jennifer Adams",
       role: "HR Director, Tech Solutions Inc.",
       text: "Employee appreciation has never been easier. Our team morale has improved significantly. GiftFromMi has transformed how I thank my clients. The automation saves me hours every week!",

@@ -24,6 +24,24 @@ export interface IFeaturedCard {
   rating: number;
   reviewsCount?: string;
 }
+export interface IProduct {
+  id: string | number;
+  title: string;
+  description: string;
+  price: number;
+  oldPrice?: number;
+  image: string[];
+  rating: number;
+  reviewsCount: number;
+  stockCount: number;
+  inStock: boolean;
+  category?: string;
+}
+
+export interface IProductCategory {
+  category: string;
+  products: IProduct[];
+}
 export interface PricingPlan {
   plan: string;
   description: string;

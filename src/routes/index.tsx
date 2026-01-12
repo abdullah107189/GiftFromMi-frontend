@@ -1,39 +1,88 @@
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, Navigate } from "react-router";
 import App from "@/App";
-import BulkAutomationPage from "@/pages/BulkAutomationPage";
-import ContactUsPage from "@/pages/ContactUsPage";
-import ForProfessionalsPage from "@/pages/ForProfessionalsPage";
-import HomePage from "@/pages/HomePage";
-import HowItWorksPage from "@/pages/HowItWorksPage";
-import ShopGiftsPage from "@/pages/ShopGiftsPage";
-import { createBrowserRouter } from "react-router";
+import { PageLoader } from "@/components/shared/PageLoader.tsx";
+
+const HomePage = lazy(() => import("@/pages/HomePage"));
+const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
+const ShopGiftsPage = lazy(() => import("@/pages/ShopGiftsPage"));
+const ProductDetails = lazy(
+  () => import("@/components/shop-gifts/ProductDetails/ProductDetails")
+);
+const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
+const BulkAutomationPage = lazy(() => import("@/pages/BulkAutomationPage"));
+const ContactUsPage = lazy(() => import("@/pages/ContactUsPage"));
+
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: App,
+    element: <App />,
+    // errorElement: <div className="p-10 text-center">Something went wrong.</div>,
     children: [
       {
-        path: "/",
-        Component: HomePage,
+        index: true,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <HomePage />
+          </Suspense>
+        ),
       },
       {
-        path: "/how-it-works",
-        Component: HowItWorksPage,
+        path: "how-it-works",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <HowItWorksPage />
+          </Suspense>
+        ),
       },
       {
-        path: "/shop-gifts",
-        Component: ShopGiftsPage,
+        path: "shop-gifts",
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <ShopGiftsPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ":id",
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <ProductDetails />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
-        path: "/for-professionals",
-        Component: ForProfessionalsPage,
+        path: "for-professionals",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ForProfessionalsPage />
+          </Suspense>
+        ),
       },
       {
-        path: "/bulk-automation",
-        Component: BulkAutomationPage,
+        path: "bulk-automation",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <BulkAutomationPage />
+          </Suspense>
+        ),
       },
       {
-        path: "/contact-us",
-        Component: ContactUsPage,
+        path: "contact-us",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ContactUsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
       },
     ],
   },
