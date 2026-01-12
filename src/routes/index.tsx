@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import App from "@/App";
 import { PageLoader } from "@/components/shared/PageLoader.tsx";
+import LoginPage from "@/pages/auth/LoginPage";
+import RegisterPage from "@/pages/auth/RegisterPage";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
@@ -80,11 +82,19 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "*",
-        element: <Navigate to="/" replace />,
-      },
     ],
+  },
+  {
+    path: "/login",
+    Component: LoginPage,
+  },
+  {
+    path: "/register",
+    Component: RegisterPage,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
   },
 ]);
 

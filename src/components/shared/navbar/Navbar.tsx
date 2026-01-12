@@ -66,7 +66,9 @@ const ResponsiveNavbar = () => {
         {/* action buttons & Mobile Toggle */}
         <div className="items-center gap-4 flex pr-3 relative z-60">
           <div className="hidden sm:flex items-center gap-4">
-            <Button variant={"outline"}>Login</Button>
+            <Link to={"/login"}>
+              <Button variant={"outline"}>Login</Button>
+            </Link>
             <Button variant={"default"}>Book A Setup Call</Button>
           </div>
 
