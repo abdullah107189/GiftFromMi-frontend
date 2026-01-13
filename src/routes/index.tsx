@@ -4,6 +4,7 @@ import App from "@/App";
 import { PageLoader } from "@/components/shared/PageLoader.tsx";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
+import ForgotPassword from "@/components/auth/ForgotPassword";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     Component: RegisterPage,
+  },
+  {
+    path: "/forgot-password",
+    Component: ForgotPassword,
   },
   {
     path: "*",

@@ -10,6 +10,7 @@ import giftBox from "@/assets/banner_and_background/auth.png";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import auth_side from "@/assets/banner_and_background/auth_side.svg";
 import {
   Form,
   FormControl,
@@ -64,6 +65,10 @@ const Login = () => {
 
       {/* Right Side: Login Form */}
       <div className="flex lg:w-1/2 justify-center w-full p-4">
+        <img
+          className="absolute h-38 right-5 bottom-5 hidden lg:flex"
+          src={auth_side}
+        ></img>
         <div className="w-full xl:w-125 p-8 md:p-12 bg-white relative border border-primary rounded-2xl shadow-sm">
           {/* Header Icon & Title */}
           <div className="flex flex-col space-y-4 items-center justify-center mb-8">
