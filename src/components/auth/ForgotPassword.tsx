@@ -36,6 +36,13 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <Link to={"/"} className="xl:hidden flex">
+        <img
+          src={logo}
+          alt="Logo"
+          className="absolute w-18 h-20 object-cover aspect-86/99 left-5 top-5 z-10"
+        />
+      </Link>
       {/* Left Side: Brand Logo and Gift Box Image */}
       <div className="hidden xl:flex lg:w-1/2 items-start relative h-screen">
         <Link to={"/"}>
@@ -104,12 +111,14 @@ const ForgotPassword = () => {
               />
 
               {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-semibold transition-all"
-              >
-                Forgot Password
-              </Button>
+              <Link to={"/otp"}>
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-semibold transition-all"
+                >
+                  Forgot Password
+                </Button>
+              </Link>
             </form>
           </Form>
 

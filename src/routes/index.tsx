@@ -5,6 +5,7 @@ import { PageLoader } from "@/components/shared/PageLoader.tsx";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import ForgotPassword from "@/components/auth/ForgotPassword";
+import OTPVerification from "@/components/auth/OTPVerification";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     Component: ForgotPassword,
+  },
+  {
+    path: "/otp",
+    Component: OTPVerification,
   },
   {
     path: "*",

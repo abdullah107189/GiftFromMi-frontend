@@ -152,9 +152,11 @@ const ResponsiveNavbar = () => {
             })}
           </ul>
           <div className="mt-10 flex flex-col gap-4">
-            <Button variant={"outline"} className="w-full h-12">
-              Login
-            </Button>
+            <Link to={"/login"}>
+              <Button variant={"outline"} className="w-full">
+                Login
+              </Button>
+            </Link>
             <Button variant={"default"} className="w-full h-12">
               Book A Setup Call
             </Button>
