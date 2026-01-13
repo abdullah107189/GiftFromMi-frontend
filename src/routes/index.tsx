@@ -6,6 +6,8 @@ import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import ForgotPassword from "@/components/auth/ForgotPassword";
 import OTPVerification from "@/components/auth/OTPVerification";
+import BookSetupCall from "@/pages/BookSetupCall";
+import { ShoppingCart } from "@/pages/ShoppingCart";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
@@ -81,6 +83,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <ContactUsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "book-call",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <BookSetupCall />
+          </Suspense>
+        ),
+      },
+      {
+        path: "shopping-cart",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ShoppingCart />
           </Suspense>
         ),
       },

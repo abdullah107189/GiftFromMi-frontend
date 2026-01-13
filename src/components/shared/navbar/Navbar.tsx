@@ -69,11 +69,16 @@ const ResponsiveNavbar = () => {
             <Link to={"/login"}>
               <Button variant={"outline"}>Login</Button>
             </Link>
-            <Button variant={"default"}>Book A Setup Call</Button>
+
+            <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
+              <Button variant={"default"} className="w-full h-12">
+                Book A Setup Call
+              </Button>
+            </Link>
           </div>
 
           {/* Cart Icon */}
-          <div className="relative cursor-pointer ml-2">
+          <Link to={"/shopping-cart"} className="relative cursor-pointer ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -113,7 +118,7 @@ const ResponsiveNavbar = () => {
             <div className="absolute -top-1 -right-1 bg-destructive border border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
               2
             </div>
-          </div>
+          </Link>
 
           <button
             className="xl:hidden p-2"
@@ -152,14 +157,16 @@ const ResponsiveNavbar = () => {
             })}
           </ul>
           <div className="mt-10 flex flex-col gap-4">
-            <Link to={"/login"}>
+            <Link to={"/login"} onClick={() => setIsMenuOpen(false)}>
               <Button variant={"outline"} className="w-full">
                 Login
               </Button>
             </Link>
-            <Button variant={"default"} className="w-full h-12">
-              Book A Setup Call
-            </Button>
+            <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
+              <Button variant={"default"} className="w-full h-12">
+                Book A Setup Call
+              </Button>
+            </Link>
           </div>
         </div>
       </nav>

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Link } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import { Button } from "@/components/ui/button";
-import auth_side from "@/assets/banner_and_background/auth_side.svg";
 import {
   Form,
   FormControl,
