@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
+import auth_side from "@/assets/banner_and_background/auth_side.svg";
 import { Button } from "@/components/ui/button";
 import {
   Form,

@@ -81,7 +81,7 @@ export const ShoppingCart = () => {
   return (
     <section className="relative max-w-main  md:mt-35 mt-20 py-5">
       <div className="px-3 max-w-container mx-auto">
-        <h1 className="xl:text-5xl md:text-4xl text-3xl font-semibold xl:mb-15 lg:mb-10 mb-5 text-gray-900">
+        <h1 className="xl:text-5xl md:text-4xl text-3xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
           Shopping Gift Cart ({cartItems.length.toString().padStart(2, "0")}{" "}
           Items)
         </h1>
@@ -269,7 +269,7 @@ export const ShoppingCart = () => {
                 Order Summary
               </h2>
               <div className="">
-                <p className="md:text-lg md:pb-6 pb-4 font-semibold text-gray-900 uppercase tracking-wider">
+                <p className="md:text-lg md:pb-6 pb-4 font-semibold text-gray-900 ">
                   Product Details:
                 </p>
                 <div className="flex justify-between">

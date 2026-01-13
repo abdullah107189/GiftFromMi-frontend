@@ -102,25 +102,24 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "/login",
-        Component: LoginPage,
-      },
-      {
-        path: "/register",
-        Component: RegisterPage,
-      },
-      {
-        path: "/forgot-password",
-        Component: ForgotPassword,
-      },
-      {
-        path: "/otp",
-        Component: OTPVerification,
-      },
     ],
   },
-
+  {
+    path: "/login",
+    Component: LoginPage,
+  },
+  {
+    path: "/register",
+    Component: RegisterPage,
+  },
+  {
+    path: "/forgot-password",
+    Component: ForgotPassword,
+  },
+  {
+    path: "/otp",
+    Component: OTPVerification,
+  },
   {
     path: "*",
     element: <Navigate to="/" replace />,
