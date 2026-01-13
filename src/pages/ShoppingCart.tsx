@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useState } from "react";
 
 const cartItems: IProduct[] = [
   {
@@ -53,10 +54,30 @@ const cartItems: IProduct[] = [
 ];
 
 export const ShoppingCart = () => {
-  const subTotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>(
+    cartItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {})
+  );
+
+  const handleDecrease = (id: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max(1, (prev[id] || 1) - 1),
+    }));
+  };
+
+  const handleIncrease = (id: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: (prev[id] || 1) + 1,
+    }));
+  };
+
+  const subTotal = cartItems.reduce(
+    (acc, item) => acc + item.price * (quantities[item.id as number] || 1),
+    0
+  );
   const shipping = 24.0;
   const total = subTotal + shipping;
-
   return (
     <section className="relative max-w-main  md:mt-35 mt-20 py-5">
       <div className="px-3 max-w-container mx-auto">
@@ -94,7 +115,7 @@ export const ShoppingCart = () => {
                     className="group border-none hover:bg-transparent"
                   >
                     {/* Product Details */}
-                    <TableCell className="xl:py-10 md:py-8 py-5 ">
+                    <TableCell className="xl:pt-10 md:pt-8 pt-5 ">
                       <div className="flex   w-60 xl:gap-7.5 md:gap-5 gap-4">
                         <div className="xl:w-37.5 md:w-30 w-20 xl:h-38.25 md:h-30 h-20 rounded-lg bg-gray-100 shrink-0">
                           <img
@@ -120,10 +141,13 @@ export const ShoppingCart = () => {
                     </TableCell>
 
                     {/* Quantity */}
-                    <TableCell className="">
+                    <TableCell>
                       <div className="flex items-center justify-center">
                         <div className="flex items-center bg-primary text-white rounded-2xl p-3 md:p-4 gap-3">
-                          <button className="hover:scale-110 border border-white p-1 rounded-lg transition-transform">
+                          <button
+                            onClick={() => handleDecrease(item?.id as number)}
+                            className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
@@ -140,10 +164,13 @@ export const ShoppingCart = () => {
                               />
                             </svg>
                           </button>
-                          <span className="font-semibold xl:text-2xl md:text-xl text-lg  text-center">
-                            1
+                          <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-[24px]">
+                            {quantities[item.id as number] || 1}
                           </span>
-                          <button className="hover:scale-110 border border-white p-1 rounded-lg transition-transform">
+                          <button
+                            onClick={() => handleIncrease(item.id as number)}
+                            className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
