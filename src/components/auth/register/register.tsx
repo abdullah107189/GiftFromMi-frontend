@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import { Button } from "@/components/ui/button";
+import auth_side from "@/assets/banner_and_background/auth_side.svg";
 import {
   Form,
   FormControl,
@@ -44,7 +45,7 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center xl:p-0 p-6">
       <div className="hidden xl:flex lg:w-1/2 items-start relative">
         <Link to={"/"}>
           <img
@@ -61,9 +62,12 @@ const Register = () => {
           />
         </div>
       </div>
-
       {/* Right Side: Form */}
-      <div className="flex lg:w-1/2 justify-center w-full  ">
+      <div className="flex lg:w-1/2 justify-center w-full">
+        <img
+          className="absolute h-38 right-5 bottom-5 hidden lg:flex"
+          src={auth_side}
+        ></img>
         <div className="w-full xl:w-125 p-8 shadow-sm bg-white relative border border-primary rounded-2xl">
           {/* User Icon Header */}
           <div className="flex flex-col space-y-4 items-center justify-center xl:mb-8 md:mb-6 mb-4">
