@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
@@ -9,8 +10,10 @@ import {
 import {
   // ChartConfig,
   ChartContainer,
+  ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
+  type ChartConfig,
 } from "@/components/ui/chart";
 import { chartData } from "@/data/mockData";
 
@@ -18,21 +21,28 @@ export default function GiftingActivity() {
   const chartConfig = {
     orders: {
       label: "Orders",
-      color: "#8B5CF6", // Purple color onujayi
+      color: "#8B5CF6",
     },
     revenue: {
       label: "Revenue ($)",
-      color: "#F97316", // Orange color onujayi
+      color: "#F97316",
     },
-  };
+  } satisfies ChartConfig;
   return (
-    <Card className="rounded-3xl border-none shadow-sm">
+    <Card className="rounded-2xl border-none">
       <CardHeader className="pb-0">
-        <CardTitle className="text-xl font-bold">Gifting Activity</CardTitle>
-        <CardDescription>Orders and revenue over time</CardDescription>
+        <CardTitle className="text-base font-normal">
+          Gifting Activity
+        </CardTitle>
+        <CardDescription className="text-sm font-normal">
+          Orders and revenue over time
+        </CardDescription>
       </CardHeader>
-      <CardContent className="px-2 sm:p-6">
-        <ChartContainer config={chartConfig} className="aspect-[16/9] w-full">
+      <CardContent className="px-2 xl:p-6">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-video h-55.25 w-full "
+        >
           <AreaChart data={chartData} margin={{ left: 12, right: 12 }}>
             <CartesianGrid
               vertical={false}
@@ -53,6 +63,30 @@ export default function GiftingActivity() {
               tickFormatter={(value) => `${value / 1000}k`}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend
+              content={({ payload }) => (
+                <div className="flex justify-center gap-4 mt-6">
+                  {payload?.map((entry: any, index: number) => (
+                    <div
+                      key={`item-${index}`}
+                      className="flex items-center gap-2"
+                    >
+                      {/* Circular Dot with Dynamic Color */}
+                      <div
+                        className="size-3 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <span
+                        className="text-sm font-medium"
+                        style={{ color: entry.color }}
+                      >
+                        {entry.value === "orders" ? "Orders" : "Revenue ($)"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            />
             <defs>
               <linearGradient id="fillOrders" x1="0" y1="0" x2="0" y2="1">
                 <stop
