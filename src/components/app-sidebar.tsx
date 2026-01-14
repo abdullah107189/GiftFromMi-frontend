@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { sellerSideBar } from "./Dashboard/Seller/SellerSideBar";
 import logo from "@/assets/icons/logo2.png";
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 import { SetupProgress } from "./Dashboard/Seller/SetupProgress";
 
@@ -17,20 +17,18 @@ export function AppSidebar() {
   const { pathname } = useLocation();
 
   return (
-    <Sidebar className="border-none">
+    <Sidebar className="border-none! xl:w-87.5 md:w-70">
       {/* Sidebar Header with Logo */}
-      <SidebarHeader className="bg-primary-800 xl:p-8 md:p-6 p-4">
-        <div className="flex items-center gap-3">
+      <SidebarHeader className="bg-primary-800 xl:p-8 md:p-6 p-4 ">
+        <Link to={"/"} className="flex items-center gap-3">
           <img src={logo} alt="GiftFromMi" className="h-15 w-auto" />
-          <span className="text-white text-xl font-semibold">
-            GiftFromMi
-          </span>
-        </div>
+          <span className="text-white text-xl font-semibold">GiftFromMi</span>
+        </Link>
       </SidebarHeader>
 
       {/* Sidebar Menu Items */}
-      <SidebarContent className="bg-[#6D4C25] px-4 pt-8">
-        <SidebarMenu className="gap-2">
+      <SidebarContent className="bg-primary-800 xl:pt-8 md:pt-6 pt-4 xl:px-8 md:px-6 px-4 ">
+        <SidebarMenu className="xl:gap-6 md:gap-4 gap-2">
           {sellerSideBar.map((item) => {
             const isActive = pathname === item.url;
             return (
@@ -38,32 +36,33 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    "flex items-center gap-3 px-4 py-6 text-white transition-all duration-200 rounded-xl",
+                    "flex items-center justify-start gap-3 px-3 py-4 xl:h-10 text-white transition-all duration-200 rounded-[10px]",
                     isActive
-                      ? "bg-[#C88628] hover:bg-[#C88628] hover:text-white"
+                      ? "bg-primary hover:bg-[#C88628] hover:text-white"
                       : "hover:bg-white/10 hover:text-white"
                   )}
                 >
-                  <a href={item.url}>
+                  <Link to={item.url}>
                     <item.icon
                       className={cn(
                         "size-5",
                         isActive ? "text-white" : "text-white/80"
                       )}
                     />
-                    <span className="text-lg font-medium">{item.title}</span>
-                  </a>
+                    <span className="font-medium">{item.title}</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             );
           })}
+          <SetupProgress
+            className="xl:mt-25 md:mt-20 mt-12.5"
+            percentage={30}
+          />
         </SidebarMenu>
       </SidebarContent>
 
       {/* Sidebar Footer with Setup Progress */}
-      <SidebarFooter className="bg-[#6D4C25] p-6 pb-10">
-        <SetupProgress percentage={30} />
-      </SidebarFooter>
     </Sidebar>
   );
 }
