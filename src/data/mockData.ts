@@ -6,31 +6,43 @@ import type {
   QuickAction,
   ChartData,
 } from "@/types/dashboard";
-
-export const statCards: StatCard[] = [
+import { Calendar, Clock, ShoppingCart, TrendingUp } from "lucide-react";
+export const statCardsData: StatCard[] = [
   {
+    id: "1",
     title: "Total Orders",
     value: "1,284",
     change: "+12%",
+    trend: "up",
     description: "from last month",
+    iconName: ShoppingCart,
+    variant: "purple",
   },
   {
+    id: "2",
     title: "Scheduled Gifts",
     value: "47",
-    change: "Next: Dec 25",
-    description: "",
+    description: "Next: Dec 25",
+    iconName: Calendar,
+    variant: "green",
   },
   {
+    id: "3",
     title: "Pending Shipment",
     value: "8",
-    change: "gifts pending shipment",
-    description: "",
+    description: "gifts pending shipment",
+    iconName: Clock,
+    variant: "cyan",
   },
   {
+    id: "4",
     title: "Monthly Revenue",
     value: "$16,540",
     change: "+22%",
+    trend: "up",
     description: "from last month",
+    iconName: TrendingUp,
+    variant: "orange",
   },
 ];
 

@@ -1,3 +1,5 @@
+import type { LucideIcon } from "lucide-react";
+
 // types/index.ts
 export interface Order {
   id: string;
@@ -9,10 +11,14 @@ export interface Order {
 }
 
 export interface StatCard {
+  id: string;
   title: string;
   value: string | number;
-  change: string;
+  change?: string;
+  trend?: "up" | "down" | "neutral";
   description?: string;
+  iconName: LucideIcon;
+  variant: "purple" | "green" | "cyan" | "orange";
 }
 
 export interface UpcomingGift {

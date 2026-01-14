@@ -5,11 +5,11 @@ import OrderTable from "@/components/Dashboard/Seller/Dashboard/OrderTable";
 import UpcomingGiftItem from "@/components/Dashboard/Seller/Dashboard/UpcomingGiftItem";
 import Chart from "@/components/Dashboard/Seller/Dashboard/Chart";
 import {
-  statCards,
   orders,
   upcomingGifts,
   quickActions,
   chartData,
+  statCardsData,
 } from "@/data/mockData";
 import { DashboardHeader } from "@/components/Dashboard/Seller/Dashboard/DashboardHeader";
 
@@ -22,7 +22,7 @@ export default function SellerDashboardPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {statCards.map((stat, index) => (
+          {statCardsData.map((stat, index) => (
             <StatCard key={index} data={stat} />
           ))}
         </div>
