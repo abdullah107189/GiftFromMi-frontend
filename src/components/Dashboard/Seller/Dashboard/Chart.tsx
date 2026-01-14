@@ -1,60 +1,102 @@
-// components/Chart.tsx
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { ChartData } from "@/types/dashboard";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  // ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { chartData } from "@/data/mockData";
 
-interface ChartProps {
-  data: ChartData;
-}
-
-export default function Chart({ data }: ChartProps) {
-  const maxValue = Math.max(...data.orders, ...data.revenue);
-
+export default function GiftingActivity() {
+  const chartConfig = {
+    orders: {
+      label: "Orders",
+      color: "#8B5CF6", // Purple color onujayi
+    },
+    revenue: {
+      label: "Revenue ($)",
+      color: "#F97316", // Orange color onujayi
+    },
+  };
   return (
-    <Card className="shadow-none">
-      <CardHeader>
-        <CardTitle>Gifting Activity</CardTitle>
-        <p className="text-sm text-gray-500">Orders and revenue over time</p>
+    <Card className="rounded-3xl border-none shadow-sm">
+      <CardHeader className="pb-0">
+        <CardTitle className="text-xl font-bold">Gifting Activity</CardTitle>
+        <CardDescription>Orders and revenue over time</CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="flex items-end  space-x-2 mt-8">
-          {data.months.map((month, index) => {
-            const orderHeight = (data.orders[index] / maxValue) * 100;
-            const revenueHeight = (data.revenue[index] / maxValue) * 100;
-
-            return (
-              <div key={month} className="flex flex-col items-center flex-1">
-                <div className="flex items-end justify-center space-x-1 w-full h-48">
-                  <div
-                    className="w-3 bg-blue-500 rounded-t"
-                    style={{ height: `${orderHeight}%` }}
-                  />
-                  <div
-                    className="w-3 bg-orange-500 rounded-t"
-                    style={{ height: `${revenueHeight}%` }}
-                  />
-                </div>
-                <span className="text-xs text-gray-500 mt-2">{month}</span>
-              </div>
-            );
-          })}
-        </div>
-        <div className="flex items-center justify-center space-x-4 mt-8">
-          <div className="flex items-center">
-            <div className="w-3 h-3 bg-blue-500 rounded mr-2"></div>
-            <span className="text-sm text-gray-600">Orders</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 bg-orange-500 rounded mr-2"></div>
-            <span className="text-sm text-gray-600">Revenue ($)</span>
-          </div>
-        </div>
-        <div className="flex justify-between text-xs text-gray-400 mt-2">
-          <span>0k</span>
-          <span>4k</span>
-          <span>8k</span>
-          <span>12k</span>
-          <span>16k</span>
-        </div>
+      <CardContent className="px-2 sm:p-6">
+        <ChartContainer config={chartConfig} className="aspect-[16/9] w-full">
+          <AreaChart data={chartData} margin={{ left: 12, right: 12 }}>
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray="3 3"
+              opacity={0.3}
+            />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              tickFormatter={(value) => value}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              tickFormatter={(value) => `${value / 1000}k`}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <defs>
+              <linearGradient id="fillOrders" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-orders)"
+                  stopOpacity={0.1}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-orders)"
+                  stopOpacity={0}
+                />
+              </linearGradient>
+              <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-revenue)"
+                  stopOpacity={0.1}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-revenue)"
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+            <Area
+              dataKey="revenue"
+              type="natural"
+              fill="url(#fillRevenue)"
+              stroke="var(--color-revenue)"
+              strokeWidth={2}
+              stackId="a"
+            />
+            <Area
+              dataKey="orders"
+              type="natural"
+              fill="url(#fillOrders)"
+              stroke="var(--color-orders)"
+              strokeWidth={2}
+              stackId="b"
+            />
+          </AreaChart>
+        </ChartContainer>
       </CardContent>
     </Card>
   );

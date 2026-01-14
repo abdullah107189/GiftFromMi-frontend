@@ -4,8 +4,9 @@ import type {
   Order,
   UpcomingGift,
   QuickAction,
-  ChartData,
+  ChartDataItem,
 } from "@/types/dashboard";
+export type ChartDataArray = ChartDataItem[];
 import { Plus, Upload, UserPlus, Megaphone } from "lucide-react";
 import { Calendar, Clock, ShoppingCart, TrendingUp } from "lucide-react";
 export const statCardsData: StatCard[] = [
@@ -145,27 +146,17 @@ export const quickActions: QuickAction[] = [
   },
 ];
 
-export const chartData: ChartData = {
-  months: [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ],
-  orders: [
-    4000, 3000, 5000, 8000, 7000, 9000, 12000, 11000, 13000, 14000, 15000,
-    16540,
-  ],
-  revenue: [
-    3000, 4000, 6000, 7000, 8000, 10000, 11000, 12000, 13000, 14000, 15500,
-    16540,
-  ],
-};
+export const chartData: ChartDataArray = [
+  { month: "Jan", orders: 1200, revenue: 5000 },
+  { month: "Feb", orders: 1500, revenue: 5800 },
+  { month: "Mar", orders: 1100, revenue: 5500 },
+  { month: "Apr", orders: 1800, revenue: 6500 },
+  { month: "May", orders: 2000, revenue: 7200 },
+  { month: "Jun", orders: 2200, revenue: 7800 },
+  { month: "Jul", orders: 2500, revenue: 8500 },
+  { month: "Aug", orders: 2300, revenue: 9500 },
+  { month: "Sep", orders: 2800, revenue: 11000 },
+  { month: "Oct", orders: 3200, revenue: 12500 },
+  { month: "Nov", orders: 3500, revenue: 14000 },
+  { month: "Dec", orders: 4000, revenue: 16000 },
+];

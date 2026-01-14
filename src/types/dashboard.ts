@@ -33,8 +33,8 @@ export interface QuickAction {
   icon: LucideIcon;
   variant?: "highlight" | "default";
 }
-export interface ChartData {
-  months: string[];
-  orders: number[];
-  revenue: number[];
+export interface ChartDataItem {
+  month: string;
+  orders: number;
+  revenue: number;
 }
