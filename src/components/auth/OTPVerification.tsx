@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
-import logo from "@/assets/common/logo.png";
+import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
 import auth_side from "@/assets/banner_and_background/auth_side.svg";
 import { Button } from "@/components/ui/button";

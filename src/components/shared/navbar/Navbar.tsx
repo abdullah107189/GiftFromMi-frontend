@@ -1,4 +1,4 @@
-import logo from "@/assets/common/logo.png";
+import logo from "@/assets/icons/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
 import { Button } from "../../ui/button";
@@ -19,7 +19,15 @@ const ResponsiveNavbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+  const navItems = [
+    { label: "Home", path: "/" },
+    { label: "How It Works", path: "/how-it-works" },
+    { label: "Shop Gifts", path: "/shop-gifts" },
+    { label: "For Professionals", path: "/for-professionals" },
+    { label: "Bulk Automation", path: "/bulk-automation" },
+    { label: "Contact Us", path: "/contact-us" },
+  ];
+  const user = "seller";
   return (
     <header
       className={cn(
@@ -65,17 +73,46 @@ const ResponsiveNavbar = () => {
 
         {/* action buttons & Mobile Toggle */}
         <div className="items-center gap-4 flex pr-3 relative z-60">
-          <div className="hidden sm:flex items-center gap-4">
-            <Link to={"/login"}>
-              <Button variant={"outline"}>Login</Button>
-            </Link>
+          {!user ? (
+            <div className="hidden sm:flex items-center gap-4">
+              <Link to={"/login"}>
+                <Button variant={"outline"}>Login</Button>
+              </Link>
 
-            <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
-              <Button variant={"default"} className="w-full h-12">
-                Book A Setup Call
+              <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
+                <Button variant={"default"} className="w-full h-12">
+                  Book A Setup Call
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <Link to={"/dashboard"}>
+              <Button className="rounded-full p-3! w-10 h-10">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M16.625 8.4375C16.625 5.67608 14.3864 3.4375 11.625 3.4375C8.86358 3.4375 6.625 5.67608 6.625 8.4375C6.625 11.1989 8.86358 13.4375 11.625 13.4375C14.3864 13.4375 16.625 11.1989 16.625 8.4375Z"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M18.625 20.4375C18.625 16.5715 15.491 13.4375 11.625 13.4375C7.75901 13.4375 4.625 16.5715 4.625 20.4375"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </Button>
             </Link>
-          </div>
+          )}
 
           {/* Cart Icon */}
           <Link to={"/shopping-cart"} className="relative cursor-pointer ml-2">
@@ -173,14 +210,5 @@ const ResponsiveNavbar = () => {
     </header>
   );
 };
-
-const navItems = [
-  { label: "Home", path: "/" },
-  { label: "How It Works", path: "/how-it-works" },
-  { label: "Shop Gifts", path: "/shop-gifts" },
-  { label: "For Professionals", path: "/for-professionals" },
-  { label: "Bulk Automation", path: "/bulk-automation" },
-  { label: "Contact Us", path: "/contact-us" },
-];
 
 export default ResponsiveNavbar;

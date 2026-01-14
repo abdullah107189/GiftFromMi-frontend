@@ -1,182 +1,69 @@
-import * as React from "react"
-
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { sellerSideBar } from "./Dashboard/Seller/SellerSideBar";
+import logo from "@/assets/icons/logo2.png";
+import { useLocation } from "react-router";
+import { cn } from "@/lib/utils";
+import { SetupProgress } from "./Dashboard/Seller/SetupProgress";
 
-// This is sample data.
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-  ],
-}
+export function AppSidebar() {
+  const { pathname } = useLocation();
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
-      <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
-        <SearchForm />
+    <Sidebar className="border-none">
+      {/* Sidebar Header with Logo */}
+      <SidebarHeader className="bg-primary-800 xl:p-8 md:p-6 p-4">
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="GiftFromMi" className="h-15 w-auto" />
+          <span className="text-white text-xl font-semibold">
+            GiftFromMi
+          </span>
+        </div>
       </SidebarHeader>
-      <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+
+      {/* Sidebar Menu Items */}
+      <SidebarContent className="bg-[#6D4C25] px-4 pt-8">
+        <SidebarMenu className="gap-2">
+          {sellerSideBar.map((item) => {
+            const isActive = pathname === item.url;
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-6 text-white transition-all duration-200 rounded-xl",
+                    isActive
+                      ? "bg-[#C88628] hover:bg-[#C88628] hover:text-white"
+                      : "hover:bg-white/10 hover:text-white"
+                  )}
+                >
+                  <a href={item.url}>
+                    <item.icon
+                      className={cn(
+                        "size-5",
+                        isActive ? "text-white" : "text-white/80"
+                      )}
+                    />
+                    <span className="text-lg font-medium">{item.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
+        </SidebarMenu>
       </SidebarContent>
-      <SidebarRail />
+
+      {/* Sidebar Footer with Setup Progress */}
+      <SidebarFooter className="bg-[#6D4C25] p-6 pb-10">
+        <SetupProgress percentage={30} />
+      </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

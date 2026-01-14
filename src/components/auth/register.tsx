@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import logo from "@/assets/common/logo.png";
+import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
 import { cn } from "@/lib/utils";
 

@@ -18,6 +18,15 @@ const ProductDetails = lazy(
 const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
 const BulkAutomationPage = lazy(() => import("@/pages/BulkAutomationPage"));
 const ContactUsPage = lazy(() => import("@/pages/ContactUsPage"));
+import PrivetRoute from "@/routes/privates/PrivateRoute.tsx";
+import SellerDashboard from "@/components/layout/SellerDashboard";
+import SellerDashboardPage from "@/pages/Dashboard/Seller/SellerDashboardPage";
+import OrdersPage from "@/pages/Dashboard/Seller/OrdersPage";
+import Scheduling from "@/pages/Dashboard/Seller/Scheduling";
+import Campaigns from "@/pages/Dashboard/Seller/Campaigns";
+import Billing from "@/pages/Dashboard/Seller/Billing";
+import Settings from "@/pages/Dashboard/Seller/Settings";
+import Logout from "@/pages/Dashboard/Seller/Logout";
 
 const router = createBrowserRouter([
   {
@@ -119,6 +128,59 @@ const router = createBrowserRouter([
   {
     path: "/otp",
     Component: OTPVerification,
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivetRoute>
+        <SellerDashboard></SellerDashboard>
+      </PrivetRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <SellerDashboardPage></SellerDashboardPage>,
+      },
+      {
+        path: "orders",
+        element: <OrdersPage></OrdersPage>,
+      },
+      {
+        path: "recipients",
+        element: <OrdersPage></OrdersPage>,
+      },
+      {
+        path: "scheduling",
+        element: <Scheduling></Scheduling>,
+      },
+      {
+        path: "campaigns",
+        element: <Campaigns></Campaigns>,
+      },
+      {
+        path: "billing",
+        element: <Billing></Billing>,
+      },
+      {
+        path: "settings",
+        element: <Settings></Settings>,
+      },
+      {
+        path: "logout",
+        element: <Logout></Logout>,
+      },
+
+      // customer dahsboard
+
+      // {
+      //   path: "employee-list",
+      //   element: (
+      //     <HRRoute>
+      //       <EmployeeList></EmployeeList>
+      //     </HRRoute>
+      //   ),
+      // },
+    ],
   },
   {
     path: "*",
