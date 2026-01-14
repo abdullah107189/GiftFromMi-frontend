@@ -6,6 +6,7 @@ import type {
   QuickAction,
   ChartData,
 } from "@/types/dashboard";
+import { Plus, Upload, UserPlus, Megaphone } from "lucide-react";
 import { Calendar, Clock, ShoppingCart, TrendingUp } from "lucide-react";
 export const statCardsData: StatCard[] = [
   {
@@ -124,18 +125,23 @@ export const quickActions: QuickAction[] = [
   {
     title: "Create Order",
     description: "Send a gift to someone",
+    icon: Plus,
+    variant: "highlight",
   },
   {
     title: "Bulk Upload",
     description: "Import recipients via CSV",
+    icon: Upload,
   },
   {
     title: "Add Recipients",
     description: "Manage your contacts",
+    icon: UserPlus,
   },
   {
     title: "New Campaign",
     description: "Set up automated gifting",
+    icon: Megaphone,
   },
 ];
 

@@ -27,29 +27,26 @@ export default function SellerDashboardPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 m-auto">
           {/* Chart Section */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-7">
             <Chart data={chartData} />
           </div>
 
           {/* Quick Actions */}
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <p className="text-sm text-gray-500">
-                  Complete tasks in your fingertips
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  {quickActions.map((action, index) => (
-                    <QuickActionCard key={index} action={action} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+          <div className="lg:col-span-5 border border-gray-200 xl:p-6 p-4 rounded-2xl">
+            <div className="mb-6">
+              <h2 className="text-gray-900 mb-2">Quick Actions</h2>
+              <p className="text-sm text-gray-700">
+                Complete tasks in your fingertips
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {quickActions.map((action, index) => (
+                <QuickActionCard key={index} action={action} />
+              ))}
+            </div>
           </div>
         </div>
 

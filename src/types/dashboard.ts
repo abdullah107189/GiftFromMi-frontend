@@ -30,8 +30,9 @@ export interface UpcomingGift {
 export interface QuickAction {
   title: string;
   description: string;
+  icon: LucideIcon;
+  variant?: "highlight" | "default";
 }
-
 export interface ChartData {
   months: string[];
   orders: number[];

@@ -10,13 +10,13 @@ export default function Chart({ data }: ChartProps) {
   const maxValue = Math.max(...data.orders, ...data.revenue);
 
   return (
-    <Card>
+    <Card className="shadow-none">
       <CardHeader>
         <CardTitle>Gifting Activity</CardTitle>
         <p className="text-sm text-gray-500">Orders and revenue over time</p>
       </CardHeader>
       <CardContent>
-        <div className="flex items-end h-64 space-x-2 mt-8">
+        <div className="flex items-end  space-x-2 mt-8">
           {data.months.map((month, index) => {
             const orderHeight = (data.orders[index] / maxValue) * 100;
             const revenueHeight = (data.revenue[index] / maxValue) * 100;
