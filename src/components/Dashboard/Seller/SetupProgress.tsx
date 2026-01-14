@@ -16,28 +16,28 @@ export const SetupProgress = ({
         className
       )}
     >
-      <div className="relative size-12 flex items-center justify-center shrink-0">
+      <div className="relative size-15 flex items-center justify-center shrink-0">
         <svg className="size-full -rotate-90" viewBox="0 0 36 36">
           <circle
             cx="18"
             cy="18"
             r="16"
             fill="none"
-            className="stroke-[#E5D5C0]"
-            strokeWidth="3"
+            className="stroke-primary"
+            strokeWidth="4"
           />
           <circle
             cx="18"
             cy="18"
             r="16"
             fill="none"
-            className="stroke-[#C88628]"
-            strokeWidth="3"
+            className="stroke-[#9C4900]"
+            strokeWidth="4"
             strokeDasharray={`${percentage}, 100`}
             strokeLinecap="round"
           />
         </svg>
-        <span className="absolute text-[10px] font-bold text-[#6D4C25]">
+        <span className="absolute text-[14px] font-bold text-gray-900">
           {percentage}%
         </span>
       </div>
