@@ -17,7 +17,7 @@ export function AppSidebar() {
   const { pathname } = useLocation();
 
   return (
-    <Sidebar className="border-none! xl:w-87.5 md:w-70">
+    <Sidebar className="border-none! xl:w-87.5 md:w-70 sticky top-0">
       {/* Sidebar Header with Logo */}
       <SidebarHeader className="bg-primary-800 xl:p-8 md:p-6 p-4 ">
         <Link to={"/"} className="flex items-center gap-3">
@@ -56,7 +56,7 @@ export function AppSidebar() {
             );
           })}
           <SetupProgress
-            className="xl:mt-25 md:mt-20 mt-12.5"
+            className="xl:mt-25 md:mt-20 mt-12.5 mb-6"
             percentage={30}
           />
         </SidebarMenu>

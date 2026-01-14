@@ -15,7 +15,7 @@ import { DashboardHeader } from "@/components/Dashboard/Seller/Dashboard/Dashboa
 
 export default function SellerDashboardPage() {
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className=" xl:p-6 p-4">
       <div>
         {/* Header */}
         <DashboardHeader></DashboardHeader>

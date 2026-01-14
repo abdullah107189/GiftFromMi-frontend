@@ -4,7 +4,7 @@ import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 
 function SellerDashboard() {
   return (
-    <div className="max-w-main mx-auto">
+    <div className="max-w-main mx-auto relative">
       <SidebarProvider>
         <AppSidebar />
         <main>
