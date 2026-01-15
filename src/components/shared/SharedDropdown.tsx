@@ -38,15 +38,13 @@ export default function SharedDropdown({
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "flex items-center justify-center outline-none transition-all",
-            // যদি triggerIcon থাকে তবে গোল বাটন, না থাকলে বড় ফিল্টার বাটন
+            "flex items-center justify-center outline-none transition-all cursor-pointer",
             triggerIcon
-              ? "p-2 hover:bg-gray-100 rounded-full w-9 h-9"
-              : "px-4 py-2 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm font-medium min-w-[200px] justify-between",
+              ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9"
+              : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm font-medium min-w-[200px] justify-between",
             className
           )}
         >
-          {/* ২ ধরনের বাটনের জন্য লজিক */}
           {triggerIcon ? (
             <div className="flex items-center justify-center">
               {triggerIcon}
@@ -62,7 +60,7 @@ export default function SharedDropdown({
 
       <DropdownMenuContent
         align="end"
-        className="w-[271px] p-2 bg-white rounded-[16px] shadow-xl border-none"
+        className=" p-2 bg-white rounded-2xl shadow-none border border-gray-100"
       >
         {options.map((option) => {
           const isActive = selectedValue === option.value;
@@ -73,12 +71,12 @@ export default function SharedDropdown({
               key={option.value}
               onClick={() => onValueChange(option.value)}
               className={cn(
-                "flex items-center justify-between px-4 py-2 my-1 cursor-pointer outline-none transition-colors",
+                "flex items-center justify-between hover:bg-primary-50! px-4 py-2 my-1 cursor-pointer outline-none transition-colors",
                 isActive
-                  ? "bg-[#FAF3EB] text-[#CA8A32] rounded-[58px] font-semibold"
+                  ? "bg-primary-50 text-primary rounded-full font-semibold"
                   : isCancel
-                  ? "text-red-500 hover:bg-red-50 rounded-lg"
-                  : "text-[#5C5C5C] hover:bg-gray-50 rounded-lg"
+                  ? "text-red-500! hover:bg-red-50! rounded-lg"
+                  : "text-[#5C5C5C] hover:bg-primary-50! rounded-lg"
               )}
             >
               <span className="text-[14px]">{option.label}</span>

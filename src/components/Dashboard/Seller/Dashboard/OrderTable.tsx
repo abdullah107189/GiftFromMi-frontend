@@ -10,8 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import type { Order } from "@/types/dashboard";
 import { MoreHorizontal } from "lucide-react";
 import SharedDropdown from "@/components/shared/SharedDropdown";
-import { useState } from "react";
-
 interface OrderTableProps {
   orders: Order[];
 }
@@ -36,22 +34,12 @@ export default function OrderTable({ orders }: OrderTableProps) {
     { label: "Edit Order", value: "edit" },
     { label: "Cancel Order", value: "cancel" },
   ];
-  const filterOptions = [
-    { label: "All", value: "all" },
-    { label: "Newest First", value: "newest" },
-    { label: "Oldest First", value: "oldest" },
-    { label: "High to Low Payment", value: "price_high" },
-    { label: "Low to High Payment", value: "price_low" },
-    { label: "Delivered Only", value: "delivered" },
-    { label: "Pending Only", value: "pending" },
-  ];
-  const [currentFilter, setCurrentFilter] = useState("all");
   return (
     <div className="border-b">
       <Table className="">
         <TableHeader>
-          <TableRow className="text-gray-700 font-medium">
-            <TableHead>Order ID</TableHead>
+          <TableRow className="text-gray-700 font-medium hover:bg-primary-100">
+            <TableHead className="">Order ID</TableHead>
             <TableHead>Recipient</TableHead>
             <TableHead>Gift</TableHead>
             <TableHead>Date</TableHead>
@@ -60,9 +48,9 @@ export default function OrderTable({ orders }: OrderTableProps) {
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="gap-12 hover:bg-none">
+        <TableBody className="gap-12 !">
           {orders.map((order) => (
-            <TableRow key={order.id}>
+            <TableRow key={order.id} className="hover:bg-primary-50">
               <TableCell className="font-medium">{order.id}</TableCell>
               <TableCell>{order.recipient}</TableCell>
               <TableCell>{order.gift}</TableCell>
@@ -77,24 +65,14 @@ export default function OrderTable({ orders }: OrderTableProps) {
               </TableCell>
               <TableCell>${order.amount.toFixed(2)}</TableCell>
               <TableCell className="text-center pr-5">
-                <button className="p-1 hover:bg-primary-100 rounded">
-                  <SharedDropdown
-                    options={actionOptions}
-                    onValueChange={(val) => console.log(val)}
-                    triggerIcon={
-                      <MoreHorizontal className="h-5 w-5 text-gray-400" />
-                    }
-                    className="w-auto border-none bg-transparent"
-                  />
-                  <SharedDropdown
-                    options={filterOptions}
-                    selectedValue={currentFilter} // এখন আর এরর আসবে না
-                    onValueChange={(val) => {
-                      setCurrentFilter(val); // ক্লিক করলে স্টেট আপডেট হবে
-                      console.log("Selected Value:", val);
-                    }}
-                  />
-                </button>
+                <SharedDropdown
+                  options={actionOptions}
+                  onValueChange={(val) => console.log(val)}
+                  triggerIcon={
+                    <MoreHorizontal className="h-5 w-5 text-gray-400" />
+                  }
+                  className="w-auto border-none bg-transparent"
+                />
               </TableCell>
             </TableRow>
           ))}

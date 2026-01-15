@@ -54,7 +54,7 @@ export default function SellerDashboardPage() {
           {/* Recent Orders */}
           <div className="lg:col-span-2">
             <Card className="shadow-none border border-gray-200 rounded-2xl md:p-6 p-4">
-              <CardHeader>
+              <CardHeader className="px-0">
                 <p>Recent Orders</p>
                 <p className="text-sm text-gray-700">
                   Track your latest gift orders
