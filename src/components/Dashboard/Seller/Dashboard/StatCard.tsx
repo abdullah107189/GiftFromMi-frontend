@@ -31,7 +31,7 @@ export default function StatCard({ data }: StatCardProps) {
   return (
     <div
       className={cn(
-        "flex flex-col items-start gap-2 flex-1 border border-gray-200 bg-white p-[24px_24px_24px_14px] shadow-[0_0_40px_0_rgba(213,161,91,0.40)_inset]"
+        "flex flex-col items-start gap-2 flex-1 border border-gray-200 p-[24px_24px_24px_14px] shadow-[0_0_40px_0_rgba(213,161,91,0.40)_inset] bg-background"
       )}
       style={{ borderRadius: "14px" }}
     >

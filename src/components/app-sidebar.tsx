@@ -6,11 +6,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { sellerSideBar } from "./Dashboard/Seller/SellerSideBar";
+import { sellerSideBar } from "./Dashboard/Seller/Dashboard/SellerSideBar";
 import logo from "@/assets/icons/logo2.png";
 import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
-import { SetupProgress } from "./Dashboard/Seller/SetupProgress";
+import { SetupProgress } from "./Dashboard/Seller/Dashboard/SetupProgress";
 
 export function AppSidebar() {
   const { pathname } = useLocation();

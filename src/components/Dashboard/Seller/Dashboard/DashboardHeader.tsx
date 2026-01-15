@@ -7,7 +7,7 @@ export const DashboardHeader = () => {
   return (
     <header className="flex h-20 items-center justify-between px-4 xl:px-0 gap-5">
       {/* Search Bar */}
-      <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md xl:w-xl">
+      <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md xl:w-xl ">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -35,15 +35,15 @@ export const DashboardHeader = () => {
 
         <Input
           placeholder="Search orders, recipients"
-          className="pl-10 bg-white border-gray-200 rounded-xl h-11 xl:h-12 focus-visible:ring-1 focus-visible:ring-[#C88628]"
+          className="pl-10 bg-background border-gray-200 rounded-xl h-11 xl:h-12 focus-visible:ring-1 focus-visible:ring-[#C88628]"
         />
       </div>
 
       {/* Right Side Actions */}
       <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
         {/* New Order Button */}
-        <Button className="bg-primary hover:bg-[#b07522] text-white px-3 md:px-4 xl:px-6 h-10 xl:h-11 flex gap-2 font-medium">
-          <Plus className="size-4 xl:size-5" />
+        <Button className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6 md:h-10 h-9! xl:h-11 flex gap-2 font-medium">
+          <Plus className="size-5" />
           <span className="hidden md:inline">New Order</span>
         </Button>
 
