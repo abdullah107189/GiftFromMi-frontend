@@ -53,14 +53,14 @@ export default function SellerDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Orders */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="shadow-none border border-gray-200 rounded-2xl md:p-6 p-4">
               <CardHeader>
-                <CardTitle>Recent Orders</CardTitle>
-                <p className="text-sm text-gray-500">
+                <p>Recent Orders</p>
+                <p className="text-sm text-gray-700">
                   Track your latest gift orders
                 </p>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <OrderTable orders={orders} />
               </CardContent>
             </Card>

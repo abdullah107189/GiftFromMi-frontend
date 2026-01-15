@@ -15,9 +15,13 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { chartData } from "@/data/mockData";
+import { type ChartDataArray } from "@/data/mockData";
 
-export default function GiftingActivity() {
+interface ChartProps {
+  data: ChartDataArray;
+}
+
+export default function GiftingActivity({ data }: ChartProps) {
   const chartConfig = {
     orders: {
       label: "Orders",
@@ -43,7 +47,7 @@ export default function GiftingActivity() {
           config={chartConfig}
           className="aspect-video h-55.25 w-full "
         >
-          <AreaChart data={chartData} margin={{ left: 12, right: 12 }}>
+          <AreaChart data={data} margin={{ left: 12, right: 12 }}>
             <CartesianGrid
               vertical={false}
               strokeDasharray="3 3"
@@ -62,7 +66,19 @@ export default function GiftingActivity() {
               tickMargin={10}
               tickFormatter={(value) => `${value / 1000}k`}
             />
-            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={{
+                stroke: "#E5E7EB",
+                strokeWidth: 1,
+                strokeDasharray: "4 4",
+              }}
+              content={
+                <ChartTooltipContent
+                  indicator="dot"
+                  className="shadow-[0_0_0.874px_0_rgba(0,0,0,0.20)] text-[10px] p-0 rounded-md  bg-white min-w-37.5"
+                />
+              }
+            />
             <ChartLegend
               content={({ payload }) => (
                 <div className="flex justify-center gap-4 mt-6">
