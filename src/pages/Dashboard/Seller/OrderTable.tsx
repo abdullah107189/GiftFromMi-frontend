@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import OrdersFilterBar from "@/components/Dashboard/Seller/Orders/OrdersFilterBar";
 import OrdersHeader from "@/components/Dashboard/Seller/Orders/OrdersHeader";
@@ -9,7 +7,7 @@ import Pagination from "@/components/Dashboard/Seller/Orders/Pagination";
 
 function OrdersPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const totalPages = Math.ceil(orders.length / itemsPerPage);
 
@@ -22,7 +20,7 @@ function OrdersPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="space-y-4">
       <OrdersHeader />
       <OrdersFilterBar />
 

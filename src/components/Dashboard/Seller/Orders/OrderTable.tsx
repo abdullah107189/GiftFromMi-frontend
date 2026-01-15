@@ -39,24 +39,32 @@ const getStatusStyles = (status: string) => {
 
 export default function OrderTable({ orders }: OrderTableProps) {
   return (
-    <div className="rounded-xl border border-gray-200 overflow-hidden mt-4">
-      <Table className="border-collapse">
-        <TableHeader className="bg-primary-50">
-          <TableRow className="border-b hover:bg-transparent ">
-            <TableHead className="font-medium text-gray-900 py-4 px-6">
+    <div className=" border border-gray-200 mt-4 rounded-2xl!">
+      <Table className="border-collapse rounded-2xl!  ">
+        <TableHeader className="bg-primary-50 rounded-2xl! ">
+          <TableRow className="border-b hover:bg-transparent rounded-t-2xl   ">
+            <TableHead className="font-medium text-gray-900 py-4 px-6 whitespace-nowrap  rounded-2xl">
               Order ID
             </TableHead>
-            <TableHead className="font-medium text-gray-900">
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap">
               Recipient
             </TableHead>
-            <TableHead className="font-medium text-gray-900">Gift</TableHead>
-            <TableHead className="font-medium text-gray-900">
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap">
+              Gift
+            </TableHead>
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap">
               Campaign
             </TableHead>
-            <TableHead className="font-medium text-gray-900">Date</TableHead>
-            <TableHead className="font-medium text-gray-900">Status</TableHead>
-            <TableHead className="font-medium text-gray-900">Amount</TableHead>
-            <TableHead className="font-medium text-gray-900 ">
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap">
+              Date
+            </TableHead>
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap">
+              Status
+            </TableHead>
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap">
+              Amount
+            </TableHead>
+            <TableHead className="font-medium text-gray-900 whitespace-nowrap rounded-2xl">
               Actions
             </TableHead>
           </TableRow>
@@ -68,11 +76,11 @@ export default function OrderTable({ orders }: OrderTableProps) {
               key={order.id}
               className="border-b border-gray-200 hover:bg-primary-50/50 last:border-0 transition-colors group"
             >
-              <TableCell className="py-5 px-6 font-medium text-gray-900">
+              <TableCell className="py-5 px-6 font-medium text-gray-900 whitespace-nowrap">
                 {order.id}
               </TableCell>
               <TableCell className="py-5">
-                <div className="flex flex-col">
+                <div className="flex flex-col min-w-[150px]">
                   <span className="text-sm font-medium text-gray-900">
                     {order.recipient}
                   </span>
@@ -81,8 +89,10 @@ export default function OrderTable({ orders }: OrderTableProps) {
                   </span>
                 </div>
               </TableCell>
-              <TableCell className="py-5 text-gray-600">{order.gift}</TableCell>
-              <TableCell className="py-5">
+              <TableCell className="py-5 text-gray-600 whitespace-nowrap">
+                {order.gift}
+              </TableCell>
+              <TableCell className="py-5 whitespace-nowrap">
                 {order.campaign ? (
                   <Badge
                     variant="outline"
@@ -94,8 +104,10 @@ export default function OrderTable({ orders }: OrderTableProps) {
                   <span className="text-gray-300">—</span>
                 )}
               </TableCell>
-              <TableCell className="py-5 text-gray-600">{order.date}</TableCell>
-              <TableCell className="py-5">
+              <TableCell className="py-5 text-gray-600 whitespace-nowrap">
+                {order.date}
+              </TableCell>
+              <TableCell className="py-5 whitespace-nowrap">
                 <Badge
                   className={cn(
                     "shadow-none border-none px-3 capitalize font-medium rounded-md",
@@ -105,10 +117,10 @@ export default function OrderTable({ orders }: OrderTableProps) {
                   {order.status}
                 </Badge>
               </TableCell>
-              <TableCell className="py-5 font-semibold text-gray-900">
+              <TableCell className="py-5 font-semibold text-gray-900 whitespace-nowrap">
                 ${order.amount.toFixed(2)}
               </TableCell>
-              <TableCell className="py-5 ">
+              <TableCell className="py-5 whitespace-nowrap">
                 <SharedDropdown
                   options={actionOptions}
                   onValueChange={(val) => console.log(val)}

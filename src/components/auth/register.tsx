@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import auth_side from "@/assets/banner_and_background/auth_side.svg";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,9 @@ const Register = () => {
     },
   });
 
+  const navigate = useNavigate();
   function onSubmit(values: z.infer<typeof formSchema>) {
+    navigate("/otp", { state: { email: values.email } });
     console.log(values);
   }
 

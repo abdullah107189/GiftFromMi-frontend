@@ -16,7 +16,7 @@ const GiftListingSection = () => {
   const PRODUCTS: IProduct[] = [
     {
       id: 1,
-      image: [p1], // Array structure as per IProduct interface
+      image: [p1], 
       title: "Chocolate With Premium Box",
       description: "Experience the Taste of True Luxury",
       price: 20,

@@ -16,6 +16,11 @@ const PricingSection = () => {
           "On-demand branded swag with no minimums",
           "Send via email, text message, or custom link",
           "Curate custom Collections of gifts and swag",
+          "Send via email, text message, or custom link",
+          "Curate custom Collections of gifts and swag",
+          "Send via email, text message, or custom link",
+          "Curate custom Collections of gifts and swag",
+          "Send via email, text message, or custom link",
         ],
       },
       {
@@ -58,7 +63,7 @@ const PricingSection = () => {
       {
         plan: "Starter",
         description: "Individual gifting occasionally",
-        price: "0",
+        price: "100",
         priceNote: "/Forever",
         buttonText: "Get started",
         footerText: "Send unlimited gifts in the U.S. and Canada",

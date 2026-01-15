@@ -1,4 +1,6 @@
-import { Link } from "react-router";
+"use client";
+
+import { Link, useLocation } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
@@ -11,10 +13,25 @@ import {
 } from "@/components/ui/input-otp";
 import { useState, useEffect } from "react";
 
+export type LocationState = {
+  email: string;
+};
+
 const OTPVerification = () => {
+  const location = useLocation();
+  const state = location.state as LocationState | null;
+  const email = state?.email;
   const [value, setValue] = useState("");
   const [timeLeft, setTimeLeft] = useState(37);
 
+  // Log email only when it changes
+  useEffect(() => {
+    if (email) {
+      console.log("email : ", email);
+    }
+  }, [email]);
+
+  // Timer effect
   useEffect(() => {
     if (timeLeft <= 0) return;
     const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
@@ -29,6 +46,10 @@ const OTPVerification = () => {
 
   const handleVerify = () => {
     console.log("Verifying OTP:", value);
+    console.log({
+      email,
+      otp: value,
+    });
   };
 
   return (
@@ -75,7 +96,7 @@ const OTPVerification = () => {
             <p className="text-gray-500">
               We have sent a verification code to email address <br />
               <span className="font-semibold text-gray-700">
-                robertjohnson@example.com
+                {email || "robertjohnson@example.com"}
               </span>
             </p>
           </div>
@@ -94,7 +115,6 @@ const OTPVerification = () => {
                     index={index}
                     className={cn(
                       "w-12 h-12 md:w-20 md:h-14 font-semibold rounded-xl! focus:ring-0 border border-gray-200 text-2xl",
-
                       index === 2 && "border-primary bg-primary/5"
                     )}
                   />

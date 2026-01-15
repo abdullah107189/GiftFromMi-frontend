@@ -27,7 +27,7 @@ const ResponsiveNavbar = () => {
     { label: "Bulk Automation", path: "/bulk-automation" },
     { label: "Contact Us", path: "/contact-us" },
   ];
-  const user = "seller";
+  const user = undefined;
   return (
     <header
       className={cn(

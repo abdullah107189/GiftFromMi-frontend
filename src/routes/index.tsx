@@ -27,6 +27,7 @@ import Campaigns from "@/pages/Dashboard/Seller/Campaigns";
 import Billing from "@/pages/Dashboard/Seller/Billing";
 import Settings from "@/pages/Dashboard/Seller/Settings";
 import Logout from "@/pages/Dashboard/Seller/Logout";
+import Recipients from "@/pages/Dashboard/Seller/Recipients";
 
 const router = createBrowserRouter([
   {
@@ -147,7 +148,7 @@ const router = createBrowserRouter([
       },
       {
         path: "recipients",
-        element: <OrdersPage></OrdersPage>,
+        element: <Recipients></Recipients>,
       },
       {
         path: "scheduling",

@@ -29,10 +29,10 @@ export default function OrdersFilterBar() {
 
   return (
     <div className="w-full bg-white p-4 rounded-2xl border border-gray-200 mt-4">
-      <div className="flex items-center justify-between ">
+      <div className="flex xl:flex-row flex-col gap-3 xl:items-center justify-between ">
         {/* Shadcn Tabs - Left Side */}
-        <Tabs defaultValue="all" className="w-auto">
-          <TabsList className="bg-transparent gap-9 h-auto p-0">
+        <Tabs defaultValue="all" className="w-auto overflow-auto">
+          <TabsList className="bg-transparent xl:gap-9 lg:gap-5 gap-3 h-auto p-0">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}

@@ -32,6 +32,7 @@ export interface IProductCategory {
   category: string;
   products: IProduct[];
 }
+
 export interface PricingPlan {
   plan: string;
   description: string;
