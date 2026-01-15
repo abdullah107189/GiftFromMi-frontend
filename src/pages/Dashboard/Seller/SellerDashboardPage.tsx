@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StatCard from "@/components/Dashboard/Seller/Dashboard/StatCard";
 import QuickActionCard from "@/components/Dashboard/Seller/Dashboard/QuickActionCard";
-import OrderTable from "@/components/Dashboard/Seller/Dashboard/OrderTable";
 import UpcomingGiftItem from "@/components/Dashboard/Seller/Dashboard/UpcomingGiftItem";
 import Chart from "@/components/Dashboard/Seller/Dashboard/Chart";
 import {
@@ -11,6 +10,7 @@ import {
   chartData,
   statCardsData,
 } from "@/data/mockData";
+import RecentOrderTable from "@/components/Dashboard/Seller/Dashboard/RecentOrderTable";
 
 export default function SellerDashboardPage() {
   return (
@@ -56,7 +56,7 @@ export default function SellerDashboardPage() {
               </p>
             </CardHeader>
             <CardContent className="p-0">
-              <OrderTable orders={orders} />
+              <RecentOrderTable orders={orders} />
             </CardContent>
           </Card>
         </div>

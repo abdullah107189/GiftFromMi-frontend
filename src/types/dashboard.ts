@@ -4,12 +4,13 @@ import type { LucideIcon } from "lucide-react";
 export interface Order {
   id: string;
   recipient: string;
+  recipientEmail: string;
   gift: string;
+  campaign?: string;
   date: string;
-  status: "delivered" | "in-transit" | "scheduled" | "pending";
+  status: "delivered" | "shipped" | "scheduled" | "pending" | "in-transit";
   amount: number;
 }
-
 export interface StatCard {
   id: string;
   title: string;

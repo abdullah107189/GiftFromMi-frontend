@@ -21,7 +21,7 @@ const ContactUsPage = lazy(() => import("@/pages/ContactUsPage"));
 import PrivetRoute from "@/routes/privates/PrivateRoute.tsx";
 import SellerDashboard from "@/components/layout/SellerDashboard";
 import SellerDashboardPage from "@/pages/Dashboard/Seller/SellerDashboardPage";
-import OrdersPage from "@/pages/Dashboard/Seller/OrdersPage";
+import OrdersPage from "@/pages/Dashboard/Seller/OrderTable";
 import Scheduling from "@/pages/Dashboard/Seller/Scheduling";
 import Campaigns from "@/pages/Dashboard/Seller/Campaigns";
 import Billing from "@/pages/Dashboard/Seller/Billing";

@@ -10,11 +10,11 @@ import { Badge } from "@/components/ui/badge";
 import type { Order } from "@/types/dashboard";
 import { MoreHorizontal } from "lucide-react";
 import SharedDropdown from "@/components/shared/SharedDropdown";
-interface OrderTableProps {
+interface RecentOrderTableProps {
   orders: Order[];
 }
 
-export default function OrderTable({ orders }: OrderTableProps) {
+export default function RecentOrderTable({ orders }: RecentOrderTableProps) {
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
       case "delivered":
