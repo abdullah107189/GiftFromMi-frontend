@@ -8,7 +8,7 @@ function SellerDashboard() {
       <SidebarProvider>
         <AppSidebar />
         <main className="w-full">
-          <SidebarTrigger className="md:hidden" />
+          <SidebarTrigger className="md:hidden w-10 border ml-2 mt-2 rounded-lg bg-primary-50 text-primary" />
           <Outlet></Outlet>
         </main>
       </SidebarProvider>
