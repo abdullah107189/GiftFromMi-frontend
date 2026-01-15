@@ -104,21 +104,25 @@ export const upcomingGifts: UpcomingGift[] = [
     recipient: "Emma Thompson",
     gift: "Birthday Gift Box",
     date: "Dec 26, 2024",
+    duration: "3 days",
   },
   {
     recipient: "Robert Smith",
     gift: "Holiday Hamper",
     date: "Dec 26, 2024",
+    duration: "3 days",
   },
   {
     recipient: "Jennifer Brown",
     gift: "Anniversary Bundle",
     date: "Dec 28, 2024",
+    duration: "3 days",
   },
   {
     recipient: "David Lee",
     gift: "Welcome Kit",
     date: "Dec 29, 2024",
+    duration: "3 days",
   },
 ];
 

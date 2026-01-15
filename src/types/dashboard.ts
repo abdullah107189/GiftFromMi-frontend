@@ -25,6 +25,7 @@ export interface UpcomingGift {
   recipient: string;
   gift: string;
   date: string;
+  duration: string;
 }
 
 export interface QuickAction {

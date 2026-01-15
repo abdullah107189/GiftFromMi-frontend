@@ -53,8 +53,8 @@ export default function SellerDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Orders */}
           <div className="lg:col-span-2">
-            <Card className="shadow-none border border-gray-200 rounded-2xl md:p-6 p-4">
-              <CardHeader className="px-0">
+            <Card className="shadow-none border border-gray-200 rounded-2xl md:p-6 p-4 ">
+              <CardHeader className="p-0">
                 <p>Recent Orders</p>
                 <p className="text-sm text-gray-700">
                   Track your latest gift orders
@@ -67,21 +67,27 @@ export default function SellerDashboardPage() {
           </div>
 
           {/* Upcoming Gifts */}
-          <div>
-            <Card>
-              <CardHeader>
+
+          <Card className="shadow-none">
+            <CardHeader className="flex items-center justify-between ">
+              <div>
                 <CardTitle>Upcoming Gifts</CardTitle>
-                <p className="text-sm text-gray-500">Scheduled deliveries</p>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {upcomingGifts.map((gift, index) => (
-                    <UpcomingGiftItem key={index} gift={gift} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                <p className="text-sm text-gray-500 mt-4">
+                  Scheduled deliveries
+                </p>
+              </div>
+              <button className="text-primary text-sm cursor-pointer">
+                View Calender
+              </button>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {upcomingGifts.map((gift, index) => (
+                  <UpcomingGiftItem key={index} gift={gift} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

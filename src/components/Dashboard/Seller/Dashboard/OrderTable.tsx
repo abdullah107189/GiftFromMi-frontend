@@ -35,8 +35,8 @@ export default function OrderTable({ orders }: OrderTableProps) {
     { label: "Cancel Order", value: "cancel" },
   ];
   return (
-    <div className="border-b">
-      <Table className="">
+    <div className="">
+      <Table className="border-collapse ">
         <TableHeader>
           <TableRow className="text-gray-700 font-medium hover:bg-primary-100">
             <TableHead className="">Order ID</TableHead>
@@ -48,14 +48,23 @@ export default function OrderTable({ orders }: OrderTableProps) {
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="gap-12 !">
+        <TableBody className="">
           {orders.map((order) => (
-            <TableRow key={order.id} className="hover:bg-primary-50">
-              <TableCell className="font-medium">{order.id}</TableCell>
-              <TableCell>{order.recipient}</TableCell>
-              <TableCell>{order.gift}</TableCell>
-              <TableCell>{order.date}</TableCell>
-              <TableCell>
+            <TableRow
+              key={order.id}
+              className="hover:bg-primary-50  border-b border-gray-200 last:border-0 transition-colors group"
+            >
+              <TableCell className="py-2 font-medium">{order.id}</TableCell>
+              <TableCell className="py-2 text-[#5C5C5C]">
+                {order.recipient}
+              </TableCell>
+              <TableCell className="py-2 text-[#5C5C5C]">
+                {order.gift}
+              </TableCell>
+              <TableCell className="py-2 text-[#5C5C5C]">
+                {order.date}
+              </TableCell>
+              <TableCell className="py-2">
                 <Badge
                   className={getStatusColor(order.status)}
                   variant="secondary"
@@ -63,8 +72,10 @@ export default function OrderTable({ orders }: OrderTableProps) {
                   {order.status}
                 </Badge>
               </TableCell>
-              <TableCell>${order.amount.toFixed(2)}</TableCell>
-              <TableCell className="text-center pr-5">
+              <TableCell className="py-2 font-semibold">
+                ${order.amount.toFixed(2)}
+              </TableCell>
+              <TableCell className="py-2 text-center">
                 <SharedDropdown
                   options={actionOptions}
                   onValueChange={(val) => console.log(val)}

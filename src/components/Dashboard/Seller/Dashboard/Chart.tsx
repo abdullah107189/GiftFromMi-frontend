@@ -33,7 +33,7 @@ export default function GiftingActivity({ data }: ChartProps) {
     },
   } satisfies ChartConfig;
   return (
-    <Card className="rounded-2xl border-none">
+    <Card className="rounded-2xl border border-gray-200 shadow-none">
       <CardHeader className="pb-0">
         <CardTitle className="text-base font-normal">
           Gifting Activity
