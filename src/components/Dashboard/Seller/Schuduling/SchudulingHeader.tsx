@@ -1,12 +1,12 @@
 import { Download, Plus } from "lucide-react";
 
-export default function RecipientsHeader() {
+export default function SchudulingHeader() {
   return (
     <div className="lg:flex w-full justify-between items-center">
       <div>
-        <h1 className="text-gray-900 leading-tight">Recipients</h1>
+        <h1 className="text-gray-900 leading-tight">Scheduling</h1>
         <p className="text-[14px] text-gray-500 mt-0.5">
-          Manage your gift recipients and contacts
+          Schedule and manage recurring gifts
         </p>
       </div>
 
@@ -23,9 +23,9 @@ export default function RecipientsHeader() {
         </button>
 
         {/* New Order Button */}
-        <button className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
+        <button className="md:mb-6 mb-4 cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
           <Plus className="w-4 h-4" />
-          <span className="text-[14px] font-medium">Add Recipient</span>
+          <span className="text-[14px] font-medium">Schedule Gift</span>
         </button>
       </div>
     </div>
