@@ -73,7 +73,7 @@ export default function SchudulTable() {
       <p className=" md:p-6 p-4  bg-white text-gray-900 text-[20px] rounded-2xl">
         Upcoming Scheduled Gifts
       </p>
-      <Table className="border-collapse bg-white">
+      <Table className="border-collapse bg-white  rounded-2xl">
         <TableHeader className="bg-primary-50">
           <TableRow className="border-b hover:bg-transparent">
             <TableHead className="font-medium text-gray-500 whitespace-nowrap pl-5">
@@ -87,17 +87,17 @@ export default function SchudulTable() {
               Date & Time
             </TableHead>
 
-            <TableHead className="font-medium text-gray-500 whitespace-nowrap rounded-2xl">
+            <TableHead className="font-medium text-gray-500 whitespace-nowrap  ">
               Type
             </TableHead>
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        <TableBody className=" ">
           {upcoming.map((order) => (
             <TableRow
               key={order.id}
-              className="border-b border-gray-200 hover:bg-primary-50/50 last:border-0 transition-colors group"
+              className="border-b border-gray-200 hover:bg-primary-50/50 last:border-0 transition-colors group rounded-b-2xl"
             >
               <TableCell className="py-5 pl-5 max-w-50">
                 <div className="flex flex-col">
