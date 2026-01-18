@@ -153,7 +153,7 @@ const CustomCalendar = ({
               onClick={() => !isOutside && onDateSelect(day.date)}
               disabled={isOutside}
               className={cn(
-                "xl:h-25 lg:h-20 rounded-[10px] md:h-15 h-10 w-full border transition-all flex flex-col items-center justify-center gap-3 text-sm",
+                "xl:h-25 lg:h-20 p-1! rounded-[10px] md:h-15 h-auto min-w-7 w-full border transition-all flex flex-col items-center justify-center md:gap-3 gap-1 text-sm",
                 isSelected &&
                   "bg-[#CA8A32] border-[#CA8A32] text-white shadow-lg",
                 !isSelected &&
@@ -174,7 +174,7 @@ const CustomCalendar = ({
                   ) : (
                     <div
                       className={cn(
-                        "h-1.5 w-1.5 rounded-full",
+                        "h-1.5 w-1.5 rounded-full ",
                         day.events[0].type === "Birthday" && "bg-[#F97316]",
                         day.events[0].type === "Holiday" && "bg-[#10B981]",
                         day.events[0].type === "Custom" && "bg-[#A855F7]",

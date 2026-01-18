@@ -111,7 +111,7 @@ export default function OrderTable({ orders }: OrderTableProps) {
                 <Badge
                   className={cn(
                     "shadow-none border-none px-3 capitalize font-medium rounded-md",
-                    getStatusStyles(order.status)
+                    getStatusStyles(order.status),
                   )}
                 >
                   {order.status}

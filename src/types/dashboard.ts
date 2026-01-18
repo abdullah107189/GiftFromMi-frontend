@@ -55,3 +55,15 @@ export interface Contact {
   initials: string;
   avatar?: string;
 }
+
+// schedul
+export type CalendarEvent = {
+  id: string;
+  recipient: string;
+  gift: string;
+  time: string;
+  date: Date;
+  type: "birthday" | "holiday" | "custom";
+  
+  initials: string;
+};

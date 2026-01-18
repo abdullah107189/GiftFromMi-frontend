@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { CalendarEvent } from "./EventDashboard";
+import type { CalendarEvent } from "@/types/dashboard";
 
 interface EventListProps {
   events: CalendarEvent[];
@@ -23,12 +23,12 @@ const EventList: FC<EventListProps> = ({ events }) => {
               {/* Avatar / Initials */}
               <div
                 className={cn(
-                  "h-8 w-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 shadow-sm",
+                  "h-8 w-8 rounded-full flex items-center justify-center text-xs shrink-0  ",
                   event.type === "birthday"
-                    ? "bg-orange-50 text-orange-600"
+                    ? "bg-[#FFEDD4] text-[#CA3500]"
                     : event.type === "holiday"
-                      ? "bg-green-50 text-green-600"
-                      : "bg-purple-50 text-purple-600",
+                      ? "bg-[#DCFCE7] text-[#008236]"
+                      : "bg-purple-50 text-purple-500",
                 )}
               >
                 {event.initials}
@@ -37,9 +37,9 @@ const EventList: FC<EventListProps> = ({ events }) => {
               {/* Event Info */}
               <div className="flex-1 space-y-1">
                 <h4 className="text-gray-900 text-sm leading-tight">
-                  {event.name}
+                  {event.recipient}
                 </h4>
-                <p className="text-gray-500 text-xs">{event.description}</p>
+                <p className="text-gray-500 text-xs">{event.gift}</p>
                 <div className="flex items-center gap-1.5 text-gray-400 pt-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -72,10 +72,9 @@ const EventList: FC<EventListProps> = ({ events }) => {
                 </div>
               </div>
 
-              {/* Badge / Type */}
               <span
                 className={cn(
-                  "px-2 py-0.5 rounded-xl text-xs",
+                  "px-2 py-0.5 rounded-md text-xs",
                   event.type === "birthday"
                     ? "bg-[#FFEDD4] text-[#CA3500]"
                     : event.type === "holiday"
@@ -89,7 +88,7 @@ const EventList: FC<EventListProps> = ({ events }) => {
 
             {/* Divider */}
             {idx !== events.length - 1 && (
-              <div className="h-px bg-gray-50 mx-4 mt-2" />
+              <div className="h-px bg-gray-100 mx-4 mt-2" />
             )}
           </div>
         ))}
