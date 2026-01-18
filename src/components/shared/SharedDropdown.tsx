@@ -42,7 +42,7 @@ export default function SharedDropdown({
             triggerIcon
               ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9"
               : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm font-medium min-w-[200px] justify-between",
-            className
+            className,
           )}
         >
           {triggerIcon ? (
@@ -75,8 +75,8 @@ export default function SharedDropdown({
                 isActive
                   ? "bg-primary-50 text-primary rounded-full font-semibold"
                   : isCancel
-                  ? "text-red-500! hover:bg-red-50! rounded-lg"
-                  : "text-[#5C5C5C] hover:bg-primary-50! rounded-lg"
+                    ? "text-red-500! hover:bg-red-50! rounded-lg"
+                    : "text-[#5C5C5C] hover:bg-primary-50! rounded-lg",
               )}
             >
               <span className="text-[14px]">{option.label}</span>
