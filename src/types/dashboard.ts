@@ -40,3 +40,18 @@ export interface ChartDataItem {
   orders: number;
   revenue: number;
 }
+
+// recipients
+export interface Contact {
+  id: number;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  address: string;
+  tags: string[];
+  giftsSent: number;
+  lastSent: string;
+  initials: string;
+  avatar?: string;
+}
