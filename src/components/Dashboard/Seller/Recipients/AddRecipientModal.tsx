@@ -26,7 +26,7 @@ interface RecipientFormData {
 const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ trigger }) => {
   const availableTags = ["VIP", "Client", "Partner", "Lead", "Active"];
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
+  const [isOpen, setIsOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -58,16 +58,18 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ trigger }) => {
     // Handle form submission here
     reset();
     setSelectedTags([]);
+    setIsOpen(false);
   };
 
   const handleCancel = () => {
     reset();
     setSelectedTags([]);
+    setIsOpen(false);
   };
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="xl:min-w-2xl w-full bg-white rounded-2xl p-10 border-none overflow-y-auto max-h-screen">
           <DialogHeader>
