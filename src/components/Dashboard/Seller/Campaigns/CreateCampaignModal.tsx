@@ -26,9 +26,9 @@ export const campaignSchema = z.object({
 
 export type CampaignFormData = z.infer<typeof campaignSchema>;
 
-export const FormLabel = ({ children, required }: { children: React.ReactNode; required?: boolean }) => (
-    <label className="block text-[14px] font-medium text-gray-700 mb-1.5">
-        {children} {required && <span className="text-red-500">*</span>}
+export const FormLabel = ({ children }: { children: React.ReactNode }) => (
+    <label className="block text-[14px] text-gray-500 mb-1.5">
+        {children}
     </label>
 );
 
@@ -60,13 +60,13 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="xl:min-w-[750px] max-h-[90vh] overflow-y-auto p-0 rounded-3xl border-none bg-white [&>button]:hidden">
                 <DialogHeader className="p-8 pb-4">
-                    <DialogTitle className="text-2xl font-semibold text-gray-900">Create Campaign</DialogTitle>
-                    <DialogDescription className="text-gray-500">Set up a new automated gift campaign</DialogDescription>
+                    <DialogTitle className="text-[20px] font-normal text-gray-900">Create Campaign</DialogTitle>
+                    <DialogDescription className="text-[14px] text-gray-500">Set up a new automated gift campaign</DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="p-8 pt-0 space-y-6">
                     <div>
-                        <FormLabel required>Campaign Name</FormLabel>
+                        <FormLabel > Campaign Name</FormLabel>
                         <Controller
                             name="name"
                             control={control}
@@ -74,7 +74,8 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                 <Input
                                     {...field}
                                     placeholder="e.g., Holiday 2024"
-                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl", errors.name && "border-red-500")}
+
+                                    className={cn("placeholder:text-gray-400 h-12 bg-gray-50 border-gray-100 rounded-xl", errors.name && "border-red-500")}
                                 />
                             )}
                         />
@@ -90,7 +91,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                 <Textarea
                                     {...field}
                                     placeholder="Describe the purpose of this campaign"
-                                    className="bg-gray-50 border-gray-100 rounded-xl min-h-[100px]"
+                                    className="placeholder:text-gray-400 bg-gray-50 border-gray-100 rounded-xl min-h-[100px]"
                                 />
                             )}
                         />
@@ -99,7 +100,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                     <div className="grid grid-cols-2 gap-4">
                         {/* Start Date with Shadcn Calendar */}
                         <div>
-                            <FormLabel required>Start Date</FormLabel>
+                            <FormLabel >Start Date</FormLabel>
                             <Controller
                                 name="startDate"
                                 control={control}
@@ -134,7 +135,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                         </div>
 
                         <div>
-                            <FormLabel required>Status</FormLabel>
+                            <FormLabel >Status</FormLabel>
                             <Controller
                                 name="status"
                                 control={control}
@@ -147,7 +148,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                         ]}
                                         selectedValue={field.value}
                                         onValueChange={field.onChange}
-                                        className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.status && "border-red-500")}
+                                        className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.status && "border-red-500", !field.value && "text-gray-400")}
                                     />
                                 )}
                             />
@@ -155,7 +156,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                     </div>
 
                     <div>
-                        <FormLabel required>Recipients</FormLabel>
+                        <FormLabel >Recipients</FormLabel>
                         <Controller
                             name="recipients"
                             control={control}
@@ -170,7 +171,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                     ]}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
-                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.recipients && "border-red-500")}
+                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.recipients && "border-red-500", !field.value && "text-gray-400")}
                                 />
                             )}
                         />
@@ -178,7 +179,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                     </div>
 
                     <div>
-                        <FormLabel required>Gift</FormLabel>
+                        <FormLabel >Gift</FormLabel>
                         <Controller
                             name="gift"
                             control={control}
@@ -192,7 +193,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                     ]}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
-                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.gift && "border-red-500")}
+                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.gift && "border-red-500", !field.value && "text-gray-400")}
                                 />
                             )}
                         />
@@ -200,7 +201,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                     </div>
 
                     <div>
-                        <FormLabel required>Trigger</FormLabel>
+                        <FormLabel >Trigger</FormLabel>
                         <Controller
                             name="trigger"
                             control={control}
@@ -214,24 +215,24 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                     ]}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
-                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.trigger && "border-red-500")}
+                                    className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.trigger && "border-red-500", !field.value && "text-gray-400")}
                                 />
                             )}
                         />
                         {errors.trigger && <p className="text-xs text-red-500 mt-1">{errors.trigger.message}</p>}
                     </div>
 
-                    <div className="bg-[#F9F5FF] p-4 rounded-xl">
-                        <p className="text-xs text-[#7F56D9]">
+                    <div className="bg-[#FAF5FF] p-4 rounded-lg">
+                        <p className="text-xs text-[#4A5565]">
                             You can edit campaign details and pause/resume campaigns at any time from the Campaigns page.
                         </p>
                     </div>
 
                     <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
-                        <Button type="button" onClick={onClose} variant="accent" className="h-12 px-8">
+                        <Button type="button" onClick={onClose} variant="accent" >
                             Cancel
                         </Button>
-                        <Button type="submit" variant="secondary" className="h-12 px-8">
+                        <Button type="submit" variant="secondary" >
                             Create Campaign
                         </Button>
                     </div>
