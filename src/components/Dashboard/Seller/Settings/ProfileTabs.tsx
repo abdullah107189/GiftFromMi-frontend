@@ -1,10 +1,13 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import ProfileSettingsForm from "./ProfileSettingsForm";
+import SecuritySettingsForm from "./SecuritySettingsForm";
+import DangerZone from "./DangerZone";
 
 export const ProfileTabs = () => {
   return (
     <Tabs defaultValue="profile" className="w-full">
       <TabsList className="bg-white rounded-2xl py-2 px-6 w-full h-auto flex gap-2 border border-gray-200  ">
-        <div className="flex items-start justify-start mr-auto md:gap-4 gap-2">
+        <div className="flex items-start justify-sta4t mr-auto md:gap-4 gap-2">
           {/* Profile Tab */}
           <TabsTrigger
             value="profile"
@@ -75,12 +78,15 @@ export const ProfileTabs = () => {
         </div>
       </TabsList>
 
-      <TabsContent value="profile" className="mt-6 focus-visible:outline-none">
-        <div className="text-gray-600">Profile Content Area</div>
+      <TabsContent value="profile" className="mt-4 focus-visible:outline-none">
+        <div className="bg-white md:p-6 p-4 rounded-2xl border border-gray-300">
+          <ProfileSettingsForm></ProfileSettingsForm>
+        </div>
       </TabsContent>
 
-      <TabsContent value="security" className="mt-6 focus-visible:outline-none">
-        <div className="text-gray-600">Security Content Area</div>
+      <TabsContent value="security" className="mt-4 focus-visible:outline-none">
+        <SecuritySettingsForm></SecuritySettingsForm>
+        <DangerZone></DangerZone>
       </TabsContent>
     </Tabs>
   );
