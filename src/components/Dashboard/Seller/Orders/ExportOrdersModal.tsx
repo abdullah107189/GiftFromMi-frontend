@@ -51,8 +51,14 @@ export default function ExportOrdersModal({ isOpen, onClose }: ExportOrdersModal
             <DialogContent className="xl:min-w-[600px] w-full p-0 rounded-2xl border-none shadow-lg bg-white">
 
                 <DialogHeader className="md:mb-6 mb-4 border-b border-gray-200">
-                    <DialogTitle className="xl:p-6 p-4 font-normal text-gray-900">
-                        Export Orders
+                    <DialogTitle className="xl:p-6 p-4 font-normal text-gray-900 flex items-center justify-between">
+                        <p>Export Orders</p>
+                        <button onClick={onClose} className="cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M15 5L5 15" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M5 5L15 15" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
                     </DialogTitle>
 
                     <DialogDescription className="sr-only">
