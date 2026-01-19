@@ -1,8 +1,7 @@
-import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Calendar as CalendarIcon, Clock, Package, Bell, Info } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -12,7 +11,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import SharedDropdown from "@/components/shared/SharedDropdown";
 import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 const scheduleSchema = z.object({
@@ -74,7 +72,6 @@ export default function ScheduleGiftModal({ isOpen, onClose }: ScheduleGiftModal
         }
     });
 
-    const isRecurring = watch("isRecurring");
     const selectedOccasion = watch("occasion");
 
     const onSubmit = (data: ScheduleFormData) => {
@@ -295,14 +292,14 @@ export default function ScheduleGiftModal({ isOpen, onClose }: ScheduleGiftModal
 
                     <div className="flex items-center justify-end gap-3 md:p-6">
                         <Button type="button" onClick={onClose} variant="accent">
-                        Cancel
-                    </Button>
-                    <Button type="submit" variant={"secondary"}>
-                        Schedule Gift
-                    </Button>
-                </div>
-            </form>
-        </DialogContent>
+                            Cancel
+                        </Button>
+                        <Button type="submit" variant={"secondary"}>
+                            Schedule Gift
+                        </Button>
+                    </div>
+                </form>
+            </DialogContent>
         </Dialog >
     );
 }

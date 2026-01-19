@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Upload, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import Dropzone from "react-dropzone";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -35,7 +35,7 @@ export default function ImportRecipientsModal({ isOpen, onClose }: { isOpen: boo
                     <Controller
                         name="file"
                         control={control}
-                        render={({ field }) => (
+                        render={() => (
                             <Dropzone
                                 onDrop={(acceptedFiles) => {
                                     const file = acceptedFiles[0];
@@ -122,7 +122,7 @@ export default function ImportRecipientsModal({ isOpen, onClose }: { isOpen: boo
                         <Button
                             type="submit"
                             variant="secondary"
-                            
+
                         >
                             Import Recipients
                         </Button>

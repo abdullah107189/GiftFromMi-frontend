@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import AddRecipientModal from "@/components/Dashboard/Seller/Recipients/AddRecipientModal";
 import RecipientCard from "@/components/Dashboard/Seller/Recipients/RecipientCard";
 import RecipientsHeader from "@/components/Dashboard/Seller/Recipients/RecipientsHeader";

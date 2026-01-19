@@ -2,8 +2,8 @@
 
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Image } from "@radix-ui/react-avatar";
 import { ImageIcon, XCircleIcon } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 

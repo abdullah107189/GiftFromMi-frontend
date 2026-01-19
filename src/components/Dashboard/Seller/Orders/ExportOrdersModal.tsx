@@ -116,7 +116,7 @@ export default function ExportOrdersModal({ isOpen, onClose }: ExportOrdersModal
                     </div>
 
                 </form>
-                <div className="flex items-center justify-end gap-3 border-t xl:p-[24px]">
+                <div className="flex items-center justify-end gap-3 border-t xl:p-[24px] p-4">
                     <Button
                         variant={"accent"}
                         type="button"
