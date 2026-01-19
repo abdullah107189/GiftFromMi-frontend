@@ -1,6 +1,9 @@
 import { Download, Plus } from "lucide-react";
+import { useState } from "react";
+import ImportRecipientsModal from "./ImportRecipientsModal";
 
 export default function RecipientsHeader() {
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   return (
     <div className="lg:flex w-full justify-between items-center">
       <div>
@@ -13,6 +16,9 @@ export default function RecipientsHeader() {
       <div className="flex items-center gap-3 mt-3 lg:mt-0">
         {/* Export Button */}
         <button
+          onClick={() => {
+            setIsImportModalOpen(true);
+          }}
           className="cursor-pointer flex  p-2.5 justify-center items-center gap-3 rounded-xl border border-gray-200
           hover:bg-gray-50 transition-colors"
         >
@@ -21,6 +27,12 @@ export default function RecipientsHeader() {
             Import CSV
           </span>
         </button>
+        {isImportModalOpen && (
+          <ImportRecipientsModal
+            isOpen={isImportModalOpen}
+            onClose={() => setIsImportModalOpen(false)}
+          />
+        )}
 
         {/* New Order Button */}
         <button className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
