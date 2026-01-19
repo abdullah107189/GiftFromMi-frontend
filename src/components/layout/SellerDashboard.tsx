@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import { AppSidebar } from "../app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
-import { DashboardHeader } from "../Dashboard/Seller/Dashboard/DashboardHeader";
+import { DashboardHeader } from "../Dashboard/Seller/DashboardHeader";
 
 function SellerDashboard() {
   return (

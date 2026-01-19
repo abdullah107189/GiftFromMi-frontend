@@ -3,7 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import p1 from "@/assets/person/p1.jpg";
+import NewOrderModal from "./NewOrderModal";
+import { useState } from "react";
 export const DashboardHeader = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="flex h-20 items-center justify-between px-4 xl:px-0 gap-5">
       {/* Search Bar */}
@@ -42,7 +45,7 @@ export const DashboardHeader = () => {
       {/* Right Side Actions */}
       <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
         {/* New Order Button */}
-        <Button className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6 md:h-10 h-9! xl:h-11 flex gap-2 font-medium">
+        <Button className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6 md:h-10 h-9! xl:h-11 flex gap-2 font-medium" onClick={() => setIsOpen(true)}>
           <Plus className="size-5" />
           <span className="hidden md:inline">New Order</span>
         </Button>
@@ -66,6 +69,7 @@ export const DashboardHeader = () => {
           </span>
         </div>
       </div>
+      <NewOrderModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </header>
   );
 };

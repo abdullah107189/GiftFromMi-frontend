@@ -19,7 +19,7 @@ interface SharedDropdownProps {
   onValueChange: (value: string) => void;
   placeholder?: string;
   className?: string;
-  triggerIcon?: React.ReactNode; // শুধুমাত্র আইকন দেখানোর জন্য
+  triggerIcon?: React.ReactNode;
 }
 
 export default function SharedDropdown({
