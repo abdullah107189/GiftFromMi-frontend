@@ -1,8 +1,13 @@
-import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CalendarIcon, Users, Gift, Megaphone, ChevronDown } from "lucide-react";
+import {
+    CalendarIcon,
+    Users,
+    Gift,
+    Megaphone,
+    ChevronDown,
+} from "lucide-react";
 import { format } from "date-fns";
 
 import {
@@ -36,6 +41,24 @@ interface NewOrderModalProps {
     onClose: () => void;
 }
 
+const recipientOptions = [
+    { label: "Sara Jonson", value: "sara_jonson" },
+    { label: "Jon Merry", value: "jon_merry" },
+    { label: "Pitter kerry", value: "pitter_kerry" },
+];
+
+const giftOptions = [
+    { label: "Birthday Gift Box", value: "birthday_gift_box" },
+    { label: "Holiday Hamper", value: "holiday_hamper" },
+    { label: "welcome kit", value: "welcome_kit" },
+    { label: "Thank you bundle", value: "thank_you_bundle" },
+];
+
+const campaignOptions = [
+    { label: "Holiday 2024", value: "holiday_2024" },
+    { label: "New Client welcome", value: "new_client_welcome" },
+];
+
 export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
     const {
         handleSubmit,
@@ -54,10 +77,11 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
     };
 
     return (
+
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-[600px] p-8 rounded-[24px] border-none shadow-lg bg-white">
+            <DialogContent className="xl:min-w-[600px] w-full md:p-8 p-4 rounded-2xl border-none shadow-lg bg-white ">
                 <DialogHeader className="mb-6 text-left">
-                    <DialogTitle className="text-[22px] font-semibold text-gray-900">
+                    <DialogTitle className="text-[20px] font-normal text-gray-900">
                         New Order
                     </DialogTitle>
                 </DialogHeader>
@@ -65,7 +89,9 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     {/* Delivery Date with Shadcn Calendar */}
                     <div className="space-y-2">
-                        <Label className="text-gray-500 font-normal text-sm">Delivery Date</Label>
+                        <Label className="text-gray-500 font-normal text-sm">
+                            Delivery Date
+                        </Label>
                         <Controller
                             name="deliveryDate"
                             control={control}
@@ -75,53 +101,62 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
                                         <button
                                             type="button"
                                             className={cn(
-                                                "flex items-center w-full h-14 bg-[#F8F9FB] border-none rounded-xl px-4 text-sm transition-all outline-none",
-                                                !field.value ? "text-gray-400" : "text-gray-900"
+                                                "flex items-center w-full  h-10 bg-gray-50 border-none rounded-xl px-4 text-sm transition-all outline-none",
+                                                !field.value ? "text-gray-400" : "text-gray-900",
                                             )}
                                         >
                                             <CalendarIcon className="w-5 h-5 mr-3 text-gray-400" />
-                                            {field.value ? format(field.value, "PPP") : <span>Select date</span>}
+                                            {field.value ? (
+                                                format(field.value, "PPP")
+                                            ) : (
+                                                <span>Select date</span>
+                                            )}
                                             <ChevronDown className="ml-auto h-4 w-4 text-gray-400" />
                                         </button>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0 rounded-xl shadow-xl border-gray-100" align="start">
+                                    <PopoverContent
+                                        className="w-auto p-0 rounded-xl shadow-xl border-gray-100"
+                                        align="start"
+                                    >
                                         <Calendar
                                             mode="single"
                                             selected={field.value}
                                             onSelect={field.onChange}
-                                            disabled={(date) => date < new Date() && date.toDateString() !== new Date().toDateString()}
-                                            className="rounded-xl border-none"
+                                            className="rounded-xl border-none "
                                         />
                                     </PopoverContent>
                                 </Popover>
                             )}
                         />
                         {errors.deliveryDate && (
-                            <p className="text-xs text-red-500">{errors.deliveryDate.message}</p>
+                            <p className="text-xs text-red-500">
+                                {errors.deliveryDate.message}
+                            </p>
                         )}
                     </div>
 
                     {/* Recipient - Using your SharedDropdown */}
                     <div className="space-y-2">
-                        <Label className="text-gray-500 font-normal text-sm">Recipient</Label>
+                        <Label className="text-gray-500 font-normal text-sm">
+                            Recipient
+                        </Label>
                         <Controller
                             name="recipient"
                             control={control}
                             render={({ field }) => (
                                 <SharedDropdown
-                                    options={[
-                                        { label: "Sara Jonsom", value: "sara" },
-                                        { label: "John Doe", value: "john" },
-                                    ]}
+                                    options={recipientOptions}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
                                     placeholder="Select recipient"
-                                    className="w-full h-14 bg-[#F8F9FB] border-none rounded-xl px-4 text-gray-400"
+                                    className="w-full  h-10 bg-gray-50 border-none rounded-xl px-4 text-gray-400"
                                     triggerIcon={<Users className="w-5 h-5 text-gray-400" />}
                                 />
                             )}
                         />
-                        {errors.recipient && <p className="text-xs text-red-500">{errors.recipient.message}</p>}
+                        {errors.recipient && (
+                            <p className="text-xs text-red-500">{errors.recipient.message}</p>
+                        )}
                     </div>
 
                     {/* Gift - Using your SharedDropdown */}
@@ -132,37 +167,35 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
                             control={control}
                             render={({ field }) => (
                                 <SharedDropdown
-                                    options={[
-                                        { label: "Premium Gift Box", value: "premium_box" },
-                                        { label: "Silver Package", value: "silver_pkg" },
-                                    ]}
+                                    options={giftOptions}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
                                     placeholder="Select Gift"
-                                    className="w-full h-14 bg-[#F8F9FB] border-none rounded-xl px-4 text-gray-400"
+                                    className="w-full  h-10 bg-gray-50 border-none rounded-xl px-4 text-gray-400"
                                     triggerIcon={<Gift className="w-5 h-5 text-gray-400" />}
                                 />
                             )}
                         />
-                        {errors.gift && <p className="text-xs text-red-500">{errors.gift.message}</p>}
+                        {errors.gift && (
+                            <p className="text-xs text-red-500">{errors.gift.message}</p>
+                        )}
                     </div>
 
                     {/* Campaign - Using your SharedDropdown */}
                     <div className="space-y-2">
-                        <Label className="text-gray-500 font-normal text-sm">Campaign</Label>
+                        <Label className="text-gray-500 font-normal text-sm">
+                            Campaign
+                        </Label>
                         <Controller
                             name="campaign"
                             control={control}
                             render={({ field }) => (
                                 <SharedDropdown
-                                    options={[
-                                        { label: "Eid Campaign", value: "eid" },
-                                        { label: "New Year Sale", value: "newyear" },
-                                    ]}
+                                    options={campaignOptions}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
                                     placeholder="Optional"
-                                    className="w-full h-14 bg-[#F8F9FB] border-none rounded-xl px-4 text-gray-400"
+                                    className="w-full  h-10 bg-gray-50 border-none rounded-xl px-4 text-gray-400"
                                     triggerIcon={<Megaphone className="w-5 h-5 text-gray-400" />}
                                 />
                             )}
@@ -170,22 +203,16 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
                     </div>
 
                     <div className="flex items-center justify-end gap-3 mt-8">
-                        <Button
-                            type="button"
-                            onClick={onClose}
-                            className="px-8 h-12 rounded-xl text-[#B37E33] bg-[#FDF8F0] hover:bg-[#F3E8D6] font-semibold border-none shadow-none"
-                        >
+                        <Button variant={"accent"} type="button" onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button
-                            type="submit"
-                            className="px-8 h-12 rounded-xl bg-[#B37E33] hover:bg-[#96682A] text-white font-semibold shadow-none border-none"
-                        >
+                        <Button variant={"secondary"} type="submit">
                             Create Order
                         </Button>
                     </div>
                 </form>
             </DialogContent>
         </Dialog>
+
     );
 }

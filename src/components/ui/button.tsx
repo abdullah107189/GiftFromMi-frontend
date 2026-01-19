@@ -16,9 +16,11 @@ const buttonVariants = cva(
         outline:
           "border bg-transparent shadow-xs hover:bg-primary hover:text-gray-50 dark:bg-input/30 dark:border-input dark:hover:bg-input/50  py-4! px-8! h-auto! rounded-xl border-primary text-primary hover:text-gray-100",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-primary text-primary-foreground rounded-lg px-6 py-3",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+          "hover:bg-primary-50 hover:text-accent-foreground dark:hover:bg-accent/50",
+        accent:
+          "bg-primary-50 text-primary rounded-lg px-6 py-3 border border-gray-200",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
@@ -38,7 +40,7 @@ const buttonVariants = cva(
 );
 interface ButtonProps
   extends React.ComponentProps<"button">,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   showIcon?: boolean; // Controls the visibility of the internal icon
 }

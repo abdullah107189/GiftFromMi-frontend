@@ -23,7 +23,8 @@
   --radius-lg: 8px;
   --radius-xl: 12px;
   --radius-2xl: 16px;
-  --radius-3xl: 24px; /* Official Tailwind 3xl */
+  --radius-3xl: 24px;
+  /* Official Tailwind 3xl */
   --radius-4xl: 32px;
 
   /* Color Mappings */
@@ -94,7 +95,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: #1e2939;
   --primary: #ca8a32;
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: #fff;
   --secondary: #6a7282;
   --secondary-foreground: #c57200;
   --muted: #6a7282;
@@ -112,10 +113,10 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
+  --sidebar: #fff;
   --sidebar-foreground: #1e2939;
   --sidebar-primary: #c57200;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary-foreground: #fff;
   --sidebar-accent: #6a7282;
   --sidebar-accent-foreground: #c57200;
   --sidebar-border: oklch(0.922 0 0);
@@ -124,19 +125,19 @@
 
 .dark {
   --background: #1e2939;
-  --foreground: oklch(0.985 0 0);
+  --foreground: #fff;
   --card: #c57200;
-  --card-foreground: oklch(0.985 0 0);
+  --card-foreground: #fff;
   --popover: #c57200;
-  --popover-foreground: oklch(0.985 0 0);
+  --popover-foreground: #fff;
   --primary: oklch(0.922 0 0);
   --primary-foreground: #c57200;
   --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: #fff;
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent-foreground: #fff;
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
@@ -155,9 +156,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     font-family: "Inter", sans-serif;
   }
+
   body {
     @apply bg-background text-foreground;
   }

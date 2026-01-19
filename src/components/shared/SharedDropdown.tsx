@@ -20,6 +20,7 @@ interface SharedDropdownProps {
   placeholder?: string;
   className?: string;
   triggerIcon?: React.ReactNode;
+  showText?: boolean;
 }
 
 export default function SharedDropdown({
@@ -29,30 +30,38 @@ export default function SharedDropdown({
   placeholder = "Select Option",
   className,
   triggerIcon,
+  showText = true,
 }: SharedDropdownProps) {
   const selectedLabel =
     options.find((opt) => opt.value === selectedValue)?.label || placeholder;
+
+  const hasIcon = !!triggerIcon;
+  const hasText = showText;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "flex items-center justify-center outline-none transition-all cursor-pointer",
-            triggerIcon
-              ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9"
-              : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm font-medium min-w-[200px] justify-between",
-            className,
+            "flex items-center outline-none transition-all cursor-pointer",
+            hasIcon && hasText
+              ? "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm w-full justify-start gap-3"
+              : hasIcon
+                ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9 justify-center"
+                : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm min-w-[200px] justify-between",
+            className
           )}
         >
-          {triggerIcon ? (
-            <div className="flex items-center justify-center">
+          {hasIcon && (
+            <div className="flex items-center justify-center shrink-0">
               {triggerIcon}
             </div>
-          ) : (
+          )}
+
+          {hasText && (
             <>
               <span className="truncate">{selectedLabel}</span>
-              <ChevronDown className="ml-2 h-4 w-4 opacity-50 shrink-0" />
+              <ChevronDown className="ml-auto h-4 w-4 opacity-50 shrink-0" />
             </>
           )}
         </button>
@@ -60,7 +69,7 @@ export default function SharedDropdown({
 
       <DropdownMenuContent
         align="end"
-        className=" p-2 bg-white rounded-2xl shadow-none border border-gray-100"
+        className="p-2 bg-white rounded-2xl shadow-none border border-gray-100"
       >
         {options.map((option) => {
           const isActive = selectedValue === option.value;
@@ -73,7 +82,7 @@ export default function SharedDropdown({
               className={cn(
                 "flex items-center justify-between hover:bg-primary-50! px-4 py-2 my-1 cursor-pointer outline-none transition-colors",
                 isActive
-                  ? "bg-primary-50 text-primary rounded-full font-semibold"
+                  ? "bg-primary-50 text-primary rounded-full"
                   : isCancel
                     ? "text-red-500! hover:bg-red-50! rounded-lg"
                     : "text-[#5C5C5C] hover:bg-primary-50! rounded-lg",
