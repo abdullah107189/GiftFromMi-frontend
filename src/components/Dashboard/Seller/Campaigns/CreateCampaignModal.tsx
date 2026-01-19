@@ -31,8 +31,40 @@ export const FormLabel = ({ children }: { children: React.ReactNode }) => (
         {children}
     </label>
 );
+export const STATUS_OPTIONS = [
+    { label: "Active", value: "active" },
+    { label: "Paused", value: "paused" },
+];
 
+export const RECIPIENT_OPTIONS = [
+    { label: "All recipients", value: "all_recipients" },
+    { label: "VIP clients", value: "vip_clients" },
+    { label: "All clients", value: "all_clients" },
+    { label: "Partners", value: "partners" },
+    { label: "Leads", value: "leads" },
+    { label: "Custom Group", value: "custom_group" },
+];
+
+export const GIFT_OPTIONS = [
+    { label: "Birthday Gift Box", value: "birthday_gift_box" },
+    { label: "Holiday Hamper", value: "holiday_hamper" },
+    { label: "Welcome kit", value: "welcome_kit" },
+    { label: "Thank you bundle", value: "thank_you_bundle" },
+];
+
+export const TRIGGER_OPTIONS = [
+    { label: "Scheduled-Send on specific date.", value: "scheduled_send" },
+    { label: "On birthday.", value: "on_birthday" },
+    { label: "Milestone Achieved.", value: "milestone_achieved" },
+];
+
+export const EXPORT_FORMAT_OPTIONS = [
+    { label: "CSV", value: "csv" },
+    { label: "Excel", value: "excel" },
+    { label: "Pdf", value: "pdf" },
+];
 export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+
     const {
         control,
         handleSubmit,
@@ -141,11 +173,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                 control={control}
                                 render={({ field }) => (
                                     <SharedDropdown
-                                        options={[
-                                            { label: "Active", value: "active" },
-                                            { label: "Draft", value: "draft" },
-                                            { label: "Paused", value: "paused" },
-                                        ]}
+                                        options={STATUS_OPTIONS}
                                         selectedValue={field.value}
                                         onValueChange={field.onChange}
                                         className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.status && "border-red-500", !field.value && "text-gray-400")}
@@ -164,11 +192,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                 <SharedDropdown
                                     triggerIcon={<Users className="h-5 w-5" />}
                                     placeholder="Select recipient group"
-                                    options={[
-                                        { label: "All recipients", value: "all" },
-                                        { label: "VIP clients", value: "vip" },
-                                        { label: "Custom Group", value: "custom" },
-                                    ]}
+                                    options={RECIPIENT_OPTIONS}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
                                     className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.recipients && "border-red-500", !field.value && "text-gray-400")}
@@ -187,10 +211,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                 <SharedDropdown
                                     triggerIcon={<Gift className="h-5 w-5" />}
                                     placeholder="Select gift to send"
-                                    options={[
-                                        { label: "Holiday Hamper", value: "hamper" },
-                                        { label: "Birthday Gift Box", value: "birthday_box" },
-                                    ]}
+                                    options={GIFT_OPTIONS}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
                                     className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.gift && "border-red-500", !field.value && "text-gray-400")}
@@ -209,10 +230,7 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
                                 <SharedDropdown
                                     triggerIcon={<Zap className="h-5 w-5" />}
                                     placeholder="Select campaign trigger"
-                                    options={[
-                                        { label: "On birthday", value: "birthday" },
-                                        { label: "Milestone Achieved", value: "milestone" },
-                                    ]}
+                                    options={TRIGGER_OPTIONS}
                                     selectedValue={field.value}
                                     onValueChange={field.onChange}
                                     className={cn("h-12 bg-gray-50 border-gray-100 rounded-xl w-full", errors.trigger && "border-red-500", !field.value && "text-gray-400")}
