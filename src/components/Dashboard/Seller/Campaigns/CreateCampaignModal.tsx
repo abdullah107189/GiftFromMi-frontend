@@ -59,12 +59,12 @@ export default function CreateCampaignModal({ isOpen, onClose }: { isOpen: boole
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="xl:min-w-[750px] max-h-[90vh] overflow-y-auto p-0 rounded-3xl border-none bg-white [&>button]:hidden">
-                <DialogHeader className="p-8 pb-4">
+                <DialogHeader className="md:p-8 p-4 pb-4">
                     <DialogTitle className="text-[20px] font-normal text-gray-900">Create Campaign</DialogTitle>
                     <DialogDescription className="text-[14px] text-gray-500">Set up a new automated gift campaign</DialogDescription>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="p-8 pt-0 space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="xl:p-8 md:p-6 p-4 pt-0 space-y-6">
                     <div>
                         <FormLabel > Campaign Name</FormLabel>
                         <Controller

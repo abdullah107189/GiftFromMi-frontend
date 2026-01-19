@@ -41,7 +41,7 @@ export const PlanCard = ({
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between md:gap-6 gap-4 pt-4 md:min-w-1/2 mr-auto">
+      <div className="flex flex-col md:flex-row justify-between md:gap-6 gap-4 pt-4 md:min-w-1/2 w-full mr-auto">
         <div className="w-full">
           <div className="flex flex-col gap-2 text-sm mb-2">
             <span className="text-gray-700 text-sm">Monthly Limit</span>
