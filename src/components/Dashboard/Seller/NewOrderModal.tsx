@@ -79,7 +79,7 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
     return (
 
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="xl:min-w-[600px] w-full md:p-8 p-4 rounded-2xl border-none shadow-lg bg-white ">
+            <DialogContent className="xl:min-w-[660px] w-full md:p-8 p-4 rounded-2xl border-none shadow-lg bg-white ">
                 <DialogHeader className="mb-6 text-left">
                     <DialogTitle className="text-[20px] font-normal text-gray-900">
                         New Order

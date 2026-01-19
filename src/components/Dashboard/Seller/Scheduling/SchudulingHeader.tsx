@@ -1,6 +1,9 @@
 import { Plus } from "lucide-react";
+import ScheduleGiftModal from "./ScheduleGiftModal";
+import { useState } from "react";
 
 export default function SchudulingHeader() {
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   return (
     <div className="lg:flex w-full justify-between items-center">
       <div>
@@ -12,10 +15,11 @@ export default function SchudulingHeader() {
 
       <div className="flex items-center gap-3 mt-3 lg:mt-0">
         {/* New Order Button */}
-        <button className="md:mb-6 mb-4 cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
+        <button onClick={() => setIsScheduleModalOpen(true)} className="md:mb-6 mb-4 cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
           <Plus className="w-4 h-4" />
           <span className="text-[14px] font-medium">Schedule Gift</span>
         </button>
+        <ScheduleGiftModal isOpen={isScheduleModalOpen} onClose={() => setIsScheduleModalOpen(false)} />
       </div>
     </div>
   );
