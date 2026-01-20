@@ -50,9 +50,4 @@ export const sellerSideBar: SidebarItem[] = [
     url: "/dashboard/settings",
     icon: Settings,
   },
-  {
-    title: "Logout",
-    url: "/dashboard/logout",
-    icon: LogOut,
-  },
 ];

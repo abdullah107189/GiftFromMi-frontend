@@ -13,7 +13,7 @@ const HomePage = lazy(() => import("@/pages/HomePage"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
 const ShopGiftsPage = lazy(() => import("@/pages/ShopGiftsPage"));
 const ProductDetails = lazy(
-  () => import("@/components/shop-gifts/ProductDetails/ProductDetails")
+  () => import("@/components/shop-gifts/ProductDetails/ProductDetails"),
 );
 const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
 const BulkAutomationPage = lazy(() => import("@/pages/BulkAutomationPage"));
@@ -26,7 +26,6 @@ import Scheduling from "@/pages/Dashboard/Seller/Scheduling";
 import Campaigns from "@/pages/Dashboard/Seller/Campaigns";
 import Billing from "@/pages/Dashboard/Seller/Billing";
 import Settings from "@/pages/Dashboard/Seller/Settings";
-import Logout from "@/pages/Dashboard/Seller/Logout";
 import Recipients from "@/pages/Dashboard/Seller/Recipients";
 import CheckoutPage from "@/pages/CheckoutPage";
 
@@ -158,10 +157,6 @@ const router = createBrowserRouter([
       {
         path: "settings",
         element: <Settings></Settings>,
-      },
-      {
-        path: "logout",
-        element: <Logout></Logout>,
       },
 
       // customer dahsboard

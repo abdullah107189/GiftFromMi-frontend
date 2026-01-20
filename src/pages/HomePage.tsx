@@ -1,10 +1,10 @@
-import FAQ from "@/components/home/FAQ";
-import FeatureSection from "@/components/home/FeatureSection";
-import FeedbackSection from "@/components/home/FeedbackSection";
-import GiftCollection from "@/components/home/GiftCollection";
-import HeroSection from "@/components/home/HeroSection";
-import HowItWorks from "@/components/home/HowItWorks";
-import OccasionGallery from "@/components/home/OccasionGallery";
+import FAQ from "@/components/Home/FAQ";
+import FeatureSection from "@/components/Home/FeatureSection";
+import FeedbackSection from "@/components/Home/FeedbackSection";
+import GiftCollection from "@/components/Home/GiftCollection";
+import HeroSection from "@/components/Home/HeroSection";
+import HowItWorks from "@/components/Home/HowItWorks";
+import OccasionGallery from "@/components/Home/OccasionGallery";
 
 function HomePage() {
   return (

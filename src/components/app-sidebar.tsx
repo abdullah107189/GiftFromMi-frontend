@@ -11,10 +11,17 @@ import logo from "@/assets/icons/logo2.png";
 import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 import { SetupProgress } from "./Dashboard/Seller/Dashboard/SetupProgress";
+import { LogOut } from "lucide-react";
+import LogoutModal from "./shared/Modal/LogoutModal";
+import { useState } from "react";
 
 export function AppSidebar() {
   const { pathname } = useLocation();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const handleLogoutAction = () => {
+    console.log("Logged out successfully");
+  };
   return (
     <Sidebar className="border-none! xl:w-87.5 md:w-70 sticky top-0">
       {/* Sidebar Header with Logo */}
@@ -38,14 +45,14 @@ export function AppSidebar() {
                     "flex items-center justify-start gap-3 px-3 py-4 xl:h-10 text-white transition-all duration-200 rounded-[10px]",
                     isActive
                       ? "bg-primary hover:bg-[#C88628] hover:text-white"
-                      : "hover:bg-white/10 hover:text-white"
+                      : "hover:bg-white/10 hover:text-white",
                   )}
                 >
                   <Link to={item.url}>
                     <item.icon
                       className={cn(
                         "size-5",
-                        isActive ? "text-white" : "text-white/80"
+                        isActive ? "text-white" : "text-white/80",
                       )}
                     />
                     <span className="font-medium">{item.title}</span>
@@ -54,6 +61,25 @@ export function AppSidebar() {
               </SidebarMenuItem>
             );
           })}
+          <SidebarMenuItem key={"Logout"}>
+            <SidebarMenuButton
+              asChild
+              className={cn(
+                "flex items-center justify-start gap-3 px-3 py-4 xl:h-10 text-white transition-all duration-200 rounded-[10px]",
+                "hover:bg-white/10 hover:text-white",
+              )}
+            >
+              <button onClick={() => setIsOpen(true)}>
+                <LogOut className={cn("size-5", "text-white/80")} />
+                <span className="font-medium">Logout</span>
+              </button>
+            </SidebarMenuButton>
+            <LogoutModal
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+              onConfirm={handleLogoutAction}
+            />
+          </SidebarMenuItem>
           <SetupProgress
             className="xl:mt-25 md:mt-20 mt-12.5 mb-6"
             percentage={30}
