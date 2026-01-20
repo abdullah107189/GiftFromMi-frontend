@@ -28,6 +28,7 @@ import Billing from "@/pages/Dashboard/Seller/Billing";
 import Settings from "@/pages/Dashboard/Seller/Settings";
 import Logout from "@/pages/Dashboard/Seller/Logout";
 import Recipients from "@/pages/Dashboard/Seller/Recipients";
+import CheckoutPage from "@/pages/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -112,23 +113,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: "checkout",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <CheckoutPage />
+          </Suspense>
+        ),
+      },
     ],
-  },
-  {
-    path: "/login",
-    Component: LoginPage,
-  },
-  {
-    path: "/register",
-    Component: RegisterPage,
-  },
-  {
-    path: "/forgot-password",
-    Component: ForgotPassword,
-  },
-  {
-    path: "/otp",
-    Component: OTPVerification,
   },
   {
     path: "dashboard",
@@ -182,6 +175,22 @@ const router = createBrowserRouter([
       //   ),
       // },
     ],
+  },
+  {
+    path: "/login",
+    Component: LoginPage,
+  },
+  {
+    path: "/register",
+    Component: RegisterPage,
+  },
+  {
+    path: "/forgot-password",
+    Component: ForgotPassword,
+  },
+  {
+    path: "/otp",
+    Component: OTPVerification,
   },
   {
     path: "*",

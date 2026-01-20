@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
 import Rating from "@/components/shared/Rating";
@@ -163,11 +163,10 @@ const ProductDetails = () => {
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                      activeImage === src
-                        ? "border-orange-500"
-                        : "border-transparent"
-                    }`}
+                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === src
+                      ? "border-orange-500"
+                      : "border-transparent"
+                      }`}
                   >
                     <img src={src} className="w-full h-full object-cover " />
                   </div>
@@ -314,10 +313,11 @@ const ProductDetails = () => {
               </div>
 
               <p className="xl:mt-8 md:mt-6 mt-3">{product.description}</p>
-
-              <Button className="w-fit bg-[#C58A33] hover:bg-[#A6742B] text-white px-8 py-6 rounded-xl text-md font-medium">
-                Send This Gift Now
-              </Button>
+              <Link to={"/shopping-cart"}>
+                <Button className="w-fit bg-[#C58A33] hover:bg-[#A6742B] text-white px-8 py-6 rounded-xl text-md font-medium">
+                  Send This Gift Now
+                </Button>
+              </Link>
 
               {/* Thumbnails aligned to the right bottom like image */}
               <div className="hidden lg:flex gap-2 pt-4">
@@ -325,11 +325,10 @@ const ProductDetails = () => {
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                      activeImage === src
-                        ? "border-orange-500"
-                        : "border-transparent"
-                    }`}
+                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === src
+                      ? "border-orange-500"
+                      : "border-transparent"
+                      }`}
                   >
                     <img src={src} className="w-full h-full object-cover " />
                   </div>
