@@ -1,4 +1,4 @@
-import { User, Wallet } from "lucide-react";
+import { User } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 

@@ -1,7 +1,10 @@
-import { useState } from "react";
-
-const CheckoutToggle = () => {
-  const [isBulk, setIsBulk] = useState(false);
+const CheckoutToggle = ({
+  isBulk,
+  setIsBulk,
+}: {
+  isBulk: boolean;
+  setIsBulk: (value: boolean) => void;
+}) => {
   return (
     <div className="flex items-center justify-center xl:mt-2 mt-6 xl:gap-6 md:gap-4 gap-3 xl:mb-12 md:mb-8 mb-6">
       <span className="text-gray-900">Single Order</span>
