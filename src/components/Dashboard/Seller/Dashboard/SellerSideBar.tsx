@@ -5,7 +5,7 @@ import {
   CalendarDays,
   Megaphone,
   CreditCard,
-  Settings, 
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 export interface SidebarItem {
@@ -16,37 +16,37 @@ export interface SidebarItem {
 export const sellerSideBar: SidebarItem[] = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/seller-dashboard",
     icon: LayoutDashboard,
   },
   {
     title: "Orders",
-    url: "/dashboard/orders",
+    url: "/seller-dashboard/orders",
     icon: Package,
   },
   {
     title: "Recipients",
-    url: "/dashboard/recipients",
+    url: "/seller-dashboard/recipients",
     icon: Users,
   },
   {
     title: "Scheduling",
-    url: "/dashboard/scheduling",
+    url: "/seller-dashboard/scheduling",
     icon: CalendarDays,
   },
   {
     title: "Campaigns",
-    url: "/dashboard/campaigns",
+    url: "/seller-dashboard/campaigns",
     icon: Megaphone,
   },
   {
     title: "Billing",
-    url: "/dashboard/billing",
+    url: "/seller-dashboard/billing",
     icon: CreditCard,
   },
   {
     title: "Settings",
-    url: "/dashboard/settings",
+    url: "/seller-dashboard/settings",
     icon: Settings,
   },
 ];

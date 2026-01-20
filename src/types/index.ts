@@ -5,7 +5,7 @@ export const Role = {
   seller: "seller",
 } as const;
 
-export type TRole = typeof Role[keyof typeof Role];
+export type TRole = (typeof Role)[keyof typeof Role];
 export interface ISidebarItem {
   title: string;
   url: string;

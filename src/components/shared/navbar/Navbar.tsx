@@ -28,7 +28,7 @@ const ResponsiveNavbar = () => {
     { label: "Bulk Automation", path: "/bulk-automation" },
     { label: "Contact Us", path: "/contact-us" },
   ];
-  const user = Role.seller;
+  const user = Role.customer;
   return (
     <header
       className={cn(
@@ -86,8 +86,8 @@ const ResponsiveNavbar = () => {
                 </Button>
               </Link>
             </div>
-          ) : (user as string) === "seller" ? (
-            <Link to={"/dashboard"}>
+          ) : (user as string) === Role.seller ? (
+            <Link to={"/seller-dashboard"}>
               <Button className="rounded-full p-3! w-10 h-10">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -113,8 +113,8 @@ const ResponsiveNavbar = () => {
                 </svg>
               </Button>
             </Link>
-          ) : (user as string) === "user" ? (
-            <Link to={"/dashboard"}>
+          ) : (user as string) === Role.customer ? (
+            <Link to={"/customer-dashboard"}>
               <Button className="rounded-full p-3! w-10 h-10">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
