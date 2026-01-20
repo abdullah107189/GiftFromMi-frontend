@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import p1 from "@/assets/person/p1.jpg";
 import NewOrderModal from "./NewOrderModal";
 import { useState } from "react";
+import { Link } from "react-router";
 export const DashboardHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -45,7 +46,10 @@ export const DashboardHeader = () => {
       {/* Right Side Actions */}
       <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
         {/* New Order Button */}
-        <Button className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6 md:h-10 h-9! xl:h-11 flex gap-2 font-medium" onClick={() => setIsOpen(true)}>
+        <Button
+          className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6 md:h-10 h-9! xl:h-11 flex gap-2 font-medium"
+          onClick={() => setIsOpen(true)}
+        >
           <Plus className="size-5" />
           <span className="hidden md:inline">New Order</span>
         </Button>
@@ -59,7 +63,10 @@ export const DashboardHeader = () => {
         </div>
 
         {/* User */}
-        <div className="flex items-center gap-2 xl:gap-3 pl-1 cursor-pointer">
+        <Link
+          to="/dashboard/settings"
+          className="flex items-center gap-2 xl:gap-3 pl-1 cursor-pointer"
+        >
           <Avatar className="size-9 xl:size-10">
             <AvatarImage src={p1} className="object-cover" />
             <AvatarFallback>JD</AvatarFallback>
@@ -67,7 +74,7 @@ export const DashboardHeader = () => {
           <span className="hidden lg:inline font-semibold text-gray-800 text-sm">
             John Doe
           </span>
-        </div>
+        </Link>
       </div>
       <NewOrderModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </header>

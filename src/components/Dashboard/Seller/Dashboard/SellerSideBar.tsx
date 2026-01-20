@@ -5,8 +5,7 @@ import {
   CalendarDays,
   Megaphone,
   CreditCard,
-  Settings,
-  LogOut,
+  Settings, 
   type LucideIcon,
 } from "lucide-react";
 export interface SidebarItem {

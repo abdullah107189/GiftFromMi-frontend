@@ -1,10 +1,9 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Trash2, FileSpreadsheet, Download } from "lucide-react";
+import { FileSpreadsheet } from "lucide-react";
 import Dropzone from "react-dropzone";
 import { cn } from "@/lib/utils";
-import { Label } from "@radix-ui/react-label";
 import { Button } from "../ui/button";
 
 const bulkSchema = z.object({
