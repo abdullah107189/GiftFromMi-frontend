@@ -1,4 +1,17 @@
-import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import type { ComponentType, ReactNode } from "react";
+export const Role = {
+  customer: "customer",
+  seller: "seller",
+} as const;
+
+export type TRole = typeof Role[keyof typeof Role];
+export interface ISidebarItem {
+  title: string;
+  url: string;
+  icon?: LucideIcon;
+  component: ComponentType;
+}
 
 export interface ISectionHeaderProps {
   title: string;

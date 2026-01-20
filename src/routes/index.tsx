@@ -27,13 +27,15 @@ import Campaigns from "@/pages/Dashboard/Seller/Campaigns";
 import Billing from "@/pages/Dashboard/Seller/Billing";
 import Settings from "@/pages/Dashboard/Seller/Settings";
 import Recipients from "@/pages/Dashboard/Seller/Recipients";
-import CheckoutPage from "@/pages/CheckoutPage";
+import { generateRoutes } from "@/utils/genarateRoute";
+import { publicRoutes } from "./publicRoutes";
+import { withAuth } from "@/utils/withAuth";
+import { Role } from "@/types";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    // errorElement: <div className="p-10 text-center">Something went wrong.</div>,
     children: [
       {
         index: true,
@@ -43,92 +45,13 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "how-it-works",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <HowItWorksPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "shop-gifts",
-        children: [
-          {
-            index: true,
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <ShopGiftsPage />
-              </Suspense>
-            ),
-          },
-          {
-            path: ":id",
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <ProductDetails />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-      {
-        path: "for-professionals",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ForProfessionalsPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "bulk-automation",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <BulkAutomationPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "contact-us",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ContactUsPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "book-call",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <BookSetupCall />
-          </Suspense>
-        ),
-      },
-      {
-        path: "shopping-cart",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ShoppingCart />
-          </Suspense>
-        ),
-      },
-      {
-        path: "checkout",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <CheckoutPage />
-          </Suspense>
-        ),
-      },
+      ...generateRoutes(publicRoutes),
     ],
   },
+  // dashboardRoutes,
   {
     path: "dashboard",
-    element: (
-      <PrivetRoute>
-        <SellerDashboard></SellerDashboard>
-      </PrivetRoute>
-    ),
+    Component: withAuth(SellerDashboard, Role.seller),
     children: [
       {
         index: true,

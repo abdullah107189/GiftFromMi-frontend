@@ -5,6 +5,7 @@ import { Button } from "../../ui/button";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import "@/components/shared/button/ActionButton.css";
+import { Role } from "@/types";
 
 const ResponsiveNavbar = () => {
   const { pathname } = useLocation();
@@ -27,12 +28,12 @@ const ResponsiveNavbar = () => {
     { label: "Bulk Automation", path: "/bulk-automation" },
     { label: "Contact Us", path: "/contact-us" },
   ];
-  const user = "user";
+  const user = Role.seller;
   return (
     <header
       className={cn(
         "fixed top-0 left-0 pt-5 md:pt-12.5 pb-3 md:pb-7.5 w-full z-50 transition-all duration-300",
-        !isHomePage || isScrolled ? "bg-background" : "bg-transparent"
+        !isHomePage || isScrolled ? "bg-background" : "bg-transparent",
       )}
     >
       <nav className="flex items-center justify-between max-w-container mx-auto px-4 lg:px-0">
@@ -60,8 +61,8 @@ const ResponsiveNavbar = () => {
                     isActive
                       ? "text-primary border-b-2 border-primary" // Active Style
                       : !isHomePage || isScrolled
-                      ? "text-gray-800"
-                      : "text-gray-700"
+                        ? "text-gray-800"
+                        : "text-gray-700",
                   )}
                 >
                   {item.label}
@@ -85,7 +86,7 @@ const ResponsiveNavbar = () => {
                 </Button>
               </Link>
             </div>
-          ) : (
+          ) : (user as string) === "seller" ? (
             <Link to={"/dashboard"}>
               <Button className="rounded-full p-3! w-10 h-10">
                 <svg
@@ -112,7 +113,34 @@ const ResponsiveNavbar = () => {
                 </svg>
               </Button>
             </Link>
-          )}
+          ) : (user as string) === "user" ? (
+            <Link to={"/dashboard"}>
+              <Button className="rounded-full p-3! w-10 h-10">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M16.625 8.4375C16.625 5.67608 14.3864 3.4375 11.625 3.4375C8.86358 3.4375 6.625 5.67608 6.625 8.4375C6.625 11.1989 8.86358 13.4375 11.625 13.4375C14.3864 13.4375 16.625 11.1989 16.625 8.4375Z"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M18.625 20.4375C18.625 16.5715 15.491 13.4375 11.625 13.4375C7.75901 13.4375 4.625 16.5715 4.625 20.4375"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </Button>
+            </Link>
+          ) : null}
 
           {/* Cart Icon */}
           <Link to={"/shopping-cart"} className="relative cursor-pointer ml-2">
@@ -168,7 +196,7 @@ const ResponsiveNavbar = () => {
         <div
           className={cn(
             "fixed inset-0 bg-background z-50 xl:hidden flex flex-col pt-32 px-6 transition-transform duration-300 ease-in-out",
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
+            isMenuOpen ? "translate-x-0" : "translate-x-full",
           )}
         >
           <ul className="flex flex-col md:gap-6 gap-4 mt-8">
@@ -185,7 +213,7 @@ const ResponsiveNavbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
                     "text-xl font-medium transition-all duration-300",
-                    isActive ? "text-primary font-bold" : "text-gray-800"
+                    isActive ? "text-primary font-bold" : "text-gray-800",
                   )}
                 >
                   <li>{item.label}</li>
