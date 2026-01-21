@@ -49,7 +49,7 @@ export default function SharedDropdown({
               : hasIcon
                 ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9 justify-center"
                 : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm min-w-[200px] justify-between",
-            className
+            className,
           )}
         >
           {hasIcon && (

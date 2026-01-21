@@ -161,8 +161,8 @@ export function CustomerSidebar({ className }: { className?: string }) {
                   className={cn(
                     "flex items-center hover:bg-gray-100 justify-start gap-3 px-4 py-6 transition-all rounded-xl",
                     isActive
-                      ? "bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] text-white hover:bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] hover:text-white"
-                      : "bg-gray-100 text-primary",
+                      ? "bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] border border-primary text-white hover:bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] hover:text-white"
+                      : "bg-gray-100 text-primary border border-gray-100",
                   )}
                 >
                   <Link to={item.url}>
