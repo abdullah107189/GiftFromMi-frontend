@@ -33,7 +33,7 @@ const ResponsiveNavbar = () => {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 pt-5 md:pt-12.5 pb-3 md:pb-7.5 w-full z-50 transition-all duration-300",
+        "fixed top-0  left-0 pt-5 md:pt-12.5 pb-3 md:pb-7.5 w-full z-50 transition-all duration-300",
         !isHomePage || isScrolled ? "bg-background" : "bg-transparent",
       )}
     >
@@ -60,7 +60,7 @@ const ResponsiveNavbar = () => {
                   className={cn(
                     "text-base transition-all duration-300 hover:text-primary pb-1 font-medium",
                     isActive
-                      ? "text-primary border-b-2 border-primary" // Active Style
+                      ? "text-primary border-b-2 border-primary"
                       : !isHomePage || isScrolled
                         ? "text-gray-800"
                         : "text-gray-700",
