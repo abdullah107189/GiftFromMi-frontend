@@ -163,10 +163,11 @@ const ProductDetails = () => {
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === src
-                      ? "border-orange-500"
-                      : "border-transparent"
-                      }`}
+                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                      activeImage === src
+                        ? "border-orange-500"
+                        : "border-transparent"
+                    }`}
                   >
                     <img src={src} className="w-full h-full object-cover " />
                   </div>
@@ -325,10 +326,11 @@ const ProductDetails = () => {
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === src
-                      ? "border-orange-500"
-                      : "border-transparent"
-                      }`}
+                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                      activeImage === src
+                        ? "border-orange-500"
+                        : "border-transparent"
+                    }`}
                   >
                     <img src={src} className="w-full h-full object-cover " />
                   </div>
