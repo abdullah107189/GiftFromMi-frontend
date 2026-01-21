@@ -18,7 +18,8 @@ import { Role } from "@/types";
 import SellerDashboard from "@/components/layout/SellerDashboard";
 import { sellerRoutes } from "./sellerRoutes";
 import CustomerDashboard from "@/components/layout/CustomerDashboard";
-import PersonalInfo from "@/components/Dashboard/Customer/PersonalInfo/PersonalInfo";
+import { customerRoutes } from "./customerRoutes";
+import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       ...generateRoutes(publicRoutes),
     ],
   },
-  // dashboardRoutes,
+  // seller dashboard routes
   {
     path: "seller-dashboard",
     Component: withAuth(SellerDashboard, Role.seller),
@@ -48,17 +49,21 @@ const router = createBrowserRouter([
       ...generateRoutes(sellerRoutes),
     ],
   },
+
+  // customer dashboard routes
   {
     path: "customer-dashboard",
     Component: withAuth(CustomerDashboard, Role.customer),
     children: [
       {
         index: true,
-        element: <PersonalInfo></PersonalInfo>,
+        element: <PersonalInfoPage></PersonalInfoPage>,
       },
-      ...generateRoutes(sellerRoutes),
+      ...generateRoutes(customerRoutes),
     ],
   },
+
+  // auth part routes
   {
     path: "/login",
     Component: LoginPage,
@@ -75,6 +80,8 @@ const router = createBrowserRouter([
     path: "/otp",
     Component: OTPVerification,
   },
+
+  // page handler routes
   {
     path: "*",
     element: <Navigate to="/" replace />,

@@ -1,3 +1,4 @@
+import type { ISidebarItem } from "@/types";
 import {
   LayoutDashboard,
   Package,
@@ -6,14 +7,9 @@ import {
   Megaphone,
   CreditCard,
   Settings,
-  type LucideIcon,
 } from "lucide-react";
-export interface SidebarItem {
-  title: string;
-  url: string;
-  icon: LucideIcon;
-}
-export const sellerSideBar: SidebarItem[] = [
+
+export const sellerSideBar: ISidebarItem[] = [
   {
     title: "Dashboard",
     url: "/seller-dashboard",

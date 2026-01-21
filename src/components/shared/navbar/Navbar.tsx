@@ -8,6 +8,8 @@ import "@/components/shared/button/ActionButton.css";
 import { Role } from "@/types";
 
 const ResponsiveNavbar = () => {
+  const user = Role.customer;
+
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +30,6 @@ const ResponsiveNavbar = () => {
     { label: "Bulk Automation", path: "/bulk-automation" },
     { label: "Contact Us", path: "/contact-us" },
   ];
-  const user = Role.customer;
   return (
     <header
       className={cn(

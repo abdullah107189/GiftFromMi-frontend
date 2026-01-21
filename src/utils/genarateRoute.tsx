@@ -8,11 +8,11 @@ export const generateRoutes = (sidebarItems: ISidebarItem[]) => {
 
     return {
       path: item.url === "/" ? undefined : item.url.replace(/^\//, ""),
-      element: (
+      element: Component ? (
         <Suspense fallback={<PageLoader />}>
           <Component />
         </Suspense>
-      ),
+      ) : null,
     };
   });
 };
