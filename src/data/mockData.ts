@@ -7,9 +7,11 @@ import type {
   ChartDataItem,
   Contact,
 } from "@/types/dashboard";
+import type { IOrderHistory } from "@/types/orders";
 export type ChartDataArray = ChartDataItem[];
 import { Plus, Upload, UserPlus, Megaphone } from "lucide-react";
 import { Calendar, Clock, ShoppingCart, TrendingUp } from "lucide-react";
+import p2 from "@/assets/products/p2.png";
 export const statCardsData: StatCard[] = [
   {
     id: "1",
@@ -339,3 +341,47 @@ export const recipientsData: Contact[] = [
     initials: "ED",
   },
 ];
+
+// order history data
+export const orderHistoryData: IOrderHistory[] = [
+  {
+    orderId: "#ORD-23451",
+    date: "4 Nov 2025",
+    status: "Delivered",
+    items: [
+      {
+        id: "p1",
+        title: "Tech Accessories Pack",
+        category: "Gift Box",
+        image: p2,
+      },
+      {
+        id: "p2",
+        title: "Smart Gadget Set",
+        category: "Electronics",
+        image: p2,
+      },
+    ],
+  },
+  {
+    orderId: "#ORD-98762",
+    date: "12 Oct 2025",
+    status: "Delivered",
+    items: [
+      {
+        id: "p3",
+        title: "Premium Perfume",
+        category: "Gift Box",
+        image: p2,
+      },
+      {
+        id: "p3",
+        title: "Premium Perfume",
+        category: "Gift Box",
+        image: p2,
+      },
+    ],
+  },
+];
+
+export default orderHistoryData;

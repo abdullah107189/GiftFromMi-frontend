@@ -6,7 +6,7 @@ import product1 from "@/assets/products/p2.png";
 
 export function OrderListPage() {
   const [filter, setFilter] = useState("all");
-  const [items, setItems] = useState<IProduct[]>([
+  const [items] = useState<IProduct[]>([
     {
       id: "1",
       title: "Tech Accessories Pack",
