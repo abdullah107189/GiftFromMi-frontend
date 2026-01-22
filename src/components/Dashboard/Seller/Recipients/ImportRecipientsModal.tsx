@@ -100,23 +100,23 @@ export default function ImportRecipientsModal({
                         <path
                           d="M14 3.5V17.5"
                           stroke="#CA8A32"
-                          stroke-width="2.33333"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2.33333"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                         <path
                           d="M19.8337 9.33333L14.0003 3.5L8.16699 9.33333"
                           stroke="#CA8A32"
-                          stroke-width="2.33333"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2.33333"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                         <path
                           d="M24.5 17.5V22.1667C24.5 22.7855 24.2542 23.379 23.8166 23.8166C23.379 24.2542 22.7855 24.5 22.1667 24.5H5.83333C5.21449 24.5 4.621 24.2542 4.18342 23.8166C3.74583 23.379 3.5 22.7855 3.5 22.1667V17.5"
                           stroke="#CA8A32"
-                          stroke-width="2.33333"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="2.33333"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                     </div>

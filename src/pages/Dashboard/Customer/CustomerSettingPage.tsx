@@ -1,9 +1,30 @@
-const CustomerSettingPage = () => {
+import SettingPassword from "@/components/Dashboard/Customer/Setting/SettingPassword";
+import UpdatePassowordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
+import * as React from "react";
+
+export default function CustomerSettingPage() {
+  const [verified, setVerified] = React.useState(false);
+  const [verifyToken, setVerifyToken] = React.useState<string | null>(null);
+  console.log(verified);
+
+  const handleVerified = (token: string) => {
+    setVerified(true);
+    setVerifyToken(token);
+  };
+
+  const handleReset = () => {
+    // here verify token is or not
+    setVerified(false);
+    setVerifyToken(null);
+  };
+
   return (
-    <div>
-      CustomerSettingPage page
+    <div className="space-y-8">
+      {!verified ? (
+        <SettingPassword handleVerified={handleVerified} />
+      ) : (
+        <UpdatePassowordForm verifyToken={verifyToken!} onBack={handleReset} />
+      )}
     </div>
   );
-};
-
-export default CustomerSettingPage;
+}

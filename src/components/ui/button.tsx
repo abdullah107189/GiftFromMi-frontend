@@ -73,9 +73,9 @@ function Button({
           <path
             d="M14 5L21 12M21 12L14 19M21 12H3"
             stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       )}

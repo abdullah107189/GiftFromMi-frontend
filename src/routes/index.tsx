@@ -20,6 +20,8 @@ import { sellerRoutes } from "./sellerRoutes";
 import CustomerDashboard from "@/components/layout/CustomerDashboard";
 import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
+import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
+import UpdatePasswordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,7 @@ const router = createBrowserRouter([
         index: true,
         element: <PersonalInfoPage></PersonalInfoPage>,
       },
+
       ...generateRoutes(customerRoutes),
     ],
   },

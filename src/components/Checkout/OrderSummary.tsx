@@ -147,29 +147,29 @@ export function OrderSummary() {
               <path
                 d="M5 6.00016V4.3335C5 2.67664 6.34315 1.3335 8 1.3335C9.65687 1.3335 11 2.67664 11 4.3335V6.00016"
                 stroke="#85888E"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M10.666 10.3267V10.3333"
                 stroke="#85888E"
-                stroke-width="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.33333"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M8 10.3267V10.3333"
                 stroke="#85888E"
-                stroke-width="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.33333"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M5.33398 10.3267V10.3333"
                 stroke="#85888E"
-                stroke-width="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.33333"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             <div className="">
