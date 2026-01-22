@@ -6,6 +6,7 @@ import type {
   QuickAction,
   ChartDataItem,
   Contact,
+  NotificationItem,
 } from "@/types/dashboard";
 import type { IOrderHistory } from "@/types/orders";
 export type ChartDataArray = ChartDataItem[];
@@ -385,3 +386,40 @@ export const orderHistoryData: IOrderHistory[] = [
 ];
 
 export default orderHistoryData;
+
+// seller notification data
+
+export const demoNotifications: NotificationItem[] = [
+  {
+    id: "n1",
+    type: "order",
+    title: "New order received",
+    description: "Order #A-1029 placed for 3 items.",
+    time: "2m ago",
+    unread: true,
+  },
+  {
+    id: "n2",
+    type: "payout",
+    title: "Payout processed",
+    description: "৳ 12,450 has been transferred to your wallet.",
+    time: "1h ago",
+    unread: true,
+  },
+  {
+    id: "n3",
+    type: "message",
+    title: "Customer message",
+    description: "“Can you deliver it by tomorrow?”",
+    time: "3h ago",
+    unread: false,
+  },
+  {
+    id: "n4",
+    type: "warning",
+    title: "Low stock alert",
+    description: "“Premium Hoodie (Black)” is low on stock.",
+    time: "Yesterday",
+    unread: false,
+  },
+];

@@ -8,7 +8,7 @@ import "@/components/shared/button/ActionButton.css";
 import { Role } from "@/types";
 
 const ResponsiveNavbar = () => {
-  const user = Role.customer;
+  const user = Role.seller;
 
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -116,30 +116,30 @@ const ResponsiveNavbar = () => {
             </Link>
           ) : (user as string) === Role.customer ? (
             <Link to={"/customer-dashboard"}>
-             <Button className="rounded-full p-3! w-10 h-10">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-  >
-    <path
-      d="M16.625 8.4375C16.625 5.67608 14.3864 3.4375 11.625 3.4375C8.86358 3.4375 6.625 5.67608 6.625 8.4375C6.625 11.1989 8.86358 13.4375 11.625 13.4375C14.3864 13.4375 16.625 11.1989 16.625 8.4375Z"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M18.625 20.4375C18.625 16.5715 15.491 13.4375 11.625 13.4375C7.75901 13.4375 4.625 16.5715 4.625 20.4375"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-</Button>
+              <Button className="rounded-full p-3! w-10 h-10">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M16.625 8.4375C16.625 5.67608 14.3864 3.4375 11.625 3.4375C8.86358 3.4375 6.625 5.67608 6.625 8.4375C6.625 11.1989 8.86358 13.4375 11.625 13.4375C14.3864 13.4375 16.625 11.1989 16.625 8.4375Z"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M18.625 20.4375C18.625 16.5715 15.491 13.4375 11.625 13.4375C7.75901 13.4375 4.625 16.5715 4.625 20.4375"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Button>
             </Link>
           ) : null}
 

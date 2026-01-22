@@ -6,6 +6,7 @@ import p1 from "@/assets/person/p1.jpg";
 import NewOrderModal from "./NewOrderModal";
 import { useState } from "react";
 import { Link } from "react-router";
+import { SellerNotificationsPopover } from "./Notification/SellerNotificationsPopover";
 export const DashboardHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -53,14 +54,9 @@ export const DashboardHeader = () => {
           <Plus className="size-5" />
           <span className="hidden md:inline">New Order</span>
         </Button>
-
         {/* Notification */}
-        <div className="relative cursor-pointer">
-          <Bell className="size-5 xl:size-6 text-gray-900" />
-          <span className="absolute -top-1 -right-1 size-4 bg-[#FF6900] border-2 border-white rounded-full flex items-center justify-center text-[10px] text-white font-bold">
-            2
-          </span>
-        </div>
+
+        <SellerNotificationsPopover />
 
         {/* User */}
         <Link

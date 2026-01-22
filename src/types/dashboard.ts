@@ -64,6 +64,18 @@ export type CalendarEvent = {
   time: string;
   date: Date;
   type: "birthday" | "holiday" | "custom";
-  
+
   initials: string;
 };
+
+//seller notifcation types
+export type NotificationType = "order" | "payout" | "message" | "warning";
+
+export interface NotificationItem {
+  id: string;
+  title: string;
+  description?: string;
+  time: string;
+  type: NotificationType;
+  unread?: boolean;
+}

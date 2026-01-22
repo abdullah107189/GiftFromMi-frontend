@@ -8,7 +8,7 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
     // const { data, isLoading } = useGetMeQuery(undefined);
     // TODO : get user role from redux
-    const userRole = Role.customer;
+    const userRole = Role.seller;
     const isLoading = false;
     if (!isLoading && !userRole) {
       return <Navigate to="/login" />;
