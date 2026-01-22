@@ -23,7 +23,10 @@ interface RecipientFormData {
   tags: string[];
 }
 
-const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ isOpen, onClose }) => {
+const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const availableTags = ["VIP", "Client", "Partner", "Lead", "Active"];
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -81,11 +84,17 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ isOpen, onClose }
             <div className="space-y-2">
               <label className="text-sm text-gray-700">First Name</label>
               <Input
-                {...register("firstName", { required: "First name is required" })}
+                {...register("firstName", {
+                  required: "First name is required",
+                })}
                 placeholder="Enter first name"
                 className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
               />
-              {errors.firstName && <p className="text-xs text-red-500">{errors.firstName.message}</p>}
+              {errors.firstName && (
+                <p className="text-xs text-red-500">
+                  {errors.firstName.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <label className="text-sm text-gray-700">Last Name</label>
@@ -94,7 +103,11 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ isOpen, onClose }
                 placeholder="Enter last name"
                 className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
               />
-              {errors.lastName && <p className="text-xs text-red-500">{errors.lastName.message}</p>}
+              {errors.lastName && (
+                <p className="text-xs text-red-500">
+                  {errors.lastName.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -112,7 +125,9 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ isOpen, onClose }
               placeholder="email@company.com"
               className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
             />
-            {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-xs text-red-500">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -141,10 +156,11 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({ isOpen, onClose }
                   key={tag}
                   variant="secondary"
                   onClick={() => toggleTag(tag)}
-                  className={`px-4 py-2 rounded-lg border-none text-sm cursor-pointer transition-colors shadow-none mt-1 ${selectedTags.includes(tag)
+                  className={`px-4 py-2 rounded-lg border-none text-sm cursor-pointer transition-colors shadow-none mt-1 ${
+                    selectedTags.includes(tag)
                       ? "bg-[#E0E7FF] text-[#4F39F6]"
                       : "bg-[#F9FAFB] text-gray-700 hover:bg-[#E0E7FF] hover:text-[#4F39F6]"
-                    }`}
+                  }`}
                 >
                   {tag}
                 </Badge>

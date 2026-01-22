@@ -44,8 +44,8 @@ export function SellerSidebar() {
                   className={cn(
                     "flex items-center justify-start gap-3 px-3 py-4 xl:h-10 text-white transition-all duration-200 rounded-[10px]",
                     isActive
-                      ? "bg-primary hover:bg-[#C88628]"
-                      : "hover:bg-white/10",
+                      ? "bg-primary hover:bg-primary hover:text-white"
+                      : "hover:bg-white/10 hover:text-white",
                   )}
                 >
                   <Link to={item.url}>
