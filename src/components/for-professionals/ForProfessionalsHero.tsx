@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import sidbar1 from "@/assets/banner_and_background/sidebar1.png";
 import sidbar2 from "@/assets/banner_and_background/sidebar2.png";
 import bg2 from "@/assets/banner_and_background/bg2.png";
+import { Link } from "react-router";
 function ForProfessionalsHero() {
   return (
     <section className="relative max-w-main xl:mt-36 md:mt-30 mt-20 xl:py-15 md:py-10 py-5 overflow-hidden">
@@ -43,10 +44,14 @@ function ForProfessionalsHero() {
         {/* Action Buttons */}
         <div className="xl:mt-17.5 lg:mt-13 md:mt-10 mt-8 flex flex-wrap items-center justify-center gap-4">
           {/* Primary Button: Create Free Account */}
-          <Button showIcon={true}>Create Free Account</Button>
+          <Link to="/register">
+            <Button showIcon={true}>Create Free Account</Button>
+          </Link>
 
           {/* Secondary Button: Explore Gift Box */}
-          <Button variant="outline">Explore Gift Box</Button>
+          <Link to="/shop-gifts">
+            <Button variant="outline">Explore Gift Box</Button>
+          </Link>
         </div>
       </div>
     </section>

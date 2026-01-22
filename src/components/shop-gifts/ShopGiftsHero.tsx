@@ -2,9 +2,10 @@ import { Button } from "../ui/button";
 import shopHeroImg from "@/assets/banner_and_background/b1.png";
 import sidbar1 from "@/assets/banner_and_background/sidebar1.png";
 import sidbar2 from "@/assets/banner_and_background/sidebar2.png";
+import { Link } from "react-router";
 const ShopGiftsHero = () => {
   return (
-    <section className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:py-15 md:py-10 py-5 overflow-hidden">
+    <section className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pt-15 md:pt-10 pt-5 overflow-hidden">
       <div>
         <img
           className="absolute w-[676.301px] h-[347.417px] rotate-[23.2deg] -top-50 -left-80"
@@ -36,9 +37,11 @@ const ShopGiftsHero = () => {
               occasion, every milestone, and every special person in your life.
             </p>
 
-            <div className="mt-4">
-              <Button showIcon={true}>Start Gifting</Button>
-            </div>
+            <Link to="#giftListingSection" className="mt-4 z-10">
+              <Button showIcon={true}>
+                <span id="giftListingSection">Start Gifting</span>
+              </Button>
+            </Link>
           </div>
 
           {/* Right Side: Illustration Area */}

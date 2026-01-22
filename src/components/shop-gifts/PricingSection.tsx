@@ -1,126 +1,9 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { PRICING_DATA } from "@/data/mockData";
 
 const PricingSection = () => {
-  const PRICING_DATA = {
-    monthly: [
-      {
-        plan: "Starter",
-        description: "Individual gifting occasionally",
-        price: "0",
-        priceNote: "/Forever",
-        buttonText: "Get started",
-        footerText: "Send unlimited gifts in the U.S. and Canada",
-        features: [
-          "Send to 1,000+ recipients at once",
-          "On-demand branded swag with no minimums",
-          "Send via email, text message, or custom link",
-          "Curate custom Collections of gifts and swag",
-          "Send via email, text message, or custom link",
-          "Curate custom Collections of gifts and swag",
-          "Send via email, text message, or custom link",
-          "Curate custom Collections of gifts and swag",
-          "Send via email, text message, or custom link",
-        ],
-      },
-      {
-        plan: "Pro",
-        description: "Individual gifting at scale",
-        price: "25",
-        priceNote: "/month/user",
-        buttonText: "Get started",
-        footerText: "Everything in starter, plus.",
-        features: [
-          "Add digital branding and custom colors to gift notifications and Collections",
-          "Send gift cards from hundreds of brands",
-          "International gifts and swag to 140+ countries",
-          "Integrate Calendly to book meetings and increase show rates",
-          "Create custom cards",
-          "Gift tracking & reporting",
-        ],
-      },
-      {
-        plan: "Team",
-        description: "HR, Sales & Marketing teams",
-        chatNote: "Chat with us",
-        buttonText: "Book A Setup Call",
-        footerText:
-          "Book meetings, accelerate deals, and automate employee gifts.",
-        features: [
-          "Everything in Pro, plus.",
-          "Unlimited seats for your entire company",
-          "Send gift cards from hundreds of brands",
-          "Set and manage budgets for your team",
-          "Integrate Salesforce and gift directly from your CRM",
-          "HR integrations with 30+ leading platforms",
-          "Automate employee gifts for birthdays, work anniversaries & onboarding.",
-          "Create Smart Links that capture recipients' lead info",
-          "Gift tracking & reporting",
-        ],
-      },
-    ],
-    annual: [
-      {
-        plan: "Starter",
-        description: "Individual gifting occasionally",
-        price: "100",
-        priceNote: "/Forever",
-        buttonText: "Get started",
-        footerText: "Send unlimited gifts in the U.S. and Canada",
-        features: [
-          "Send to 1,000+ recipients at once",
-          "On-demand branded swag with no minimums",
-          "Send via email, text message, or custom link",
-          "Curate custom Collections of gifts and swag",
-          "Create a workspace and invite workspace members",
-          "View thank you notes in one place",
-          "Schedule gifts",
-          "Gift tracking & reporting",
-        ],
-      },
-      {
-        plan: "Pro",
-        description: "Individual gifting at scale",
-        price: "20",
-        priceNote: "/month/user when billed annually",
-        buttonText: "Get started",
-        footerText: "Everything in starter, plus.",
-        features: [
-          "Add digital branding and custom colors to gift notifications and Collections",
-          "Send gift cards from hundreds of brands",
-          "International gifts and swag to 140+ countries",
-          "Integrate Calendly to book meetings and increase show rates",
-          "Create custom cards",
-          "Send from your own Gmail account",
-          "Advanced reporting & analytics",
-          "Gift tracking & reporting",
-        ],
-      },
-      {
-        plan: "Team",
-        description: "HR, Sales & Marketing teams",
-        chatNote: "Chat with us",
-        buttonText: "Book A Setup Call",
-        footerText:
-          "Book meetings, accelerate deals, and automate employee gifts.",
-        features: [
-          "Everything in Pro, plus.",
-          "Unlimited seats for your entire company",
-          "Send gift cards from hundreds of brands",
-          "Set and manage budgets for your team",
-          "Integrate Salesforce and gift directly from your CRM",
-          "HR integrations with 30+ leading platforms",
-          "Automate employee gifts for birthdays, work anniversaries & onboarding.",
-          "Create Smart Links that capture recipients' lead info",
-          "Gift tracking & reporting",
-          "Everything in Pro, plus.",
-          "Unlimited seats for your entire company",
-        ],
-      },
-    ],
-  };
-
-  const [isAnnual, setIsAnnual] = useState(true);
+  const [isAnnual, setIsAnnual] = useState(false);
 
   // Switching data based on toggle
   const currentPlans = isAnnual ? PRICING_DATA.annual : PRICING_DATA.monthly;
@@ -189,7 +72,7 @@ const PricingSection = () => {
 
                 {/* Feature List */}
                 <div className="flex flex-col gap-4">
-                  <span className="text-lg font-black text-primary-500 uppercase tracking-widest">
+                  <span className="text-lg font-medium text-primary">
                     Features
                   </span>
                   <ul className="space-y-4">

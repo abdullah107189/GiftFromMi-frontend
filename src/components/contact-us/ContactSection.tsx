@@ -1,4 +1,28 @@
 import { Button } from "../ui/button";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const contactSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z
+    .string()
+    .trim()
+    .transform((value) => value.replace(/[^\d+]/g, ""))
+    .refine(
+      (value) => /^\+[1-9]\d{7,14}$/.test(value),
+      "Enter a valid phone number with country code (e.g. +14155552671)",
+    ),
+
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  captcha: z.boolean().refine((val) => val === true, {
+    message: "Please verify you are not a robot",
+  }),
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 const ContactSection = () => {
   const contactCard = [
@@ -13,7 +37,23 @@ const ContactSection = () => {
         >
           <g clipPath="url(#clip0_845_26529)">
             <path
-              d="M8.32032 23.6804C12.7919 28.152 17.844 31.1561 22.1814 31.9223C22.4719 31.9741 22.7665 32.0004 23.0616 32.0008C24.3101 32.0008 25.4687 31.517 26.3894 30.5962L29.4652 27.5205C29.8882 27.0966 30.1258 26.5222 30.1258 25.9233C30.1258 25.3245 29.8882 24.7501 29.4652 24.3262L23.9396 18.8006C23.5157 18.3776 22.9413 18.14 22.3424 18.14C21.7435 18.14 21.1691 18.3776 20.7453 18.8006L17.9546 21.5914C15.3126 19.6771 12.3237 16.6882 10.4094 14.0463L13.2001 11.2555C13.6232 10.8316 13.8608 10.2572 13.8608 9.65834C13.8608 9.05948 13.6232 8.48508 13.2001 8.06119L7.67457 2.53562C7.25068 2.11261 6.67629 1.87504 6.07744 1.87504C5.47859 1.87504 4.9042 2.11261 4.48032 2.53562L1.40457 5.61131C0.270318 6.7455 -0.200619 8.24 0.0784433 9.81944C0.844506 14.1567 3.84876 19.2089 8.32032 23.6804ZM2.81876 7.0255L5.89451 3.95C5.94332 3.90207 6.009 3.87521 6.07741 3.87521C6.14582 3.87521 6.2115 3.90207 6.26032 3.95L11.7859 9.47556C11.8335 9.52456 11.8602 9.5902 11.8602 9.65853C11.8602 9.72686 11.8335 9.7925 11.7859 9.8415L8.84838 12.779C8.55417 13.0719 8.37361 13.4597 8.33893 13.8734C8.30425 14.2871 8.41772 14.6996 8.65907 15.0374C10.7558 17.9854 14.0153 21.2451 16.9634 23.3416C17.3011 23.5831 17.7137 23.6966 18.1274 23.6619C18.5411 23.6273 18.929 23.4467 19.2219 23.1524L22.1594 20.2149C22.2082 20.167 22.2739 20.1401 22.3424 20.1401C22.4108 20.1401 22.4765 20.167 22.5254 20.2149L28.0509 25.7406C28.0988 25.7894 28.1257 25.8551 28.1257 25.9235C28.1257 25.9919 28.0988 26.0576 28.0509 26.1064L24.9751 29.1821C24.3064 29.8509 23.4603 30.1174 22.5292 29.953C18.6445 29.2665 13.8613 26.393 9.73451 22.2663C5.60769 18.1395 2.73426 13.3563 2.04794 9.4715C1.88338 8.54019 2.14994 7.69431 2.81876 7.0255ZM32.0008 13.2513C32.0008 13.5165 31.8954 13.7708 31.7079 13.9584C31.5203 14.1459 31.266 14.2513 31.0008 14.2513C30.7355 14.2513 30.4812 14.1459 30.2936 13.9584C30.1061 13.7708 30.0008 13.5165 30.0008 13.2513C30.0008 7.04725 24.9534 2 18.7495 2C18.4843 2 18.2299 1.89464 18.0424 1.70711C17.8549 1.51957 17.7495 1.26522 17.7495 1C17.7495 0.734784 17.8549 0.48043 18.0424 0.292893C18.2299 0.105357 18.4843 0 18.7495 0C26.0563 0 32.0008 5.9445 32.0008 13.2513ZM18.7495 7.73606C18.4843 7.73606 18.2299 7.63071 18.0424 7.44317C17.8549 7.25563 17.7495 7.00128 17.7495 6.73606C17.7495 6.47085 17.8549 6.21649 18.0424 6.02896C18.2299 5.84142 18.4843 5.73606 18.7495 5.73606C20.742 5.73831 22.6522 6.53081 24.0611 7.93969C25.4699 9.34858 26.2624 11.2588 26.2647 13.2513C26.2647 13.5165 26.1593 13.7708 25.9718 13.9584C25.7843 14.1459 25.5299 14.2513 25.2647 14.2513C24.9995 14.2513 24.7451 14.1459 24.5576 13.9584C24.3701 13.7708 24.2647 13.5165 24.2647 13.2513C24.2631 11.789 23.6815 10.3872 22.6475 9.35323C21.6136 8.31929 20.2117 7.7377 18.7495 7.73606ZM16.6351 11.4601C16.6351 11.1949 16.7405 10.9406 16.928 10.753C17.1156 10.5655 17.3699 10.4601 17.6351 10.4601C18.7092 10.4613 19.739 10.8886 20.4985 11.6481C21.258 12.4076 21.6852 13.4373 21.6864 14.5114C21.6864 14.7767 21.5811 15.031 21.3935 15.2185C21.206 15.4061 20.9517 15.5114 20.6864 15.5114C20.4212 15.5114 20.1669 15.4061 19.9793 15.2185C19.7918 15.031 19.6864 14.7767 19.6864 14.5114C19.6858 13.9676 19.4695 13.4462 19.085 13.0616C18.7004 12.6771 18.179 12.4607 17.6351 12.4601C17.3699 12.4601 17.1156 12.3548 16.928 12.1672C16.7405 11.9797 16.6351 11.7253 16.6351 11.4601Z"
+              d="M8.32032 23.6804C12.7919 28.152 17.844 31.1561 22.1814 31.9223C22.4719 31.9741 22.7665 32.0004 23.0616 32.0008C24.3101 32.0008 25.4687 31.517 26.3894 30.5962L29.4652 27.5205C29.8882 27.0966 30.1258 26.5222 30.1258 25.9233C30.1258 25.3245 29.8882 24.7501 29.4652 24.3262L23.9396 18.8006C23.5157 18.3776 22.9413 18.14 22.3424 18.14C21.7435 18.14 21.1691 18.3776 20.7453 18.8006L17.9546 21.5914C15.3126 19.6771 12.3237 16.6882 10.4094 14.0463L13.2001 11.2555C13.6232 10.8316 13.8608 10.2572 13.8608 9.65834C13.8608 9.05948 13.6232 8.48508 13.2001 8.06119L7.67457 2.53562C7.25068 2.11261 6.67629 1.87504 6.07744 1.87504C5.47859 1.87504 4.9042 2.11261 4.48032 2.53562L1.40457 5.61131C0.270318 6.7455 -0.200619 8.24 0.0784433 9.81944C0.844506 14.1567 3.84876 19.2089 8.32032 23.6804Z"
+              fill="#CA8A32"
+            />
+            <path
+              d="M2.81876 7.0255L5.89451 3.95C5.94332 3.90207 6.009 3.87521 6.07741 3.87521C6.14582 3.87521 6.2115 3.90207 6.26032 3.95L11.7859 9.47556C11.8335 9.52456 11.8602 9.5902 11.8602 9.65853C11.8602 9.72686 11.8335 9.7925 11.7859 9.8415L8.84838 12.779C8.55417 13.0719 8.37361 13.4597 8.33893 13.8734C8.30425 14.2871 8.41772 14.6996 8.65907 15.0374C10.7558 17.9854 14.0153 21.2451 16.9634 23.3416C17.3011 23.5831 17.7137 23.6966 18.1274 23.6619C18.5411 23.6273 18.929 23.4467 19.2219 23.1524L22.1594 20.2149C22.2082 20.167 22.2739 20.1401 22.3424 20.1401C22.4108 20.1401 22.4765 20.167 22.5254 20.2149L28.0509 25.7406C28.0988 25.7894 28.1257 25.8551 28.1257 25.9235C28.1257 25.9919 28.0988 26.0576 28.0509 26.1064L24.9751 29.1821C24.3064 29.8509 23.4603 30.1174 22.5292 29.953C18.6445 29.2665 13.8613 26.393 9.73451 22.2663C5.60769 18.1395 2.73426 13.3563 2.04794 9.4715C1.88338 8.54019 2.14994 7.69431 2.81876 7.0255Z"
+              fill="#CA8A32"
+            />
+            <path
+              d="M32.0008 13.2513C32.0008 13.5165 31.8954 13.7708 31.7079 13.9584C31.5203 14.1459 31.266 14.2513 31.0008 14.2513C30.7355 14.2513 30.4812 14.1459 30.2936 13.9584C30.1061 13.7708 30.0008 13.5165 30.0008 13.2513C30.0008 7.04725 24.9534 2 18.7495 2C18.4843 2 18.2299 1.89464 18.0424 1.70711C17.8549 1.51957 17.7495 1.26522 17.7495 1C17.7495 0.734784 17.8549 0.48043 18.0424 0.292893C18.2299 0.105357 18.4843 0 18.7495 0C26.0563 0 32.0008 5.9445 32.0008 13.2513Z"
+              fill="#CA8A32"
+            />
+            <path
+              d="M18.7495 7.73606C18.4843 7.73606 18.2299 7.63071 18.0424 7.44317C17.8549 7.25563 17.7495 7.00128 17.7495 6.73606C17.7495 6.47085 17.8549 6.21649 18.0424 6.02896C18.2299 5.84142 18.4843 5.73606 18.7495 5.73606C20.742 5.73831 22.6522 6.53081 24.0611 7.93969C25.4699 9.34858 26.2624 11.2588 26.2647 13.2513C26.2647 13.5165 26.1593 13.7708 25.9718 13.9584C25.7843 14.1459 25.5299 14.2513 25.2647 14.2513C24.9995 14.2513 24.7451 14.1459 24.5576 13.9584C24.3701 13.7708 24.2647 13.5165 24.2647 13.2513C24.2631 11.789 23.6815 10.3872 22.6475 9.35323C21.6136 8.31929 20.2117 7.7377 18.7495 7.73606Z"
+              fill="#CA8A32"
+            />
+            <path
+              d="M16.6351 11.4601C16.6351 11.1949 16.7405 10.9406 16.928 10.753C17.1156 10.5655 17.3699 10.4601 17.6351 10.4601C18.7092 10.4613 19.739 10.8886 20.4985 11.6481C21.258 12.4076 21.6852 13.4373 21.6864 14.5114C21.6864 14.7767 21.5811 15.031 21.3935 15.2185C21.206 15.4061 20.9517 15.5114 20.6864 15.5114C20.4212 15.5114 20.1669 15.4061 19.9793 15.2185C19.7918 15.031 19.6864 14.7767 19.6864 14.5114C19.6858 13.9676 19.4695 13.4462 19.085 13.0616C18.7004 12.6771 18.179 12.4607 17.6351 12.4601C17.3699 12.4601 17.1156 12.3548 16.928 12.1672C16.7405 11.9797 16.6351 11.7253 16.6351 11.4601Z"
               fill="#CA8A32"
             />
           </g>
@@ -71,12 +111,33 @@ const ContactSection = () => {
       href: "https://www.google.com/maps/search/?api=1&query=45+Avenue+USA",
     },
   ];
+
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+      captcha: false,
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
+
+  const onSubmit = async (data: ContactFormValues) => {
+    console.log("Contact form data:", data);
+  };
+
   return (
     <section className="xl:py-15 md:py-10 py-5">
       <div className="max-w-container mx-auto px-3">
-        {/* Main Wrapper with light border */}
         <div className="border border-gray-300 rounded-2xl xl:p-12 lg:p-10 md:p-8 p-6 flex flex-col lg:flex-row gap-12 lg:gap-20 w-[90%] mx-auto">
-          {/* Left Side: Contact Info */}
           <div className="w-full lg:w-1/2 xl:p-8 lg:p-6 md:p-4 p-3 border border-gray-300 rounded-2xl">
             <h2 className="flex items-center gap-3 mb-4">
               <svg
@@ -121,7 +182,6 @@ const ContactSection = () => {
             </p>
 
             <div className="space-y-6">
-              {/* Contact Cards */}
               {contactCard.map((item, index) => (
                 <div
                   key={index}
@@ -148,44 +208,69 @@ const ContactSection = () => {
             </div>
           </div>
 
-          {/* Right Side: Contact Form */}
           <div className="w-full lg:w-1/2 xl:p-8 lg:p-6 md:p-4 p-3 border border-gray-300 rounded-2xl">
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:gap-8 lg:gap-6 md:gap-4 gap-3">
-                <div className="">
+                <div>
                   <label className="text-gray-500 font-medium ">
                     First name
                   </label>
                   <input
                     type="text"
+                    {...register("firstName")}
                     className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
+                  {errors.firstName && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.firstName.message}
+                    </p>
+                  )}
                 </div>
+
                 <div className="space-y-2">
                   <label className="text-gray-500 font-medium">Last name</label>
                   <input
                     type="text"
+                    {...register("lastName")}
                     className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
+                  {errors.lastName && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.lastName.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
-                <div className="">
+                <div>
                   <label className="text-gray-500 font-medium">Email</label>
                   <input
                     type="email"
+                    {...register("email")}
                     className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
+                  {errors.email && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
-                <div className="">
+
+                <div>
                   <label className="text-gray-500 font-medium">
                     Mobile number
                   </label>
                   <input
                     type="tel"
+                    {...register("phone")}
                     className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
+                  {errors.phone && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.phone.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -194,13 +279,22 @@ const ContactSection = () => {
                 <textarea
                   rows={4}
                   placeholder="Type Your Message"
+                  {...register("message")}
                   className="w-full px-4 py-3 min-h-37.5 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32] resize-none"
-                ></textarea>
+                />
+                {errors.message && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
 
-              {/* recaptcha Placeholder */}
               <div className="p-3 border border-gray-300 rounded-xl w-fit flex items-center gap-3 xl:my-8 lg:my-6 my-4">
-                <input type="checkbox" className="w-5 h-5 accent-[#CA8A32]" />
+                <input
+                  type="checkbox"
+                  {...register("captcha")}
+                  className="w-5 h-5 accent-[#CA8A32]"
+                />
                 <span className="text-sm text-gray-500 font-medium">
                   I'm not a robot
                 </span>
@@ -211,7 +305,15 @@ const ContactSection = () => {
                 />
               </div>
 
-              <Button type="submit">Submit Your Message</Button>
+              {errors.captcha && (
+                <p className="text-sm text-red-500 mb-3">
+                  {errors.captcha.message}
+                </p>
+              )}
+
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Submit Your Message"}
+              </Button>
             </form>
           </div>
         </div>

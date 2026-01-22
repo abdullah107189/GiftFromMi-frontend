@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import p1 from "@/assets/products/p1.png";
 import p2 from "@/assets/products/p2.png";
 import p3 from "@/assets/products/p3.png";
+import { Link } from "react-router";
 
 function GiftCollection() {
   const PRODUCTS: IProduct[] = [
@@ -63,9 +64,9 @@ function GiftCollection() {
         </div>
 
         {/* Centered "View All" Button */}
-        <div className="flex justify-center mt-8">
+        <Link to="/shop-gifts" className="flex justify-center mt-8">
           <Button className="">View All Collections</Button>
-        </div>
+        </Link>
       </div>
     </section>
   );

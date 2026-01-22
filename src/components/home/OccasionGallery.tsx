@@ -8,6 +8,7 @@ import img3 from "@/assets/gallery/g3.png";
 import img4 from "@/assets/gallery/g4.png";
 import img5 from "@/assets/gallery/g5.png";
 import img6 from "@/assets/gallery/g6.png";
+import { Link } from "react-router";
 
 const OccasionGallery: React.FC = () => {
   const galleryItems1 = [
@@ -134,9 +135,9 @@ const OccasionGallery: React.FC = () => {
         </div>
 
         {/* Browse Gift Button */}
-        <div className="flex justify-center mt-8">
+        <Link to="/shop-gifts" className="flex justify-center mt-8">
           <Button showIcon={true}>Browse Gift</Button>
-        </div>
+        </Link>
       </div>
     </section>
   );

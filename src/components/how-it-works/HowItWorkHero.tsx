@@ -1,5 +1,6 @@
 import h1 from "@/assets/gallery/h1.jpg";
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 const HowItWorkHero = () => {
   return (
@@ -19,12 +20,12 @@ const HowItWorkHero = () => {
               easy steps and let us take care of the rest.
             </p>
 
-            <div className="mt-4">
+            <Link to="/shop-gifts" className="mt-4">
               {/* Using your button with the showIcon prop logic */}
               <Button showIcon={true} className="px-8 py-6 text-lg rounded-2xl">
                 Start Gifting
               </Button>
-            </div>
+            </Link>
           </div>
 
           {/* Right Side: Image Area */}

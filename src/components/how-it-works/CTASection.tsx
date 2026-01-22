@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { Button } from "../ui/button";
 import ctaBg from "@/assets/banner_and_background/bg1.png";
 
@@ -18,7 +19,9 @@ const CTASection = () => {
               Discover a smooth, effortless gifting experience designed to
               impress from start to finish.
             </p>
-            <Button showIcon={true}>Start Gifting</Button>
+            <Link to="/shop-gifts">
+              <Button showIcon={true}>Start Gifting</Button>
+            </Link>
           </div>
         </div>
       </div>
