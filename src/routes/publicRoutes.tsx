@@ -26,14 +26,12 @@ export const publicRoutes: ISidebarItem[] = [
     title: "Shop Gifts",
     url: "/shop-gifts",
     component: ShopGiftsPage,
-    children: [
-      {
-        title: "Gift Details",
-        url: ":id",
-        component: ProductDetails,
-        hidden: true,
-      },
-    ],
+  },
+  {
+    title: "Gift Details",
+    url: "/shop-gifts/:id",
+    component: ProductDetails,
+    hidden: true,
   },
   {
     title: "For Professionals",

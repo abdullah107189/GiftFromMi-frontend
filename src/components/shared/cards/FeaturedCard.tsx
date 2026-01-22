@@ -10,7 +10,7 @@ interface FeaturedCardProps {
 
 const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
   if (!featured) return null;
-  const { image, title, description, price, oldPrice, rating } = featured;
+  const { id, image, title, description, price, oldPrice, rating } = featured;
 
   return (
     <div className="flex flex-col items-center x:p-6 md:p-6 p-4 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all hover:shadow-lg">
@@ -49,7 +49,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
 
         <Rating rating={rating}></Rating>
 
-        <Link to={'/'} className="mt-2">
+        <Link to={`/shop-gifts/${id}`} className="mt-2">
           <Button variant={"outline"} className="w-full rounded-lg">
             View Details
           </Button>
