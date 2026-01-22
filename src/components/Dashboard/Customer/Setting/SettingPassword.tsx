@@ -2,7 +2,7 @@ import * as React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,8 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Link } from "react-router";
-import { toast } from "sonner";
 
 const schema = z.object({
   password: z
@@ -49,6 +47,7 @@ export default function SettingPassword({ handleVerified }: Props) {
     // }
     // const data = await res.json();
     // ✅ server should return short-lived token
+    console.log(values);
     handleVerified("token");
   };
 

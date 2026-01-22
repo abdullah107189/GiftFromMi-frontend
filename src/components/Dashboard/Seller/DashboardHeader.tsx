@@ -1,4 +1,4 @@
-import { Bell, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -60,7 +60,7 @@ export const DashboardHeader = () => {
 
         {/* User */}
         <Link
-          to="/dashboard/settings"
+          to="/seller-dashboard/settings"
           className="flex items-center gap-2 xl:gap-3 pl-1 cursor-pointer"
         >
           <Avatar className="size-9 xl:size-10">

@@ -56,7 +56,7 @@ export function SellerNotificationsPopover() {
         align="end"
         sideOffset={12}
         className={cn(
-          "w-[420px] rounded-3xl border border-border bg-popover p-0 overflow-hidden",
+          "lg:w-[420px] w-[350px] ml-1   rounded-3xl border border-border bg-popover p-0 overflow-hidden",
           "shadow-[0_18px_40px_rgba(0,0,0,0.18)]",
         )}
       >

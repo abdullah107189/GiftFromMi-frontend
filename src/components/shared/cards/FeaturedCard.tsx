@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Rating from "../Rating";
 import type { IProduct } from "@/types";
+import { Link } from "react-router";
 
 interface FeaturedCardProps {
   featured: IProduct;
@@ -48,11 +49,11 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
 
         <Rating rating={rating}></Rating>
 
-        <div className="mt-2">
+        <Link to={'/'} className="mt-2">
           <Button variant={"outline"} className="w-full rounded-lg">
             View Details
           </Button>
-        </div>
+        </Link>
       </div>
     </div>
   );

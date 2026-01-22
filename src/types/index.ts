@@ -10,6 +10,8 @@ export interface ISidebarItem {
   url: string;
   icon?: ElementType;
   component?: ComponentType;
+  children?: ISidebarItem[];
+  hidden?: boolean;
 }
 
 export interface ISectionHeaderProps {

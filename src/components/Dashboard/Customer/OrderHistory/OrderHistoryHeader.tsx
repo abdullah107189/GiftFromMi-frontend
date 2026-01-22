@@ -1,5 +1,4 @@
 import SharedDropdown from "@/components/shared/SharedDropdown";
-import { Calendar } from "lucide-react";
 import { useState } from "react";
 
 const monthOptions = [

@@ -159,7 +159,7 @@ export function CustomerSidebar({ className }: { className?: string }) {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    "flex items-center hover:bg-gray-100 justify-start gap-3 px-4 py-6 transition-all rounded-xl",
+                    "flex items-center cursor-pointer hover:bg-gray-100 justify-start gap-3 px-4 py-6 transition-all rounded-xl",
                     isActive
                       ? "bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] border border-primary text-white hover:bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] hover:text-white"
                       : "bg-gray-100 text-primary border border-gray-100",
@@ -188,7 +188,7 @@ export function CustomerSidebar({ className }: { className?: string }) {
           <SidebarMenuItem className="">
             <button
               onClick={() => setIsOpen(true)}
-              className="flex items-center gap-3 px-4 py-3 w-full text-red-500 bg-gray-100 rounded-xl transition-all"
+              className="flex items-center gap-3 px-4 cursor-pointer py-3 w-full text-red-500 bg-gray-100 rounded-xl transition-all"
             >
               <LogOut className="text-primary" size={20} />
               <span className="font-medium text-gray-900">Logout</span>

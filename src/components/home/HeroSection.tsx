@@ -2,6 +2,7 @@ import hero from "@/assets/banner_and_background/HomeHeroBg.png";
 import bgStar from "@/assets/banner_and_background/heroStar.png";
 import heroImage from "@/assets/gallery/heroImage.png";
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 function HeroSection() {
   const statsData = [
     { id: 1, label: "500+ Happy Professionals" },
@@ -48,10 +49,14 @@ function HeroSection() {
                 </p>
 
                 <div className="flex flex-wrap gap-4 mb-12">
-                  <Button>Start Sending Gift</Button>
-                  <Button variant="outline" className="">
-                    Book a Setup Call
-                  </Button>
+                  <Link to="/shop-gifts">
+                    <Button>Start Sending Gift</Button>
+                  </Link>
+                  <Link to={"/book-call"}>
+                    <Button variant="outline" className="h-12">
+                      Book a Setup Call
+                    </Button>
+                  </Link>
                 </div>
 
                 <div className="flex flex-wrap gap-8 ml-4 items-center sm:pb-0 pb-4">

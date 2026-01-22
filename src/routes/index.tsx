@@ -13,15 +13,15 @@ import SellerDashboardPage from "@/pages/Dashboard/Seller/SellerDashboardPage";
 
 import { generateRoutes } from "@/utils/genarateRoute";
 import { publicRoutes } from "./publicRoutes";
-import { withAuth } from "@/utils/withAuth";
-import { Role } from "@/types";
+// import { withAuth } from "@/utils/withAuth";
+// import { Role } from "@/types";
 import SellerDashboard from "@/components/layout/SellerDashboard";
 import { sellerRoutes } from "./sellerRoutes";
 import CustomerDashboard from "@/components/layout/CustomerDashboard";
 import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
-import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
-import UpdatePasswordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
+// import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
+// import UpdatePasswordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   // seller dashboard routes
   {
     path: "seller-dashboard",
-    Component: withAuth(SellerDashboard, Role.seller),
+    Component: SellerDashboard,
     children: [
       {
         index: true,
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
   // customer dashboard routes
   {
     path: "customer-dashboard",
-    Component: withAuth(CustomerDashboard, Role.customer),
+    Component: CustomerDashboard,
     children: [
       {
         index: true,

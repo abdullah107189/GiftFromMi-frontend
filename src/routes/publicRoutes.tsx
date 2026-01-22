@@ -9,6 +9,7 @@ import ContactUsPage from "@/pages/ContactUsPage";
 import BookSetupCall from "@/pages/BookSetupCall";
 import CheckoutPage from "@/pages/CheckoutPage";
 import { ShoppingCart } from "@/pages/ShoppingCart";
+import ProductDetails from "@/components/shop-gifts/ProductDetails/ProductDetails";
 
 export const publicRoutes: ISidebarItem[] = [
   {
@@ -25,6 +26,14 @@ export const publicRoutes: ISidebarItem[] = [
     title: "Shop Gifts",
     url: "/shop-gifts",
     component: ShopGiftsPage,
+    children: [
+      {
+        title: "Gift Details",
+        url: ":id",
+        component: ProductDetails,
+        hidden: true,
+      },
+    ],
   },
   {
     title: "For Professionals",

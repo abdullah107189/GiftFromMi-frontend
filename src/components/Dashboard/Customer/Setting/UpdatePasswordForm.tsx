@@ -23,10 +23,10 @@ type FormValues = z.infer<typeof formSchema>;
 
 type Props = {
   verifyToken: string;
-  onBack: () => void;
+  onBack?: () => void;
 };
 
-export default function UpdatePasswordForm({ verifyToken, onBack }: Props) {
+export default function UpdatePasswordForm({ verifyToken }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
