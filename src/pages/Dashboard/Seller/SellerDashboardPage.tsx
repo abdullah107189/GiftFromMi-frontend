@@ -11,6 +11,7 @@ import {
   statCardsData,
 } from "@/data/mockData";
 import RecentOrderTable from "@/components/Dashboard/Seller/Dashboard/RecentOrderTable";
+import { Link } from "react-router";
 
 export default function SellerDashboardPage() {
   return (
@@ -69,9 +70,11 @@ export default function SellerDashboardPage() {
               <CardTitle>Upcoming Gifts</CardTitle>
               <p className="text-sm text-gray-500 mt-4">Scheduled deliveries</p>
             </div>
-            <button className="text-primary text-sm cursor-pointer">
-              View Calender
-            </button>
+            <Link to={"/seller-dashboard/scheduling"}>
+              <button className="text-primary text-sm cursor-pointer">
+                View Calender
+              </button>
+            </Link>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">

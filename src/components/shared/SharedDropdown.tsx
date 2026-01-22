@@ -13,53 +13,61 @@ interface DropdownOption {
   value: string;
 }
 
+type DropdownVariant = "select" | "icon";
+
 interface SharedDropdownProps {
   options: DropdownOption[];
   selectedValue?: string;
   onValueChange: (value: string) => void;
+
+  variant?: DropdownVariant;
   placeholder?: string;
   className?: string;
+
   triggerIcon?: React.ReactNode;
-  showText?: boolean;
+  align?: "start" | "center" | "end";
 }
 
 export default function SharedDropdown({
   options,
   selectedValue,
   onValueChange,
+  variant = "select",
   placeholder = "Select Option",
   className,
   triggerIcon,
-  showText = true,
+  align = "end",
 }: SharedDropdownProps) {
-  const selectedLabel =
-    options.find((opt) => opt.value === selectedValue)?.label || placeholder;
+  const isIcon = variant === "icon";
 
-  const hasIcon = !!triggerIcon;
-  const hasText = showText;
+  const selectedLabel =
+    options.find((opt) => opt.value === selectedValue)?.label ?? placeholder;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
+          type="button"
           className={cn(
             "flex items-center outline-none transition-all cursor-pointer",
-            hasIcon && hasText
-              ? "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm w-full justify-start gap-3"
-              : hasIcon
-                ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9 justify-center"
-                : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm min-w-[200px] justify-between",
+            isIcon
+              ? "p-3 hover:bg-gray-100 rounded-full w-9 h-9 justify-center"
+              : "p-4 bg-white border border-gray-200 rounded-xl text-[#5C5C5C] text-sm w-full justify-between",
             className,
           )}
+          aria-label={isIcon ? "Open menu" : "Open dropdown"}
         >
-          {hasIcon && (
+          {isIcon ? (
             <div className="flex items-center justify-center shrink-0">
               {triggerIcon}
             </div>
-          )}
-
-          {hasText && (
+          ) : (
             <>
+              {triggerIcon && (
+                <div className="flex items-center justify-center shrink-0 mr-3">
+                  {triggerIcon}
+                </div>
+              )}
               <span className="truncate">{selectedLabel}</span>
               <ChevronDown className="ml-auto h-4 w-4 opacity-50 shrink-0" />
             </>
@@ -68,7 +76,7 @@ export default function SharedDropdown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        align="end"
+        align={align}
         className="p-2 bg-white rounded-2xl shadow-none border border-gray-100"
       >
         {options.map((option) => {

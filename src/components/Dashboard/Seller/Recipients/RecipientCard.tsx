@@ -45,6 +45,7 @@ const RecipientCard: React.FC<{ contact: Contact }> = ({ contact }) => {
         </div>
 
         <SharedDropdown
+          variant="icon"
           options={dropdownOptions}
           onValueChange={handleAction}
           triggerIcon={

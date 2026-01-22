@@ -122,6 +122,7 @@ export default function OrderTable({ orders }: OrderTableProps) {
               </TableCell>
               <TableCell className="py-5 whitespace-nowrap">
                 <SharedDropdown
+                  variant="icon"
                   options={actionOptions}
                   onValueChange={(val) => console.log(val)}
                   triggerIcon={

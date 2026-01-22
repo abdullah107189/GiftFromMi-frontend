@@ -18,6 +18,7 @@ const tabs = [
 ];
 
 const statusOptions = [
+  { label: "All", value: "all" },
   { label: "Pending", value: "pending" },
   { label: "Delivered", value: "delivered" },
   { label: "Shipped", value: "shipped" },
@@ -39,7 +40,7 @@ export default function OrdersFilterBar() {
                 value={tab.value}
                 className={cn(
                   "px-0 py-1 text-[14px] font-medium transition-all rounded-none border-b-2 border-transparent data-[state=active]:text-primary data-[state=active]:bg-transparent shadow-none! cursor-pointer",
-                  "text-gray-500 hover:text-gray-700"
+                  "text-gray-500 hover:text-gray-700",
                 )}
               >
                 {tab.label}
@@ -55,15 +56,15 @@ export default function OrdersFilterBar() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               placeholder="Search orders"
-              className="pl-10 h-10 bg-white border-gray-200 rounded-[10px] focus-visible:ring-[#CA8A32]  focus-visible:ring-1"
+              className="pl-10 h-10 sm:w-[200px] w-full bg-white border-gray-200 rounded-[10px] focus-visible:ring-[#CA8A32]  focus-visible:ring-1"
             />
           </div>
 
           {/* Filter Icon Button */}
-          <Button
+          {/* <Button
             variant="outline"
             size="icon"
-            className="p-2! border border-gray-200 text-gray-500"
+            className="p-2! h-10 border border-gray-200 hover:text-white text-gray-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +81,7 @@ export default function OrdersFilterBar() {
                 strokeLinejoin="round"
               />
             </svg>
-          </Button>
+          </Button> */}
 
           {/* Status Dropdown */}
           <SharedDropdown

@@ -49,7 +49,7 @@ export default function RecentOrderTable({ orders }: RecentOrderTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody className="">
-          {orders.map((order) => (
+          {orders.slice(0, 5).map((order) => (
             <TableRow
               key={order.id}
               className="hover:bg-primary-50  border-b border-gray-200 last:border-0 transition-colors group"

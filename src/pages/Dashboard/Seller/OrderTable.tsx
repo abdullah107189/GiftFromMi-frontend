@@ -23,7 +23,6 @@ function OrdersPage() {
     <div className="space-y-4">
       <OrdersHeader />
       <OrdersFilterBar />
-
       <OrderTable orders={currentOrders} />
 
       {totalPages > 1 && (

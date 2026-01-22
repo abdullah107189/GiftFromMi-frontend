@@ -25,14 +25,16 @@ export default function OrdersHeader() {
           <span className="text-[14px] font-medium text-gray-700">Export</span>
         </button>
 
-
         <ExportOrdersModal
           isOpen={isExportOpen}
           onClose={() => setIsExportOpen(false)}
         />
 
         {/* New Order Button */}
-        <button onClick={() => setIsNewOrderOpen(true)} className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
+        <button
+          onClick={() => setIsNewOrderOpen(true)}
+          className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card"
+        >
           <Plus className="w-4 h-4" />
           <span className="text-[14px] font-medium">New Order</span>
         </button>

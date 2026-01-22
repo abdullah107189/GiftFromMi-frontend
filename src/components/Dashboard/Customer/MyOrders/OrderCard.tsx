@@ -90,12 +90,12 @@ export default function OrderCard({
               {isAccepted && (
                 <>
                   <Button
-                    className="px-6 h-10 rounded-2xl"
+                    className="px-6 py-4! h-auto  rounded-2xl"
                     variant={"secondary"}
                   >
                     Tracker Order
                   </Button>
-                  <Button variant="outline" className="px-6 h-10 rounded-2xl">
+                  <Button variant="outline" className="px-6 rounded-2xl">
                     Invoice
                   </Button>
                 </>
@@ -104,12 +104,12 @@ export default function OrderCard({
               {isDelivered && (
                 <>
                   <Button
-                    className="px-6 h-10 rounded-2xl"
+                    className="h-auto px-6 py-4 rounded-2xl"
                     variant={"secondary"}
                   >
                     Ad Review
                   </Button>
-                  <Button variant="outline" className="px-6 h-10 rounded-2xl">
+                  <Button variant="outline" className="px-6  rounded-2xl">
                     Invoice
                   </Button>
                 </>
@@ -119,7 +119,7 @@ export default function OrderCard({
             {isAccepted && (
               <Button
                 variant="ghost"
-                className="bg-[#FFF1F3] text-[#F43F5E] hover:bg-[#FFE4E8] hover:text-[#E11D48] rounded-xl px-7 h-11 text-sm font-medium transition-all md:ml-4"
+                className="bg-[#FFF1F3] h-auto py-4 text-[#F43F5E] hover:bg-[#FFE4E8] hover:text-[#E11D48] rounded-xl px-7 text-sm font-medium transition-all md:ml-4"
               >
                 Cancel Order
               </Button>

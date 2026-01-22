@@ -15,18 +15,31 @@ import { Button } from "@/components/ui/button";
 import profileImg from "@/assets/person/p1.jpg";
 import * as z from "zod";
 import SharedDropdown from "@/components/shared/SharedDropdown";
+import React from "react";
 
 const profileSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 characters"),
+
+  phone: z
+    .string()
+    .trim()
+    .transform((v) => v.replace(/[^\d+]/g, ""))
+    .refine((v) => /^\+?[0-9]\d{6,19}$/.test(v), "Enter a valid phone number"),
+
   gender: z.string().min(1, "Please select a gender"),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
 export default function EditProfileForm() {
+  const [profileImage, setProfileImage] = React.useState<string>(profileImg);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -40,22 +53,44 @@ export default function EditProfileForm() {
 
   const onSubmit = (data: ProfileFormValues) => {
     console.log("Updated Data:", data);
+    console.log(profileImage);
   };
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
     { label: "Other", value: "other" },
   ];
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // basic validation
+    if (!file.type.startsWith("image/")) return;
+
+    // preview
+    const previewUrl = URL.createObjectURL(file);
+    setProfileImage(previewUrl);
+
+    // 👉 future: upload to server
+    // const formData = new FormData();
+    // formData.append("avatar", file);
+    // await api.post("/upload-avatar", formData);
+  };
   return (
     <div className="border border-(--Text-gray-200,#E5E7EB) shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] xl:rounded-4xl rounded-2xl  xl:p-10 md:p-6 p-4 border-solid">
       {/* Profile Image Section */}
       <div className="relative xl:w-[150px] xl:h-[150px] md:w-[120px] md:h-[120px] w-[100px] h-[100px] xl:mb-12 lg:mb-10 md:mb-8 mb-6">
         <img
-          src={profileImg}
+          src={profileImage}
           alt="Profile"
           className="w-full h-full rounded-full object-cover"
         />
-        <button className="absolute bottom-1 right-1 bg-[#D48D2B] p-2 rounded-full border shadow-[0_1px_2px_0_rgba(0,0,0,0.30),0_1px_3px_1px_rgba(0,0,0,0.15)] border-white text-white hover:bg-primary transition-colors">
+
+        <button
+          type="button"
+          onClick={handleButtonClick}
+          className="absolute bottom-1 right-1 bg-[#D48D2B] p-2 rounded-full border shadow-[0_1px_2px_0_rgba(0,0,0,0.30),0_1px_3px_1px_rgba(0,0,0,0.15)] border-white text-white hover:bg-primary transition-colors"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -69,6 +104,15 @@ export default function EditProfileForm() {
             />
           </svg>
         </button>
+
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+        />
       </div>
 
       <Form {...form}>
