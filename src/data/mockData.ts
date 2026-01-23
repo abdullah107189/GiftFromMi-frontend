@@ -13,6 +13,7 @@ export type ChartDataArray = ChartDataItem[];
 import { Plus, Upload, UserPlus, Megaphone } from "lucide-react";
 import { Calendar, Clock, ShoppingCart, TrendingUp } from "lucide-react";
 import p2 from "@/assets/products/p2.png";
+import type { Campaign, CampaignStatus } from "@/types";
 export const statCardsData: StatCard[] = [
   {
     id: "1",
@@ -535,3 +536,104 @@ export const PRICING_DATA = {
     },
   ],
 };
+
+// campaign
+
+export type DropdownOption = { label: string; value: string };
+
+export const statusStyles: Record<
+  CampaignStatus,
+  { badge: string; bar: string; barBg: string }
+> = {
+  Active: {
+    badge: "bg-[#DCFCE7] text-[#008236]  border-none",
+    bar: "bg-primary",
+    barBg: "bg-gray-200",
+  },
+  Paused: {
+    badge: "bg-[#FEF9C2] text-[#A65F00] border-none",
+    bar: "bg-[#155DFC]",
+    barBg: "bg-gray-200",
+  },
+  Completed: {
+    badge: "bg-[#F3F4F6] text-[#364153] border-none",
+    bar: "bg-[#00A63E]",
+    barBg: "bg-gray-200",
+  },
+  Draft: {
+    badge: "bg-gray-100 text-gray-700 border-none",
+    bar: "bg-gray-300",
+    barBg: "bg-gray-200",
+  },
+};
+
+export const clampPercent = (n: number) => `${Math.max(0, Math.min(100, n))}%`;
+
+export const demoCampaigns: Campaign[] = [
+  {
+    id: "1",
+    title: "Holiday 2024",
+    status: "Active",
+    description: "Annual holiday gift campaign for all clients",
+    recipients: 245,
+    giftsSent: "18004B",
+    startDate: "Dec 1, 2024",
+    progress: 73,
+    trigger: "Scheduled delivery",
+  },
+  {
+    id: "2",
+    title: "Client Appreciation",
+    status: "Active",
+    description: "Thank you gifts for top tier clients",
+    recipients: 161,
+    giftsSent: "34558",
+    startDate: "Nov 15, 2024",
+    progress: 70,
+    trigger: "After purchase milestone",
+  },
+  {
+    id: "3",
+    title: "New Client Welcome",
+    status: "Active",
+    description: "Welcome kit for newly signed clients",
+    recipients: 89,
+    giftsSent: "56AB",
+    startDate: "Oct 1, 2024",
+    progress: 100,
+    trigger: "7 days after signup",
+  },
+  {
+    id: "4",
+    title: "Birthday Celebrations",
+    status: "Paused",
+    description: "Automated birthday gifts for contacts",
+    recipients: 312,
+    giftsSent: "156012",
+    startDate: "Jan 1, 2024",
+    progress: 50,
+    trigger: "On birthday",
+  },
+  {
+    id: "5",
+    title: "VIP Clients Q1",
+    status: "Completed",
+    description: "Exclusive gifts for VIP segment",
+    recipients: 25,
+    giftsSent: "25M2",
+    startDate: "Jan 15, 2024",
+    progress: 100,
+    trigger: "Quarterly schedule",
+  },
+  {
+    id: "6",
+    title: "Summer Appreciation",
+    status: "Draft",
+    description: "Summer themed gift launch",
+    recipients: 0,
+    giftsSent: "0/100",
+    startDate: "Jun 1, 2025",
+    progress: 0,
+    trigger: "One-time send",
+  },
+];

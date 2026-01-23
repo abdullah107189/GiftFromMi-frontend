@@ -57,3 +57,18 @@ export interface PricingPlan {
   footerText: string;
   features: string[];
 }
+
+// campaign
+export type CampaignStatus = "Active" | "Paused" | "Completed" | "Draft";
+
+export type Campaign = {
+  id: string;
+  title: string;
+  status: CampaignStatus;
+  description: string;
+  recipients: number;
+  giftsSent: string;
+  startDate: string;
+  progress: number; // 0-100
+  trigger: string;
+};
