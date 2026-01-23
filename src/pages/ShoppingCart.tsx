@@ -56,7 +56,7 @@ const cartItems: IProduct[] = [
 
 export const ShoppingCart = () => {
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
-    cartItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {})
+    cartItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {}),
   );
 
   const handleDecrease = (id: number) => {
@@ -75,37 +75,37 @@ export const ShoppingCart = () => {
 
   const subTotal = cartItems.reduce(
     (acc, item) => acc + item.price * (quantities[item.id as number] || 1),
-    0
+    0,
   );
   const shipping = 24.0;
   const total = subTotal + shipping;
   return (
-    <section className="relative max-w-main  md:mt-35 mt-20 py-5">
+    <section className="relative max-w-main md:mt-35 mt-20 py-5">
       <div className="px-3 max-w-container mx-auto">
-        <h1 className="xl:text-5xl md:text-4xl text-3xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
+        <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
           Shopping Gift Cart ({cartItems.length.toString().padStart(2, "0")}{" "}
           Items)
         </h1>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-17.5 gap-10">
+        <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-17.5 lg:gap-12 md:gap-8 gap-5">
           {/* Products List */}
           <div className="lg:col-span-2 overflow-x-auto">
             <Table className="">
               <TableHeader>
-                <TableRow className="bg-[#F0F1F1] border-none ">
-                  <TableHead className="p-4 rounded-l-2xl xl:text-2xl font-semibold md:text-xl text-lg text-gray-900">
+                <TableRow className="bg-[#F0F1F1] border-none">
+                  <TableHead className="md:p-4 p-2 xl:rounded-l-2xl md:rounded-l-xl rounded-l-lg xl:text-2xl lg:text-xl font-semibold md:text-lg text-base text-gray-900">
                     Product Details
                   </TableHead>
-                  <TableHead className="p-4 text-center xl:text-2xl font-semibold md:text-xl text-lg text-gray-900">
+                  <TableHead className="md:p-4 p-2 text-center xl:text-2xl lg:text-xl font-semibold  md:text-lg text-base text-gray-900">
                     Price
                   </TableHead>
-                  <TableHead className="p-4 text-center xl:text-2xl font-semibold md:text-xl text-lg text-gray-900">
+                  <TableHead className="md:p-4 p-2 text-center xl:text-2xl lg:text-xl font-semibold  md:text-lg text-base text-gray-900">
                     Quantity
                   </TableHead>
-                  <TableHead className="p-4 text-center xl:text-2xl font-semibold md:text-xl text-lg text-gray-900">
+                  <TableHead className="md:p-4 p-2 text-center xl:text-2xl lg:text-xl font-semibold  md:text-lg text-base text-gray-900">
                     Subtotal
                   </TableHead>
-                  <TableHead className="p-4 rounded-r-2xl"></TableHead>
+                  <TableHead className="md:p-4 p-2 xl:rounded-r-2xl md:rounded-r-xl rounded-r-lg"></TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -116,17 +116,17 @@ export const ShoppingCart = () => {
                     className="group border-none hover:bg-transparent"
                   >
                     {/* Product Details */}
-                    <TableCell className="xl:pt-10 md:pt-8 pt-5 ">
-                      <div className="flex   w-60 xl:gap-7.5 md:gap-5 gap-4">
+                    <TableCell className="xl:pt-10 lg:pt-8 md:pt-5 pt-3">
+                      <div className="flex w-60 xl:gap-7.5 md:gap-5 gap-4">
                         <div className="xl:w-37.5 md:w-30 w-20 xl:h-38.25 md:h-30 h-20 rounded-lg bg-gray-100 shrink-0">
                           <img
                             src={item.image[0]}
-                            className="w-full h-full object-cover rounded-xl"
+                            className="w-full h-full object-cover md:rounded-xl rounded-lg"
                             alt={item.title}
                           />
                         </div>
                         <div className="flex max-w-40   relative flex-col justify-between gap-2">
-                          <p className="font-medium xl:text-2xl md:text-xl text-lg text-gray-900 line-clamp-5 leading-tight whitespace-normal wrap-break-word">
+                          <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-5 leading-tight whitespace-normal wrap-break-word">
                             {item.title}
                           </p>
                           <p className="text-gray-900 font-manrope">
@@ -137,14 +137,14 @@ export const ShoppingCart = () => {
                     </TableCell>
 
                     {/* Price */}
-                    <TableCell className="p-4 text-center font-semibold font-manrope xl:text-2xl md:text-xl text-lg text-gray-700">
+                    <TableCell className="md:p-4 p-2 text-center font-semibold font-manrope xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
                       ${item.price.toFixed(2)}
                     </TableCell>
 
                     {/* Quantity */}
                     <TableCell>
                       <div className="flex items-center justify-center">
-                        <div className="flex items-center bg-primary text-white rounded-2xl p-3 md:p-4 gap-3">
+                        <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
                           <button
                             onClick={() => handleDecrease(item?.id as number)}
                             className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
@@ -200,13 +200,13 @@ export const ShoppingCart = () => {
                     </TableCell>
 
                     {/* Subtotal */}
-                    <TableCell className=" text-center font-semibold xl:text-2xl lg:text-xl text-lg text-gray-700">
+                    <TableCell className=" text-center font-semibold xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
                       ${item.price.toFixed(2)}
                     </TableCell>
 
                     {/* Delete Button */}
                     <TableCell className="text-center">
-                      <button className="p-3 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group">
+                      <button className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -267,30 +267,36 @@ export const ShoppingCart = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <Card className="md:p-6 p-4 bg-primary-50 border-primary rounded-4xl sticky top-36 shadow-sm">
-              <h2 className="xl:text-[32px] md:text-2xl text-xl font-semibold text-center xl:mb-15.5 md:mb-10 mb-5 text-gray-900">
+            <Card className="md:p-6 p-3 bg-primary-50 border-primary xl:rounded-4xl lg:rounded-3xl  rounded-2xl  sticky top-36 shadow-sm">
+              <h2 className="xl:text-[32px] md:text-2xl text-xl font-semibold text-center xl:mb-15.5 md:mb-10 mb-0 text-gray-900">
                 Order Summary
               </h2>
               <div className="">
-                <p className="md:text-lg md:pb-6 pb-4 font-semibold text-gray-900 ">
+                <p className="md:text-lg xl:pb-6 md:pb-4 pb-2 font-semibold text-gray-900 ">
                   Product Details:
                 </p>
                 <div className="flex justify-between">
-                  <span className="text-gray-900">Sub Total :</span>
-                  <span className="font-semibold text-gray-900 text-xl">
+                  <span className="text-gray-900 md:text-base text-sm">
+                    Sub Total :
+                  </span>
+                  <span className="font-semibold text-gray-900 md:text-xl">
                     ${subTotal.toFixed(2)}
                   </span>
                 </div>
-                <div className="flex justify-between py-4">
-                  <span className="text-gray-900">Shipping :</span>
-                  <span className="font-semibold text-gray-900 text-xl">
+                <div className="flex justify-between md:py-4 py-2">
+                  <span className="text-gray-900 md:text-base text-sm">
+                    Shipping :
+                  </span>
+                  <span className="font-semibold text-gray-900 md:text-xl">
                     ${shipping.toFixed(2)}
                   </span>
                 </div>
-                <hr className="border-gray-200 mb-4" />
+                <hr className="border-gray-200 md:mb-4 mb-2" />
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-900 ">Total :</span>
-                  <span className="text-xl font-semibold text-primary">
+                  <span className="text-gray-900 md:text-base text-sm">
+                    Total :
+                  </span>
+                  <span className="md:text-xl font-semibold text-primary">
                     ${total.toFixed(2)}
                   </span>
                 </div>
