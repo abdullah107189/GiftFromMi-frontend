@@ -15,7 +15,10 @@ const buttonVariants = cva(
         destructive: "bg-destructive text-white hover:bg-destructive/90",
         secondary: "bg-primary text-primary-foreground",
         ghost: "hover:bg-primary-50",
-        accent: "bg-primary-50 text-primary border border-gray-200",
+        ModalAccent:
+          "bg-primary-50 text-primary border border-gray-200 xl:px-6! xl:py-3! md:py-4! md:py-2! py-3! py-2!",
+        ModalActive:
+          "bg-primary text-primary-foreground xl:px-6! xl:py-3! md:py-4! md:py-2! py-3! py-2!",
         link: "text-primary underline-offset-4 hover:underline",
       },
 

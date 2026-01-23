@@ -32,13 +32,15 @@ export default function SearchRecipientsBar() {
         <Input
           type="text"
           placeholder="Search recipients..."
-          className="flex xl:w-123.25 lg:w-100 md:w-90 w-80 h-9.5 text-gray-900 pl-10 pr-4 py-2 items-center rounded-[10px] border border-gray-200 bg-[#F9FAFB] focus-visible:ring-0 focus-visible:border-[#CA8A32] placeholder:text-gray-9 00 text-sm transition-all"
+          className="flex xl:w-123.25 lg:w-100 md:w-80 w-[80%] h-9.5 text-gray-900 pl-10 pr-4 py-2 items-center rounded-[10px] border border-gray-200 bg-[#F9FAFB] focus-visible:ring-0 focus-visible:border-[#CA8A32] placeholder:text-gray-9 00 text-sm transition-all"
         />
       </div>
 
       {/* Right Action Button */}
-      <button className="flex p-2.5 justify-center items-center gap-2.5 rounded-xl border border-[#CA8A32] bg-white hover:bg-orange-50 transition-colors">
-        <span className="text-[#CA8A32] text-sm font-medium">8 recipients</span>
+      <button className="flex p-2.5 justify-center items-center min-w-fit gap-2.5 rounded-xl border border-[#CA8A32] bg-white hover:bg-orange-50 transition-colors">
+        <span className="text-[#CA8A32] text-sm font-medium ">
+          8 recipients
+        </span>
       </button>
     </div>
   );

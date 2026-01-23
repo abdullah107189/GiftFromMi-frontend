@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface AddRecipientModalProps {
   isOpen: boolean;
@@ -72,15 +73,18 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="xl:min-w-2xl w-full bg-white rounded-2xl p-10 border-none overflow-y-auto max-h-screen [&>button]:hidden">
+      <DialogContent className="xl:min-w-2xl w-full bg-white rounded-2xl xl:p-10 lg:p-8 md:p-6 p-4 border-none overflow-y-auto max-h-screen [&>button]:hidden">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-gray-900 xl:mb-6 mb-4">
+          <DialogTitle className="text-xl font-semibold text-gray-900 xl:mb-6 md:mb-4 mb-2">
             Add Recipient
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="xl:space-y-6 md:space-y-4 space-y-2"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5 gap-2">
             <div className="space-y-2">
               <label className="text-sm text-gray-700">First Name</label>
               <Input
@@ -88,7 +92,7 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
                   required: "First name is required",
                 })}
                 placeholder="Enter first name"
-                className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
+                className="bg-[#F9FAFB] border-none md:h-12 h-10 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
               />
               {errors.firstName && (
                 <p className="text-xs text-red-500">
@@ -101,7 +105,7 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
               <Input
                 {...register("lastName", { required: "Last name is required" })}
                 placeholder="Enter last name"
-                className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
+                className="bg-[#F9FAFB] border-none md:h-12 h-10 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
               />
               {errors.lastName && (
                 <p className="text-xs text-red-500">
@@ -123,7 +127,7 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
               })}
               type="email"
               placeholder="email@company.com"
-              className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
+              className="bg-[#F9FAFB] border-none md:h-12 h-10 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
             />
             {errors.email && (
               <p className="text-xs text-red-500">{errors.email.message}</p>
@@ -135,7 +139,7 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
             <Input
               {...register("phone")}
               placeholder="+1 555 0123"
-              className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
+              className="bg-[#F9FAFB] border-none md:h-12 h-10 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
             />
           </div>
 
@@ -144,7 +148,7 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
             <Input
               {...register("company")}
               placeholder="Company name"
-              className="bg-[#F9FAFB] border-none h-14 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
+              className="bg-[#F9FAFB] border-none md:h-12 h-10 rounded-xl px-4 focus-visible:ring-0 shadow-none placeholder:text-gray-400"
             />
           </div>
 
@@ -169,19 +173,16 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
           </div>
 
           <div className="flex justify-end gap-4 pt-6">
-            <button
+            <Button
+              variant={"ModalAccent"}
               type="button"
               onClick={handleCancel}
-              className="cursor-pointer rounded-2xl px-6 py-3 bg-primary-50 text-primary shadow-none border-none border border-gray-200"
             >
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="cursor-pointer rounded-2xl px-6 py-3 bg-primary text-white shadow-none border-none"
-            >
+            </Button>
+            <Button variant={"ModalActive"} type="submit">
               Add Recipient
-            </button>
+            </Button>
           </div>
         </form>
       </DialogContent>

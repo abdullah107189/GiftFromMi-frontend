@@ -25,9 +25,9 @@ const RecipientCard: React.FC<{ contact: Contact }> = ({ contact }) => {
       ? "bg-[#E0E7FF] text-[#4F39F6]"
       : "bg-gray-100 text-gray-600";
   return (
-    <Card className="border-gray-100 bg-white md:p-6 p-4 shadow-[0_0_4px_0_rgba(0,0,0,0.16)] rounded-2xl">
+    <Card className="border-gray-100 bg-white md:p-6 p-3! shadow-[0_0_4px_0_rgba(0,0,0,0.16)] md:rounded-2xl rounded-xl">
       <CardHeader className="flex flex-row items-start justify-between p-0 ">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center md:gap-3">
           <Avatar className="h-10 w-10 text-[#4F39F6] bg-[#E0E7FF]">
             <AvatarImage src={contact.avatar} alt={contact.name} />
             <AvatarFallback className={`text-sm ${avatarStyles}`}>
