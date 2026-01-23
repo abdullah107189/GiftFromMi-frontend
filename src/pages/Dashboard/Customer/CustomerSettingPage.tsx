@@ -19,7 +19,7 @@ export default function CustomerSettingPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="xl:space-y-8 lg:space-y-6 md:space-y-4 space-y-2">
       {!verified ? (
         <SettingPassword handleVerified={handleVerified} />
       ) : (

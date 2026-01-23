@@ -41,7 +41,7 @@ export function PasswordField({
                 type={show ? "text" : "password"}
                 autoComplete={autoComplete}
                 placeholder="* * * * * * * *"
-                className="h-[84px] rounded-2xl bg-slate-100 pl-14 pr-14 text-lg focus-visible:ring-0"
+                className="xl:h-[84px] md:h-12 h-10 rounded-2xl bg-slate-100 pl-14 pr-14 text-lg focus-visible:ring-0"
               />
 
               <button

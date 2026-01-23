@@ -53,9 +53,9 @@ export default function UpdatePasswordForm({ verifyToken }: Props) {
     toast.success("Password updated successfully");
   };
   return (
-    <div className="w-full p-6">
-      <Card className="rounded-4xl border border-slate-200 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
-        <CardContent className="p-10 space-y-10">
+    <div className="w-full xl:p-6 md:p-4">
+      <Card className="xl:rounded-4xl lg:rounded-3xl md:rounded-2xl rounded-xl border border-slate-200 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
+        <CardContent className="xl:p-10 lg:p-8 md:p-6 p-3 xl:space-y-10 lg:space-y-8 md:space-y-6 space-y-3">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
               <PasswordField
@@ -79,9 +79,7 @@ export default function UpdatePasswordForm({ verifyToken }: Props) {
 
               <Button
                 type="submit"
-                className="h-[72px] w-full rounded-2xl text-lg font-medium
-                           bg-gradient-to-r from-amber-500 to-amber-700
-                           hover:from-amber-600 hover:to-amber-800"
+                className="xl:h-18 md:h-12 h-10 w-full rounded-2xl text-lg font-medium"
               >
                 Update Password
               </Button>

@@ -77,7 +77,7 @@ export default function EditProfileForm() {
     // await api.post("/upload-avatar", formData);
   };
   return (
-    <div className="border border-(--Text-gray-200,#E5E7EB) shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] xl:rounded-4xl rounded-2xl  xl:p-10 md:p-6 p-4 border-solid">
+    <div className="border border-(--Text-gray-200,#E5E7EB) shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] xl:rounded-4xl rounded-2xl  xl:p-10 md:p-6 p-3 border-solid">
       {/* Profile Image Section */}
       <div className="relative xl:w-[150px] xl:h-[150px] md:w-[120px] md:h-[120px] w-[100px] h-[100px] xl:mb-12 lg:mb-10 md:mb-8 mb-6">
         <img
@@ -132,7 +132,7 @@ export default function EditProfileForm() {
                       <User className="absolute left-4 top-1/2 -translate-y-1/2  size-5 text-primary" />
                       <Input
                         placeholder="Enter Your Name"
-                        className="pl-12 h-14 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
+                        className="pl-12 md:h-12 h-10 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
                         {...field}
                       />
                     </div>
@@ -156,7 +156,7 @@ export default function EditProfileForm() {
                       <User className="absolute left-4 top-1/2 -translate-y-1/2  size-5 text-primary" />
                       <Input
                         placeholder="Enter Your Name"
-                        className="pl-12 h-14 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
+                        className="pl-12 md:h-12 h-10 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
                         {...field}
                       />
                     </div>
@@ -181,7 +181,7 @@ export default function EditProfileForm() {
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2  size-5 text-primary" />
                     <Input
                       placeholder="Enter Your Gmail"
-                      className="pl-12 h-14 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
+                      className="pl-12 md:h-12 h-10 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
                       {...field}
                     />
                   </div>
@@ -205,7 +205,7 @@ export default function EditProfileForm() {
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2  size-5 text-primary" />
                     <Input
                       placeholder="01 444 333 555"
-                      className="pl-12 h-14 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
+                      className="pl-12 md:h-12 h-10 bg-gray-100 placeholder:text-gray-500 text-gray-900 border-none rounded-2xl focus-visible:ring-primary focus-visible:ring-1"
                       {...field}
                     />
                   </div>
@@ -230,7 +230,7 @@ export default function EditProfileForm() {
                     selectedValue={field.value}
                     onValueChange={field.onChange}
                     placeholder="Select Gender"
-                    className="h-14 bg-gray-100 border-none rounded-2xl focus:ring-1 focus:ring-primary/20 w-full"
+                    className="md:h-12 h-10 bg-gray-100 border-none rounded-2xl focus:ring-1 focus:ring-primary/20 w-full"
                     triggerIcon={<User className="text-primary size-5" />}
                   />
                 </FormControl>
@@ -242,7 +242,7 @@ export default function EditProfileForm() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full text-white text-xl font-medium rounded-2xl"
+            className="w-full text-white xl:text-xl lg:text-lg text-base font-medium rounded-2xl"
           >
             Update Changes
           </Button>

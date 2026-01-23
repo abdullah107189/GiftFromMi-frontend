@@ -52,7 +52,7 @@ const plans = [
 export const PricingPlans = () => (
   <div className="md:p-6 p-4 bg-white md:mt-6 mt-4 rounded-3xl">
     <h1 className="mb-1">Available Plans</h1>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
       {plans.map((plan) => (
         <div
           key={plan.name}
@@ -64,10 +64,10 @@ export const PricingPlans = () => (
           )}
         >
           <div>
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 flex-wrap">
               <h3 className="text-[20px] my-auto font-semibold">{plan.name}</h3>
               {plan.featured && (
-                <span className="bg-primary-400 text-white px-5 py-2 rounded-xl text-[18px] font-medium">
+                <span className="bg-primary-400 text-white xl:px-5 md:px-3 px-1 md:py-2 py-1 rounded-xl 2xl:text-[18px] text-sm font-medium ">
                   Most Popular
                 </span>
               )}
@@ -104,7 +104,7 @@ export const PricingPlans = () => (
             <Button
               variant={"outline"}
               className={cn(
-                "w-full py-4 cursor-pointer rounded-lg",
+                "w-full  cursor-pointer rounded-lg",
                 plan.featured
                   ? "bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] text-white"
                   : "bg-white border border-primary text-gray-900",

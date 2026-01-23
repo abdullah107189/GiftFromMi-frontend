@@ -54,8 +54,8 @@ export default function SettingPassword({ handleVerified }: Props) {
   return (
     <div className="w-full flex items-start justify-center bg-background">
       {/* Outer frame (1025 x 226, padding 40, gap 63, radius 32, border, shadow) */}
-      <Card className="w-[1025px] border-none shadow-none p-0">
-        <CardContent className="h-full p-[40px]  rounded-4xl border border-[#ECECED] bg-white shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
+      <Card className="md:w-[1025px] border-none shadow-none p-0">
+        <CardContent className="h-full xl:p-10 lg:p-8 md:p-6 p-4  xl:rounded-4xl lg:rounded-3xl md:rounded-2xl rounded-xl border border-[#ECECED] bg-white shadow-[0_6px_16px_rgba(0,0,0,0.12)]">
           <Form {...form}>
             <form
               id="password-form"
@@ -97,8 +97,8 @@ export default function SettingPassword({ handleVerified }: Props) {
                           placeholder="********"
                           autoComplete="new-password"
                           className="
-                            h-[72px] w-full
-                            rounded-[16px]
+                            xl:h-18 md:h-12 h-10  w-full
+                            rounded-2xl
                             border border-transparent
                             bg-[#F6F6F7]
                             pl-[60px] pr-[60px]

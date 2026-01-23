@@ -4,14 +4,16 @@ import type { IOrderHistory } from "@/types/orders";
 
 export default function ReorderCard({ order }: { order: IOrderHistory }) {
   return (
-    <div className="bg-white border border-gray-300 p-4  rounded-2xl">
+    <div className="bg-white border border-gray-300 md:p-4 p-2 md:rounded-2xl rounded-xl">
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <span className="text-xl font-medium text-gray-700">
+      <div className="flex items-center justify-between xl:mb-8 lg:mb-6 md:mb-4 mb-2 flex-wrap gap-2">
+        <div className="flex items-center md:gap-4 gap-2 flex-wrap">
+          <span className="xl:text-xl lg:text-lg md:text-base text-sm font-medium text-gray-700">
             {order.orderId}
           </span>
-          <span className="text-gray-700 text-[18px]">{order.date}</span>
+          <span className="text-gray-700 xl:text-[18px] lg:text-lg md:text-base text-sm">
+            {order.date}
+          </span>
           <Badge className="bg-[#2E8B571C] text-[#2E8B57] rounded-full xl:px-7 lg:px-6 md:px-4 px-2 xl:py-2 lg:py-1 md:py-1 py-1 border-none font-medium">
             {order.status}
           </Badge>
@@ -19,18 +21,18 @@ export default function ReorderCard({ order }: { order: IOrderHistory }) {
 
         <Button
           variant={"secondary"}
-          className="rounded-lg px-2.5  font-medium"
+          className="rounded-lg md:px-2.5! px-2  font-medium"
         >
           Reorder All
         </Button>
       </div>
 
       {/* Product Items Section */}
-      <div className="space-y-8">
+      <div className="xl:space-y-8 lg:space-y-6 md:space-y-4 space-y-3">
         {order.items.map((item, index: number) => (
           <div key={item?.id}>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-5">
+              <div className="flex items-center md:gap-5 gap-2">
                 <div className="w-[100px] h-[102px] aspect-50/51 rounded-2xl overflow-hidden bg-gray-50">
                   <img
                     src={item?.image}
@@ -39,7 +41,7 @@ export default function ReorderCard({ order }: { order: IOrderHistory }) {
                   />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-2xl font-medium text-gray-900 md:mb-6 mb-4">
+                  <h4 className="xl:text-2xl lg:text-xl md:text-lg text-base font-medium text-gray-900 md:mb-6 mb-4">
                     {item?.title}
                   </h4>
                   <p className="text-gray-900 font-normal font-manrope">
@@ -50,14 +52,14 @@ export default function ReorderCard({ order }: { order: IOrderHistory }) {
 
               <Button
                 variant="outline"
-                className="font-medium p-2.5 rounded-lg"
+                className="font-medium md:p-2.5! p-2 rounded-lg"
               >
                 Add Again
               </Button>
             </div>
 
             {index !== order.items.length - 1 && (
-              <div className="border-b border-gray-200 mt-8" />
+              <div className="border-b border-gray-200 xl:mt-8 lg:mt-6 md:mt-4 mt-2" />
             )}
           </div>
         ))}
