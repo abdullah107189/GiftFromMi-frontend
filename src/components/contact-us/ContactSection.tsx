@@ -136,10 +136,10 @@ const ContactSection = () => {
 
   return (
     <section className="xl:py-15 md:py-10 py-5">
-      <div className="max-w-container mx-auto px-3">
-        <div className="border border-gray-300 rounded-2xl xl:p-12 lg:p-10 md:p-8 p-6 flex flex-col lg:flex-row gap-12 lg:gap-20 w-[90%] mx-auto">
-          <div className="w-full lg:w-1/2 xl:p-8 lg:p-6 md:p-4 p-3 border border-gray-300 rounded-2xl">
-            <h2 className="flex items-center gap-3 mb-4">
+      <div className="max-w-container mx-auto md:px-3">
+        <div className="border border-gray-300 rounded-2xl xl:p-12 lg:p-8 md:p-4 p-2 flex flex-col lg:flex-row xl:gap-20 lg:gap-12 md:gap-10 gap-5 w-[90%] mx-auto">
+          <div className="w-full lg:w-1/2 xl:p-8 lg:p-6 md:p-4 p-2 border border-gray-300 rounded-2xl">
+            <h2 className="flex items-center gap-3 md:mb-4 mb-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -172,33 +172,33 @@ const ContactSection = () => {
               </span>
             </h2>
 
-            <h2 className="xl:text-[32px] md:text-2xl text-xl font-semibold text-gray-900 mb-4">
+            <h2 className="xl:text-[32px] md:text-2xl text-xl font-semibold text-gray-900 md:mb-4 mb-2">
               We're Here to Help
             </h2>
 
-            <p className="text-gray-500 text-base xl:mb-12 lg:mb-10 md:mb-8 mb-6">
+            <p className="text-gray-500 text-base xl:mb-12 lg:mb-8 md:mb-4 mb-2">
               We'd love to hear from you. Send us a message and we'll get back
               to you as soon as possible.
             </p>
 
-            <div className="space-y-6">
+            <div className="md:space-y-6 space-y-2">
               {contactCard.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center md:gap-4 gap-3 md:p-5 p-3 border border-gray-300 rounded-2xl "
+                  className="flex items-center md:gap-4 gap-3 lg:p-5 md:p-3 p-2 border border-gray-300 rounded-2xl "
                 >
-                  <div className="w-12 h-12 flex items-center justify-center rounded-full text-xl text-primary">
+                  <div className="flex items-center justify-center rounded-full text-xl text-primary">
                     {item.icon}
                   </div>
                   <div>
-                    <p className="text-gray-700 mb-1">{item.label}</p>
+                    <p className="text-gray-700 md:mb-1">{item.label}</p>
                     <a
                       href={item.href}
                       target={
                         item.label === "Visit Our Location" ? "_blank" : "_self"
                       }
                       rel="noreferrer"
-                      className="text-gray-900 md:text-xl text-lg font-semibold hover:text-primary transition-colors"
+                      className="text-gray-900 lg:text-xl md:text-lg text-sm font-semibold hover:text-primary transition-colors"
                     >
                       {item.value}
                     </a>
@@ -210,7 +210,7 @@ const ContactSection = () => {
 
           <div className="w-full lg:w-1/2 xl:p-8 lg:p-6 md:p-4 p-3 border border-gray-300 rounded-2xl">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:gap-8 lg:gap-6 md:gap-4 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:gap-8 lg:gap-6 md:gap-4 ">
                 <div>
                   <label className="text-gray-500 font-medium ">
                     First name
@@ -218,7 +218,7 @@ const ContactSection = () => {
                   <input
                     type="text"
                     {...register("firstName")}
-                    className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
+                    className="w-full px-4 md:py-3 py-2 md:mt-3 mt-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
                   {errors.firstName && (
                     <p className="text-sm text-red-500 mt-1">
@@ -232,7 +232,7 @@ const ContactSection = () => {
                   <input
                     type="text"
                     {...register("lastName")}
-                    className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
+                    className="w-full px-4 md:py-3 py-2 md:mt-3 mt-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
                   {errors.lastName && (
                     <p className="text-sm text-red-500 mt-1">
@@ -242,13 +242,13 @@ const ContactSection = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:mt-3 mt-2">
                 <div>
                   <label className="text-gray-500 font-medium">Email</label>
                   <input
                     type="email"
                     {...register("email")}
-                    className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
+                    className="w-full px-4 md:py-3 py-2 md:mt-3 mt-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
                   {errors.email && (
                     <p className="text-sm text-red-500 mt-1">
@@ -264,7 +264,7 @@ const ContactSection = () => {
                   <input
                     type="tel"
                     {...register("phone")}
-                    className="w-full px-4 py-3 mt-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
+                    className="w-full px-4 md:py-3 py-2 md:mt-3 mt-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#CA8A32]/20 focus:border-[#CA8A32]"
                   />
                   {errors.phone && (
                     <p className="text-sm text-red-500 mt-1">

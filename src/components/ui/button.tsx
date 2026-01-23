@@ -22,10 +22,10 @@ const buttonVariants = cva(
       // ✅ auto responsive sizes
       size: {
         default:
-          "h-auto rounded-xl px-4 py-2 text-sm md:px-6 md:py-3 md:text-base xl:px-8 xl:py-4",
+          "h-auto md:rounded-2xl rounded-xl px-4 py-2 text-sm md:px-6 md:py-3 md:text-base xl:px-8 xl:py-4",
         sm: "h-auto rounded-lg px-3 py-1.5 text-sm md:px-4 md:py-2",
         lg: "h-auto rounded-xl px-6 py-3 text-base md:px-8 md:py-4",
-        icon: "size-10",
+        icon: "rounded-full w-10 h-10 p-0 flex items-center justify-center",
       },
     },
     defaultVariants: {

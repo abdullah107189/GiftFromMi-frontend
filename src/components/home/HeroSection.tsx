@@ -53,9 +53,7 @@ function HeroSection() {
                     <Button>Start Sending Gift</Button>
                   </Link>
                   <Link to={"/book-call"}>
-                    <Button variant="outline" className="h-12">
-                      Book a Setup Call
-                    </Button>
+                    <Button variant="outline">Book a Setup Call</Button>
                   </Link>
                 </div>
 

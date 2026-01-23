@@ -97,7 +97,7 @@ const Login = () => {
                         className={cn(
                           "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary transition-all",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive"
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
                         )}
                       />
                     </FormControl>
@@ -124,7 +124,7 @@ const Login = () => {
                           className={cn(
                             "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary pr-12",
                             fieldState.error &&
-                              "border-destructive bg-destructive/5 focus-visible:ring-destructive"
+                              "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                           )}
                         />
                         <button

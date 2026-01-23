@@ -73,9 +73,9 @@ const GiftListingSection = () => {
       <div className="max-w-container mx-auto px-3">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side: Sidebar */}
-          <aside className="w-full lg:w-1/4 flex flex-col xl:gap-8 md:gap-5 gap-4">
+          <aside className="w-full lg:w-1/4 flex flex-col xl:gap-8 md:gap-5 gap-2">
             {/* Categories Card */}
-            <div className="border border-gray-200 rounded-2xl xl:px-8 md:px-5 p-4 py-4  ">
+            <div className="border border-gray-200 rounded-2xl xl:px-8 md:px-5 md:p-4 p-2 py-4  ">
               <div className="flex items-center gap-2 mb-6 p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

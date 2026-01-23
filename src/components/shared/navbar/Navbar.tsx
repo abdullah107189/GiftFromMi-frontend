@@ -78,20 +78,16 @@ const ResponsiveNavbar = () => {
           {/* {!user ? ( */}
           <div className="hidden sm:flex items-center gap-4">
             <Link to={"/login"}>
-              <Button variant={"outline"} className="w-full h-12 px-8">
-                Login
-              </Button>
+              <Button variant={"outline"}>Login</Button>
             </Link>
 
             <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
-              <Button variant={"default"} className="w-full h-12">
-                Book A Setup Call
-              </Button>
+              <Button variant={"default"}>Book A Setup Call</Button>
             </Link>
           </div>
           {/* ) : (user as string) === Role.seller ? ( */}
           <Link to={"/seller-dashboard"}>
-            <Button className="rounded-full p-3! w-10 h-10">
+            <Button variant={"secondary"} size={"icon"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -118,7 +114,7 @@ const ResponsiveNavbar = () => {
           </Link>
           {/* ) : (user as string) === Role.customer ? ( */}
           <Link to={"/customer-dashboard"}>
-            <Button className="rounded-full p-3! w-10 h-10">
+            <Button variant={"secondary"} size={"icon"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -226,14 +222,10 @@ const ResponsiveNavbar = () => {
           </ul>
           <div className="mt-10 flex flex-col gap-4">
             <Link to={"/login"} onClick={() => setIsMenuOpen(false)}>
-              <Button variant={"outline"} className="w-full h-12">
-                Login
-              </Button>
+              <Button variant={"outline"}>Login</Button>
             </Link>
             <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
-              <Button variant={"default"} className="w-full h-12">
-                Book A Setup Call
-              </Button>
+              <Button variant={"default"}>Book A Setup Call</Button>
             </Link>
           </div>
         </div>

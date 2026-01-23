@@ -17,11 +17,11 @@ const PricingSection = () => {
 
           <button
             onClick={() => setIsAnnual(!isAnnual)}
-            className="flex w-30 h-14 items-center p-1 bg-primary rounded-full transition-all duration-300 hover:opacity-90 shadow-inner"
+            className="flex md:w-30 w-20 md:h-14 h-10 items-center p-1 bg-primary rounded-full transition-all duration-300 hover:opacity-90 shadow-inner"
           >
             <div
-              className={`w-12 h-12 bg-background rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${
-                isAnnual ? "translate-x-16" : "translate-x-0"
+              className={`md:w-12 md:h-12 w-8 h-8 bg-background rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${
+                isAnnual ? "md:translate-x-16 translate-x-10" : "translate-x-0"
               }`}
             />
           </button>

@@ -22,15 +22,13 @@ const HowItWorkHero = () => {
 
             <Link to="/shop-gifts" className="mt-4">
               {/* Using your button with the showIcon prop logic */}
-              <Button showIcon={true} className="px-8 py-6 text-lg rounded-2xl">
-                Start Gifting
-              </Button>
+              <Button showIcon={true}>Start Gifting</Button>
             </Link>
           </div>
 
           {/* Right Side: Image Area */}
           <div className="flex-1 w-full">
-            <div className="relative rounded-2xl h-94.75 overflow-hidden shadow-sm">
+            <div className="relative rounded-2xl md:h-94.75 overflow-hidden shadow-sm">
               <img
                 src={h1}
                 alt="Person working on laptop"

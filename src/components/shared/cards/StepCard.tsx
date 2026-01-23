@@ -9,7 +9,7 @@ const StepCard: React.FC<StepCardProps> = ({ step }) => {
   const { number, title, description, icon } = step;
 
   return (
-    <div className="group relative p-3 md:p-4 xl:p-5 bg-background border border-primary-100 rounded-2xl hover:shadow-xl hover:shadow-gray-100/50 transition-all duration-300 flex flex-col">
+    <div className="group relative p-3 md:p-4 xl:p-5 bg-background border border-primary-100 rounded-2xl transition-all duration-300 flex flex-col">
       {/* Top Section */}
       <div className="flex justify-between items-center">
         <div className="w-18 h-18 rounded-full bg-primary-50 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
