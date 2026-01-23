@@ -37,7 +37,7 @@ const IndustryShowcase = () => {
   ];
 
   return (
-    <section className="max-w-container mx-auto px-4 xl:py-15 md:py-10 py-5">
+    <section className="max-w-container mx-auto px-3 xl:py-15 md:py-10 py-5">
       {/* Industry Section Header */}
       <SectionHeader
         title="Build For Your Industry"

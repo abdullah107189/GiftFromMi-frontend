@@ -238,7 +238,7 @@ const workflows: WorkflowItem[] = [
 const GiftingWorkflowSection: React.FC = () => {
   return (
     <section className="xl:py-15 md:py-10 py-5 bg-background overflow-hidden">
-      <div className="max-w-container mx-auto px-4">
+      <div className="max-w-container mx-auto px-3">
         {/* Header Section using shared component logic */}
         <SectionHeader
           title="Automate Your Gifting Workflows"

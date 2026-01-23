@@ -37,7 +37,7 @@ const ResponsiveNavbar = () => {
         !isHomePage || isScrolled ? "bg-background" : "bg-transparent",
       )}
     >
-      <nav className="flex items-center justify-between max-w-container mx-auto px-4 lg:px-0">
+      <nav className="flex items-center justify-between max-w-container mx-auto px-3 lg:px-0">
         <Link to="/" className="shrink-0 relative z-60">
           <img
             src={logo}

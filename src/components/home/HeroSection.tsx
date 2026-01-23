@@ -48,7 +48,7 @@ function HeroSection() {
                   address, on the dates you choose.
                 </p>
 
-                <div className="flex flex-wrap gap-4 mb-12">
+                <div className="flex flex-wrap gap-4 mb-12 items-center justify-center">
                   <Link to="/shop-gifts">
                     <Button>Start Sending Gift</Button>
                   </Link>

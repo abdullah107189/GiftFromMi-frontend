@@ -12,7 +12,7 @@ const AnalyticsReportingSection = () => {
 
   return (
     <section className="xl:py-24 md:py-16 py-10 bg-primary-50 overflow-hidden">
-      <div className="max-w-container mx-auto px-4">
+      <div className="max-w-container mx-auto px-3">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
           {/* Left Side: Dashboard Image */}
           <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">

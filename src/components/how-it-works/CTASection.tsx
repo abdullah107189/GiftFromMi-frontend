@@ -9,7 +9,7 @@ const CTASection = () => {
       style={{ backgroundImage: `url(${ctaBg})` }}
     >
       <div className="max-w-container mx-auto px-3">
-        <div className="relative rounded-2xl ">
+        <div className="relative rounded-2xl">
           <div className="relative z-10 flex flex-col items-center text-center px-6">
             <h2 className=" text-3xl md:text-4xl xl:text-5xl font-semibold text-white xl:mb-6 mb-3 leading-[1.1]">
               Ready to Send the <br className="hidden md:block" /> Perfect Gift?
@@ -20,7 +20,9 @@ const CTASection = () => {
               impress from start to finish.
             </p>
             <Link to="/shop-gifts">
-              <Button showIcon={true}>Start Gifting</Button>
+              <Button variant={"default"} showIcon={true}>
+                Start Gifting
+              </Button>
             </Link>
           </div>
         </div>
