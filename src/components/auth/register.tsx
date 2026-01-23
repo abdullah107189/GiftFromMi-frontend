@@ -47,8 +47,8 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center justify-center xl:p-0 p-6">
-      <div className="hidden xl:flex lg:w-1/2 items-start relative">
+    <div className="flex items-center justify-center xl:p-0 p-3 h-screen relative">
+      <div className="hidden xl:flex lg:w-1/2 items-start ">
         <Link to={"/"}>
           <img
             src={logo}
@@ -67,20 +67,25 @@ const Register = () => {
       {/* Right Side: Form */}
       <div className="flex lg:w-1/2 justify-center w-full">
         <img
-          className="absolute h-38 right-5 bottom-5 hidden lg:flex"
+          className="absolute md:h-38 h-28 right-5 md:bottom-5 bottom-2 hidden lg:flex"
           src={auth_side}
         ></img>
-        <div className="w-full xl:w-125 p-8 shadow-sm bg-white relative border border-primary rounded-2xl">
+        <div className="w-full xl:w-125 xl:p-8 lg:p-6 md:p-4 p-2 shadow-sm bg-white relative border border-primary rounded-2xl">
           {/* User Icon Header */}
-          <div className="flex flex-col space-y-4 items-center justify-center xl:mb-8 md:mb-6 mb-4">
-            <img src={authIcon} alt="auth icons" className="w-21 "></img>
-            <h2 className="xl:text-2xl text-xl font-semibold text-gray-900">
+          <div className="flex flex-col md:space-y-4 space-y-2 items-center justify-center xl:mb-8 md:mb-6 mb-4">
+            <img src={authIcon} alt="auth icons" className="md:w-21 w-16"></img>
+            <h2 className="xl:text-2xl md:text-xl text-lg font-semibold text-gray-900">
               Create New Account
             </h2>
-            <p className="text-gray-500">Enter your details to sign up</p>
+            <p className="md:text-base text-sm text-gray-500">
+              Enter your details to sign up
+            </p>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="md:space-y-5 space-y-2"
+            >
               <FormField
                 control={form.control}
                 name="fullName"
@@ -94,9 +99,9 @@ const Register = () => {
                         {...field}
                         placeholder="Enter your Name"
                         className={cn(
-                          "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary",
+                          "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive"
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                         )}
                       />
                     </FormControl>
@@ -118,9 +123,9 @@ const Register = () => {
                         {...field}
                         placeholder="Enter your email"
                         className={cn(
-                          "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary",
+                          "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive"
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                         )}
                       />
                     </FormControl>
@@ -144,9 +149,9 @@ const Register = () => {
                           {...field}
                           placeholder="Enter your password"
                           className={cn(
-                            "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary",
+                            "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                             fieldState.error &&
-                              "border-destructive bg-destructive/5 focus-visible:ring-destructive"
+                              "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                           )}
                         />
                         <button
@@ -167,16 +172,13 @@ const Register = () => {
                 )}
               />
 
-              <Button
-                type="submit"
-                className="w-full bg-primary text-white h-12 rounded-xl font-semibold transition-all mt-4"
-              >
+              <Button type="submit" className="w-full md:mt-3 mt-2">
                 Register
               </Button>
             </form>
           </Form>
 
-          <div className="text-center xl:mt-8 mt-4">
+          <div className="text-center xl:mt-8 md:mt-4 mt-2">
             <p className=" text-gray-500">
               Already have an account?{" "}
               <Link
@@ -188,21 +190,18 @@ const Register = () => {
             </p>
           </div>
 
-          <div className="relative xl:mt-8 xl:mb-6 my-6">
+          <div className="relative xl:mt-8 xl:mb-6 lg:my-4 my-2">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-gray-400"></span>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-gray-600">
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-2 text-gray-500">
                 or connect with
               </span>
             </div>
           </div>
 
-          <Button
-            variant="outline"
-            className="w-full rounded-xl border-primary-400 text-gray-600 font-medium flex gap-2.5"
-          >
+          <Button variant="outline" className="w-full">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               loading="lazy"

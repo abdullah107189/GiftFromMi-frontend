@@ -73,7 +73,6 @@ const ResponsiveNavbar = () => {
           })}
         </ul>
 
-        {/* action buttons & Mobile Toggle */}
         <div className="items-center gap-4 flex pr-3 relative z-60">
           {/* {!user ? ( */}
           <div className="hidden sm:flex items-center gap-4">
@@ -220,12 +219,15 @@ const ResponsiveNavbar = () => {
               );
             })}
           </ul>
+          {/* action buttons & Mobile and small Toggle */}
           <div className="mt-10 flex flex-col gap-4">
             <Link to={"/login"} onClick={() => setIsMenuOpen(false)}>
-              <Button variant={"outline"}>Login</Button>
+              <Button variant={"outline"} className="w-full">
+                Login
+              </Button>
             </Link>
             <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
-              <Button variant={"default"}>Book A Setup Call</Button>
+              <Button variant={"default"} className="w-full">Book A Setup Call</Button>
             </Link>
           </div>
         </div>

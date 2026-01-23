@@ -44,9 +44,9 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center  min-h-screen">
       {/* Left Side: Brand Logo and Gift Box Image */}
-      <div className="hidden xl:flex lg:w-1/2 items-start relative h-screen">
+      <div className="hidden xl:flex lg:w-1/2 items-start relative md:h-screen">
         <Link to={"/"}>
           <img
             src={logo}
@@ -64,14 +64,14 @@ const Login = () => {
       </div>
 
       {/* Right Side: Login Form */}
-      <div className="flex lg:w-1/2 justify-center w-full p-4">
+      <div className="flex lg:w-1/2 justify-center w-full p-3  ">
         <img
-          className="absolute h-38 right-5 bottom-5 hidden lg:flex"
+          className="absolute md:h-38 right-5 bottom-5 hidden lg:flex"
           src={auth_side}
         ></img>
-        <div className="w-full xl:w-125 p-8 md:p-12 bg-white relative border border-primary rounded-2xl shadow-sm">
+        <div className="w-full xl:w-125 xl:p-12 lg:p-8 md:p-4 p-2 bg-white relative border border-primary rounded-2xl shadow-sm">
           {/* Header Icon & Title */}
-          <div className="flex flex-col space-y-4 items-center justify-center mb-8">
+          <div className="flex flex-col md:space-y-4 space-y-2 items-center justify-center xl:mb-8 lg:mb-6 md:mb-4 mb-2">
             <img src={authIcon} alt="auth icon" className="w-20 h-20" />
             <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
             <p className="text-gray-500 text-center">
@@ -80,7 +80,10 @@ const Login = () => {
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="md:space-y-6 space-y-3"
+            >
               {/* Email Field with Error Styling from Image */}
               <FormField
                 control={form.control}
@@ -170,7 +173,7 @@ const Login = () => {
               {/* Login Button */}
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-white h-14 rounded-2xl text-lg font-bold shadow-md shadow-primary/10 transition-all mt-2"
+                className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl text-lg font-bold shadow-md shadow-primary/10 transition-all md:mt-2"
               >
                 Login
               </Button>
@@ -178,7 +181,7 @@ const Login = () => {
           </Form>
 
           {/* Footer Link */}
-          <div className="text-center mt-10">
+          <div className="text-center xl:mt-10 lg:mt-8 md:mt-6 mt-4">
             <p className="text-gray-500 text-sm">
               Don't have an account?{" "}
               <Link

@@ -1,5 +1,3 @@
-"use client";
-
 import { Link, useLocation } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import logo from "@/assets/icons/logo.png";
@@ -115,7 +113,7 @@ const OTPVerification = () => {
                     index={index}
                     className={cn(
                       "w-12 h-12 md:w-20 md:h-14 font-semibold rounded-xl! focus:ring-0 border border-gray-200 text-2xl",
-                      index === 2 && "border-primary bg-primary/5"
+                      index === 2 && "border-primary bg-primary/5",
                     )}
                   />
                 ))}
