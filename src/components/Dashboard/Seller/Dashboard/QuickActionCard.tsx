@@ -36,7 +36,7 @@ export default function QuickActionCard({ action }: QuickActionCardProps) {
       <div
         onClick={() => handleOpenModal(action.title)}
         className={cn(
-          "flex flex-col gap-4 p-6 rounded-xl cursor-pointer transition-all duration-200 border ",
+          "flex flex-col gap-4 xl:p-6 md:p-4 p-2 rounded-xl cursor-pointer transition-all duration-200 border ",
           isHighlight
             ? "bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] text-white "
             : "bg-gray-50 border-gray-200 hover:bg-gray-100",

@@ -19,7 +19,7 @@ const cartItems: IProduct[] = [
   {
     id: 1,
     image: [p1],
-    title: "Chocolate With Premium Box",
+    title: "Chocolate With Premium Boxa sldkfj lasdf laksd flka sjdlkf lasd f",
     description: "Experience the Taste of True Luxury",
     price: 20,
     oldPrice: 30,
@@ -126,7 +126,7 @@ export const ShoppingCart = () => {
                           />
                         </div>
                         <div className="flex max-w-40   relative flex-col justify-between gap-2">
-                          <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-5 leading-tight whitespace-normal wrap-break-word">
+                          <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-4 whitespace-normal wrap-break-word">
                             {item.title}
                           </p>
                           <p className="text-gray-900 font-manrope">

@@ -67,55 +67,57 @@ export default function ProfileSettingsForm() {
 
   return (
     <div className="w-full">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="xl:space-y-10 lg:space-y-8 md:space-y-6 space-y-4"
+      >
         <div className="space-y-4">
           <h3 className="text-gray-900 font-semibold">Profile Picture</h3>
-          <div className="flex items-center gap-6">
-            <Avatar className="w-20 h-20 rounded-full border border-gray-100">
+          {/* profile picture image upload section */}
+          <div className="flex items-center flex-wrap md:gap-6 gap-3">
+            <Avatar className="md:w-20 md:h-20 w-12 h-12 rounded-full border border-gray-100">
               <AvatarImage src={profileImage} className="object-cover" />
             </Avatar>
 
-            <div className="flex items-center gap-4">
-              <label className="cursor-pointer">
-                <div className="px-4 py-2 border border-gray-200 rounded-[10px] text-sm text-[#364153] font-medium hover:bg-gray-50 transition-all">
-                  Change Photo
-                </div>
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={handleImageChange}
-                  accept="image/*"
-                />
-              </label>
+            <label className="cursor-pointer">
+              <div className="md:px-4 px-2 md:py-2 py-1 border border-gray-200 rounded-[10px] text-sm text-[#364153] font-medium hover:bg-gray-50 transition-all">
+                Change Photo
+              </div>
+              <input
+                type="file"
+                className="hidden"
+                onChange={handleImageChange}
+                accept="image/*"
+              />
+            </label>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setProfileImage("");
-                  setImageFile(null);
-                }}
-                className="text-[#DF1C41] text-sm font-semibold hover:underline"
-              >
-                Remove
-              </button>
+            <button
+              type="button"
+              onClick={() => {
+                setProfileImage("");
+                setImageFile(null);
+              }}
+              className="text-[#DF1C41] text-sm font-semibold hover:underline"
+            >
+              Remove
+            </button>
 
-              <span className="text-gray-400 text-sm ml-2">
-                JPG, PNG . Max size 5 MB
-              </span>
-            </div>
+            <span className="text-gray-400 text-sm ml-2">
+              JPG, PNG . Max size 5 MB
+            </span>
           </div>
         </div>
 
         <div className="space-y-4">
           <h3 className="text-gray-900 font-semibold">Personal Information</h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+          {/* personal information form fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:gap-6 md:gap-4 gap-2 ">
             <div className="space-y-2">
               <Label className="text-sm text-gray-700">First Name</Label>
               <Input
                 {...register("firstName")}
                 placeholder="Enter your first name"
-                className="bg-[#F3F4F6] border-none h-14 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F3F4F6] border-none md:h-12 h-10 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               {errors.firstName && (
                 <p className="text-xs text-red-500">
@@ -129,7 +131,7 @@ export default function ProfileSettingsForm() {
               <Input
                 {...register("lastName")}
                 placeholder="Enter your last name"
-                className="bg-[#F3F4F6] border-none h-14 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F3F4F6] border-none md:h-12 h-10 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               {errors.lastName && (
                 <p className="text-xs text-red-500">
@@ -143,7 +145,7 @@ export default function ProfileSettingsForm() {
               <Input
                 {...register("email")}
                 placeholder="Enter your email"
-                className="bg-[#F3F4F6] border-none h-14 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F3F4F6] border-none md:h-12 h-10 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               {errors.email && (
                 <p className="text-xs text-red-500">{errors.email.message}</p>
@@ -155,7 +157,7 @@ export default function ProfileSettingsForm() {
               <Input
                 {...register("phone")}
                 placeholder="Enter your number"
-                className="bg-[#F3F4F6] border-none h-14 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F3F4F6] border-none md:h-12 h-10 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               {errors.phone && (
                 <p className="text-xs text-red-500">{errors.phone.message}</p>
@@ -167,7 +169,7 @@ export default function ProfileSettingsForm() {
               <Input
                 {...register("company")}
                 placeholder="Enter your company name"
-                className="bg-[#F3F4F6] border-none h-14 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F3F4F6] border-none md:h-12 h-10 rounded-xl px-4 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               {errors.company && (
                 <p className="text-xs text-red-500">{errors.company.message}</p>

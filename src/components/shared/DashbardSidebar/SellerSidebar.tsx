@@ -23,7 +23,7 @@ export function SellerSidebar() {
   };
 
   return (
-    <Sidebar className="border-none! xl:w-87.5 md:w-70 sticky top-0">
+    <Sidebar className="border-none xl:w-87.5 md:w-70 sticky top-0">
       <SidebarHeader className="bg-primary-800 xl:p-8 md:p-6 p-4">
         <Link to={"/"} className="flex items-center gap-3">
           <img src={logo} alt="Logo" className="h-15 w-auto" />

@@ -42,10 +42,10 @@ export default function GiftingActivity({ data }: ChartProps) {
           Orders and revenue over time
         </CardDescription>
       </CardHeader>
-      <CardContent className="px-2 xl:p-6">
+      <CardContent className="px-0 xl:p-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-video h-55.25 w-full "
+          className="aspect-video md:h-55.25 h-50 w-full "
         >
           <AreaChart data={data} margin={{ left: 12, right: 12 }}>
             <CartesianGrid

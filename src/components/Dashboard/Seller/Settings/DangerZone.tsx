@@ -24,10 +24,10 @@ export default function DangerZone() {
   };
 
   return (
-    <div className="w-full space-y-8 bg-white md:p-6 p-4 rounded-2xl border border-gray-300 md:mt-6 mt-4">
+    <div className="w-full xl:space-y-8 lg:space-y-6 md:space-y-4 space-y-2 bg-white xl:p-6 md:p-4 p-3 rounded-2xl border border-gray-300 md:mt-6 mt-4">
       {/* Header Section */}
       <div className="flex items-start gap-4">
-        <div className="p-2.5 bg-[#FEF2F2] rounded-[10px]">
+        <div className="md:p-2.5 p-2 bg-[#FEF2F2] rounded-[10px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -66,9 +66,9 @@ export default function DangerZone() {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="md:space-y-4 space-y-2">
         {/* Deactivate Account Box */}
-        <div className="flex items-center justify-between p-4 border border-[#FFC9C9] rounded-2xl bg-white">
+        <div className="flex flex-col md:flex-row md:items-center items-start justify-between md:p-4 p-2 border border-[#FFC9C9] md:rounded-2xl rounded-xl bg-white">
           <div className="space-y-1">
             <h4 className=" text-gray-900">Deactivate account</h4>
             <p className="text-sm text-gray-500">
@@ -77,14 +77,14 @@ export default function DangerZone() {
           </div>
           <button
             onClick={handleDeactivate}
-            className="px-6 py-2 border border-[#FFC9C9] text-[#DF1C41] text-sm  rounded-lg"
+            className="px-6 py-2 md:mt-0 mt-2 border border-[#FFC9C9] text-[#DF1C41] text-sm  rounded-lg w-fit"
           >
             Deactivate
           </button>
         </div>
 
         {/* Delete Account Box */}
-        <div className="flex items-center justify-between p-4 border border-[#FFC9C9] rounded-2xl bg-white">
+        <div className="flex flex-col md:flex-row md:items-center items-start justify-between md:p-4 p-2 border border-[#FFC9C9] md:rounded-2xl rounded-xl bg-white">
           <div className="space-y-1">
             <h4 className=" text-gray-900">Delete account</h4>
             <p className="text-sm text-gray-500">
@@ -94,7 +94,7 @@ export default function DangerZone() {
           </div>
           <button
             onClick={() => setOpen(true)}
-            className="px-6 py-2 bg-[#DF1C41] text-white text-sm rounded-lg"
+            className="px-6 py-2 bg-[#DF1C41] text-white text-sm rounded-lg md:mt-0 mt-2 min-w-fit"
           >
             Delete Account
           </button>

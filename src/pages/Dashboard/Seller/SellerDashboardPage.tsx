@@ -17,7 +17,7 @@ export default function SellerDashboardPage() {
   return (
     <div className="">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 xl:gap-6 lg:gap-4 md:gap-3 gap-2 mb-8">
         {statCardsData.map((stat, index) => (
           <StatCard key={index} data={stat} />
         ))}
@@ -30,7 +30,7 @@ export default function SellerDashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="xl:col-span-5 border border-gray-200 bg-background xl:p-6 p-4 rounded-2xl">
+        <div className="xl:col-span-5 border border-gray-200 bg-background xl:p-6 md:p-4 p-2 rounded-2xl">
           <div className="mb-6">
             <h2 className="text-gray-900 mb-2">Quick Actions</h2>
             <p className="text-sm text-gray-700">
@@ -38,7 +38,7 @@ export default function SellerDashboardPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 gap-2">
             {quickActions.map((action, index) => (
               <QuickActionCard key={index} action={action} />
             ))}

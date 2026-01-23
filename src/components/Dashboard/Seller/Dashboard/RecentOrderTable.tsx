@@ -78,6 +78,7 @@ export default function RecentOrderTable({ orders }: RecentOrderTableProps) {
               <TableCell className="py-2 text-center">
                 <SharedDropdown
                   options={actionOptions}
+                  variant="icon"
                   onValueChange={(val) => console.log(val)}
                   triggerIcon={
                     <MoreHorizontal className="h-5 w-5 text-gray-400" />

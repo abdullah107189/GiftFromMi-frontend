@@ -10,7 +10,7 @@ import { SellerNotificationsPopover } from "./Notification/SellerNotificationsPo
 export const DashboardHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <header className="flex h-20 items-center justify-between px-4 xl:px-0 gap-5">
+    <header className="flex items-center justify-between xl:px-0 gap-5 my-2">
       {/* Search Bar */}
       <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md xl:w-xl ">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">

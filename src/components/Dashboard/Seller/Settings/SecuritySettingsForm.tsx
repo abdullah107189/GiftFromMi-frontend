@@ -61,9 +61,12 @@ export default function SecuritySettingsForm() {
   };
 
   return (
-    <div className="w-full bg-white md:p-6 p-4 rounded-2xl border border-gray-300">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <div className="flex items-start gap-4">
+    <div className="w-full bg-white lg:p-6 md:p-4 p-3 rounded-2xl border border-gray-300">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="xl:space-y-8 lg:space-y-6 md:space-y-4 space-y-2"
+      >
+        <div className="flex items-start md:gap-4 gap-2">
           <div className="p-2.5 bg-[#EFF6FF] rounded-[10px]">
             <Lock className="w-5 h-5 text-[#155DFC]" />
           </div>
@@ -75,7 +78,7 @@ export default function SecuritySettingsForm() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="md:space-y-4 space-y-2">
           <div className="space-y-2">
             <Label className="text-gray-900">Current Password</Label>
             <div className="relative">
@@ -83,7 +86,7 @@ export default function SecuritySettingsForm() {
                 type={showCurrent ? "text" : "password"}
                 {...register("currentPassword")}
                 placeholder="Enter current password"
-                className="bg-[#F8F9FB] border-none h-14 rounded-xl px-4 pr-12 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F8F9FB] border-none md:h-12 h-10 rounded-xl px-4 pr-12 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               <button
                 type="button"
@@ -107,7 +110,7 @@ export default function SecuritySettingsForm() {
                 type={showNew ? "text" : "password"}
                 {...register("newPassword")}
                 placeholder="Enter new password"
-                className="bg-[#F8F9FB] border-none h-14 rounded-xl px-4 pr-12 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F8F9FB] border-none md:h-12 h-10 rounded-xl px-4 pr-12 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               <button
                 type="button"
@@ -131,7 +134,7 @@ export default function SecuritySettingsForm() {
                 type={showConfirm ? "text" : "password"}
                 {...register("confirmPassword")}
                 placeholder="Enter new password"
-                className="bg-[#F8F9FB] border-none h-14 rounded-xl px-4 pr-12 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
+                className="bg-[#F8F9FB] border-none md:h-12 h-10 rounded-xl px-4 pr-12 text-gray-900 focus-visible:ring-1 focus-visible:ring-[#CA8A32] shadow-none"
               />
               <button
                 type="button"
@@ -149,7 +152,7 @@ export default function SecuritySettingsForm() {
           </div>
         </div>
 
-        <div className="bg-[#EFF6FF] p-4 rounded-lg">
+        <div className="bg-[#EFF6FF] md:p-4 p-2 rounded-lg">
           <p className="text-sm text-[#1C398E]">
             Password must be at least 8 characters long and include uppercase,
             lowercase, numbers, and special characters.
@@ -159,7 +162,7 @@ export default function SecuritySettingsForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-primary text-sm text-white px-6 py-2 rounded-[10px] disabled:opacity-50"
+          className="bg-primary mt-1 md:mt-0 text-sm text-white px-6 py-2 rounded-[10px] disabled:opacity-50"
         >
           {isSubmitting ? "Updating..." : "Update Password"}
         </button>
