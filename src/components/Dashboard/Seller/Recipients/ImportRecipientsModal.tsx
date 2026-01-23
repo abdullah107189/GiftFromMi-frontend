@@ -49,13 +49,16 @@ export default function ImportRecipientsModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="xl:min-w-[700px] w-full p-0 rounded-3xl border-none bg-white overflow-hidden">
-        <DialogHeader className="xl:p-6 p-4">
+        <DialogHeader className="xl:p-6 md:p-4 p-2">
           <DialogTitle className="text-[20px] font-normal text-gray-900">
             Import Recipients
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6 pt-0 space-y-6 ">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="xl:p-6 md:p-4 p-2 pt-0 md:space-y-6 space-y-3"
+        >
           <Controller
             name="file"
             control={control}
@@ -179,10 +182,10 @@ export default function ImportRecipientsModal({
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-6">
-            <Button type="button" onClick={onClose} variant="accent">
+            <Button type="button" onClick={onClose} variant="ModalAccent">
               Cancel
             </Button>
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="ModalActive">
               Import Recipients
             </Button>
           </div>

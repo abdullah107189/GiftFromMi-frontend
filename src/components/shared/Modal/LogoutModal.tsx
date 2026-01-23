@@ -18,7 +18,7 @@ interface LogoutModalProps {
 const LogoutModal = ({ isOpen, onOpenChange, onConfirm }: LogoutModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px] rounded-[32px] p-8 border-none shadow-2xl">
+      <DialogContent className="sm:max-w-[480px] rounded-4xl p-8 border-none shadow-2xl">
         <DialogHeader className="flex flex-col items-center justify-center space-y-4">
           <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
             <AlertCircle size={32} className="text-destructive" />
@@ -49,7 +49,7 @@ const LogoutModal = ({ isOpen, onOpenChange, onConfirm }: LogoutModalProps) => {
               onConfirm();
               onOpenChange(false);
             }}
-            className="flex-1 h-12 rounded-xl font-bold bg-destructive text-white hover:bg-red-600 transition-all shadow-lg shadow-red-100 cursor-pointer"
+            className="flex-1 h-12 rounded-xl font-bold bg-destructive text-white hover:bg-red-600 transition-all cursor-pointer"
           >
             Yes, Log out
           </Button>

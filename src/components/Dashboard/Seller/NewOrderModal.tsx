@@ -78,7 +78,7 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="xl:min-w-[660px] w-full md:p-8 p-4 rounded-2xl border-none shadow-lg bg-white ">
+      <DialogContent className="xl:min-w-[660px] w-full xl:p-8 md:p-4 p-3 rounded-2xl border-none shadow-lg bg-white ">
         <DialogHeader className="mb-6 text-left">
           <DialogTitle className="text-[20px] font-normal text-gray-900">
             New Order
@@ -204,11 +204,11 @@ export default function NewOrderModal({ isOpen, onClose }: NewOrderModalProps) {
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 mt-8">
-            <Button variant={"accent"} type="button" onClick={onClose}>
+          <div className="flex items-center justify-end gap-3 md:mt-8">
+            <Button variant={"ModalAccent"} type="button" onClick={onClose}>
               Cancel
             </Button>
-            <Button variant={"secondary"} type="submit">
+            <Button variant={"ModalActive"} type="submit">
               Create Order
             </Button>
           </div>
