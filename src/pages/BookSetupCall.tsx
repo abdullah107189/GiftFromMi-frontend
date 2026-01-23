@@ -56,19 +56,19 @@ const BookSetupCall = () => {
 
   return (
     <section className="flex items-center flex-col relative max-w-main xl:mt-36 md:mt-30 mt-20 xl:py-15 md:py-10 py-5 overflow-hidden px-3">
-      <h1 className="xl:text-[32px] md:text-2xl text-xl font-bold text-gray-900 mb-8">
+      <h1 className="xl:text-[32px] md:text-2xl text-xl font-bold text-gray-900 xl:mb-8 md:mb-6 mb-4">
         Book A Setup Call
       </h1>
 
-      <div className="w-full max-w-243.5 bg-backgroundz border border-primary rounded-2xl xl:p-8 md:p-6 p-4 flex flex-col md:flex-row items-center justify-center">
+      <div className="w-full max-w-243.5 bg-background border border-primary rounded-2xl xl:p-8 lg:p-6 md:p-4 p-2 flex flex-col md:flex-row items-center justify-center">
         {/* Left Side: Info */}
-        <div className="xl:px-8 md:px-6 px-4 h-full md:w-1/3">
+        <div className="xl:px-8 md:px-6 px-3 h-full md:w-1/3 w-full">
           <div className="flex flex-col items-center justify-center text-center md:text-left">
             <img src={logo} alt="GiftFromMi" className="h-auto w-21" />
-            <h2 className="font-semibold text-gray-700 ">
+            <h2 className="font-semibold text-gray-700">
               Set Up Client Gifts Once. We Ship All Year.
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed xl:mt-8 md:mt-6 my-4">
+            <p className="text-gray-500 text-sm leading-relaxed xl:mt-8 lg:mt-6 md:mt-4 my-2">
               Lets Discuss how GiftFromMi can transform your client gifting
               strategy. Our team will walk your through the platform and answer
               all your questions.
@@ -77,11 +77,11 @@ const BookSetupCall = () => {
         </div>
 
         {/* Right Side: Form */}
-        <div className="flex-1 md:border-l border-primary xl:pl-8 md:pl-6 pl-4 w-full">
+        <div className="flex-1 md:border-l border-primary xl:pl-8 lg:pl-6 md:pl-4 pl-0 w-full">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 w-full"
+              className="md:space-y-6 space-y-2 w-full"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 gap-4 w-full">
                 {/* First Name */}
@@ -90,14 +90,14 @@ const BookSetupCall = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-gray-900 mb-4">
+                      <FormLabel className="font-semibold text-gray-900 md:mb-4 mb-2">
                         First Name <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="John"
                           {...field}
-                          className="h-12 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
+                          className="md:h-12 h-10 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
                         />
                       </FormControl>
                       <FormMessage />
@@ -111,14 +111,14 @@ const BookSetupCall = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-gray-900 mb-4">
+                      <FormLabel className="font-semibold text-gray-900 md:mb-4 mb-2">
                         Email <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="John@domain.com"
                           {...field}
-                          className="h-12 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
+                          className="md:h-12 h-10 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
                         />
                       </FormControl>
                       <FormMessage />
@@ -132,14 +132,14 @@ const BookSetupCall = () => {
                   name="company"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-gray-900 mb-4">
+                      <FormLabel className="font-semibold text-gray-900 md:mb-4 mb-2">
                         Company
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Your Company"
                           {...field}
-                          className="h-12 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
+                          className="md:h-12 h-10 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
                         />
                       </FormControl>
                       <FormMessage />
@@ -153,14 +153,14 @@ const BookSetupCall = () => {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-gray-900 mb-4">
+                      <FormLabel className="font-semibold text-gray-900 md:mb-4 mb-2">
                         Phone <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="+880 123456789"
                           {...field}
-                          className="h-12 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
+                          className="md:h-12 h-10 rounded-lg border-gray-200 xl:px-8 md:px-6 px-4 placeholder-gray-400"
                         />
                       </FormControl>
                       <FormMessage />
@@ -174,7 +174,7 @@ const BookSetupCall = () => {
                   name="preferredDate"
                   render={({ field }) => (
                     <FormItem className="space-y-2 flex flex-col">
-                      <FormLabel className="font-semibold text-gray-900">
+                      <FormLabel className="font-semibold text-gray-900 md:mb-4 mb-2">
                         Preferred Date <span className="text-red-500">*</span>
                       </FormLabel>
                       <Popover>
@@ -183,7 +183,7 @@ const BookSetupCall = () => {
                             <Button
                               variant={"outline"}
                               // Matching the exact style from your images
-                              className="w-full h-12!  rounded-lg border border-gray-200 hover:bg-background relative"
+                              className="w-full md:h-12 h-10 rounded-lg border border-gray-200 hover:bg-background relative"
                             >
                               {/* Checking type to avoid TS error */}
                               {field.value instanceof Date ? (
@@ -229,7 +229,7 @@ const BookSetupCall = () => {
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                              
+
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
@@ -249,6 +249,7 @@ const BookSetupCall = () => {
                     </FormItem>
                   )}
                 />
+
                 {/* Preferred Time */}
                 <FormField
                   control={form.control}
@@ -263,7 +264,7 @@ const BookSetupCall = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="h-12! w-full rounded-lg border border-gray-300 bg-white px-4 text-gray-900 focus:ring-0 focus:border-[#D4A373]">
+                          <SelectTrigger className="md:h-12 h-10 w-full rounded-lg border border-gray-300 bg-white px-4 text-gray-900 focus:ring-0 focus:border-[#D4A373]">
                             <SelectValue placeholder="Select Time" />
                           </SelectTrigger>
                         </FormControl>
@@ -291,7 +292,7 @@ const BookSetupCall = () => {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full rounded-2xl font-semibold transition-all mt-4"
+                className="w-full rounded-2xl font-semibold transition-all md:mt-4 mt-2"
               >
                 Book A Setup Call
               </Button>

@@ -149,7 +149,7 @@ const ProductDetails = () => {
         {!product ? (
           <p className="">Not Found</p>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:mt-6">
             {/* Left Side: Main Image */}
             <div className="lg:col-span-6">
               <div className="rounded-2xl overflow-hidden xl:max-w-182 xl:max-h-108.75 w-full lg:h-125 md:h-100 h-80">
@@ -177,12 +177,12 @@ const ProductDetails = () => {
             </div>
 
             {/* Right Side: Product Details */}
-            <div className="lg:col-span-6 flex flex-col justify-start space-y-5">
+            <div className="lg:col-span-6 flex flex-col justify-start md:space-y-5 space-y-2">
               <div>
                 <h1 className="xl:text-[40px] md:text-3xl text-2xl font-semibold text-gray-900 mb-2">
                   {product.title}
                 </h1>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center md:gap-3 gap-2">
                   <div className="flex text-primary">
                     <Rating rating={product.rating} showText={false}></Rating>
                   </div>
@@ -314,11 +314,9 @@ const ProductDetails = () => {
                 </span>
               </div>
 
-              <p className="xl:mt-8 md:mt-6 mt-3">{product.description}</p>
+              <p className="xl:mt-8 md:mt-6 mt-2">{product.description}</p>
               <Link to={"/shopping-cart"}>
-                <Button className="w-fit bg-[#C58A33] hover:bg-[#A6742B] text-white px-8 py-6 rounded-xl text-md font-medium">
-                  Send This Gift Now
-                </Button>
+                <Button>Send This Gift Now</Button>
               </Link>
 
               {/* Thumbnails aligned to the right bottom like image */}
@@ -327,7 +325,7 @@ const ProductDetails = () => {
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                    className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
                       activeImage === src
                         ? "border-orange-500"
                         : "border-transparent"

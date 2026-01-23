@@ -12,8 +12,8 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
   if (!product) return null;
   const { id, image, title, description, price, oldPrice, rating } = product;
   return (
-    <div className="flex flex-col items-center md:p-4 p-3 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
-      <div className="w-full h-83.5 overflow-hidden rounded-xl bg-gray-50">
+    <div className="flex flex-col items-center md:p-4 p-2 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
+      <div className="w-full xl:h-83.5 lg:h-72 md:h-64 h-50 overflow-hidden rounded-xl bg-gray-50">
         <img
           src={image[0]}
           alt={title}

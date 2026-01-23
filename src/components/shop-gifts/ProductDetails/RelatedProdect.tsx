@@ -77,7 +77,7 @@ const products: IProduct[] = [
     inStock: true,
     description:
       "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
-  }
+  },
 ];
 function RelatedProdect() {
   return (
