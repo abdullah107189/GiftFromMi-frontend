@@ -78,20 +78,22 @@ const OTPVerification = () => {
       </div>
 
       {/* Right Side: OTP Form */}
-      <div className="flex lg:w-1/2 justify-center w-full p-4 relative">
-        <img
-          className="absolute h-38 right-5 bottom-5 hidden lg:flex"
-          src={auth_side}
-          alt="decoration"
-        />
-        <div className="w-full xl:w-125 p-8 md:p-12 relative border border-primary/30 bg-background rounded-2xl shadow-sm flex flex-col items-center">
+      <div className="flex lg:w-1/2 justify-center w-full p-3 relative">
+        <div className="xl:h-38 lg:h-30 md:h-20 h-10! absolute   right-5 bottom-5 hidden lg:flex">
+          <img className="w-full h-full" src={auth_side} alt="decoration" />
+        </div>
+        <div className="w-full xl:w-125  xl:p-12 lg:p-8 md:p-6 p-3 relative border border-primary/30 bg-background rounded-2xl shadow-sm flex flex-col items-center">
           {/* Header Icon & Title */}
-          <div className="flex flex-col space-y-4 items-center justify-center mb-8 text-center">
-            <img src={authIcon} alt="auth icon" className="w-20 h-20" />
-            <h2 className="text-2xl font-bold text-gray-900">
+          <div className="flex flex-col md:space-y-4 space-y-2 items-center justify-center xl:mb-8 lg:mb-6 md:mb-4 mb-2 text-center">
+            <img
+              src={authIcon}
+              alt="auth icon"
+              className="md:w-20 md:h-20 w-10 h-10"
+            />
+            <h2 className="xl:text-2xl lg:text-xl md:text-lg text-base font-bold text-gray-900">
               OTP Verification
             </h2>
-            <p className="text-gray-500">
+            <p className="xl:text-base lg:text-sm md:text-xs text-xs text-gray-500 mb-2">
               We have sent a verification code to email address <br />
               <span className="font-semibold text-gray-700">
                 {email || "robertjohnson@example.com"}
@@ -100,7 +102,7 @@ const OTPVerification = () => {
           </div>
 
           {/* shadcn Input OTP */}
-          <div className="mb-8">
+          <div className="lg:mb-8 md:mb-6 mb-4">
             <InputOTP
               maxLength={5}
               value={value}
@@ -125,13 +127,13 @@ const OTPVerification = () => {
           <Button
             onClick={handleVerify}
             disabled={value.length < 5}
-            className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-bold transition-all"
+            className="w-full"
           >
             Verify
           </Button>
 
           {/* Resend Timer */}
-          <div className="text-center mt-8">
+          <div className="text-center xl:mt-8 md:mt-6 mt-4">
             <p className="text-gray-500">
               Resend code in{" "}
               <span className="text-primary-400 ">{formatTime(timeLeft)}</span>
