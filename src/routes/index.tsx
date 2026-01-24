@@ -8,21 +8,22 @@ import ForgotPassword from "@/components/auth/ForgotPassword";
 import OTPVerification from "@/components/auth/OTPVerification";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
-
-import SellerDashboardPage from "@/pages/Dashboard/Seller/SellerDashboardPage";
+const LazySellerDashboardPage = lazy(
+  () => import("@/pages/Dashboard/Seller/SellerDashboardPage"),
+);
+const LazySellerDashboard = lazy(
+  () => import("@/components/layout/SellerDashboard"),
+);
+const LazyCustomerDashboard = lazy(
+  () => import("@/components/layout/CustomerDashboard"),
+);
 
 import { generateRoutes } from "@/utils/genarateRoute";
 import { publicRoutes } from "./publicRoutes";
-// import { withAuth } from "@/utils/withAuth";
-// import { Role } from "@/types";
-import SellerDashboard from "@/components/layout/SellerDashboard";
 import { sellerRoutes } from "./sellerRoutes";
-import CustomerDashboard from "@/components/layout/CustomerDashboard";
 import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
 import NotFound from "@/components/shared/NotFound";
-// import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
-// import UpdatePasswordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
 
 const router = createBrowserRouter([
   {
@@ -43,11 +44,15 @@ const router = createBrowserRouter([
   // seller dashboard routes
   {
     path: "seller-dashboard",
-    Component: SellerDashboard,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <LazySellerDashboard></LazySellerDashboard>,
+      </Suspense>
+    ),
     children: [
       {
         index: true,
-        element: <SellerDashboardPage></SellerDashboardPage>,
+        element: <LazySellerDashboardPage></LazySellerDashboardPage>,
       },
       ...generateRoutes(sellerRoutes),
     ],
@@ -56,7 +61,11 @@ const router = createBrowserRouter([
   // customer dashboard routes
   {
     path: "customer-dashboard",
-    Component: CustomerDashboard,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <LazyCustomerDashboard></LazyCustomerDashboard>,
+      </Suspense>
+    ),
     children: [
       {
         index: true,
