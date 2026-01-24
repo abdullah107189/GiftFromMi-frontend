@@ -10,6 +10,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useState, useEffect } from "react";
+import SEO from "../shared/SEO";
 
 export type LocationState = {
   email: string;
@@ -52,6 +53,10 @@ const OTPVerification = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <SEO
+        title="Verify OTP"
+        description="Security verification for your account access."
+      />
       {/* Left Side: Brand Logo and Gift Box Image */}
       <Link to={"/"} className="xl:hidden flex">
         <img

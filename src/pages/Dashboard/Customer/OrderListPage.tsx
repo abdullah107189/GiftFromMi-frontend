@@ -3,6 +3,7 @@ import SharedDropdown from "@/components/shared/SharedDropdown";
 import type { IProduct } from "@/types";
 import { useState } from "react";
 import product1 from "@/assets/products/p2.png";
+import SEO from "@/components/shared/SEO";
 
 export function OrderListPage() {
   const [filter, setFilter] = useState("all");
@@ -117,6 +118,10 @@ export function OrderListPage() {
   ];
   return (
     <div className="">
+      <SEO
+        title="My Orders"
+        description="View and track your current active orders."
+      />
       <div className="flex justify-between items-center mb-8">
         <h2 className="md:text-2xl text-xl font-semibold text-gray-900">
           Orders ({items.length})

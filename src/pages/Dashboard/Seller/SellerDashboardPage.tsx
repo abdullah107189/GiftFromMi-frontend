@@ -12,10 +12,15 @@ import {
 } from "@/data/mockData";
 import RecentOrderTable from "@/components/Dashboard/Seller/Dashboard/RecentOrderTable";
 import { Link } from "react-router";
+import SEO from "@/components/shared/SEO";
 
 export default function SellerDashboardPage() {
   return (
-    <div className="">
+    <section className="">
+      <SEO
+        title="Seller Dashboard"
+        description="Overview of your store and sales performance."
+      />
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 xl:gap-6 lg:gap-4 md:gap-3 gap-2 mb-8">
         {statCardsData.map((stat, index) => (
@@ -85,6 +90,6 @@ export default function SellerDashboardPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </section>
   );
 }

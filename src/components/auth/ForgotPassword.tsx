@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import SEO from "../shared/SEO";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -36,6 +37,10 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <SEO
+        title="Forgot Password"
+        description="Recover your account password easily."
+      />
       <Link to={"/"} className="xl:hidden flex">
         <img
           src={logo}
@@ -101,7 +106,7 @@ const ForgotPassword = () => {
                         className={cn(
                           "rounded-xl h-12 bg-white border-gray-200 focus-visible:ring-primary transition-all",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive"
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
                         )}
                       />
                     </FormControl>

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, Navigate } from "react-router";
+import { createBrowserRouter } from "react-router";
 import App from "@/App";
 import { PageLoader } from "@/components/shared/PageLoader.tsx";
 import LoginPage from "@/pages/auth/LoginPage";
@@ -20,6 +20,7 @@ import { sellerRoutes } from "./sellerRoutes";
 import CustomerDashboard from "@/components/layout/CustomerDashboard";
 import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
+import NotFound from "@/components/shared/NotFound";
 // import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
 // import UpdatePasswordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
 
@@ -87,7 +88,7 @@ const router = createBrowserRouter([
   // page handler routes
   {
     path: "*",
-    element: <Navigate to="/" replace />,
+    Component: NotFound,
   },
 ]);
 

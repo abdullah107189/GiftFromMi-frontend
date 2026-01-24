@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Link } from "react-router";
+import SEO from "@/components/shared/SEO";
 
 const cartItems: IProduct[] = [
   {
@@ -81,6 +82,10 @@ export const ShoppingCart = () => {
   const total = subTotal + shipping;
   return (
     <section className="relative max-w-main md:mt-35 mt-20 py-5">
+      <SEO
+        title="Shopping Cart"
+        description="Review your selected items before checking out."
+      />
       <div className="px-3 max-w-container mx-auto">
         <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
           Shopping Gift Cart ({cartItems.length.toString().padStart(2, "0")}{" "}

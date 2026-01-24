@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
 import { cn } from "@/lib/utils";
+import SEO from "../shared/SEO";
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: "Full name is required" }),
@@ -47,7 +48,12 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center justify-center xl:p-0 p-3 h-screen relative">
+    <section className="flex items-center justify-center xl:p-0 p-3 h-screen relative">
+      <SEO
+        title="Register"
+        description="Create a new account and start sending personalized gifts."
+      />
+
       <div className="hidden xl:flex lg:w-1/2 items-start ">
         <Link to={"/"}>
           <img
@@ -212,7 +218,7 @@ const Register = () => {
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

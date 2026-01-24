@@ -5,6 +5,7 @@ import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
 import Rating from "@/components/shared/Rating";
 import { Loader2 } from "lucide-react";
 import RelatedProdect from "./RelatedProdect";
+import SEO from "@/components/shared/SEO";
 
 export interface IProduct {
   id: string | number;
@@ -143,6 +144,10 @@ const ProductDetails = () => {
 
   return (
     <main className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5 overflow-hidden">
+      <SEO
+        title={product?.title || "Product Details"}
+        description={product?.description || "Product details page"}
+      />
       <div className="max-w-container mx-auto px-3">
         <DynamicBreadcrumb customLabel={product?.title} />
 

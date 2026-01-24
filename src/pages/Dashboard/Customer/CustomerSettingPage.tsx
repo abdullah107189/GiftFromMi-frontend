@@ -1,5 +1,6 @@
 import SettingPassword from "@/components/Dashboard/Customer/Setting/SettingPassword";
 import UpdatePassowordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
+import SEO from "@/components/shared/SEO";
 import * as React from "react";
 
 export default function CustomerSettingPage() {
@@ -20,6 +21,10 @@ export default function CustomerSettingPage() {
 
   return (
     <div className="xl:space-y-8 lg:space-y-6 md:space-y-4 space-y-2">
+      <SEO
+        title="Account Settings"
+        description="Manage your account preferences and security."
+      />
       {!verified ? (
         <SettingPassword handleVerified={handleVerified} />
       ) : (

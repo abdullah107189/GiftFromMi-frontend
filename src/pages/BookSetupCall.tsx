@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import SEO from "@/components/shared/SEO";
 
 // Form Validation Schema
 const formSchema = z.object({
@@ -56,6 +57,10 @@ const BookSetupCall = () => {
 
   return (
     <section className="flex items-center flex-col relative max-w-main xl:mt-36 md:mt-30 mt-20 xl:py-15 md:py-10 py-5 overflow-hidden px-3">
+      <SEO
+        title="Book A Call"
+        description="Schedule a call with our experts for personalized gifting setup."
+      />
       <h1 className="xl:text-[32px] md:text-2xl text-xl font-bold text-gray-900 xl:mb-8 md:mb-6 mb-4">
         Book A Setup Call
       </h1>

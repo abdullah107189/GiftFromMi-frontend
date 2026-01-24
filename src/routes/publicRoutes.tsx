@@ -1,6 +1,4 @@
 import type { ISidebarItem } from "@/types";
-
-import HomePage from "@/pages/HomePage";
 import HowItWorksPage from "@/pages/HowItWorksPage";
 import ShopGiftsPage from "@/pages/ShopGiftsPage";
 import ForProfessionalsPage from "@/pages/ForProfessionalsPage";
@@ -12,11 +10,6 @@ import { ShoppingCart } from "@/pages/ShoppingCart";
 import ProductDetails from "@/components/shop-gifts/ProductDetails/ProductDetails";
 
 export const publicRoutes: ISidebarItem[] = [
-  {
-    title: "Home",
-    url: "/",
-    component: HomePage,
-  },
   {
     title: "How It Works",
     url: "/how-it-works",

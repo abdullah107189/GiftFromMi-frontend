@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import SEO from "../shared/SEO";
 
 const loginSchema = z.object({
   email: z
@@ -45,6 +46,10 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center  min-h-screen">
+      <SEO
+        title="Login"
+        description="Access your account to manage your orders and profile."
+      />
       {/* Left Side: Brand Logo and Gift Box Image */}
       <div className="hidden xl:flex lg:w-1/2 items-start relative md:h-screen">
         <Link to={"/"}>

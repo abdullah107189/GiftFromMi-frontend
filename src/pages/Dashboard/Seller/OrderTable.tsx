@@ -4,6 +4,7 @@ import OrdersHeader from "@/components/Dashboard/Seller/Orders/OrdersHeader";
 import OrderTable from "@/components/Dashboard/Seller/Orders/OrderTable";
 import { orders } from "@/data/mockData";
 import Pagination from "@/components/Dashboard/Seller/Orders/Pagination";
+import SEO from "@/components/shared/SEO";
 
 function OrdersPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +22,10 @@ function OrdersPage() {
 
   return (
     <div className="space-y-4">
+      <SEO
+        title="Manage Orders"
+        description="Track and manage all customer orders in one place."
+      />
       <OrdersHeader />
       <OrdersFilterBar />
       <OrderTable orders={currentOrders} />

@@ -5,12 +5,17 @@ import RecipientsHeader from "@/components/Dashboard/Seller/Recipients/Recipient
 import SearchRecipientsBar from "@/components/Dashboard/Seller/Recipients/SearchRecipientsBar";
 import { Card } from "@/components/ui/card";
 import { recipientsData } from "@/data/mockData";
+import SEO from "@/components/shared/SEO";
 
 function Recipients() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
     <div>
+      <SEO
+        title="Recipients"
+        description="Manage your list of gift recipients and addresses."
+      />
       <RecipientsHeader />
       <SearchRecipientsBar />
 
