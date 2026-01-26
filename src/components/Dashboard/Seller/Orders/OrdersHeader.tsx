@@ -1,11 +1,9 @@
-import { Download, Plus } from "lucide-react";
+import { Download } from "lucide-react";
 import ExportOrdersModal from "./ExportOrdersModal";
 import { useState } from "react";
-import NewOrderModal from "../NewOrderModal";
 
 export default function OrdersHeader() {
   const [isExportOpen, setIsExportOpen] = useState(false);
-  const [isNewOrderOpen, setIsNewOrderOpen] = useState(false);
   return (
     <div className="bg-background lg:flex justify-between items-center  xl:p-[8px_24px] p-2 rounded-2xl border border-gray-200">
       <div>
@@ -28,19 +26,6 @@ export default function OrdersHeader() {
         <ExportOrdersModal
           isOpen={isExportOpen}
           onClose={() => setIsExportOpen(false)}
-        />
-
-        {/* New Order Button */}
-        <button
-          onClick={() => setIsNewOrderOpen(true)}
-          className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card"
-        >
-          <Plus className="w-4 h-4" />
-          <span className="text-[14px] font-medium">New Order</span>
-        </button>
-        <NewOrderModal
-          isOpen={isNewOrderOpen}
-          onClose={() => setIsNewOrderOpen(false)}
         />
       </div>
     </div>

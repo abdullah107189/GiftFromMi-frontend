@@ -48,7 +48,7 @@ export const DashboardHeader = () => {
       <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
         {/* New Order Button */}
         <Button
-          className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6 md:h-10 h-9! xl:h-11 flex gap-2 font-medium"
+          className="bg-primary hover:bg-[#b07522] text-white px-3! md:px-4 xl:px-6! md:h-10! h-9! xl:h-11! flex gap-2 font-medium"
           onClick={() => setIsOpen(true)}
         >
           <Plus className="size-5" />

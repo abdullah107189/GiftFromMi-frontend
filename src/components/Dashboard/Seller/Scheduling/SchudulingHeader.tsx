@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function SchudulingHeader() {
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   return (
-    <div className="lg:flex w-full justify-between items-center">
+    <div className="lg:flex w-full justify-between items-center border-t border-gray-200 xl:pt-6 md:pt-4 pt-2 md:pb-4 pb-2">
       <div>
         <h1 className="text-gray-900 leading-tight">Scheduling</h1>
         <p className="text-[14px] text-gray-500 mt-0.5">
@@ -15,11 +15,17 @@ export default function SchudulingHeader() {
 
       <div className="flex items-center gap-3 mt-3 lg:mt-0">
         {/* New Order Button */}
-        <button onClick={() => setIsScheduleModalOpen(true)} className="md:mb-6 mb-4 cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
+        <button
+          onClick={() => setIsScheduleModalOpen(true)}
+          className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card"
+        >
           <Plus className="w-4 h-4" />
           <span className="text-[14px] font-medium">Schedule Gift</span>
         </button>
-        <ScheduleGiftModal isOpen={isScheduleModalOpen} onClose={() => setIsScheduleModalOpen(false)} />
+        <ScheduleGiftModal
+          isOpen={isScheduleModalOpen}
+          onClose={() => setIsScheduleModalOpen(false)}
+        />
       </div>
     </div>
   );

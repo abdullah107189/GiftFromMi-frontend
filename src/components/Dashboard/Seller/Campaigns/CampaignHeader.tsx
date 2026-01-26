@@ -17,7 +17,7 @@ export default function CampaignHeader({
   const style = statusStyles[campaign.status];
 
   return (
-    <div className="flex items-start justify-between gap-3">
+    <div className="flex items-start justify-between gap-3 ">
       <div className="min-w-0">
         <div className="flex items-center gap-3">
           <h3 className=" text-gray-900  ">{campaign.title}</h3>

@@ -7,7 +7,7 @@ export default function RecipientsHeader() {
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
   return (
-    <div className="lg:flex w-full justify-between items-center">
+    <div className="lg:flex w-full justify-between items-center border-t border-gray-200 xl:pt-6 md:pt-4 pt-2">
       <div>
         <h1 className="text-gray-900 leading-tight">Recipients</h1>
         <p className="text-[14px] text-gray-500 mt-0.5">
@@ -37,7 +37,10 @@ export default function RecipientsHeader() {
         )}
 
         {/* New Order Button */}
-        <button onClick={() => setIsRecipientModalOpen(true)} className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card">
+        <button
+          onClick={() => setIsRecipientModalOpen(true)}
+          className="cursor-pointer flex p-[10px_20px] justify-center items-center gap-2.5 rounded-xl bg-primary hover:bg-[#b57a2d] transition-colors text-card"
+        >
           <Plus className="w-4 h-4" />
           <span className="text-[14px] font-medium">Add Recipient</span>
         </button>
