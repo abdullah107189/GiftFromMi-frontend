@@ -10,7 +10,6 @@ function SellerDashboard() {
         <SellerSidebar />
         <main className="w-full xl:p-6 p-4 overflow-hidden">
           <SidebarTrigger className="md:hidden w-10 border ml-2 mt-2 rounded-lg bg-primary-50 text-primary" />
-
           {/* Header */}
           <DashboardHeader></DashboardHeader>
           <Outlet></Outlet>

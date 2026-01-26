@@ -18,11 +18,11 @@ const CheckoutToggle = () => {
       <span className="text-gray-900">Single Order</span>
       <button
         onClick={handleToggle}
-        className="flex w-30 h-14 items-center p-1 bg-gray-300 rounded-full transition-all duration-300 hover:opacity-90 shadow-inner cursor-pointer"
+        className={`flex w-30 h-14 items-center p-1 ${isBulk ? "bg-primary" : "bg-gray-300"}  rounded-full transition-all duration-300 hover:opacity-90 shadow-inner cursor-pointer`}
       >
         <div
           className={`w-12 h-12 bg-background rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${
-            isBulk ? "translate-x-16" : "translate-x-0"
+            isBulk ? "translate-x-16 bg-background" : "translate-x-0"
           }`}
         />
       </button>

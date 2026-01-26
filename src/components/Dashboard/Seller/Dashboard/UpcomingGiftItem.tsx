@@ -6,7 +6,7 @@ interface UpcomingGiftItemProps {
 
 export default function UpcomingGiftItem({ gift }: UpcomingGiftItemProps) {
   return (
-    <div className="flex justify-between rounded-2xl px-3 pt-3">
+    <div className="flex justify-between rounded-2xl px-3 pt-3 mb-2">
       <div className="flex gap-3">
         <div className="flex w-10 h-10 justify-center items-center bg-primary-50 rounded-[10px]">
           <svg

@@ -36,7 +36,7 @@ export default function RecentOrderTable({ orders }: RecentOrderTableProps) {
   ];
   return (
     <div className="">
-      <Table className="border-collapse ">
+      <Table className="border-collapse">
         <TableHeader>
           <TableRow className="text-gray-700 font-medium hover:bg-primary-100">
             <TableHead className="">Order ID</TableHead>
@@ -49,7 +49,7 @@ export default function RecentOrderTable({ orders }: RecentOrderTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody className="">
-          {orders.slice(0, 5).map((order) => (
+          {orders.slice(0, 6).map((order) => (
             <TableRow
               key={order.id}
               className="hover:bg-primary-50  border-b border-gray-200 last:border-0 transition-colors group"

@@ -46,7 +46,7 @@ const router = createBrowserRouter([
     path: "seller-dashboard",
     element: (
       <Suspense fallback={<PageLoader />}>
-        <LazySellerDashboard></LazySellerDashboard>,
+        <LazySellerDashboard></LazySellerDashboard>
       </Suspense>
     ),
     children: [
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
     path: "customer-dashboard",
     element: (
       <Suspense fallback={<PageLoader />}>
-        <LazyCustomerDashboard></LazyCustomerDashboard>,
+        <LazyCustomerDashboard></LazyCustomerDashboard>
       </Suspense>
     ),
     children: [

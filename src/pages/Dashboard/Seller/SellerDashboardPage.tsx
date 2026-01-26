@@ -22,13 +22,13 @@ export default function SellerDashboardPage() {
         description="Overview of your store and sales performance."
       />
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 xl:gap-6 lg:gap-4 md:gap-3 gap-2 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 xl:gap-6 lg:gap-4 md:gap-3 gap-2 md:mb-6 mb-2">
         {statCardsData.map((stat, index) => (
           <StatCard key={index} data={stat} />
         ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8 m-auto">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:mb-6 md:mb-4 mb-2 m-auto">
         {/* Chart Section */}
         <div className="xl:col-span-7">
           <Chart data={chartData} />
@@ -82,7 +82,7 @@ export default function SellerDashboardPage() {
             </Link>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
+            <div>
               {upcomingGifts.map((gift, index) => (
                 <UpcomingGiftItem key={index} gift={gift} />
               ))}
