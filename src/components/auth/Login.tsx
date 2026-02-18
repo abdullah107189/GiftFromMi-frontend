@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SEO from "../shared/SEO";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { Role } from "@/types";
 
 const loginSchema = z.object({
   email: z
@@ -31,6 +33,7 @@ const loginSchema = z.object({
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [login] = useLoginMutation();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -40,8 +43,25 @@ const Login = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values);
+  const navigate = useNavigate();
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    try {
+      const result = await login(formData).unwrap();
+      console.log(result);
+
+      if (result?.role === Role.admin) {
+        window.location.replace("https://shalineheng.thewarriors.team");
+      } else if (result?.role === Role.seller) {
+        navigate("/seller-dashboard");
+      } else {
+        navigate("/customer-dashboard");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
   }
 
   return (

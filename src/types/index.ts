@@ -2,6 +2,7 @@ import type { ComponentType, ElementType, ReactNode } from "react";
 export const Role = {
   customer: "customer",
   seller: "seller",
+  admin: "Admin",
 } as const;
 
 export type TRole = (typeof Role)[keyof typeof Role];
