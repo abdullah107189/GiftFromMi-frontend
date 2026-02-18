@@ -1,7 +1,6 @@
 import type { ComponentType, ElementType, ReactNode } from "react";
 export const Role = {
   customer: "customer",
-  seller: "seller",
   admin: "Admin",
 } as const;
 

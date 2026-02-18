@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
@@ -11,18 +11,24 @@ import {
 } from "@/components/ui/input-otp";
 import { useState, useEffect } from "react";
 import SEO from "../shared/SEO";
+import { useForgotVerifyOtpMutation, useResendOtpMutation, useVerifyOtpMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
+import { Role } from "@/types";
+import { createFormData } from "@/utils/createFormData";
 
 export type LocationState = {
   email: string;
 };
 
-const OTPVerification = () => {
+const OTPverification = () => {
+  const [verifyOtp] = useVerifyOtpMutation();
+  const [resendOtp] = useResendOtpMutation();
+  const [forgotVerifyOtp] = useForgotVerifyOtpMutation();
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state as LocationState | null;
   const email = state?.email;
   const [value, setValue] = useState("");
-  const [timeLeft, setTimeLeft] = useState(37);
-
   // Log email only when it changes
   useEffect(() => {
     if (email) {
@@ -30,27 +36,62 @@ const OTPVerification = () => {
     }
   }, [email]);
 
-  // Timer effect
-  useEffect(() => {
-    if (timeLeft <= 0) return;
-    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
-  const handleVerify = () => {
-    console.log("Verifying OTP:", value);
-    console.log({
-      email,
+  const handleVerify = async () => {
+    const otpValue = createFormData({
+      email: email!,
       otp: value,
     });
+    try {
+      let result;
+      if (location.state?.type === "forgot") {
+        result = await forgotVerifyOtp(otpValue).unwrap();
+        toast.success(result.message || "Forgot OTP verified successfully!");
+        navigate("/reset-password", { state: { email, token: result?.token } });
+
+      } else {
+        result = await verifyOtp(otpValue).unwrap();
+        console.log(result.message);
+        toast.success(result.message || "Account OTP verified successfully!");
+      }
+
+      if (location.state?.type === "register") {
+
+        if (result?.role === Role.admin) {
+          window.location.replace("https://shalineheng.thewarriors.team");
+        } else {
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      const errorMessage =
+        (error as { message?: string })?.message || "OTP verification failed!";
+      toast.error(errorMessage);
+      console.error("Error verifying OTP:", error);
+    }
   };
 
+  const handleResend = async () => {
+    const otpValue = createFormData({
+      email: email!,
+    });
+    console.log("Resending OTP for email:", email);
+
+    try {
+      if (!email) {
+        toast.error("Email is required to resend OTP!");
+        return;
+      }
+      const result = await resendOtp(otpValue).unwrap();
+      console.log("result : ", result);
+      console.log(result.message || "OTP resent successfully!");
+      toast.success(result.message || "OTP resent successfully!");
+    } catch (error) {
+      const errorMessage =
+        (error as { message?: string })?.message || "OTP resend failed!";
+      toast.error(errorMessage);
+      console.error("Error resending OTP:", error);
+    }
+  };
   return (
     <div className="flex items-center justify-center min-h-screen">
       <SEO
@@ -83,10 +124,11 @@ const OTPVerification = () => {
       </div>
 
       {/* Right Side: OTP Form */}
-      <div className="flex lg:w-1/2 justify-center w-full p-3 relative">
-        <div className="xl:h-38 lg:h-30 md:h-20 h-10! absolute   right-5 bottom-5 hidden lg:flex">
-          <img className="w-full h-full" src={auth_side} alt="decoration" />
-        </div>
+      <div className="flex lg:w-1/2 justify-center items-center w-full p-3 h-screen border relative">
+        <img
+          className="absolute md:h-38 h-28 right-10 md:bottom-5 bottom-2 hidden lg:flex"
+          src={auth_side}
+        ></img>
         <div className="w-full xl:w-125  xl:p-12 lg:p-8 md:p-6 p-3 relative border border-primary/30 bg-background rounded-2xl shadow-sm flex flex-col items-center">
           {/* Header Icon & Title */}
           <div className="flex flex-col md:space-y-4 space-y-2 items-center justify-center xl:mb-8 lg:mb-6 md:mb-4 mb-2 text-center">
@@ -101,7 +143,7 @@ const OTPVerification = () => {
             <p className="xl:text-base lg:text-sm md:text-xs text-xs text-gray-500 mb-2">
               We have sent a verification code to email address <br />
               <span className="font-semibold text-gray-700">
-                {email || "robertjohnson@example.com"}
+                {email || "example@example.com"}
               </span>
             </p>
           </div>
@@ -119,8 +161,9 @@ const OTPVerification = () => {
                     key={index}
                     index={index}
                     className={cn(
-                      "w-12 h-12 md:w-20 md:h-14 font-semibold rounded-xl! focus:ring-0 border border-gray-200 text-2xl",
-                      index === 2 && "border-primary bg-primary/5",
+                      "w-12 h-12 md:w-20 md:h-14 font-semibold rounded-xl! border border-gray-200 text-2xl transition-all",
+                      "outline-none! ring-0!",
+                      "data-[active=true]:border-[#D19E46] data-[active=true]:bg-[#FDF6ED]",
                     )}
                   />
                 ))}
@@ -131,7 +174,6 @@ const OTPVerification = () => {
           {/* Verify Button */}
           <Button
             onClick={handleVerify}
-            disabled={value.length < 5}
             className="w-full"
           >
             Verify
@@ -139,9 +181,17 @@ const OTPVerification = () => {
 
           {/* Resend Timer */}
           <div className="text-center xl:mt-8 md:mt-6 mt-4">
-            <p className="text-gray-500">
-              Resend code in{" "}
-              <span className="text-primary-400 ">{formatTime(timeLeft)}</span>
+            <p className="text-gray-500 text-sm md:text-base">
+              Didn't receive the code?{" "}
+              <button
+                onClick={() => handleResend()}
+                className="text-[#D19E46] font-bold hover:underline ml-1 cursor-pointer transition-all"
+              >
+                Resend OTP
+              </button>
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              (This code expires in 5 minutes.)
             </p>
           </div>
         </div>
@@ -155,4 +205,4 @@ function cn(...inputs: unknown[]) {
   return inputs.filter(Boolean).join(" ");
 }
 
-export default OTPVerification;
+export default OTPverification;

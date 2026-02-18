@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import authIcon from "@/assets/icons/auth.png";
 import logo from "@/assets/icons/logo.png";
 import giftBox from "@/assets/banner_and_background/auth.png";
@@ -18,12 +19,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SEO from "../shared/SEO";
+import { useForgotPasswordMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
 const ForgotPassword = () => {
+  const [forgotPassword] = useForgotPasswordMutation();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -31,8 +36,18 @@ const ForgotPassword = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
-    console.log("Password reset requested for:", values.email);
+  async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
+
+    const result = await forgotPassword({ email: values.email });
+    if (result.data?.otp) {
+      console.log('OTP is : ---------> ', result.data.otp);
+      toast.success("Otp sent successfully");
+      navigate("/otp", { state: { email: values.email, type: "forgot" } });
+    }
+    else {
+      toast.error((result as any)?.error?.data?.message || "Password reset failed");
+    }
+
   }
 
   return (
@@ -106,7 +121,7 @@ const ForgotPassword = () => {
                         className={cn(
                           "rounded-xl h-12 bg-white border-gray-200 focus-visible:ring-primary transition-all",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
+                          "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
                         )}
                       />
                     </FormControl>
@@ -116,14 +131,13 @@ const ForgotPassword = () => {
               />
 
               {/* Submit Button */}
-              <Link to={"/otp"}>
-                <Button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-semibold transition-all"
-                >
-                  Forgot Password
-                </Button>
-              </Link>
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-semibold transition-all"
+              >
+                Forgot Password
+              </Button>
+
             </form>
           </Form>
 

@@ -68,9 +68,13 @@ const Register = () => {
     try {
       const result = await registerUser(formData).unwrap();
       console.log("Registration Success:", result);
+      const expiryTime = 5 * 60 * 1000;
+      const currentTime = new Date().getTime();
+      const otpExpiresAt = new Date(currentTime + expiryTime).toISOString();
+      localStorage.setItem("otpExpiresAt", otpExpiresAt);
 
       // Registration success hole OTP page e niye jabe
-      navigate("/otp", { state: { email: values.email } });
+      navigate("/otp", { state: { email: values.email, type: "register" } });
     } catch (error) {
       const errorMessage =
         ((error as any)?.data?.message as string) || "Registration failed";
@@ -139,7 +143,7 @@ const Register = () => {
                         className={cn(
                           "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                          "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                         )}
                       />
                     </FormControl>
@@ -162,7 +166,7 @@ const Register = () => {
                         className={cn(
                           "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                          "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                         )}
                       />
                     </FormControl>
@@ -186,7 +190,7 @@ const Register = () => {
                         className={cn(
                           "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                          "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                         )}
                       />
                     </FormControl>
@@ -212,7 +216,7 @@ const Register = () => {
                           className={cn(
                             "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                             fieldState.error &&
-                              "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                           )}
                         />
                         <button
@@ -249,7 +253,7 @@ const Register = () => {
                           className={cn(
                             "rounded-2xl md:h-14 h-12 bg-white border-gray-200 focus-visible:ring-primary",
                             fieldState.error &&
-                              "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                           )}
                         />
                         <button

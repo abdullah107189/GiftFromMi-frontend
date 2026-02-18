@@ -21,6 +21,56 @@ export const authApi = baseApi.injectEndpoints({
             transformResponse: (res) => res.data,
             invalidatesTags: ["USERS"],
         }),
+        verifyOtp: builder.mutation({
+            query: (credentials) => ({
+                url: "/verify_otp",
+                method: "POST",
+                data: credentials,
+            }),
+            transformResponse: (res) => res.data,
+            invalidatesTags: ["USERS"],
+        }),
+
+        resendOtp: builder.mutation({
+            query: (credentials) => ({
+                url: "/resend_otp",
+                method: "POST",
+                data: credentials,
+            }),
+            transformResponse: (res) => res.data,
+            invalidatesTags: ["USERS"],
+        }),
+        forgotPassword: builder.mutation({
+            query: (credentials) => ({
+                url: "/forgot-password",
+                method: "POST",
+                data: credentials,
+            }),
+            transformResponse: (res) => res.data,
+            invalidatesTags: ["USERS"],
+        }),
+
+        forgotVerifyOtp: builder.mutation({
+            query: (credentials) => ({
+                url: "/forgot-verify-otp",
+                method: "POST",
+                data: credentials,
+            }),
+            transformResponse: (res) => res.data,
+            invalidatesTags: ["USERS"],
+        }),
+
+        resetPassword: builder.mutation({
+            query: (credentials) => ({
+                url: "/reset-password",
+                method: "POST",
+                data: credentials,
+            }),
+            transformResponse: (res) => res.data,
+            invalidatesTags: ["USERS"],
+        }),
+
+
         getMe: builder.query({
             query: () => ({
                 url: "users/me",
@@ -61,8 +111,13 @@ export const authApi = baseApi.injectEndpoints({
 export const {
     useRegisterMutation,
     useLoginMutation,
+    useVerifyOtpMutation,
+    useResendOtpMutation,
+    useForgotVerifyOtpMutation,
     useGetMeQuery,
     useLogoutMutation,
     useUpdateProfileMutation,
     useChangePasswordMutation,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
 } = authApi;

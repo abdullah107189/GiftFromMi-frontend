@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -23,6 +24,8 @@ import { Input } from "@/components/ui/input";
 import SEO from "../shared/SEO";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { Role } from "@/types";
+import { createFormData } from "@/utils/createFormData";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z
@@ -45,22 +48,23 @@ const Login = () => {
 
   const navigate = useNavigate();
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
+    const formData = createFormData({
+      email: values.email,
+      password: values.password,
+    })
     try {
       const result = await login(formData).unwrap();
-      console.log(result);
+      toast.success("Login successful!");
 
-      if (result?.role === Role.admin) {
+      if (result?.data?.role === Role.admin) {
         window.location.replace("https://shalineheng.thewarriors.team");
-      } else if (result?.role === Role.seller) {
-        navigate("/seller-dashboard");
-      } else {
-        navigate("/customer-dashboard");
       }
-    } catch (error) {
-      console.error("Login Error:", error);
+      else {
+        navigate("/");
+      }
+    } catch (error: any) {
+      console.error("Login Error:", error?.data?.message);
+      toast.error(error?.data?.message || "Login failed. Please try again.");
     }
   }
 
@@ -125,7 +129,7 @@ const Login = () => {
                         className={cn(
                           "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary transition-all",
                           fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
+                          "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
                         )}
                       />
                     </FormControl>
@@ -152,7 +156,7 @@ const Login = () => {
                           className={cn(
                             "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary pr-12",
                             fieldState.error &&
-                              "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                           )}
                         />
                         <button

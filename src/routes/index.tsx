@@ -24,6 +24,7 @@ import { sellerRoutes } from "./sellerRoutes";
 import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
 import NotFound from "@/components/shared/NotFound";
+import ResetPassword from "@/components/auth/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
   {
     path: "/otp",
     Component: OTPVerification,
+  },
+  {
+    path: "/reset-password",
+    Component: ResetPassword,
   },
 
   // page handler routes
