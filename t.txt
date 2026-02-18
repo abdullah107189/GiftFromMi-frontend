@@ -1,0 +1,7 @@
+- I have integrated register api
+- I have integrated verify OTP api
+- I have integrated resend OTP api
+- I have integrated forgot password api
+- I have integrated forgot password verify OTP api
+- I have integrated reset password api
+- I have integrated login api

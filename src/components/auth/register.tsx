@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import SEO from "../shared/SEO";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
+import { createFormData } from "@/utils/createFormData";
 const formSchema = z.object({
   first_name: z.string().min(2, { message: "Full name is required" }),
   last_name: z.string().min(2, { message: "Full name is required" }),
@@ -57,13 +58,13 @@ const Register = () => {
       toast.error("Password doesn't match");
       return;
     }
-    const formData = new FormData();
-    formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    formData.append("password_confirmation", values.password_confirmation);
-    // password_confirmation thakle oitao append korte hobe
+    const formData = createFormData({
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      password: values.password,
+      password_confirmation: values.password_confirmation,
+    });
 
     try {
       const result = await registerUser(formData).unwrap();
