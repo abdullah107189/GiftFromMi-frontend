@@ -74,7 +74,7 @@ const ResponsiveNavbar = () => {
         </ul>
 
         <div className="items-center gap-4 flex pr-3 relative z-60">
-          {!user ? (
+          {user ? (
             <div className="hidden sm:flex items-center gap-4">
               <Link to={"/login"}>
                 <Button variant={"outline"}>Login</Button>

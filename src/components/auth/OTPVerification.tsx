@@ -15,15 +15,16 @@ import { useForgotVerifyOtpMutation, useResendOtpMutation, useVerifyOtpMutation 
 import { toast } from "sonner";
 import { Role } from "@/types";
 import { createFormData } from "@/utils/createFormData";
+import { ButtonLoading } from "../shared/ButtonLoading";
 
 export type LocationState = {
   email: string;
 };
 
 const OTPverification = () => {
-  const [verifyOtp] = useVerifyOtpMutation();
-  const [resendOtp] = useResendOtpMutation();
-  const [forgotVerifyOtp] = useForgotVerifyOtpMutation();
+  const [verifyOtp, { isLoading: verifyLoading }] = useVerifyOtpMutation();
+  const [resendOtp, { isLoading: resendLoading }] = useResendOtpMutation();
+  const [forgotVerifyOtp, { isLoading: forgotLoading }] = useForgotVerifyOtpMutation();
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as LocationState | null;
@@ -176,7 +177,7 @@ const OTPverification = () => {
             onClick={handleVerify}
             className="w-full"
           >
-            Verify
+            {verifyLoading || forgotLoading ? <ButtonLoading loadingText="Verifying..." /> : "Verify"}
           </Button>
 
           {/* Resend Timer */}
@@ -187,7 +188,7 @@ const OTPverification = () => {
                 onClick={() => handleResend()}
                 className="text-[#D19E46] font-bold hover:underline ml-1 cursor-pointer transition-all"
               >
-                Resend OTP
+                {resendLoading ? <ButtonLoading loadingText="Resending..." /> : "Resend OTP"}
               </button>
             </p>
             <p className="text-xs text-gray-400 mt-2">

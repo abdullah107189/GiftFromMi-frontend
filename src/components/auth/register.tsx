@@ -24,6 +24,7 @@ import SEO from "../shared/SEO";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { createFormData } from "@/utils/createFormData";
+import { ButtonLoading } from "../shared/ButtonLoading";
 const formSchema = z.object({
   first_name: z.string().min(2, { message: "Full name is required" }),
   last_name: z.string().min(2, { message: "Full name is required" }),
@@ -38,7 +39,7 @@ const formSchema = z.object({
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [registerUser] = useRegisterMutation(); // RTK Query Mutation
+  const [registerUser, { isLoading }] = useRegisterMutation(); // RTK Query Mutation
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -276,7 +277,13 @@ const Register = () => {
               />
 
               <Button type="submit" className="w-full md:mt-3 mt-2">
-                Register
+                {
+                  isLoading ? (
+                    <ButtonLoading loadingText="Registering..." />
+                  ) : (
+                    "Register"
+                  )
+                }
               </Button>
             </form>
           </Form>

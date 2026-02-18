@@ -21,13 +21,14 @@ import { Input } from "@/components/ui/input";
 import SEO from "../shared/SEO";
 import { useForgotPasswordMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
+import { ButtonLoading } from "../shared/ButtonLoading";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
 const ForgotPassword = () => {
-  const [forgotPassword] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading: forgotLoading }] = useForgotPasswordMutation();
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -135,7 +136,7 @@ const ForgotPassword = () => {
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-semibold transition-all"
               >
-                Forgot Password
+                {forgotLoading ? <ButtonLoading loadingText="Sending OTP"></ButtonLoading> : "Forgot Password"}
               </Button>
 
             </form>

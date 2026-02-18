@@ -26,6 +26,7 @@ import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { Role } from "@/types";
 import { createFormData } from "@/utils/createFormData";
 import { toast } from "sonner";
+import { ButtonLoading } from "../shared/ButtonLoading";
 
 const loginSchema = z.object({
   email: z
@@ -36,7 +37,7 @@ const loginSchema = z.object({
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [login] = useLoginMutation();
+  const [login, { isLoading: loginLoading }] = useLoginMutation();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -204,7 +205,7 @@ const Login = () => {
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl text-lg font-bold shadow-md shadow-primary/10 transition-all md:mt-2"
               >
-                Login
+                {loginLoading ? <ButtonLoading loadingText="Logging in" /> : "Login"}
               </Button>
             </form>
           </Form>

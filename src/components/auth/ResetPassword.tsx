@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import SEO from "../shared/SEO";
 import { toast } from "sonner";
 import { useResetPasswordMutation } from "@/redux/features/auth/auth.api";
+import { ButtonLoading } from "../shared/ButtonLoading";
 
 const resetSchema = z
     .object({
@@ -33,7 +34,7 @@ const resetSchema = z
     });
 
 const ResetPassword = () => {
-    const [resetPassword] = useResetPasswordMutation();
+    const [resetPassword, { isLoading: resetLoading }] = useResetPasswordMutation();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -146,7 +147,7 @@ const ResetPassword = () => {
                             />
 
                             <Button className="w-full h-12 rounded-xl">
-                                Reset Password
+                                {resetLoading ? <ButtonLoading loadingText="Resetting..." /> : "Reset Password"}
                             </Button>
                         </form>
                     </Form>
