@@ -18,9 +18,9 @@ export const authApi = baseApi.injectEndpoints({
                 method: "POST",
                 data: credentials,
             }),
-            transformResponse: (res) => res.data,
             invalidatesTags: ["USERS"],
         }),
+
         verifyOtp: builder.mutation({
             query: (credentials) => ({
                 url: "/verify_otp",

@@ -16,6 +16,7 @@ export const axiosBaseQuery =
     unknown
   > =>
     async ({ url, method, data, params, headers }, api) => {
+
       try {
         const token = (api.getState() as RootState).auth.token;
 

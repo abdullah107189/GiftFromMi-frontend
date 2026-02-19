@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import logo from "@/assets/icons/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
@@ -5,10 +6,13 @@ import { Button } from "../../ui/button";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import "@/components/shared/button/ActionButton.css";
-import { Role } from "@/types";
+import { selectUser } from "@/redux/features/auth/authSelectors";
+import { useSelector } from "react-redux";
 
 const ResponsiveNavbar = () => {
-  const user = Role.customer;
+  const userInfo = useSelector(selectUser);
+  const user = userInfo?.role;
+
 
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -74,7 +78,7 @@ const ResponsiveNavbar = () => {
         </ul>
 
         <div className="items-center gap-4 flex pr-3 relative z-60">
-          {user ? (
+          {!user || user === "customer" ? (
             <div className="hidden sm:flex items-center gap-4">
               <Link to={"/login"}>
                 <Button variant={"outline"}>Login</Button>
