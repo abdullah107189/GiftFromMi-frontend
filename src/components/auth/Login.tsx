@@ -27,6 +27,8 @@ import { Role } from "@/types";
 import { createFormData } from "@/utils/createFormData";
 import { toast } from "sonner";
 import { ButtonLoading } from "../shared/ButtonLoading";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/redux/features/auth/authSlice";
 
 const loginSchema = z.object({
   email: z
@@ -38,6 +40,8 @@ const loginSchema = z.object({
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading: loginLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -56,6 +60,12 @@ const Login = () => {
     try {
       const result = await login(formData).unwrap();
       toast.success("Login successful!");
+      dispatch(
+        setCredentials({
+          token: result?.token,
+          user: result?.data
+        })
+      )
 
       if (result?.data?.role === Role.admin) {
         window.location.replace("https://shalineheng.thewarriors.team");
