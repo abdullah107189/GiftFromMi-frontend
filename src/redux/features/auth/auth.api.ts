@@ -70,6 +70,15 @@ export const authApi = baseApi.injectEndpoints({
             invalidatesTags: ["USERS"],
         }),
 
+        logout: builder.mutation({
+            query: () => ({
+                url: "/logout",
+                method: "POST",
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
+
 
         getMe: builder.query({
             query: () => ({
@@ -79,13 +88,7 @@ export const authApi = baseApi.injectEndpoints({
             providesTags: ["USERS"],
             transformResponse: (res) => res.data,
         }),
-        logout: builder.mutation({
-            query: () => ({
-                url: "/logout",
-                method: "POST",
-            }),
-            invalidatesTags: ["USERS"],
-        }),
+
         updateProfile: builder.mutation({
             query: (updateInfo) => ({
                 url: "users/updateOwnProfile",

@@ -5,16 +5,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { LogOut } from "lucide-react";
 import LogoutModal from "../Modal/LogoutModal";
 import { useState } from "react";
 import type { ISidebarItem } from "@/types";
+import { useAppDispatch } from "@/redux/hook";
+import { persistor } from "@/redux/store";
+import { logout } from "@/redux/features/auth/authSlice";
 export function CustomerSidebar({ className }: { className?: string }) {
   const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
   const customerItems: ISidebarItem[] = [
     {
       title: "Personal Info",
@@ -148,6 +154,12 @@ export function CustomerSidebar({ className }: { className?: string }) {
     },
   ];
 
+  const handleLogout = async () => {
+    dispatch(logout());
+    persistor.purge();
+    navigate("/login");
+  };
+
   return (
     <Sidebar className={cn("border-none ", className)}>
       <SidebarContent className="p-1">
@@ -187,7 +199,9 @@ export function CustomerSidebar({ className }: { className?: string }) {
 
           <SidebarMenuItem className="">
             <button
-              onClick={() => setIsOpen(true)}
+              onClick={() => {
+                setIsOpen(true);
+              }}
               className="flex items-center gap-3 px-4 cursor-pointer py-3 w-full text-red-500 bg-gray-100 rounded-xl transition-all"
             >
               <LogOut className="text-primary" size={20} />
@@ -198,7 +212,7 @@ export function CustomerSidebar({ className }: { className?: string }) {
           <LogoutModal
             isOpen={isOpen}
             onOpenChange={setIsOpen}
-            onConfirm={() => console.log("Logout")}
+            onConfirm={handleLogout}
           />
         </SidebarMenu>
       </SidebarContent>
