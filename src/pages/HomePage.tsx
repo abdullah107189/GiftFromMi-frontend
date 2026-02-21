@@ -24,9 +24,9 @@ function HomePage() {
         <GiftCollection PRODUCTS={data?.products}></GiftCollection>
         <OccasionGallery></OccasionGallery>
         <FeatureSection></FeatureSection>
-        <FeedbackSection></FeedbackSection>
+        <FeedbackSection reviews={data?.reviews}></FeedbackSection>
       </div>
-      <FAQ></FAQ>
+      <FAQ faqs={data?.faq}></FAQ>
     </div>
   );
 }

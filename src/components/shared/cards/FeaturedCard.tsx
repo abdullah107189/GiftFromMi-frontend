@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Rating from "../Rating";
 import type { IProduct } from "@/types";
 import { Link } from "react-router";
-import { getImagesFromDescription } from "@/utils/getImagesFromDescription";
+import { getImagesFromDescription } from "@/utils/converter/getImagesFromDescription";
 
 interface FeaturedCardProps {
   featured: IProduct;
