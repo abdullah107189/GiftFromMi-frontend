@@ -7,7 +7,7 @@ import HowItWorks from "@/components/Home/HowItWorks";
 import OccasionGallery from "@/components/Home/OccasionGallery";
 import SEO from "@/components/shared/SEO";
 import Loading from "@/components/shared/PageLoader";
-import { useLangdingApiQuery } from "@/redux/features/public/langding.api";
+import { useLangdingApiQuery } from "@/redux/features/public/public.api";
 
 function HomePage() {
   const { data, isLoading } = useLangdingApiQuery(undefined);

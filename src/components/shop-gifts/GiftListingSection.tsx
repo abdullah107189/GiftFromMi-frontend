@@ -11,11 +11,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "../ui/button";
-import { useCategoryListQuery } from "@/redux/features/public/langding.api";
 import PageLoader from "../shared/PageLoader";
 import type { Category } from "@/types/public";
+import { useCategoryListQuery } from "@/redux/features/public/public.api";
+import type { IProduct } from "@/types";
 // import type { IProduct } from "@/types";
-const GiftListingSection = () => {
+const GiftListingSection = ({ products }: { products: IProduct[] }) => {
   // const PRODUCTS: IProduct[] = [
   //   {
   //     id: 1,
@@ -74,8 +75,6 @@ const GiftListingSection = () => {
 
   const { data: categories, isLoading: categoriesLoading } = useCategoryListQuery(undefined);
   if (categoriesLoading) return <PageLoader />;
-  console.log(categories);
-  const menu = categories?.map((cat: Category) => cat.name);
 
   return (
     <section className="xl:py-15 md:py-10 py-5 ">
@@ -111,7 +110,7 @@ const GiftListingSection = () => {
                 </h3>
               </div>
               <ul className="flex flex-col xl:gap-4 gap-2">
-                {menu?.map((cat: Category, idx: number) => (
+                {categories?.map((cat: Category, idx: number) => (
                   <li
                     key={idx}
                     className="flex justify-between items-center text-gray-600 hover:text-primary cursor-pointer transition-colors p-2"

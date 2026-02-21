@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Rating from "../Rating";
 import { useNavigate } from "react-router";
 import type { IProduct } from "@/types";
+import { getImagesFromDescription } from "@/utils/converter/getImagesFromDescription";
 
 interface GiftBoxCardProps {
   product: IProduct;
@@ -10,12 +11,12 @@ interface GiftBoxCardProps {
 const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
   const navigate = useNavigate();
   if (!product) return null;
-  const { id, image, title, description, price, oldPrice, rating } = product;
+  const { id, description, title, short_description } = product;
   return (
     <div className="flex flex-col items-center md:p-4 p-2 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
       <div className="w-full xl:h-83.5 lg:h-72 md:h-64 h-50 overflow-hidden rounded-xl bg-gray-50">
         <img
-          src={image[0]}
+          src={getImagesFromDescription(description)[0]}
           alt={title}
           className="w-full h-full object-cover"
         />
@@ -29,23 +30,24 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
               {title}
             </h3>
             <p className="text-base text-gray-500 line-clamp-1">
-              {description}
+              {short_description}
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-primary-500">
-              ${price}
+              {/* ${price} */} 00
             </span>
-            {oldPrice && (
+            {/* {oldPrice && (
               <span className="text-base text-gray-500 line-through">
                 ${oldPrice}
               </span>
-            )}
+            )} */}
+            00
           </div>
         </div>
 
-        <Rating rating={rating}></Rating>
+        <Rating rating={5}></Rating>
 
         <div className="mt-2">
           <Button

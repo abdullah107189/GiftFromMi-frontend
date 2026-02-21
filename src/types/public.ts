@@ -1,3 +1,5 @@
+import type { IProduct } from "."
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Category {
     id: number
@@ -13,4 +15,5 @@ export interface Category {
     keywords: string
     products_count: number
     iconUrl: any
+    products?: IProduct[]
 }
