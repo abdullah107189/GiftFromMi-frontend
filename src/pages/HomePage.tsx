@@ -6,11 +6,12 @@ import HeroSection from "@/components/Home/HeroSection";
 import HowItWorks from "@/components/Home/HowItWorks";
 import OccasionGallery from "@/components/Home/OccasionGallery";
 import SEO from "@/components/shared/SEO";
-import { useLangdingApiQuery } from "@/redux/features/landing/langding.api";
+import Loading from "@/components/shared/PageLoader";
+import { useLangdingApiQuery } from "@/redux/features/public/langding.api";
 
 function HomePage() {
   const { data, isLoading } = useLangdingApiQuery(undefined);
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading variant="page"></Loading>;
   console.log(data.products);
   return (
     <div>

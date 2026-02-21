@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
-import { PageLoader } from "@/components/shared/PageLoader.tsx";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import ForgotPassword from "@/components/auth/ForgotPassword";
@@ -25,6 +24,7 @@ import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
 import NotFound from "@/components/shared/NotFound";
 import ResetPassword from "@/components/auth/ResetPassword";
+import PageLoader from "@/components/shared/PageLoader";
 
 const router = createBrowserRouter([
   {

@@ -1,7 +1,7 @@
 import type { RouteObject } from "react-router";
 import { Suspense } from "react";
-import { PageLoader } from "@/components/shared/PageLoader";
 import type { ISidebarItem } from "@/types";
+import PageLoader from "@/components/shared/PageLoader";
 
 const cleanPath = (p: string) => p.replace(/^\/+/, "").replace(/\/+$/, "");
 
