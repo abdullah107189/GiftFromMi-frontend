@@ -1,6 +1,6 @@
-import p1 from "@/assets/products/p1.png";
-import p2 from "@/assets/products/p2.png";
-import p3 from "@/assets/products/p3.png";
+// import p1 from "@/assets/products/p1.png";
+// import p2 from "@/assets/products/p2.png";
+// import p3 from "@/assets/products/p3.png";
 import GiftBoxCard from "../shared/cards/GiftBoxCard";
 import {
   Select,
@@ -11,54 +11,58 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "../ui/button";
-import type { IProduct } from "@/types";
+import { useCategoryListQuery } from "@/redux/features/public/langding.api";
+import PageLoader from "../shared/PageLoader";
+import type { Category } from "@/types/public";
+// import type { IProduct } from "@/types";
 const GiftListingSection = () => {
-  const PRODUCTS: IProduct[] = [
-    {
-      id: 1,
-      image: [p1],
-      title: "Chocolate With Premium Box",
-      description: "Experience the Taste of True Luxury",
-      price: 20,
-      oldPrice: 30,
-      rating: 5,
-      reviewsCount: 124, // Changed from "5/5" string to number
-      stockCount: 15,
-      inStock: true,
-    },
-    {
-      id: 2,
-      image: [p2],
-      title: "Tech Accessories Pack",
-      description: "Premium Wireless Charger, Phone Stand",
-      price: 220,
-      oldPrice: 300,
-      rating: 5,
-      reviewsCount: 85,
-      stockCount: 12,
-      inStock: true,
-    },
-    {
-      id: 3,
-      image: [p3],
-      title: "Perfume box",
-      description: "Experience the Premium Perfume",
-      price: 20,
-      oldPrice: 30,
-      rating: 5,
-      reviewsCount: 210,
-      stockCount: 8,
-      inStock: true,
-    },
-  ];
-  const menu = [
-    "All Gifts",
-    "Gift Boxes",
-    "Custom Item",
-    "New Homeowner",
-    "Holidays",
-    "Birthday",
-  ];
+  // const PRODUCTS: IProduct[] = [
+  //   {
+  //     id: 1,
+  //     image: [p1],
+  //     title: "Chocolate With Premium Box",
+  //     description: "Experience the Taste of True Luxury",
+  //     price: 20,
+  //     oldPrice: 30,
+  //     rating: 5,
+  //     reviewsCount: 124, // Changed from "5/5" string to number
+  //     stockCount: 15,
+  //     inStock: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     image: [p2],
+  //     title: "Tech Accessories Pack",
+  //     description: "Premium Wireless Charger, Phone Stand",
+  //     price: 220,
+  //     oldPrice: 300,
+  //     rating: 5,
+  //     reviewsCount: 85,
+  //     stockCount: 12,
+  //     inStock: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     image: [p3],
+  //     title: "Perfume box",
+  //     description: "Experience the Premium Perfume",
+  //     price: 20,
+  //     oldPrice: 30,
+  //     rating: 5,
+  //     reviewsCount: 210,
+  //     stockCount: 8,
+  //     inStock: true,
+  //   },
+  // ];
+  // const menu = [
+  //   "All Gifts",
+  //   "Gift Boxes",
+  //   "Custom Item",
+  //   "New Homeowner",
+  //   "Holidays",
+  //   "Birthday",
+  // ];
+
   const priceRanges = [
     "Under $50",
     "$50-$100",
@@ -67,6 +71,11 @@ const GiftListingSection = () => {
     "$200-$250",
     "$250+",
   ];
+
+  const { data: categories, isLoading: categoriesLoading } = useCategoryListQuery(undefined);
+  if (categoriesLoading) return <PageLoader />;
+  console.log(categories);
+  const menu = categories?.map((cat: Category) => cat.name);
 
   return (
     <section className="xl:py-15 md:py-10 py-5 ">
@@ -102,13 +111,13 @@ const GiftListingSection = () => {
                 </h3>
               </div>
               <ul className="flex flex-col xl:gap-4 gap-2">
-                {menu?.map((cat, idx) => (
+                {menu?.map((cat: Category, idx: number) => (
                   <li
                     key={idx}
                     className="flex justify-between items-center text-gray-600 hover:text-primary cursor-pointer transition-colors p-2"
                   >
-                    <span>{cat}</span>
-                    <span className="text-[16px]">102</span>
+                    <span>{cat.name}</span>
+                    <span className="text-[16px]">{cat.products_count}</span>
                   </li>
                 ))}
               </ul>
@@ -247,7 +256,7 @@ const GiftListingSection = () => {
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {PRODUCTS?.map((product) => {
+              {products?.map((product) => {
                 return (
                   <GiftBoxCard product={product} key={product.id}></GiftBoxCard>
                 );
