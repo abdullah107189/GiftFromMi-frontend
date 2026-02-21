@@ -1,3 +1,9 @@
+Hello there,
+
+I hope you and your family are safe and sound!
+
+As per your order requirement and message request, I've completed the following tasks:
+
 - I have integrated register api
 - I have integrated verify OTP api
 - I have integrated resend OTP api
@@ -5,3 +11,35 @@
 - I have integrated forgot password verify OTP api
 - I have integrated reset password api
 - I have integrated login api
+- I have set up Redux Toolkit and Redux Persist for authentication state management
+- I have implemented login session persistence and logout state cleanup
+- I have updated navbar behavior based on user role
+- I have improved authentication flow and loading handling for better UX
+
+
+For your better understanding, I have created an explanatory video, which you can watch here :
+https://app.usebubbles.com/ncJikexT1PxZ8jEahv34Fu/recording-feb-19-2026
+
+Please have a look at the admin dashboard using the link below. 
+
+Website Link :  https://shalinehengmernreact.vercel.app/
+
+For some reason, If you have any questions, concerns or modifications please let me know. I'll be very happy to assist you.
+
+Looking forward to hearing from you.
+
+Best Regards.
+
+
+================
+Hello Shali-neheng,
+
+I hope you're doing well.
+
+I noticed that I accidentally shared the wrong live we-bsit-e UR-L in my previous message. Please find the correct li-nk below:
+
+https://shalinehengmernreact.vercel.app/
+
+Apologies for the confusion, and thank you for your understanding. Please let me know if you face any issues accessing it.
+
+Best regards,

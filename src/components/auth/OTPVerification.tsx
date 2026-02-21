@@ -11,7 +11,11 @@ import {
 } from "@/components/ui/input-otp";
 import { useState, useEffect } from "react";
 import SEO from "../shared/SEO";
-import { useForgotVerifyOtpMutation, useResendOtpMutation, useVerifyOtpMutation } from "@/redux/features/auth/auth.api";
+import {
+  useForgotVerifyOtpMutation,
+  useResendOtpMutation,
+  useVerifyOtpMutation,
+} from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { Role } from "@/types";
 import { createFormData } from "@/utils/createFormData";
@@ -24,7 +28,8 @@ export type LocationState = {
 const OTPverification = () => {
   const [verifyOtp, { isLoading: verifyLoading }] = useVerifyOtpMutation();
   const [resendOtp, { isLoading: resendLoading }] = useResendOtpMutation();
-  const [forgotVerifyOtp, { isLoading: forgotLoading }] = useForgotVerifyOtpMutation();
+  const [forgotVerifyOtp, { isLoading: forgotLoading }] =
+    useForgotVerifyOtpMutation();
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as LocationState | null;
@@ -48,7 +53,6 @@ const OTPverification = () => {
         result = await forgotVerifyOtp(otpValue).unwrap();
         toast.success(result.message || "Forgot OTP verified successfully!");
         navigate("/reset-password", { state: { email, token: result?.token } });
-
       } else {
         result = await verifyOtp(otpValue).unwrap();
         console.log(result.message);
@@ -56,7 +60,6 @@ const OTPverification = () => {
       }
 
       if (location.state?.type === "register") {
-
         if (result?.role === Role.admin) {
           window.location.replace("https://shalineheng.thewarriors.team");
         } else {
@@ -173,11 +176,12 @@ const OTPverification = () => {
           </div>
 
           {/* Verify Button */}
-          <Button
-            onClick={handleVerify}
-            className="w-full"
-          >
-            {verifyLoading || forgotLoading ? <ButtonLoading loadingText="Verifying..." /> : "Verify"}
+          <Button onClick={handleVerify} className="w-full">
+            {verifyLoading || forgotLoading ? (
+              <ButtonLoading loadingText="Verifying..." />
+            ) : (
+              "Verify"
+            )}
           </Button>
 
           {/* Resend Timer */}
@@ -188,7 +192,11 @@ const OTPverification = () => {
                 onClick={() => handleResend()}
                 className="text-[#D19E46] font-bold hover:underline ml-1 cursor-pointer transition-all"
               >
-                {resendLoading ? <ButtonLoading loadingText="Resending..." /> : "Resend OTP"}
+                {resendLoading ? (
+                  <ButtonLoading loadingText="Resending..." />
+                ) : (
+                  "Resend OTP"
+                )}
               </button>
             </p>
             <p className="text-xs text-gray-400 mt-2">

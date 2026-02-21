@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ComponentType, ElementType, ReactNode } from "react";
 export const Role = {
   customer: "customer",
@@ -29,17 +30,21 @@ export interface Step {
 }
 
 export interface IProduct {
-  id: string | number;
-  title: string;
-  description: string;
-  price: number;
-  oldPrice?: number;
-  image: string[];
-  rating: number;
-  reviewsCount: number;
-  stockCount: number;
-  inStock: boolean;
-  category?: string;
+  id: number
+  category_id: number
+  brand_id: number
+  cj_product_id: any
+  source_type: string
+  title: string
+  slug: string
+  description: string
+  short_description: string
+  status: boolean
+  is_featured: boolean
+  is_customizable: boolean
+  meta_title: string
+  meta_description: any
+  deleted_at: any
 }
 
 export interface IProductCategory {

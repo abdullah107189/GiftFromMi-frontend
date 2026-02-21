@@ -6,8 +6,12 @@ import HeroSection from "@/components/Home/HeroSection";
 import HowItWorks from "@/components/Home/HowItWorks";
 import OccasionGallery from "@/components/Home/OccasionGallery";
 import SEO from "@/components/shared/SEO";
+import { useLangdingApiQuery } from "@/redux/features/landing/langding.api";
 
 function HomePage() {
+  const { data, isLoading } = useLangdingApiQuery(undefined);
+  if (isLoading) return <div>Loading...</div>;
+  console.log(data.products);
   return (
     <div>
       <SEO
@@ -17,7 +21,7 @@ function HomePage() {
       <HeroSection></HeroSection>
       <div className="max-w-container mx-auto px-3">
         <HowItWorks></HowItWorks>
-        <GiftCollection></GiftCollection>
+        <GiftCollection PRODUCTS={data?.products}></GiftCollection>
         <OccasionGallery></OccasionGallery>
         <FeatureSection></FeatureSection>
         <FeedbackSection></FeedbackSection>
