@@ -67,148 +67,115 @@ export const ShoppingCart = () => {
                   <TableHead className="md:p-4 p-2 xl:rounded-r-2xl md:rounded-r-xl rounded-r-lg"></TableHead>
                 </TableRow>
               </TableHeader>
-
               <TableBody>
-                {cartItems.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    className="group border-none hover:bg-transparent"
-                  >
-                    {/* Product Details */}
-                    <TableCell className="xl:pt-10 lg:pt-8 md:pt-5 pt-3">
-                      <div className="flex w-60 xl:gap-7.5 md:gap-5 gap-4">
-                        <div className="xl:w-37.5 md:w-30 w-20 xl:h-38.25 md:h-30 h-20 rounded-lg bg-gray-100 shrink-0">
-                          <img
-                            src={item.image}
-                            className="w-full h-full object-cover md:rounded-xl rounded-lg"
-                            alt={item.title}
-                          />
-                        </div>
-                        <div className="flex max-w-40   relative flex-col justify-between gap-2">
-                          <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-4 whitespace-normal wrap-break-word">
-                            {item.title}
-                          </p>
-                          <p className="text-gray-900 font-manrope">
-                            Type: Gift Box
-                          </p>
-                        </div>
-                      </div>
-                    </TableCell>
+                {cartItems.length > 0 ? (
+                  cartItems.map((item) => (
+                    <TableRow
+                      key={item.id}
+                      className="group border-none hover:bg-transparent"
+                    >
+                      {/* Product Details */}
+                      <TableCell className="xl:pt-10 lg:pt-8 md:pt-5 pt-3">
+                        <div className="flex w-60 xl:gap-7.5 md:gap-5 gap-4">
+                          <div className="xl:w-37.5 md:w-30 w-20 xl:h-38.25 md:h-30 h-20 rounded-lg bg-gray-100 shrink-0">
+                            <img
+                              src={item.image}
+                              className="w-full h-full object-cover md:rounded-xl rounded-lg"
+                              alt={item.title}
+                            />
+                          </div>
 
-                    {/* Price */}
-                    <TableCell className="md:p-4 p-2 text-center font-semibold font-manrope xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                      ${item.originalPrice.toFixed(2)}
-                    </TableCell>
+                          <div className="flex max-w-40 relative flex-col justify-between gap-2">
+                            <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-4 whitespace-normal break-words">
+                              {item.title}
+                            </p>
+                            <p className="text-gray-900 font-manrope">Type: Gift Box</p>
+                          </div>
+                        </div>
+                      </TableCell>
 
-                    {/* Quantity */}
-                    <TableCell>
-                      <div className="flex items-center justify-center">
-                        <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
-                          <button
-                            onClick={() => dispatch(decrementQty({ id: item?.id }))}
-                            className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
+                      {/* Price */}
+                      <TableCell className="md:p-4 p-2 text-center font-semibold font-manrope xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
+                        ${item.originalPrice.toFixed(2)}
+                      </TableCell>
+
+                      {/* Quantity */}
+                      <TableCell>
+                        <div className="flex items-center justify-center">
+                          <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
+                            <button
+                              onClick={() => dispatch(decrementQty({ id: item.id }))}
+                              className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
+                              type="button"
                             >
-                              <path
-                                d="M20 12H4"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </button>
+                              {/* minus svg */}
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 12H4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </button>
 
-                          <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-[24px]">
-                            {item.qty}
-                          </span>
+                            <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-[24px]">
+                              {item.qty}
+                            </span>
 
-                          <button
-                            onClick={() => dispatch(incrementQty({ id: item?.id }))}
-                            className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
+                            <button
+                              onClick={() => dispatch(incrementQty({ id: item.id }))}
+                              className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
+                              type="button"
                             >
-                              <path
-                                d="M12 5V19.002"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M19.002 12.002H5"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </button>
+                              {/* plus svg */}
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 5V19.002" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M19.002 12.002H5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
+                      </TableCell>
 
-                    {/* Subtotal */}
-                    <TableCell className=" text-center font-semibold xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                      ${item.originalPrice.toFixed(2)}
-                    </TableCell>
+                      {/* Subtotal */}
+                      <TableCell className="text-center font-semibold xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
+                        ${(item.originalPrice * item.qty).toFixed(2)}
+                      </TableCell>
 
-                    {/* Delete Button */}
-                    <TableCell className="text-center">
-                      <button
-                        onClick={() => {
-                          setDeleteId(item.id);
-                          setOpenDelete(true);
-                        }}
-                        className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
+                      {/* Delete Button */}
+                      <TableCell className="text-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setDeleteId(item.id);
+                            setOpenDelete(true);
+                          }}
+                          className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group"
                         >
-                          <path
-                            d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5"
-                            stroke="#DF1C41"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                          />
-                          <path
-                            d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5"
-                            stroke="#DF1C41"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                          />
-                          <path
-                            d="M9.5 16.5V10.5"
-                            stroke="#DF1C41"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                          />
-                          <path
-                            d="M14.5 16.5V10.5"
-                            stroke="#DF1C41"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </button>
+                          {/* trash svg */}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path
+                              d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5"
+                              stroke="#DF1C41"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                            />
+                            <path
+                              d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5"
+                              stroke="#DF1C41"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                            />
+                            <path d="M9.5 16.5V10.5" stroke="#DF1C41" strokeWidth="1.5" strokeLinecap="round" />
+                            <path d="M14.5 16.5V10.5" stroke="#DF1C41" strokeWidth="1.5" strokeLinecap="round" />
+                          </svg>
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow className="hover:bg-transparent">
+                    <TableCell colSpan={5} className="text-center md:py-8 py-4 md:text-3xl text-xl">
+                      <p className="">Your cart is empty</p>
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
 

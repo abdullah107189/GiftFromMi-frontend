@@ -13,6 +13,7 @@ import fallbackImage from "@/assets/fallback.png";
 import type { IProduct } from "@/types";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/features/cart/cartSlice";
+import { toast } from "sonner";
 
 
 const ProductDetails = () => {
@@ -56,6 +57,7 @@ const ProductDetails = () => {
     }
     console.log("handleAddToCart", { product, cartItem });
     dispatch(addToCart(cartItem));
+    toast.success("Product added to cart");
   }
 
   return (
@@ -73,7 +75,7 @@ const ProductDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:mt-6">
             {/* Left Side: Main Image */}
             <div className="lg:col-span-6">
-              <div className="rounded-2xl overflow-hidden xl:max-w-182 xl:max-h-140.75 w-full lg:h-125 md:h-100 h-80">
+              <div className="rounded-2xl overflow-hidden xl:max-w-182 xl:max-h-140.75 w-full lg:h-125 md:h-100 h-80 aspect-4/3 lg:aspect-16/10">
                 <img
                   src={activeImage || images[0]}
                   alt={product.title}
