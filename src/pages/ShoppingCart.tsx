@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import type { IProduct } from "@/types";
-import p1 from "@/assets/products/p1.png";
-import p2 from "@/assets/products/p2.png";
-import p3 from "@/assets/products/p3.png";
+// import type { IProduct } from "@/types";
+// import p1 from "@/assets/products/p1.png";
+// import p2 from "@/assets/products/p2.png";
+// import p3 from "@/assets/products/p3.png";
 import {
   Table,
   TableBody,
@@ -15,47 +15,54 @@ import {
 import { useState } from "react";
 import { Link } from "react-router";
 import SEO from "@/components/shared/SEO";
+import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
+import { useSelector } from "react-redux";
 
-const cartItems: IProduct[] = [
-  {
-    id: 1,
-    image: [p1],
-    title: "Chocolate With Premium Boxa sldkfj lasdf laksd flka sjdlkf lasd f",
-    description: "Experience the Taste of True Luxury",
-    price: 20,
-    oldPrice: 30,
-    rating: 5,
-    reviewsCount: 124,
-    stockCount: 15,
-    inStock: true,
-  },
-  {
-    id: 2,
-    image: [p2],
-    title: "Tech Accessories Pack",
-    description: "Premium Wireless Charger, Phone Stand",
-    price: 220,
-    oldPrice: 300,
-    rating: 5,
-    reviewsCount: 85,
-    stockCount: 12,
-    inStock: true,
-  },
-  {
-    id: 3,
-    image: [p3],
-    title: "Perfume box",
-    description: "Experience the Premium Perfume",
-    price: 20,
-    oldPrice: 30,
-    rating: 5,
-    reviewsCount: 210,
-    stockCount: 8,
-    inStock: true,
-  },
-];
+// const cartItems: IProduct[] = [
+//   {
+//     id: 1,
+//     image: [p1],
+//     title: "Chocolate With Premium Boxa sldkfj lasdf laksd flka sjdlkf lasd f",
+//     description: "Experience the Taste of True Luxury",
+//     price: 20,
+//     oldPrice: 30,
+//     rating: 5,
+//     reviewsCount: 124,
+//     stockCount: 15,
+//     inStock: true,
+//   },
+//   {
+//     id: 2,
+//     image: [p2],
+//     title: "Tech Accessories Pack",
+//     description: "Premium Wireless Charger, Phone Stand",
+//     price: 220,
+//     oldPrice: 300,
+//     rating: 5,
+//     reviewsCount: 85,
+//     stockCount: 12,
+//     inStock: true,
+//   },
+//   {
+//     id: 3,
+//     image: [p3],
+//     title: "Perfume box",
+//     description: "Experience the Premium Perfume",
+//     price: 20,
+//     oldPrice: 30,
+//     rating: 5,
+//     reviewsCount: 210,
+//     stockCount: 8,
+//     inStock: true,
+//   },
+// ];
+
 
 export const ShoppingCart = () => {
+  const cartItems = useSelector(selectCartItemsArray);
+  console.log("cartItems===========", cartItems);
+
+
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
     cartItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {}),
   );
@@ -75,7 +82,7 @@ export const ShoppingCart = () => {
   };
 
   const subTotal = cartItems.reduce(
-    (acc, item) => acc + item.price * (quantities[item.id as number] || 1),
+    (acc, item) => acc + item.originalPrice * (quantities[item.id as number] || 1),
     0,
   );
   const shipping = 24.0;
@@ -125,7 +132,7 @@ export const ShoppingCart = () => {
                       <div className="flex w-60 xl:gap-7.5 md:gap-5 gap-4">
                         <div className="xl:w-37.5 md:w-30 w-20 xl:h-38.25 md:h-30 h-20 rounded-lg bg-gray-100 shrink-0">
                           <img
-                            src={item.image[0]}
+                            src={item.image}
                             className="w-full h-full object-cover md:rounded-xl rounded-lg"
                             alt={item.title}
                           />
@@ -143,7 +150,7 @@ export const ShoppingCart = () => {
 
                     {/* Price */}
                     <TableCell className="md:p-4 p-2 text-center font-semibold font-manrope xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                      ${item.price.toFixed(2)}
+                      ${item.originalPrice.toFixed(2)}
                     </TableCell>
 
                     {/* Quantity */}
@@ -206,7 +213,7 @@ export const ShoppingCart = () => {
 
                     {/* Subtotal */}
                     <TableCell className=" text-center font-semibold xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                      ${item.price.toFixed(2)}
+                      ${item.originalPrice.toFixed(2)}
                     </TableCell>
 
                     {/* Delete Button */}
