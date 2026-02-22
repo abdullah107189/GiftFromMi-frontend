@@ -51,7 +51,6 @@ import { parseDescriptionToText } from "@/utils/converter/parseDescriptionToText
 // ];
 
 const FAQ = ({ faqs }: { faqs: { title: string, description: string }[] }) => {
-  console.log("faqs", faqs)
   return (
     <section className="pb-15 bg-primary-50">
       <div className="max-w-container mx-auto px-3">

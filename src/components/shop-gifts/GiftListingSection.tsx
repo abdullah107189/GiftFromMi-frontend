@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import p1 from "@/assets/products/p1.png";
 // import p2 from "@/assets/products/p2.png";
 // import p3 from "@/assets/products/p3.png";
@@ -16,7 +17,7 @@ import type { Category } from "@/types/public";
 import { useCategoryListQuery } from "@/redux/features/public/public.api";
 import type { IProduct } from "@/types";
 // import type { IProduct } from "@/types";
-const GiftListingSection = ({ products }: { products: IProduct[] }) => {
+const GiftListingSection = ({ products }: { products: any }) => {
   // const PRODUCTS: IProduct[] = [
   //   {
   //     id: 1,
@@ -73,6 +74,8 @@ const GiftListingSection = ({ products }: { products: IProduct[] }) => {
     "$250+",
   ];
 
+  // console.log("products...........", products[0].products);
+  // const products = products?.products
   const { data: categories, isLoading: categoriesLoading } = useCategoryListQuery(undefined);
   if (categoriesLoading) return <PageLoader />;
 
@@ -255,7 +258,7 @@ const GiftListingSection = ({ products }: { products: IProduct[] }) => {
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products?.map((product) => {
+              {products[0].products?.slice(0, 3).map((product: IProduct) => {
                 return (
                   <GiftBoxCard product={product} key={product.id}></GiftBoxCard>
                 );

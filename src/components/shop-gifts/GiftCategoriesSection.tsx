@@ -254,10 +254,11 @@ const GiftCategoriesSection = ({ categories }: { categories: Category[] }) => {
   //   },
   // ];
   if (!categories) return null;
+  console.log("categories", categories);
   return (
     <section className="py-16 bg-background">
       <div className="max-w-container mx-auto px-3 flex flex-col xl:gap-10 md:gap-8 gap-6">
-        {categories.map((group, index) => (
+        {categories.slice(1).map((group, index) => (
           <div key={index} className="flex flex-col gap-8">
             {/* Header: Title and View All */}
             <div className="flex justify-between items-center pb-4">

@@ -43,3 +43,11 @@ https://shalinehengmernreact.vercel.app/
 Apologies for the confusion, and thank you for your understanding. Please let me know if you face any issues accessing it.
 
 Best regards,
+
+21/02/2026 ==================
+
+- I have integrated all categories and product items on the Shop Gifts page
+- I have created and integrated the category list get query
+- I have implemented the best loading effect for improved user experience
+- I have integrated the FAQ section
+- I have integrated the API and set up the Featured Gift Collections section
