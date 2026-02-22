@@ -14,16 +14,19 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import cartReducer from "./features/cart/cartSlice";
+import { cartPersistMiddleware } from "./features/cart/cartPersistMiddleware";
 // ===========
 const rootReducer = combineReducers({
   auth: authReducer,
+  cart: cartReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"]
+  whitelist: ["auth", "cart"]
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -35,7 +38,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(baseApi.middleware),
+    }).concat(baseApi.middleware, cartPersistMiddleware),
 });
 
 setupListeners(store.dispatch);

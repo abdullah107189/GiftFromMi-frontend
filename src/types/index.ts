@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ComponentType, ElementType, ReactNode } from "react";
+import type { Brand, ProductImage, Variant } from "./product";
 export const Role = {
   customer: "customer",
   admin: "Admin",
@@ -45,6 +46,15 @@ export interface IProduct {
   meta_title: string
   meta_description: any
   deleted_at: any
+  product_image?: ProductImage[]
+  brand?: Brand
+  reviews?: any[]
+  variants?: Variant[]
+  createdAt?: string
+  updatedAt?: string
+  quantity?: number | null
+  reviewCount?: number
+  averageRating?: number
 }
 
 export interface IProductCategory {

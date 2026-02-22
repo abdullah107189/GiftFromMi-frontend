@@ -10,18 +10,8 @@ import SEO from "@/components/shared/SEO";
 import { useProductDetailsQuery } from "@/redux/features/public/public.api";
 import PageLoader from "@/components/shared/PageLoader";
 import fallbackImage from "@/assets/fallback.png";
-export interface IProduct {
-  id: string | number;
-  title: string;
-  description: string;
-  price: number;
-  oldPrice?: number;
-  image: string[];
-  rating: number;
-  reviewsCount: number;
-  stockCount: number;
-  inStock: boolean;
-}
+import type { IProduct } from "@/types";
+
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -50,7 +40,20 @@ const ProductDetails = () => {
   if (isProductLoading) return <PageLoader />;
 
   if (!product) return <p>Not Found</p>;
+  const handleAddToCart = (product: IProduct) => {
+    const cartItem = {
+      title: product.title,
+      image: product?.product_image?.[0]?.image,
+      price: product?.variants?.[0]?.sell_price,
+      originalPrice: product?.variants?.[0]?.price,
+      brand: product?.brand?.name,
+      shortDescription: product?.short_description,
+      isFeatured: product?.is_featured,
+      inStock: product?.quantity ? product.quantity > 0 : false,
+    }
 
+    console.log("handleAddToCart", { product, cartItem });
+  }
 
   return (
     <main className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5 overflow-hidden">
@@ -78,7 +81,7 @@ const ProductDetails = () => {
                 />
               </div>
               <div className="flex lg:hidden gap-2 pt-4">
-                {images.map((src: string, index: number) => (
+                {images?.slice(0, 6)?.map((src: string, index: number) => (
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
@@ -112,10 +115,10 @@ const ProductDetails = () => {
 
                   <div className="ml-auto flex items-center gap-2">
                     <span className="text-2xl font-semibold text-primary">
-                      ${product?.price}
+                      ${product?.variants?.[0]?.sell_price}
                     </span>
                     <span className="text-gray-500 font-medium">
-                      ${product?.oldPrice}
+                      ${product?.variants?.[0]?.price}
                     </span>
                   </div>
                 </div>
@@ -227,14 +230,17 @@ const ProductDetails = () => {
                 </svg>
                 <span className="text-[#84CC16] ">In Stock</span>
                 <span className="text-gray-700">
-                  — {product.stockCount} items left
+                  {product?.variants?.[0]?.quantity ? `— ${product?.variants?.[0]?.quantity} items left` : "— Sold Out"}
                 </span>
               </div>
 
               <p className="xl:mt-8 md:mt-6 mt-2">{product.short_description}</p>
-              <Link to={"/shopping-cart"}>
-                <Button>Send This Gift Now</Button>
-              </Link>
+              <div className="flex gap-4">
+                <Button variant={"outline"} onClick={() => handleAddToCart(product)} className="w-fit">Add To Cart</Button>
+                <Link to={"/shopping-cart"} className="w-fit">
+                  <Button>Send This Gift Now</Button>
+                </Link>
+              </div>
 
               {/* Thumbnails aligned to the right bottom like image */}
               <div className="hidden lg:flex gap-2 pt-4">
