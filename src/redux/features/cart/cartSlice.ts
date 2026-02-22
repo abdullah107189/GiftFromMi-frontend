@@ -55,12 +55,13 @@ const cartSlice = createSlice({
             }
         },
 
-        incrementQty(state, action: PayloadAction<{ id: string }>) {
+        incrementQty(state, action: PayloadAction<{ id: number }>) {
             const item = state.itemsById[action.payload.id];
             if (item) item.qty += 1;
         },
 
-        decrementQty(state, action: PayloadAction<{ id: string }>) {
+        decrementQty(state, action: PayloadAction<{ id: number }>) {
+            if (state.itemsById[action.payload.id].qty <= 1) return;
             const item = state.itemsById[action.payload.id];
             if (!item) return;
 
@@ -80,7 +81,7 @@ const cartSlice = createSlice({
             else item.qty = safeQty;
         },
 
-        removeFromCart(state, action: PayloadAction<{ id: string }>) {
+        removeFromCart(state, action: PayloadAction<{ id: number }>) {
             delete state.itemsById[action.payload.id];
         },
 
@@ -88,7 +89,6 @@ const cartSlice = createSlice({
             state.itemsById = {};
         },
 
-        // optional: SSR/rehydrate or manual load
         hydrateCart(_state, action: PayloadAction<CartState>) {
             return action.payload;
         },

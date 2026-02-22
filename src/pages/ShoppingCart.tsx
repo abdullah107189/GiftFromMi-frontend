@@ -12,11 +12,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
 import { Link } from "react-router";
 import SEO from "@/components/shared/SEO";
-import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
-import { useSelector } from "react-redux";
+import { selectCartItemsArray, selectCartItemsCount, selectCartSubtotal, selectCartTotal, selectShipping, } from "@/redux/features/cart/cartSelectors";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "@/redux/store";
+import { decrementQty, incrementQty, removeFromCart } from "@/redux/features/cart/cartSlice";
 
 // const cartItems: IProduct[] = [
 //   {
@@ -59,34 +60,13 @@ import { useSelector } from "react-redux";
 
 
 export const ShoppingCart = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItemsArray);
-  console.log("cartItems===========", cartItems);
+  const cartItemsCount = useSelector(selectCartItemsCount);
+  const subtotal = useSelector(selectCartSubtotal);
+  const shipping = useSelector(selectShipping);
+  const total = useSelector(selectCartTotal);
 
-
-  const [quantities, setQuantities] = useState<{ [key: number]: number }>(
-    cartItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {}),
-  );
-
-  const handleDecrease = (id: number) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max(1, (prev[id] || 1) - 1),
-    }));
-  };
-
-  const handleIncrease = (id: number) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: (prev[id] || 1) + 1,
-    }));
-  };
-
-  const subTotal = cartItems.reduce(
-    (acc, item) => acc + item.originalPrice * (quantities[item.id as number] || 1),
-    0,
-  );
-  const shipping = 24.0;
-  const total = subTotal + shipping;
   return (
     <section className="relative max-w-main md:mt-35 mt-20 py-5">
       <SEO
@@ -95,7 +75,7 @@ export const ShoppingCart = () => {
       />
       <div className="px-3 max-w-container mx-auto">
         <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
-          Shopping Gift Cart ({cartItems.length.toString().padStart(2, "0")}{" "}
+          Shopping Gift Cart ({cartItems.length.toString().padStart(cartItemsCount.toString().length, "0")}{" "}
           Items)
         </h1>
 
@@ -158,7 +138,7 @@ export const ShoppingCart = () => {
                       <div className="flex items-center justify-center">
                         <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
                           <button
-                            onClick={() => handleDecrease(item?.id as number)}
+                            onClick={() => dispatch(decrementQty({ id: item?.id }))}
                             className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                           >
                             <svg
@@ -177,11 +157,13 @@ export const ShoppingCart = () => {
                               />
                             </svg>
                           </button>
+
                           <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-[24px]">
-                            {quantities[item.id as number] || 1}
+                            {item.qty}
                           </span>
+
                           <button
-                            onClick={() => handleIncrease(item.id as number)}
+                            onClick={() => dispatch(incrementQty({ id: item?.id }))}
                             className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                           >
                             <svg
@@ -218,7 +200,9 @@ export const ShoppingCart = () => {
 
                     {/* Delete Button */}
                     <TableCell className="text-center">
-                      <button className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group">
+                      <button
+                        onClick={() => dispatch(removeFromCart({ id: item?.id }))}
+                        className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -258,6 +242,7 @@ export const ShoppingCart = () => {
               </TableBody>
             </Table>
 
+            {/* back to shop button */}
             <Link to={"/shop-gifts"}>
               <Button className="mt-8  font-semibold h-auto">
                 <svg
@@ -292,7 +277,7 @@ export const ShoppingCart = () => {
                     Sub Total :
                   </span>
                   <span className="font-semibold text-gray-900 md:text-xl">
-                    ${subTotal.toFixed(2)}
+                    ${subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between md:py-4 py-2">
@@ -322,6 +307,6 @@ export const ShoppingCart = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
