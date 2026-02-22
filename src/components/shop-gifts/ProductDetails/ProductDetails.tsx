@@ -113,11 +113,11 @@ const ProductDetails = () => {
                     {product?.reviewsCount} reviews
                   </span>
 
-                  <div className="ml-auto flex items-center gap-2">
-                    <span className="text-2xl font-semibold text-primary">
+                  <div className="ml-auto flex items-start gap-1">
+                    <span className="text-4xl font-semibold text-primary">
                       ${product?.variants?.[0]?.sell_price}
                     </span>
-                    <span className="text-gray-500 font-medium">
+                    <span className="text-gray-500 text-xl font-medium line-through">
                       ${product?.variants?.[0]?.price}
                     </span>
                   </div>
