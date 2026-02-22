@@ -8,10 +8,12 @@ import { Menu, X } from "lucide-react";
 import "@/components/shared/button/ActionButton.css";
 import { selectUser } from "@/redux/features/auth/authSelectors";
 import { useSelector } from "react-redux";
+import { selectCartItemsCount } from "@/redux/features/cart/cartSelectors";
 
 const ResponsiveNavbar = () => {
   const userInfo = useSelector(selectUser);
   const user = userInfo?.role;
+  const cartDispatch = useSelector(selectCartItemsCount);
 
 
   const { pathname } = useLocation();
@@ -187,7 +189,7 @@ const ResponsiveNavbar = () => {
               />
             </svg>
             <div className="absolute -top-1 -right-1 bg-destructive border border-white px-1 w-4 h-4 flex items-center justify-center text-white text-[10px] rounded-full">
-              2
+              {cartDispatch || 0}
             </div>
           </Link>
 

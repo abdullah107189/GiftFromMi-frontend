@@ -11,12 +11,14 @@ import { useProductDetailsQuery } from "@/redux/features/public/public.api";
 import PageLoader from "@/components/shared/PageLoader";
 import fallbackImage from "@/assets/fallback.png";
 import type { IProduct } from "@/types";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/redux/features/cart/cartSlice";
 
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading: isProductLoading, isFetching: isProductFetching } = useProductDetailsQuery(id!);
-
+  const dispatch = useDispatch();
   const product = data?.productInfo;
   const relatedProducts = data?.relatedProducts || [];
   console.log({ product, relatedProducts })
@@ -42,17 +44,18 @@ const ProductDetails = () => {
   if (!product) return <p>Not Found</p>;
   const handleAddToCart = (product: IProduct) => {
     const cartItem = {
+      id: product.id,
       title: product.title,
       image: product?.product_image?.[0]?.image,
-      price: product?.variants?.[0]?.sell_price,
-      originalPrice: product?.variants?.[0]?.price,
-      brand: product?.brand?.name,
+      originalPrice: product?.variants?.[0]?.price as number,
+      brand: product?.brand?.name as string,
       shortDescription: product?.short_description,
-      isFeatured: product?.is_featured,
+      qty: product?.quantity || 1,
       inStock: product?.quantity ? product.quantity > 0 : false,
+      cj_product_id: product?.cj_product_id,
     }
-
     console.log("handleAddToCart", { product, cartItem });
+    dispatch(addToCart(cartItem));
   }
 
   return (

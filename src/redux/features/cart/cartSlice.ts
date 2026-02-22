@@ -2,11 +2,15 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export type CartItem = {
-    id: string;
+    id: number;
     title: string;
-    price: number;     // unit price
     image?: string;
+    originalPrice: number;
+    brand: string;
+    shortDescription: string;
     qty: number;
+    inStock: boolean;
+    cj_product_id: string;
 };
 
 export type CartState = {
@@ -41,13 +45,13 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart(state, action: PayloadAction<AddToCartPayload>) {
-            const { id, title, price, image, qty = 1 } = action.payload;
+            const { id, title, image, originalPrice, brand, shortDescription, qty, inStock, cj_product_id } = action.payload;
 
             const existing = state.itemsById[id];
             if (existing) {
-                existing.qty += qty;
+                existing.qty += qty || 1;
             } else {
-                state.itemsById[id] = { id, title, price, image, qty };
+                state.itemsById[id] = { id, title, image, originalPrice, brand, shortDescription, qty: qty || 1, inStock, cj_product_id };
             }
         },
 
