@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
 import Rating from "@/components/shared/Rating";
-import { Loader2 } from "lucide-react";
 import RelatedProdect from "./RelatedProdect";
 import SEO from "@/components/shared/SEO";
-
+import { useProductDetailsQuery } from "@/redux/features/public/public.api";
+import PageLoader from "@/components/shared/PageLoader";
+import fallbackImage from "@/assets/fallback.png";
 export interface IProduct {
   id: string | number;
   title: string;
@@ -22,131 +25,38 @@ export interface IProduct {
 
 const ProductDetails = () => {
   const { id } = useParams();
-  console.log(id);
-  const [product, setProduct] = useState<IProduct | null>(null);
-  const [activeImage, setActiveImage] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const { data, isLoading: isProductLoading, isFetching: isProductFetching } = useProductDetailsQuery(id!);
 
-  const products: IProduct[] = [
-    {
-      id: "1",
-      title: "Tech Accessories Pack",
-      price: 500,
-      oldPrice: 750,
-      image: [
-        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
-        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
-        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
-      ],
-      rating: 5,
-      reviewsCount: 124,
-      stockCount: 12,
-      inStock: true,
-      description:
-        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
-    },
-    {
-      id: "1",
-      title: "Tech Accessories Pack",
-      price: 500,
-      oldPrice: 750,
-      image: [
-        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
-        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
-        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
-      ],
-      rating: 5,
-      reviewsCount: 124,
-      stockCount: 12,
-      inStock: true,
-      description:
-        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
-    },
-    {
-      id: "1",
-      title: "Tech Accessories Pack",
-      price: 500,
-      oldPrice: 750,
-      image: [
-        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
-        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
-        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
-      ],
-      rating: 5,
-      reviewsCount: 124,
-      stockCount: 12,
-      inStock: true,
-      description:
-        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
-    },
-    {
-      id: "1",
-      title: "Tech Accessories Pack",
-      price: 500,
-      oldPrice: 750,
-      image: [
-        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
-        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
-        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
-      ],
-      rating: 5,
-      reviewsCount: 124,
-      stockCount: 12,
-      inStock: true,
-      description:
-        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
-    },
-    {
-      id: "1",
-      title: "Tech Accessories Pack",
-      price: 500,
-      oldPrice: 750,
-      image: [
-        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf",
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
-        "https://images.unsplash.com/photo-1491933382434-500287f9b54b",
-        "https://images.unsplash.com/photo-1586201375761-83865001e31c",
-        "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0",
-      ],
-      rating: 5,
-      reviewsCount: 124,
-      stockCount: 12,
-      inStock: true,
-      description:
-        "A thoughtfully curated premium tech accessories set design delight professionals, clients, and loved ones. Perfect for celebrations, office event, and corporate gifting.",
-    },
-  ];
+  const product = data?.productInfo;
+  const relatedProducts = data?.relatedProducts || [];
+  console.log({ product, relatedProducts })
+
+  const images: string[] = useMemo(() => {
+    return product?.product_image?.map((img: any) => img.image) || [];
+  }, [product?.product_image]);
+  const [activeImage, setActiveImage] = useState<string>("");
 
   useEffect(() => {
-    const foundProduct = products.find((p) => p.id.toString() === "1");
-    if (foundProduct) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setProduct(foundProduct);
-      setActiveImage(foundProduct.image[0]);
+    if (images.length > 0) {
+      setActiveImage(images[0]);
+    } else {
+      setActiveImage("");
     }
-    setLoading(false);
-  }, [id]);
+  }, [id, images]); // 👈 id add korlam
 
-  if (loading)
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <Loader2 className="animate-spin" />
-      </div>
-    );
+  if (isProductFetching) return <PageLoader />;
+
+
+  if (isProductLoading) return <PageLoader />;
+
+  if (!product) return <p>Not Found</p>;
+
 
   return (
     <main className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5 overflow-hidden">
       <SEO
         title={product?.title || "Product Details"}
-        description={product?.description || "Product details page"}
+        description={product?.short_description || "Product details page"}
       />
       <div className="max-w-container mx-auto px-3">
         <DynamicBreadcrumb customLabel={product?.title} />
@@ -157,23 +67,25 @@ const ProductDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:mt-6">
             {/* Left Side: Main Image */}
             <div className="lg:col-span-6">
-              <div className="rounded-2xl overflow-hidden xl:max-w-182 xl:max-h-108.75 w-full lg:h-125 md:h-100 h-80">
+              <div className="rounded-2xl overflow-hidden xl:max-w-182 xl:max-h-140.75 w-full lg:h-125 md:h-100 h-80">
                 <img
-                  src={activeImage}
+                  src={activeImage || images[0]}
                   alt={product.title}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = fallbackImage;
+                  }}
                 />
               </div>
               <div className="flex lg:hidden gap-2 pt-4">
-                {product.image.map((src, index) => (
+                {images.map((src: string, index: number) => (
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                      activeImage === src
-                        ? "border-orange-500"
-                        : "border-transparent"
-                    }`}
+                    className={`w-28.75 h-24 aspect-[115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === src
+                      ? "border-orange-500"
+                      : "border-transparent"
+                      }`}
                   >
                     <img src={src} className="w-full h-full object-cover " />
                   </div>
@@ -189,21 +101,21 @@ const ProductDetails = () => {
                 </h1>
                 <div className="flex items-center md:gap-3 gap-2">
                   <div className="flex text-primary">
-                    <Rating rating={product.rating} showText={false}></Rating>
+                    <Rating rating={product?.rating} showText={false}></Rating>
                   </div>
                   <span className="font-bold text-primary">
-                    {product.rating.toFixed(1)}
+                    {product?.rating ? product.rating.toFixed(1) : 0}
                   </span>
                   <span className="text-sm text-gray-500">
-                    {product.reviewsCount} reviews
+                    {product?.reviewsCount} reviews
                   </span>
 
                   <div className="ml-auto flex items-center gap-2">
                     <span className="text-2xl font-semibold text-primary">
-                      ${product.price}
+                      ${product?.price}
                     </span>
                     <span className="text-gray-500 font-medium">
-                      ${product.oldPrice}
+                      ${product?.oldPrice}
                     </span>
                   </div>
                 </div>
@@ -217,7 +129,7 @@ const ProductDetails = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                 >
-                  <g clip-path="url(#clip0_848_30742)">
+                  <g clipPath="url(#clip0_848_30742)">
                     <path
                       d="M7.18359 16.0515L6.00047 23.8527C5.86866 23.8527 5.7368 23.8218 5.61558 23.76L4.55175 23.2177L0.486234 21.1451C0.188813 20.9935 0 20.6796 0 20.3362V14.1441C0 13.9707 0.0478125 13.8051 0.133781 13.6641L5.69822 15.5483L7.18359 16.0515Z"
                       fill="#FAF3EB"
@@ -319,24 +231,25 @@ const ProductDetails = () => {
                 </span>
               </div>
 
-              <p className="xl:mt-8 md:mt-6 mt-2">{product.description}</p>
+              <p className="xl:mt-8 md:mt-6 mt-2">{product.short_description}</p>
               <Link to={"/shopping-cart"}>
                 <Button>Send This Gift Now</Button>
               </Link>
 
               {/* Thumbnails aligned to the right bottom like image */}
               <div className="hidden lg:flex gap-2 pt-4">
-                {product.image.map((src, index) => (
+                {images?.slice(0, 6)?.map((src: string, index: number) => (
                   <div
                     key={index}
                     onClick={() => setActiveImage(src)}
-                    className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                      activeImage === src
-                        ? "border-orange-500"
-                        : "border-transparent"
-                    }`}
+                    className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${activeImage === src
+                      ? "border-primary"
+                      : "border-transparent"
+                      }`}
                   >
-                    <img src={src} className="w-full h-full object-cover " />
+                    <img src={src} className="w-full h-full object-cover " onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = fallbackImage;
+                    }} />
                   </div>
                 ))}
               </div>
@@ -344,7 +257,7 @@ const ProductDetails = () => {
           </div>
         )}
       </div>
-      <RelatedProdect></RelatedProdect>
+      <RelatedProdect relatedProducts={relatedProducts} />
     </main>
   );
 };

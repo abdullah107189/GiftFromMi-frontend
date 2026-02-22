@@ -19,8 +19,14 @@ export const landingApi = baseApi.injectEndpoints({
                 url: `/categorized-product`,
             }),
             transformResponse: (res) => res.data,
-        })
+        }),
+        productDetails: builder.query({
+            query: (id: number | string) => ({
+                url: `/product-details/${id}`,
+            }),
+            transformResponse: (res) => res.data,
+        }),
     })
 });
 
-export const { useLangdingApiQuery, useCategoryListQuery, useCategorizedProductQuery } = landingApi;
+export const { useLangdingApiQuery, useCategoryListQuery, useCategorizedProductQuery, useProductDetailsQuery } = landingApi;

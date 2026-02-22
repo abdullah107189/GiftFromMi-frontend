@@ -254,7 +254,7 @@ const GiftCategoriesSection = ({ categories }: { categories: Category[] }) => {
   //   },
   // ];
   if (!categories) return null;
-  console.log("categories", categories);
+  // console.log("categories", categories);
   return (
     <section className="py-16 bg-background">
       <div className="max-w-container mx-auto px-3 flex flex-col xl:gap-10 md:gap-8 gap-6">
