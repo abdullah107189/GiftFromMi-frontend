@@ -1,9 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-// import type { IProduct } from "@/types";
-// import p1 from "@/assets/products/p1.png";
-// import p2 from "@/assets/products/p2.png";
-// import p3 from "@/assets/products/p3.png";
 import {
   Table,
   TableBody,
@@ -18,54 +14,25 @@ import { selectCartItemsArray, selectCartItemsCount, selectCartSubtotal, selectC
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import { decrementQty, incrementQty, removeFromCart } from "@/redux/features/cart/cartSlice";
-
-// const cartItems: IProduct[] = [
-//   {
-//     id: 1,
-//     image: [p1],
-//     title: "Chocolate With Premium Boxa sldkfj lasdf laksd flka sjdlkf lasd f",
-//     description: "Experience the Taste of True Luxury",
-//     price: 20,
-//     oldPrice: 30,
-//     rating: 5,
-//     reviewsCount: 124,
-//     stockCount: 15,
-//     inStock: true,
-//   },
-//   {
-//     id: 2,
-//     image: [p2],
-//     title: "Tech Accessories Pack",
-//     description: "Premium Wireless Charger, Phone Stand",
-//     price: 220,
-//     oldPrice: 300,
-//     rating: 5,
-//     reviewsCount: 85,
-//     stockCount: 12,
-//     inStock: true,
-//   },
-//   {
-//     id: 3,
-//     image: [p3],
-//     title: "Perfume box",
-//     description: "Experience the Premium Perfume",
-//     price: 20,
-//     oldPrice: 30,
-//     rating: 5,
-//     reviewsCount: 210,
-//     stockCount: 8,
-//     inStock: true,
-//   },
-// ];
+import { useState } from "react";
+import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 
 
 export const ShoppingCart = () => {
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItemsArray);
   const cartItemsCount = useSelector(selectCartItemsCount);
   const subtotal = useSelector(selectCartSubtotal);
   const shipping = useSelector(selectShipping);
   const total = useSelector(selectCartTotal);
+
+  const handleDeleteCart = (id: number) => {
+    dispatch(removeFromCart({ id }));
+
+  };
 
   return (
     <section className="relative max-w-main md:mt-35 mt-20 py-5">
@@ -201,7 +168,10 @@ export const ShoppingCart = () => {
                     {/* Delete Button */}
                     <TableCell className="text-center">
                       <button
-                        onClick={() => dispatch(removeFromCart({ id: item?.id }))}
+                        onClick={() => {
+                          setDeleteId(item.id);
+                          setOpenDelete(true);
+                        }}
                         className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -307,6 +277,16 @@ export const ShoppingCart = () => {
           </div>
         </div>
       </div>
+      <DeleteConfirmModal
+        isOpen={openDelete}
+        onOpenChange={setOpenDelete}
+        onConfirm={() => {
+          if (deleteId !== null) {
+            handleDeleteCart(deleteId);
+            setDeleteId(null);
+          }
+        }}
+      />
     </section >
   );
 };
