@@ -11,11 +11,13 @@ import { useProductDetailsQuery } from "@/redux/features/public/public.api";
 import PageLoader from "@/components/shared/PageLoader";
 import fallbackImage from "@/assets/fallback.png";
 import type { IProduct } from "@/types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { toast } from "sonner";
 import SharedDropdown from "@/components/shared/SharedDropdown";
+import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
+import { selectUser } from "@/redux/features/auth/authSelectors";
 
 type Variant = {
   id: number;
@@ -36,6 +38,10 @@ const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading, isFetching } = useProductDetailsQuery(id!);
   const dispatch = useDispatch<AppDispatch>();
+  const [addToCartMutation,] = useAddToCartMutation();
+  const user = useSelector(selectUser);
+  console.log("user------>", user)
+
 
   const product = data?.productInfo as any;
   const relatedProducts = data?.relatedProducts || [];
@@ -119,7 +125,7 @@ const ProductDetails = () => {
   const stockQty = selectedVariant?.quantity ?? 0;
   const inStock = stockQty > 0;
 
-  const handleAddToCart = (product: IProduct) => {
+  const handleAddToCart = async (product: IProduct) => {
     const v = selectedVariant;
 
     if (!v) {
@@ -155,8 +161,16 @@ const ProductDetails = () => {
       variantLabel: v.color || v.size || v.sku,
     };
 
-    dispatch(addToCart(cartItem)); // ✅ ONLY ONCE
+    const addToCartItems = {
+      product_variant_id: v.id,
+      quantity: 1,
+    };
+    dispatch(addToCart(cartItem));
     toast.success("Product added to cart");
+    if (user) {
+      const result = await addToCartMutation(addToCartItems);
+      console.log(result);
+    }
   };
 
   return (

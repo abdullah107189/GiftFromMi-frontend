@@ -1,4 +1,5 @@
 
+import PageLoader from "@/components/shared/PageLoader";
 import { useGetMeQuery } from "@/redux/features/auth/auth.api";
 import type { ComponentType } from "react";
 import { Navigate } from "react-router";
@@ -6,7 +7,7 @@ import { Navigate } from "react-router";
 export const withAuth = (Component: ComponentType, requiredRole?: string) => {
   return function AuthWrapper() {
     const { data, isLoading } = useGetMeQuery("");
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <PageLoader />;
     const userRole = data?.role;
     if (!isLoading && !userRole) {
       return <Navigate to="/login" />;

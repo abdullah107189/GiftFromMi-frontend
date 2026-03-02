@@ -21,7 +21,7 @@ const PageLoader: React.FC<LoadingProps> = ({
     // 🔹 Full Page Loader
     if (variant === "page") {
         return (
-            <div className="h-screen w-full flex items-center justify-center">
+            <div className="h-screen w-full flex items-center justify-center absolute inset-0">
                 <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary"></div>
             </div>
         );
