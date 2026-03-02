@@ -59,17 +59,18 @@ const Login = () => {
     try {
       const result = await login(formData).unwrap();
       toast.success("Login successful!");
-      dispatch(
-        setCredentials({
-          token: result?.token,
-          user: result?.data
-        })
-      )
 
       if (result?.data?.role === Role.admin) {
         window.location.replace("https://shalineheng.thewarriors.team");
       }
       else {
+        dispatch(
+          setCredentials({
+            token: result?.token,
+            user: result?.data
+          })
+        )
+        console.log(result?.data);
         navigate("/");
       }
     } catch (error: any) {

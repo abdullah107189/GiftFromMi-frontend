@@ -2,19 +2,32 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export type CartItem = {
-    id: number;
+    productId: number;      // product id
+    variantId: number;      // variant id
+    sku: string;            // unique SKU
+    cj_variant_id?: string;
+    cj_product_id?: string;
+
     title: string;
-    image?: string;
+    image: string;
+
     originalPrice: number;
-    brand: string;
-    shortDescription: string;
+    sellPrice: number;
+
     qty: number;
+    stockQty: number;
     inStock: boolean;
-    cj_product_id: string;
+
+    brand?: string;
+    shortDescription?: string;
+    variantLabel?: string;
+
+    // ✅ unique key to prevent wrong merge
+    key: string; // `${productId}_${variantId}`
 };
 
 export type CartState = {
-    itemsById: Record<string, CartItem>;
+    itemsById: Record<string, CartItem>; // key-based map
 };
 
 const CART_STORAGE_KEY = "app_cart_v1";
@@ -25,11 +38,25 @@ function loadCartFromStorage(): CartState {
         if (!raw) return { itemsById: {} };
         const parsed = JSON.parse(raw) as CartState;
 
-        // basic guard
         if (!parsed?.itemsById || typeof parsed.itemsById !== "object") {
             return { itemsById: {} };
         }
-        return parsed;
+        const normalized: CartState = { itemsById: {} };
+
+        for (const [storedKey, item] of Object.entries(parsed.itemsById)) {
+            if (!item || typeof item !== "object") continue;
+
+            const maybeKey = (item as { key?: unknown }).key;
+            const key = (typeof maybeKey === "string" && maybeKey) || storedKey;
+            if (!key || typeof key !== "string") continue;
+
+            normalized.itemsById[key] = {
+                ...(item as CartItem),
+                key,
+            };
+        }
+
+        return normalized;
     } catch {
         return { itemsById: {} };
     }
@@ -38,51 +65,78 @@ function loadCartFromStorage(): CartState {
 const initialState: CartState =
     typeof window === "undefined" ? { itemsById: {} } : loadCartFromStorage();
 
+// qty optional
 type AddToCartPayload = Omit<CartItem, "qty"> & { qty?: number };
+
+// helpers
+const clampQty = (qty: number, stockQty: number) => {
+    const safe = Math.max(1, Math.floor(qty));
+    if (!Number.isFinite(stockQty) || stockQty <= 0) return safe;
+    return Math.min(safe, stockQty);
+};
 
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
         addToCart(state, action: PayloadAction<AddToCartPayload>) {
-            const { id, title, image, originalPrice, brand, shortDescription, qty, inStock, cj_product_id } = action.payload;
+            const payload = action.payload;
 
-            const existing = state.itemsById[id];
+            // ✅ ensure key exists (fallback to productId_variantId)
+            const key = payload.key || `${payload.productId}_${payload.variantId}`;
+
+            const existing = state.itemsById[key];
+
             if (existing) {
-                existing.qty += qty || 1;
+                // ✅ merge only qty, keep variant identity + image stable
+                const add = payload.qty ?? 1;
+                existing.qty = clampQty(existing.qty + add, existing.stockQty);
+
+                // optional: stock updated হলে reflect করতে চাইলে
+                existing.stockQty = payload.stockQty;
+                existing.inStock = payload.inStock;
             } else {
-                state.itemsById[id] = { id, title, image, originalPrice, brand, shortDescription, qty: qty || 1, inStock, cj_product_id };
+                state.itemsById[key] = {
+                    ...payload,
+                    key,
+                    qty: clampQty(payload.qty ?? 1, payload.stockQty),
+                };
             }
         },
 
-        incrementQty(state, action: PayloadAction<{ id: number }>) {
-            const item = state.itemsById[action.payload.id];
-            if (item) item.qty += 1;
+        incrementQty(state, action: PayloadAction<{ key: string }>) {
+            const item = state.itemsById[action.payload.key];
+            if (!item) return;
+            item.qty = clampQty(item.qty + 1, item.stockQty);
         },
 
-        decrementQty(state, action: PayloadAction<{ id: number }>) {
-            if (state.itemsById[action.payload.id].qty <= 1) return;
-            const item = state.itemsById[action.payload.id];
+        decrementQty(state, action: PayloadAction<{ key: string }>) {
+            const item = state.itemsById[action.payload.key];
             if (!item) return;
 
-            item.qty -= 1;
-            if (item.qty <= 0) {
-                delete state.itemsById[action.payload.id];
+            const next = item.qty - 1;
+            if (next <= 0) {
+                delete state.itemsById[action.payload.key];
+                return;
             }
+            item.qty = next;
         },
 
-        setQty(state, action: PayloadAction<{ id: string; qty: number }>) {
-            const { id, qty } = action.payload;
-            const item = state.itemsById[id];
+        setQty(state, action: PayloadAction<{ key: string; qty: number }>) {
+            const { key, qty } = action.payload;
+            const item = state.itemsById[key];
             if (!item) return;
 
             const safeQty = Math.max(0, Math.floor(qty));
-            if (safeQty === 0) delete state.itemsById[id];
-            else item.qty = safeQty;
+            if (safeQty === 0) {
+                delete state.itemsById[key];
+            } else {
+                item.qty = clampQty(safeQty, item.stockQty);
+            }
         },
 
-        removeFromCart(state, action: PayloadAction<{ id: number }>) {
-            delete state.itemsById[action.payload.id];
+        removeFromCart(state, action: PayloadAction<{ key: string }>) {
+            delete state.itemsById[action.payload.key];
         },
 
         clearCart(state) {

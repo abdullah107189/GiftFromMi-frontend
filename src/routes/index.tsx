@@ -25,6 +25,18 @@ import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
 import NotFound from "@/components/shared/NotFound";
 import ResetPassword from "@/components/auth/ResetPassword";
 import PageLoader from "@/components/shared/PageLoader";
+import { withAuth } from "@/utils/withAuth";
+import { Role } from "@/types";
+const SellerProtectedRoutes = withAuth(() =>
+  <Suspense fallback={<PageLoader />}>
+    <LazySellerDashboard></LazySellerDashboard>
+  </Suspense>
+  , Role.admin)
+const CustomerProtectedRoutes = withAuth(() =>
+  <Suspense fallback={<PageLoader />}>
+    <LazyCustomerDashboard></LazyCustomerDashboard>
+  </Suspense>
+  , Role.customer)
 
 const router = createBrowserRouter([
   {
@@ -45,11 +57,7 @@ const router = createBrowserRouter([
   // seller dashboard routes
   {
     path: "seller-dashboard",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <LazySellerDashboard></LazySellerDashboard>
-      </Suspense>
-    ),
+    element: <SellerProtectedRoutes />,
     children: [
       {
         index: true,
@@ -62,11 +70,7 @@ const router = createBrowserRouter([
   // customer dashboard routes
   {
     path: "customer-dashboard",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <LazyCustomerDashboard></LazyCustomerDashboard>
-      </Suspense>
-    ),
+    element: <CustomerProtectedRoutes />,
     children: [
       {
         index: true,

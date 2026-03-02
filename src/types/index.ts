@@ -2,7 +2,7 @@
 import type { ComponentType, ElementType, ReactNode } from "react";
 import type { Brand, ProductImage, Variant } from "./product";
 export const Role = {
-  customer: "customer",
+  customer: "Customer",
   admin: "Admin",
 } as const;
 

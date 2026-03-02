@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router";
 
 function GiftCollection({ PRODUCTS }: { PRODUCTS: IProduct[] }) {
-  console.log("products", PRODUCTS);
+  // console.log("products", PRODUCTS);
   // const PRODUCTS: IProduct[] = [
   //   {
   //     id: 1,

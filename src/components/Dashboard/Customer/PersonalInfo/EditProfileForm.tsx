@@ -16,6 +16,7 @@ import profileImg from "@/assets/person/p1.jpg";
 import * as z from "zod";
 import SharedDropdown from "@/components/shared/SharedDropdown";
 import React from "react";
+import type { IUser } from "@/types/profile";
 
 const profileSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -33,7 +34,8 @@ const profileSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-export default function EditProfileForm() {
+export default function EditProfileForm({ profile }: { profile: IUser }) {
+  console.log(profile);
   const [profileImage, setProfileImage] = React.useState<string>(profileImg);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -43,11 +45,11 @@ export default function EditProfileForm() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      gender: "female",
+      firstName: profile.first_name,
+      lastName: profile.last_name,
+      email: profile.email,
+      phone: profile.profile?.phone,
+      gender: profile.gender,
     },
   });
 

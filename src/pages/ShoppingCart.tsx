@@ -8,18 +8,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SEO from "@/components/shared/SEO";
-import { selectCartItemsArray, selectCartItemsCount, selectCartSubtotal, selectCartTotal, selectShipping, } from "@/redux/features/cart/cartSelectors";
+import {
+  selectCartItemsArray,
+  selectCartItemsCount,
+  selectCartSubtotal,
+  selectCartTotal,
+  selectShipping,
+} from "@/redux/features/cart/cartSelectors";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
-import { decrementQty, incrementQty, removeFromCart } from "@/redux/features/cart/cartSlice";
+import {
+  decrementQty,
+  incrementQty,
+  removeFromCart,
+} from "@/redux/features/cart/cartSlice";
 import { useState } from "react";
 import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 
-
 export const ShoppingCart = () => {
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteKey, setDeleteKey] = useState<string | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -28,10 +37,10 @@ export const ShoppingCart = () => {
   const subtotal = useSelector(selectCartSubtotal);
   const shipping = useSelector(selectShipping);
   const total = useSelector(selectCartTotal);
+  const navigate = useNavigate();
 
-  const handleDeleteCart = (id: number) => {
-    dispatch(removeFromCart({ id }));
-
+  const handleDeleteCart = (key: string) => {
+    dispatch(removeFromCart({ key }));
   };
 
   return (
@@ -42,7 +51,10 @@ export const ShoppingCart = () => {
       />
       <div className="px-3 max-w-container mx-auto">
         <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
-          Shopping Gift Cart ({cartItems.length.toString().padStart(cartItemsCount.toString().length, "0")}{" "}
+          Shopping Gift Cart (
+          {cartItems.length
+            .toString()
+            .padStart(cartItemsCount.toString().length, "0")}{" "}
           Items)
         </h1>
 
@@ -67,11 +79,12 @@ export const ShoppingCart = () => {
                   <TableHead className="md:p-4 p-2 xl:rounded-r-2xl md:rounded-r-xl rounded-r-lg"></TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
                 {cartItems.length > 0 ? (
                   cartItems.map((item) => (
                     <TableRow
-                      key={item.id}
+                      key={item.key} // ✅ IMPORTANT
                       className="group border-none hover:bg-transparent"
                     >
                       {/* Product Details */}
@@ -89,7 +102,12 @@ export const ShoppingCart = () => {
                             <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-4 whitespace-normal break-words">
                               {item.title}
                             </p>
-                            <p className="text-gray-900 font-manrope">Type: Gift Box</p>
+                            <p className="text-gray-900 font-manrope">
+                              Type: Gift Box
+                            </p>
+                            <p className="text-sm text-gray-600 font-manrope">
+                              Variant: {item.variantLabel || item.sku}
+                            </p>
                           </div>
                         </div>
                       </TableCell>
@@ -104,13 +122,26 @@ export const ShoppingCart = () => {
                         <div className="flex items-center justify-center">
                           <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
                             <button
-                              onClick={() => dispatch(decrementQty({ id: item.id }))}
+                              onClick={() =>
+                                dispatch(decrementQty({ key: item.key }))
+                              }
                               className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                               type="button"
                             >
-                              {/* minus svg */}
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M20 12H4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <path
+                                  d="M20 12H4"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
                               </svg>
                             </button>
 
@@ -119,14 +150,33 @@ export const ShoppingCart = () => {
                             </span>
 
                             <button
-                              onClick={() => dispatch(incrementQty({ id: item.id }))}
+                              onClick={() =>
+                                dispatch(incrementQty({ key: item.key }))
+                              }
                               className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                               type="button"
                             >
-                              {/* plus svg */}
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 5V19.002" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M19.002 12.002H5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <path
+                                  d="M12 5V19.002"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M19.002 12.002H5"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
                               </svg>
                             </button>
                           </div>
@@ -143,13 +193,18 @@ export const ShoppingCart = () => {
                         <button
                           type="button"
                           onClick={() => {
-                            setDeleteId(item.id);
+                            setDeleteKey(item.key);
                             setOpenDelete(true);
                           }}
                           className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group"
                         >
-                          {/* trash svg */}
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
                             <path
                               d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5"
                               stroke="#DF1C41"
@@ -162,8 +217,18 @@ export const ShoppingCart = () => {
                               strokeWidth="1.5"
                               strokeLinecap="round"
                             />
-                            <path d="M9.5 16.5V10.5" stroke="#DF1C41" strokeWidth="1.5" strokeLinecap="round" />
-                            <path d="M14.5 16.5V10.5" stroke="#DF1C41" strokeWidth="1.5" strokeLinecap="round" />
+                            <path
+                              d="M9.5 16.5V10.5"
+                              stroke="#DF1C41"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                            />
+                            <path
+                              d="M14.5 16.5V10.5"
+                              stroke="#DF1C41"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                            />
                           </svg>
                         </button>
                       </TableCell>
@@ -171,7 +236,10 @@ export const ShoppingCart = () => {
                   ))
                 ) : (
                   <TableRow className="hover:bg-transparent">
-                    <TableCell colSpan={5} className="text-center md:py-8 py-4 md:text-3xl text-xl">
+                    <TableCell
+                      colSpan={5}
+                      className="text-center md:py-8 py-4 md:text-3xl text-xl"
+                    >
                       <p className="">Your cart is empty</p>
                     </TableCell>
                   </TableRow>
@@ -180,28 +248,28 @@ export const ShoppingCart = () => {
             </Table>
 
             {/* back to shop button */}
-            <Link to={"/shop-gifts"}>
-              <Button className="mt-8  font-semibold h-auto">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                >
-                  <path
-                    d="M7.70678 3.30529C7.51926 3.11782 7.26495 3.0125 6.99979 3.0125C6.73462 3.0125 6.48031 3.11782 6.29279 3.30529L0.292786 9.30529C0.105315 9.49282 0 9.74712 0 10.0123C0 10.2775 0.105315 10.5318 0.292786 10.7193L6.29279 16.7193C6.48139 16.9014 6.73399 17.0022 6.99619 17C7.25838 16.9977 7.5092 16.8925 7.6946 16.7071C7.88001 16.5217 7.98518 16.2709 7.98746 16.0087C7.98974 15.7465 7.88894 15.4939 7.70679 15.3053L3.41379 11.0123L14.9998 11.0123C15.265 11.0123 15.5194 10.9069 15.7069 10.7194C15.8944 10.5319 15.9998 10.2775 15.9998 10.0123C15.9998 9.74707 15.8944 9.49272 15.7069 9.30518C15.5194 9.11764 15.265 9.01229 14.9998 9.01229L3.41379 9.01229L7.70679 4.71929C7.89426 4.53176 7.99957 4.27745 7.99957 4.01229C7.99957 3.74712 7.89426 3.49281 7.70678 3.30529Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Continue Gifting
-              </Button>
-            </Link>
+
+            <Button className="mt-8 font-semibold h-auto"
+              onClick={() => navigate(-1)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <path
+                  d="M7.70678 3.30529C7.51926 3.11782 7.26495 3.0125 6.99979 3.0125C6.73462 3.0125 6.48031 3.11782 6.29279 3.30529L0.292786 9.30529C0.105315 9.49282 0 9.74712 0 10.0123C0 10.2775 0.105315 10.5318 0.292786 10.7193L6.29279 16.7193C6.48139 16.9014 6.73399 17.0022 6.99619 17C7.25838 16.9977 7.5092 16.8925 7.6946 16.7071C7.88001 16.5217 7.98518 16.2709 7.98746 16.0087C7.98974 15.7465 7.88894 15.4939 7.70679 15.3053L3.41379 11.0123L14.9998 11.0123C15.265 11.0123 15.5194 10.9069 15.7069 10.7194C15.8944 10.5319 15.9998 10.2775 15.9998 10.0123C15.9998 9.74707 15.8944 9.49272 15.7069 9.30518C15.5194 9.11764 15.265 9.01229 14.9998 9.01229L3.41379 9.01229L7.70679 4.71929C7.89426 4.53176 7.99957 4.27745 7.99957 4.01229C7.99957 3.74712 7.89426 3.49281 7.70678 3.30529Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Continue Gifting
+            </Button>
           </div>
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <Card className="md:p-6 p-3 bg-primary-50 border-primary xl:rounded-4xl lg:rounded-3xl  rounded-2xl  sticky top-36 shadow-sm">
+            <Card className="md:p-6 p-3 bg-primary-50 border-primary xl:rounded-4xl lg:rounded-3xl rounded-2xl sticky top-36 shadow-sm">
               <h2 className="xl:text-[32px] md:text-2xl text-xl font-semibold text-center xl:mb-15.5 md:mb-10 mb-0 text-gray-900">
                 Order Summary
               </h2>
@@ -243,14 +311,15 @@ export const ShoppingCart = () => {
             </Card>
           </div>
         </div>
-      </div>
+      </div >
+
       <DeleteConfirmModal
         isOpen={openDelete}
         onOpenChange={setOpenDelete}
         onConfirm={() => {
-          if (deleteId !== null) {
-            handleDeleteCart(deleteId);
-            setDeleteId(null);
+          if (deleteKey) {
+            handleDeleteCart(deleteKey);
+            setDeleteKey(null);
           }
         }}
       />

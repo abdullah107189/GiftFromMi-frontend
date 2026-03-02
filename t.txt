@@ -51,3 +51,26 @@ Best regards,
 - I have implemented the best loading effect for improved user experience
 - I have integrated the FAQ section
 - I have integrated the API and set up the Featured Gift Collections section
+================================
+
+
+Date: 22-Jan-2026
+Name: MD. Abdullah All Shamem
+Team Name: MERN Mavericks
+
+Project: shalineheng
+
+- I have fixed the mapping issue in the Shop Gift cart table.
+- I have integrated cart data from Redux store and displayed cart list properly.
+- I have implemented cart quantity increment and decrement functionality.
+- I have created and integrated the Delete Confirmation Modal for cart item removal.
+- I have implemented the delete cart feature using Redux Toolkit dispatch.
+- I have improved the cart UI structure and updated text styling according to design.
+- I have added a proper empty cart message when no data is available.
+- I have optimized cart state management with Redux Toolkit (slice, selectors, middleware).
+- I have worked on cart persistence and navbar cart count synchronization.
+
+Github frontend: https://github.com/abdullah107189/GiftFromMi-frontend.git
+
+Branch: abdullah
+Progress: 45%

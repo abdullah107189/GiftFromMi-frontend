@@ -12,7 +12,7 @@ import { useLangdingApiQuery } from "@/redux/features/public/public.api";
 function HomePage() {
   const { data, isLoading } = useLangdingApiQuery(undefined);
   if (isLoading) return <Loading variant="page"></Loading>;
-  console.log(data.products);
+// console.log(data.products);
   return (
     <div>
       <SEO
