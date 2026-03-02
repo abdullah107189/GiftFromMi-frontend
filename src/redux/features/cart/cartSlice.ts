@@ -70,7 +70,8 @@ type AddToCartPayload = Omit<CartItem, "qty"> & { qty?: number };
 
 // helpers
 const clampQty = (qty: number, stockQty: number) => {
-    const safe = Math.max(1, Math.floor(qty));
+    const base = Number.isFinite(qty) ? qty : 1;
+    const safe = Math.max(1, Math.floor(base));
     if (!Number.isFinite(stockQty) || stockQty <= 0) return safe;
     return Math.min(safe, stockQty);
 };
@@ -114,12 +115,7 @@ const cartSlice = createSlice({
             const item = state.itemsById[action.payload.key];
             if (!item) return;
 
-            const next = item.qty - 1;
-            if (next <= 0) {
-                delete state.itemsById[action.payload.key];
-                return;
-            }
-            item.qty = next;
+            item.qty = clampQty(item.qty - 1, item.stockQty);
         },
 
         setQty(state, action: PayloadAction<{ key: string; qty: number }>) {
@@ -127,12 +123,8 @@ const cartSlice = createSlice({
             const item = state.itemsById[key];
             if (!item) return;
 
-            const safeQty = Math.max(0, Math.floor(qty));
-            if (safeQty === 0) {
-                delete state.itemsById[key];
-            } else {
-                item.qty = clampQty(safeQty, item.stockQty);
-            }
+            const base = Number.isFinite(qty) ? qty : 1;
+            item.qty = clampQty(base, item.stockQty);
         },
 
         removeFromCart(state, action: PayloadAction<{ key: string }>) {

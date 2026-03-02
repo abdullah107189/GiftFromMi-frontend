@@ -109,12 +109,12 @@ export default function OrderCard({
       <div className="py-4 md:py-6 space-y-4 md:space-y-6">
         {items.slice(0, 4).map((item, idx) => (
           <div
-            key={idx}
+            key={item.id ?? idx}
             className="flex items-center gap-3 md:gap-4 border-b border-gray-200 pb-4 md:pb-5"
           >
             {/* ✅ Image: keep XL sizes, shrink a bit on mobile */}
             <img
-              src={item.image[0]}
+              src={item.product_image?.[0]?.imageUrl || item.product_image?.[0]?.image || ""}
               alt={item.title}
               className="
                 w-[90px] h-[92px]
@@ -131,7 +131,7 @@ export default function OrderCard({
                 {item.title}
               </h4>
               <p className="text-gray-900 font-manrope text-sm sm:text-base">
-                Type: {item.category}
+                Type: {item.category_id}
               </p>
             </div>
           </div>
