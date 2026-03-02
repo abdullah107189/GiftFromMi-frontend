@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/features/cart/cartSlice";
 import { toast } from "sonner";
+import SharedDropdown from "@/components/shared/SharedDropdown";
 
 type Variant = {
   id: number;
@@ -55,6 +56,14 @@ const ProductDetails = () => {
 
   const [activeImage, setActiveImage] = useState<string>("");
 
+  const variantOptions = useMemo(
+    () =>
+      (variants || []).map((v) => ({
+        label: `${v.color || v.size || v.sku} — $${v.sell_price} (${v.quantity > 0 ? `${v.quantity} in stock` : "Out of stock"})`,
+        value: String(v.id),
+      })),
+    [variants],
+  );
   useEffect(() => {
     if (variants.length) setSelectedVariantId(variants[0].id);
     else setSelectedVariantId(null);
@@ -194,9 +203,8 @@ const ProductDetails = () => {
                           setActiveImage(v.img);
                         }
                       }}
-                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                        isActive ? "border-orange-500" : "border-transparent"
-                      } ${v.qty <= 0 ? "opacity-50" : ""}`}
+                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-orange-500" : "border-transparent"
+                        } ${v.qty <= 0 ? "opacity-50" : ""}`}
                       title={v.label}
                     >
                       <img
@@ -236,18 +244,26 @@ const ProductDetails = () => {
             {/* Variant Select */}
             {variants.length > 0 && (
               <div className="mt-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Choose Variant</label>
-                <select
-                  value={selectedVariant?.id ?? ""}
-                  onChange={(e) => setSelectedVariantId(Number(e.target.value))}
-                  className="w-full border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-primary"
-                >
-                  {variants.map((v) => (
-                    <option key={v.id} value={v.id}>
-                      {v.color || v.size || v.sku} — ${v.sell_price} ({v.quantity > 0 ? `${v.quantity} in stock` : "Out of stock"})
-                    </option>
-                  ))}
-                </select>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Choose Variant
+                </label>
+
+                <SharedDropdown
+                  options={variantOptions}
+                  selectedValue={selectedVariant?.id ? String(selectedVariant.id) : undefined}
+                  onValueChange={(value) => {
+                    const nextId = Number(value);
+                    setSelectedVariantId(nextId);
+
+                    // ✅ instantly update image based on selected variant
+                    const v = variants.find((x) => x.id === nextId);
+                    const vImg = v?.imageUrl || v?.image;
+                    if (vImg) setActiveImage(vImg);
+                  }}
+                  placeholder="Select Variant"
+                  align="end"
+                  className="w-full"
+                />
               </div>
             )}
 
@@ -294,9 +310,8 @@ const ProductDetails = () => {
                           setActiveImage(v.img);
                         }
                       }}
-                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                        isActive ? "border-primary" : "border-transparent"
-                      } ${v.qty <= 0 ? "opacity-50" : ""}`}
+                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-primary" : "border-transparent"
+                        } ${v.qty <= 0 ? "opacity-50" : ""}`}
                       title={v.label}
                     >
                       <img
