@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { PasswordField } from "./PasswordField";
 import { toast } from "sonner";
+import { useChangePasswordMutation } from "@/redux/features/auth/auth.api";
 
 const formSchema = z
   .object({
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export default function UpdatePasswordForm({ verifyToken }: Props) {
+  const [updatePassword, { isLoading: updatePasswordLoading }] = useChangePasswordMutation();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,7 +49,25 @@ export default function UpdatePasswordForm({ verifyToken }: Props) {
     // });
     console.log(verifyToken);
     console.log(values);
-    toast.success("Password updated successfully");
+    try {
+      const result = await updatePassword(values);
+      if (result.error) {
+        // Check if it's an RTK Query error with data property
+        if ('data' in result.error && result.error.data) {
+          const errorData = result.error.data as { message?: string };
+          toast.error(errorData.message || "Password update failed");
+        } else {
+          toast.error("Password update failed");
+        }
+      } else {
+        toast.success("Password updated successfully");
+      }
+      console.log(result);
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Password updated failed");
+    }
   };
   return (
     <div className="w-full xl:p-6 md:p-4">
@@ -75,6 +95,7 @@ export default function UpdatePasswordForm({ verifyToken }: Props) {
               />
 
               <Button
+                disabled={updatePasswordLoading}
                 type="submit"
                 className="xl:h-18 md:h-12 h-10 w-full rounded-2xl text-lg font-medium"
               >
