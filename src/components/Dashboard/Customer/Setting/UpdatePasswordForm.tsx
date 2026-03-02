@@ -10,12 +10,12 @@ import { toast } from "sonner";
 
 const formSchema = z
   .object({
+    old_password: z.string().min(8, "Min 8 characters"),
     password: z.string().min(8, "Min 8 characters"),
-    newPassword: z.string().min(8, "Min 8 characters"),
-    confirmPassword: z.string().min(8, "Min 8 characters"),
+    password_confirmation: z.string().min(8, "Min 8 characters"),
   })
-  .refine((v) => v.newPassword === v.confirmPassword, {
-    path: ["confirmPassword"],
+  .refine((v) => v.password === v.password_confirmation, {
+    path: ["password_confirmation"],
     message: "Passwords do not match",
   });
 
@@ -30,16 +30,13 @@ export default function UpdatePasswordForm({ verifyToken }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      old_password: "",
       password: "",
-      newPassword: "",
-      confirmPassword: "",
+      password_confirmation: "",
     },
   });
 
-  const onSubmit = async (values: {
-    newPassword: string;
-    confirmPassword: string;
-  }) => {
+  const onSubmit = async (values: FormValues) => {
     // await fetch("/api/auth/update-password", {
     //   method: "POST",
     //   headers: {
@@ -60,19 +57,19 @@ export default function UpdatePasswordForm({ verifyToken }: Props) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
               <PasswordField
                 control={form.control}
-                name="password"
+                name="old_password"
                 label="Password"
                 autoComplete="current-password"
               />
               <PasswordField
                 control={form.control}
-                name="newPassword"
+                name="password"
                 label="New Password"
                 autoComplete="new-password"
               />
               <PasswordField
                 control={form.control}
-                name="confirmPassword"
+                name="password_confirmation"
                 label="Confirm Password"
                 autoComplete="new-password"
               />

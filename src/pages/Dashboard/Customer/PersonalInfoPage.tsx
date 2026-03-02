@@ -7,7 +7,6 @@ import ProfileFormSkeleton from "@/components/Dashboard/Customer/PersonalInfo/Pr
 const PersonalInfoPage = () => {
   const { data: profile, isLoading } = useGetProfileQuery(undefined);
   if (isLoading) return <ProfileFormSkeleton></ProfileFormSkeleton>;
-  console.log('profile........', profile?.data);
   return (
     <div><SEO title="My Profile" description="Update your personal information and profile settings." />
       <EditProfileForm profile={profile?.data} />

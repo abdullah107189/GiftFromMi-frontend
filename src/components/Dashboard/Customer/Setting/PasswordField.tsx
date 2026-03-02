@@ -9,8 +9,9 @@ import { Eye, EyeOff, Lock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import React from "react";
 type PasswordFieldProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
-  name: "password" | "newPassword" | "confirmPassword";
+  name: "old_password" | "password" | "password_confirmation";
   label: string;
   autoComplete?: string;
 };

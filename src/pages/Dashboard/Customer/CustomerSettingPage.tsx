@@ -1,4 +1,3 @@
-import SettingPassword from "@/components/Dashboard/Customer/Setting/SettingPassword";
 import UpdatePassowordForm from "@/components/Dashboard/Customer/Setting/UpdatePasswordForm";
 import SEO from "@/components/shared/SEO";
 import * as React from "react";
@@ -8,10 +7,6 @@ export default function CustomerSettingPage() {
   const [verifyToken, setVerifyToken] = React.useState<string | null>(null);
   console.log(verified);
 
-  const handleVerified = (token: string) => {
-    setVerified(true);
-    setVerifyToken(token);
-  };
 
   const handleReset = () => {
     // here verify token is or not
@@ -25,11 +20,9 @@ export default function CustomerSettingPage() {
         title="Account Settings"
         description="Manage your account preferences and security."
       />
-      {!verified ? (
-        <SettingPassword handleVerified={handleVerified} />
-      ) : (
-        <UpdatePassowordForm verifyToken={verifyToken!} onBack={handleReset} />
-      )}
+
+      <UpdatePassowordForm verifyToken={verifyToken!} onBack={handleReset} />
+
     </div>
   );
 }

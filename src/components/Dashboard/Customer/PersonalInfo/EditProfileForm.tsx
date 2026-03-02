@@ -35,7 +35,6 @@ const profileSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
 export default function EditProfileForm({ profile }: { profile: IUser }) {
-  console.log(profile);
   const [profileImage, setProfileImage] = React.useState<string>(profileImg);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
