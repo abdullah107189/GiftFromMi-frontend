@@ -1,21 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 interface OrderSummaryProps {
   onProceedCheckout?: () => void;
+  cartItems: any[];
+  total: number;
+  subtotal: number;
 }
 
-export function OrderSummary({ onProceedCheckout }: OrderSummaryProps) {
-  const cartItems = [
-    { id: 1, name: "Tech Box", qty: 1, price: 25.5 },
-    { id: 2, name: "Gift Box", qty: 2, price: 8.0 },
-    { id: 3, name: "Premium Watch", qty: 1, price: 30.0 },
-  ];
-
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
-  const shipping = 5.0;
-  const total = subtotal + shipping;
-
+export function OrderSummary({
+  onProceedCheckout,
+  cartItems,
+  total,
+  subtotal,
+}: OrderSummaryProps) {
+  console.log("OrderSummary received cartItems:", cartItems);
   return (
     <div className="bg-white rounded-2xl md:p-6 p-4 border border-gray-100 sticky top-8">
       <div className="flex items-center gap-4 mb-8 justify-center">
@@ -49,9 +49,9 @@ export function OrderSummary({ onProceedCheckout }: OrderSummaryProps) {
 
         {/* Dynamic Product List */}
         <div className="space-y-5">
-          {cartItems.map((item) => (
+          {cartItems?.map((item, idx) => (
             <div
-              key={item.id}
+              key={item?.id || idx}
               className="flex justify-between items-start self-stretch"
             >
               <div className="space-y-0.5">
@@ -59,7 +59,7 @@ export function OrderSummary({ onProceedCheckout }: OrderSummaryProps) {
                 <p className="text-sm text-gray-900">Qty: {item.qty}</p>
               </div>
               <p className="text-2xl font-semibold text-gray-900 font-manrope">
-                ${item.price.toFixed(2)}
+                ${(item?.originalPrice * item?.qty).toFixed(2)}
               </p>
             </div>
           ))}
@@ -70,7 +70,7 @@ export function OrderSummary({ onProceedCheckout }: OrderSummaryProps) {
           <div className="flex justify-between items-center border-y border-[#EBECF0] md:py-6 py-4">
             <span className="text-gray-600 ">Subtotal</span>
             <span className="text-2xl font-semibold font-manrope">
-              ${subtotal.toFixed(1)}
+              ${subtotal.toFixed(2)}
             </span>
           </div>
 
@@ -136,7 +136,7 @@ export function OrderSummary({ onProceedCheckout }: OrderSummaryProps) {
           onClick={onProceedCheckout}
           className="w-full h-14 bg-primary text-white font-medium rounded-2xl"
         >
-          Pracced Checkout
+          Proceed Checkout
         </button>
 
         <div className="flex flex-col items-center gap-1 opacity-60">

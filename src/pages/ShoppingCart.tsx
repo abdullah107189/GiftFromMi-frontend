@@ -249,8 +249,10 @@ export const ShoppingCart = () => {
 
             {/* back to shop button */}
 
-            <Button className="mt-8 font-semibold h-auto"
-              onClick={() => navigate(-1)}>
+            <Button
+              className="mt-8 font-semibold h-auto"
+              onClick={() => navigate(-1)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -311,7 +313,7 @@ export const ShoppingCart = () => {
             </Card>
           </div>
         </div>
-      </div >
+      </div>
 
       <DeleteConfirmModal
         isOpen={openDelete}
@@ -323,6 +325,6 @@ export const ShoppingCart = () => {
           }
         }}
       />
-    </section >
+    </section>
   );
 };

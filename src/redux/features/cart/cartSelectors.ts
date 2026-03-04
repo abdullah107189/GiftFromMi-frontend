@@ -1,21 +1,32 @@
-// src/store/cart/cartSelectors.ts 
-
+import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from "@/redux/store";
 
-export const selectCartItemsArray = (state: RootState) =>
-    Object.values(state.cart.itemsById);
+const selectItemsById = (state: RootState) => state.cart.itemsById;
 
-export const selectCartItemsCount = (state: RootState) =>
-    Object.values(state.cart.itemsById).reduce((sum, i) => sum + i.qty, 0);
+export const selectCartItemsArray = createSelector(
+    [selectItemsById],
+    (itemsById) => Object.values(itemsById)
+);
 
-export const selectCartSubtotal = (state: RootState) =>
-    Object.values(state.cart.itemsById).reduce((sum, i) => sum + i.originalPrice * i.qty, 0);
+export const selectCartItemsCount = createSelector(
+    [selectCartItemsArray],
+    (items) => items.reduce((sum, i) => sum + i.qty, 0)
+);
 
-export const selectShipping = (state: RootState) => {
-    const subtotal = selectCartSubtotal(state);
-    if (subtotal <= 0) return 0;
-    return 24;
-};
+export const selectCartSubtotal = createSelector(
+    [selectCartItemsArray],
+    (items) => items.reduce((sum, i) => sum + i.originalPrice * i.qty, 0)
+);
 
-export const selectCartTotal = (state: RootState) =>
-    selectCartSubtotal(state) + selectShipping(state);
+export const selectShipping = createSelector(
+    [selectCartSubtotal],
+    (subtotal) => {
+        if (subtotal <= 0) return 0;
+        return 24;
+    }
+);
+
+export const selectCartTotal = createSelector(
+    [selectCartSubtotal, selectShipping],
+    (subtotal, shipping) => subtotal + shipping
+);
