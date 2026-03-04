@@ -55,21 +55,21 @@ const Login = () => {
     const formData = createFormData({
       email: values.email,
       password: values.password,
-    })
+    });
     try {
+      console.log("Attempting login with:", formData);
       const result = await login(formData).unwrap();
       toast.success("Login successful!");
 
       if (result?.data?.role === Role.admin) {
         window.location.replace("https://shalineheng.thewarriors.team");
-      }
-      else {
+      } else {
         dispatch(
           setCredentials({
             token: result?.token,
-            user: result?.data
-          })
-        )
+            user: result?.data,
+          }),
+        );
         console.log(result?.data);
         navigate("/");
       }
@@ -140,7 +140,7 @@ const Login = () => {
                         className={cn(
                           "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary transition-all",
                           fieldState.error &&
-                          "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
                         )}
                       />
                     </FormControl>
@@ -167,7 +167,7 @@ const Login = () => {
                           className={cn(
                             "rounded-2xl h-14 bg-white border-gray-200 focus-visible:ring-primary pr-12",
                             fieldState.error &&
-                            "border-destructive bg-destructive/5 focus-visible:ring-destructive",
+                              "border-destructive bg-destructive/5 focus-visible:ring-destructive",
                           )}
                         />
                         <button
@@ -215,7 +215,11 @@ const Login = () => {
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl text-lg font-bold shadow-md shadow-primary/10 transition-all md:mt-2"
               >
-                {loginLoading ? <ButtonLoading loadingText="Logging in" /> : "Login"}
+                {loginLoading ? (
+                  <ButtonLoading loadingText="Logging in" />
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
           </Form>

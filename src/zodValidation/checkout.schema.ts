@@ -10,7 +10,7 @@ export const checkoutSchema = z.object({
 
   street_address: z.string().min(5, "Address required"),
 
-  country: z.string().optional(),
+  country: z.string().min(1, "Country required"),
 
   town_city: z.string().min(1, "City required"),
 

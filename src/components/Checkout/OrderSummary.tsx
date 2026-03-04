@@ -7,6 +7,7 @@ interface OrderSummaryProps {
   cartItems: any[];
   total: number;
   subtotal: number;
+  isCheckoutLoading: boolean;
 }
 
 export function OrderSummary({
@@ -14,6 +15,7 @@ export function OrderSummary({
   cartItems,
   total,
   subtotal,
+  isCheckoutLoading,
 }: OrderSummaryProps) {
   console.log("OrderSummary received cartItems:", cartItems);
   return (
@@ -134,9 +136,10 @@ export function OrderSummary({
         <button
           type="button"
           onClick={onProceedCheckout}
+          disabled={isCheckoutLoading}
           className="w-full h-14 bg-primary text-white font-medium rounded-2xl"
         >
-          Proceed Checkout
+          {isCheckoutLoading ? "Processing..." : "Proceed Checkout"}
         </button>
 
         <div className="flex flex-col items-center gap-1 opacity-60">

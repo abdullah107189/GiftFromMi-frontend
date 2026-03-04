@@ -137,7 +137,7 @@ export function CustomerInfo() {
         {/* Country */}
         <div className="space-y-2 ">
           <Label className="text-[18px] font-medium text-gray-900">
-            Country / Region (optional)
+            Country / Region<span className="text-red-500">*</span>
           </Label>
           <Controller
             control={control}
