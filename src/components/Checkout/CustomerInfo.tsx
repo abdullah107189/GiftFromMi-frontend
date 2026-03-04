@@ -3,27 +3,59 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { useMemo } from "react";
 import { countries } from "@/utils/countryCode";
 import { SharedSearchableSelect } from "../shared/SharedSearchableSelect";
-import SharedDropdown from "../shared/SharedDropdown";
 
-export function CustomerInfo() {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
+export type CheckoutCustomerFormData = {
+  name: string;
+  email: string;
+  phone: string;
+  street_address: string;
+  country: string;
+  town_city: string;
+  district: string;
+  postcode: string;
+  order_notes: string;
+  shippingCountryCode: string;
+  shippingCountry: string;
+  shippingProvince: string;
+  shippingCity: string;
+  shippingAddress: string;
+  logisticName: string;
+  fromCountryCode: string;
+  type?: string;
+};
+
+interface CustomerInfoProps {
+  values: CheckoutCustomerFormData;
+  onFieldChange: (field: keyof CheckoutCustomerFormData, value: string) => void;
+}
+
+export function CustomerInfo({ values, onFieldChange }: CustomerInfoProps) {
   const inputStyle =
     "bg-[#F0F1F1] border placeholder:text-gray-500 text-base border-[#EBECF0] rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary md:h-[72px] h-[60px]";
 
-  const districtOptions = [
-    { label: "Dhaka", value: "dhaka" },
-    { label: "Chittagong", value: "chittagong" },
-    { label: "Sylhet", value: "sylhet" },
-    { label: "Rajshahi", value: "rajshahi" },
-    { label: "Khulna", value: "khulna" },
-    { label: "Barisal", value: "barisal" },
-    { label: "Rangpur", value: "rangpur" },
-    { label: "Mymensingh", value: "mymensingh" },
-  ];
+  const countryCodeOptions = useMemo(
+    () =>
+      countries.map((country) => ({
+        label: `${country.label} (${country.value.toUpperCase()})`,
+        value: country.value.toUpperCase(),
+      })),
+    [],
+  );
+
+  const countryNameByCode = useMemo(
+    () =>
+      Object.fromEntries(
+        countries.map((country) => [
+          country.value.toUpperCase(),
+          country.label,
+        ]),
+      ),
+    [],
+  );
+
   return (
     <section className="space-y-6">
       <div className="flex items-center gap-3 md:mb-6 mb-4">
@@ -43,7 +75,12 @@ export function CustomerInfo() {
           <Label className="text-[18px] font-medium text-gray-900">
             Name<span className="text-red-500">*</span>
           </Label>
-          <Input placeholder="Enter your name..." className={inputStyle} />
+          <Input
+            value={values.name}
+            onChange={(e) => onFieldChange("name", e.target.value)}
+            placeholder="Enter your name..."
+            className={inputStyle}
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-5">
@@ -51,13 +88,23 @@ export function CustomerInfo() {
             <Label className="text-[18px] font-medium text-gray-900">
               Email Address<span className="text-red-500">*</span>
             </Label>
-            <Input placeholder="Enter your email..." className={inputStyle} />
+            <Input
+              value={values.email}
+              onChange={(e) => onFieldChange("email", e.target.value)}
+              placeholder="Enter your email..."
+              className={inputStyle}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-[18px] font-medium text-gray-900">
               Phone Number<span className="text-red-500">*</span>
             </Label>
-            <Input placeholder="Enter your Number" className={inputStyle} />
+            <Input
+              value={values.phone}
+              onChange={(e) => onFieldChange("phone", e.target.value)}
+              placeholder="Enter your Number"
+              className={inputStyle}
+            />
           </div>
         </div>
 
@@ -66,10 +113,13 @@ export function CustomerInfo() {
             Street Address<span className="text-red-500">*</span>
           </Label>
           <Input
+            value={values.street_address}
+            onChange={(e) => onFieldChange("street_address", e.target.value)}
             placeholder="House Flat/No., Street Name"
             className={inputStyle}
           />
         </div>
+
         <div className="space-y-2 ">
           <Label className="text-[18px] font-medium text-gray-900">
             Country / Region<span className="text-red-500">*</span>
@@ -77,44 +127,146 @@ export function CustomerInfo() {
           <SharedSearchableSelect
             required
             options={countries}
-            value={selectedCountry}
-            onChange={setSelectedCountry}
+            value={values.country}
+            onChange={(value) => onFieldChange("country", value)}
             className="py-4"
             placeholder="Select Country / Region"
           />
         </div>
+
         <div className="space-y-2">
           <Label className="text-[18px] font-medium text-gray-900">
             Town / City<span className="text-red-500">*</span>
           </Label>
-          <Input placeholder="California" className={inputStyle} />
+          <Input
+            value={values.town_city}
+            onChange={(e) => onFieldChange("town_city", e.target.value)}
+            placeholder="California"
+            className={inputStyle}
+          />
         </div>
 
         <div className="space-y-2 ">
           <Label className="text-[18px] font-medium text-gray-900">
             District<span className="text-red-500">*</span>
           </Label>
-          <SharedDropdown
-            options={districtOptions}
-            selectedValue={selectedDistrict}
-            onValueChange={setSelectedDistrict}
+          <Input
+            onChange={(e) => onFieldChange("district", e.target.value)}
             placeholder="Select District"
-            className="bg-[#F0F1F1] w-full md:h-[72px] h-[60px] border border-[#EBECF0] text-base rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary"
+            className="bg-[#F0F1F1] w-full md:h-18 h-15 border border-[#EBECF0] text-base rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary"
           />
         </div>
+
         <div className="space-y-2">
           <Label className="text-[18px] font-medium text-gray-900">
             Postcode / ZIP (optional)
           </Label>
-          <Input placeholder="1258" className={inputStyle} />
+          <Input
+            value={values.postcode}
+            onChange={(e) => onFieldChange("postcode", e.target.value)}
+            placeholder="1258"
+            className={inputStyle}
+          />
         </div>
+
         <div className="space-y-2">
           <Label className="text-[18px] font-medium text-gray-900">
             Order notes (optional)
           </Label>
           <Textarea
+            value={values.order_notes}
+            onChange={(e) => onFieldChange("order_notes", e.target.value)}
             placeholder="Notes About Your  Order, e.g. Specials Notes for Delivery"
-            className="min-h-[120px] max-h-[300px] bg-[#F1F3F4] border-none rounded-xl p-4 focus-visible:ring-1 focus-visible:ring-[#CA8A32] resize-none"
+            className="min-h-30 max-h-75 bg-[#F1F3F4] border-none rounded-xl p-4 focus-visible:ring-1 focus-visible:ring-[#CA8A32] resize-none"
+          />
+        </div>
+
+        <div className="space-y-2 ">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Shipping Country Code
+          </Label>
+          <SharedSearchableSelect
+            options={countryCodeOptions}
+            value={values.shippingCountryCode}
+            onChange={(value) => {
+              onFieldChange("shippingCountryCode", value);
+              onFieldChange("shippingCountry", countryNameByCode[value] ?? "");
+            }}
+            className="py-4"
+            placeholder="Select Shipping Country Code"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Shipping Country
+          </Label>
+          <Input
+            value={values.shippingCountry}
+            onChange={(e) => onFieldChange("shippingCountry", e.target.value)}
+            placeholder="United States"
+            className={inputStyle}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Shipping Province
+          </Label>
+          <Input
+            value={values.shippingProvince}
+            onChange={(e) => onFieldChange("shippingProvince", e.target.value)}
+            placeholder="Dhaka"
+            className={inputStyle}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Shipping City
+          </Label>
+          <Input
+            value={values.shippingCity}
+            onChange={(e) => onFieldChange("shippingCity", e.target.value)}
+            placeholder="Dhaka"
+            className={inputStyle}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Shipping Address
+          </Label>
+          <Input
+            value={values.shippingAddress}
+            onChange={(e) => onFieldChange("shippingAddress", e.target.value)}
+            placeholder="Enter shipping address"
+            className={inputStyle}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Logistic Name
+          </Label>
+          <Input
+            value={values.logisticName}
+            onChange={(e) => onFieldChange("logisticName", e.target.value)}
+            placeholder="Enter logistic name"
+            className={inputStyle}
+          />
+        </div>
+
+        <div className="space-y-2 ">
+          <Label className="text-[18px] font-medium text-gray-900">
+            From Country Code
+          </Label>
+          <SharedSearchableSelect
+            options={countryCodeOptions}
+            value={values.fromCountryCode}
+            onChange={(value) => onFieldChange("fromCountryCode", value)}
+            className="py-4"
+            placeholder="Select From Country Code"
           />
         </div>
 

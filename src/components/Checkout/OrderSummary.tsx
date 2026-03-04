@@ -1,7 +1,11 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
-export function OrderSummary() {
+interface OrderSummaryProps {
+  onProceedCheckout?: () => void;
+}
+
+export function OrderSummary({ onProceedCheckout }: OrderSummaryProps) {
   const cartItems = [
     { id: 1, name: "Tech Box", qty: 1, price: 25.5 },
     { id: 2, name: "Gift Box", qty: 2, price: 8.0 },
@@ -127,7 +131,11 @@ export function OrderSummary() {
           </div>
         </div>
 
-        <button className="w-full h-14 bg-primary text-white font-medium rounded-2xl">
+        <button
+          type="button"
+          onClick={onProceedCheckout}
+          className="w-full h-14 bg-primary text-white font-medium rounded-2xl"
+        >
           Pracced Checkout
         </button>
 
