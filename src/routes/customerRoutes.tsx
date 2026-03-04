@@ -9,6 +9,7 @@ export const customerRoutes: ISidebarItem[] = [
     url: "/order-list",
     component: OrderListPage,
   },
+
   {
     title: "Order History",
     url: "/order-history",

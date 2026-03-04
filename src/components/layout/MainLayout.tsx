@@ -7,7 +7,9 @@ function MainLayout() {
     <div className="max-w-main mx-auto ">
       <Navbar></Navbar>
       <ScrollRestoration />
-      <Outlet></Outlet>
+      <div className="min-h-[calc(100vh-300px)]">
+        <Outlet></Outlet>
+      </div>
       <Footer></Footer>
     </div>
   );

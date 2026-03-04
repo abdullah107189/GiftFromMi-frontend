@@ -7,19 +7,13 @@ import ForgotPassword from "@/components/auth/ForgotPassword";
 import OTPVerification from "@/components/auth/OTPVerification";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
-const LazySellerDashboardPage = lazy(
-  () => import("@/pages/Dashboard/Seller/SellerDashboardPage"),
-);
-const LazySellerDashboard = lazy(
-  () => import("@/components/layout/SellerDashboard"),
-);
+
 const LazyCustomerDashboard = lazy(
   () => import("@/components/layout/CustomerDashboard"),
 );
 
 import { generateRoutes } from "@/utils/genarateRoute";
 import { publicRoutes } from "./publicRoutes";
-import { sellerRoutes } from "./sellerRoutes";
 import { customerRoutes } from "./customerRoutes";
 import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
 import NotFound from "@/components/shared/NotFound";
@@ -27,11 +21,8 @@ import ResetPassword from "@/components/auth/ResetPassword";
 import PageLoader from "@/components/shared/PageLoader";
 import { withAuth } from "@/utils/withAuth";
 import { Role } from "@/types";
-const SellerProtectedRoutes = withAuth(() =>
-  <Suspense fallback={<PageLoader />}>
-    <LazySellerDashboard></LazySellerDashboard>
-  </Suspense>
-  , Role.admin)
+import ViewProfilePage from "@/pages/Dashboard/Customer/ViewProfilePage";
+
 const CustomerProtectedRoutes = withAuth(() =>
   <Suspense fallback={<PageLoader />}>
     <LazyCustomerDashboard></LazyCustomerDashboard>
@@ -54,19 +45,6 @@ const router = createBrowserRouter([
       ...generateRoutes(publicRoutes),
     ],
   },
-  // seller dashboard routes
-  {
-    path: "seller-dashboard",
-    element: <SellerProtectedRoutes />,
-    children: [
-      {
-        index: true,
-        element: <LazySellerDashboardPage></LazySellerDashboardPage>,
-      },
-      ...generateRoutes(sellerRoutes),
-    ],
-  },
-
   // customer dashboard routes
   {
     path: "customer-dashboard",
@@ -74,6 +52,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <ViewProfilePage></ViewProfilePage>,
+      },
+
+      {
+        path: "edit-profile",
         element: <PersonalInfoPage></PersonalInfoPage>,
       },
 
