@@ -56,4 +56,5 @@ export const publicRoutes: ISidebarItem[] = [
     url: "/checkout",
     component: CheckoutPage,
   },
+  
 ];

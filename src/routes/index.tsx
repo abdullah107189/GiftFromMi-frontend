@@ -22,6 +22,8 @@ import PageLoader from "@/components/shared/PageLoader";
 import { withAuth } from "@/utils/withAuth";
 import { Role } from "@/types";
 import ViewProfilePage from "@/pages/Dashboard/Customer/ViewProfilePage";
+import PaymentCancel from "@/pages/payment/PaymentCancel";
+import PaymentSuccess from "@/pages/payment/PaymentSuccess";
 
 const CustomerProtectedRoutes = withAuth(() =>
   <Suspense fallback={<PageLoader />}>
@@ -85,7 +87,19 @@ const router = createBrowserRouter([
     path: "/reset-password",
     Component: ResetPassword,
   },
-
+  // ============================ payment ============
+  {
+    path: "/payment-cancel",
+    Component: PaymentCancel,
+  },
+  {
+    path: "/payment-success",
+    Component: PaymentSuccess,
+  },
+  // {
+  //   path: "payment-success",
+  //   Component: PaymentSuccess,
+  // },
   // page handler routes
   {
     path: "*",
