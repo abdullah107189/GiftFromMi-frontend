@@ -25,11 +25,14 @@ import ViewProfilePage from "@/pages/Dashboard/Customer/ViewProfilePage";
 import PaymentCancel from "@/pages/payment/PaymentCancel";
 import PaymentSuccess from "@/pages/payment/PaymentSuccess";
 
-const CustomerProtectedRoutes = withAuth(() =>
-  <Suspense fallback={<PageLoader />}>
-    <LazyCustomerDashboard></LazyCustomerDashboard>
-  </Suspense>
-  , Role.customer)
+const CustomerProtectedRoutes = withAuth(
+  () => (
+    <Suspense fallback={<PageLoader />}>
+      <LazyCustomerDashboard></LazyCustomerDashboard>
+    </Suspense>
+  ),
+  Role.customer,
+);
 
 const router = createBrowserRouter([
   {

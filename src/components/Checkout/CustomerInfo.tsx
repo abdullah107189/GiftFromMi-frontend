@@ -4,7 +4,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import SharedDropdown from "@/components/shared/SharedDropdown";
+import { countries } from "@/utils/countryCode";
+import { SharedSearchableSelect } from "../shared/SharedSearchableSelect";
+import SharedDropdown from "../shared/SharedDropdown";
 
 export function CustomerInfo() {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -12,18 +14,6 @@ export function CustomerInfo() {
   const inputStyle =
     "bg-[#F0F1F1] border placeholder:text-gray-500 text-base border-[#EBECF0] rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary md:h-[72px] h-[60px]";
 
-  const countryOptions = [
-    { label: "United States", value: "us" },
-    { label: "United Kingdom", value: "uk" },
-    { label: "Canada", value: "ca" },
-    { label: "Australia", value: "au" },
-    { label: "Germany", value: "de" },
-    { label: "France", value: "fr" },
-    { label: "Japan", value: "jp" },
-    { label: "China", value: "cn" },
-    { label: "India", value: "in" },
-    { label: "Bangladesh", value: "bd" },
-  ];
   const districtOptions = [
     { label: "Dhaka", value: "dhaka" },
     { label: "Chittagong", value: "chittagong" },
@@ -84,12 +74,13 @@ export function CustomerInfo() {
           <Label className="text-[18px] font-medium text-gray-900">
             Country / Region<span className="text-red-500">*</span>
           </Label>
-          <SharedDropdown
-            options={countryOptions}
-            selectedValue={selectedCountry}
-            onValueChange={setSelectedCountry}
+          <SharedSearchableSelect
+            required
+            options={countries}
+            value={selectedCountry}
+            onChange={setSelectedCountry}
+            className="py-4"
             placeholder="Select Country / Region"
-            className="bg-[#F0F1F1] w-full md:h-[72px] h-[60px] border border-[#EBECF0] text-base rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary"
           />
         </div>
         <div className="space-y-2">
