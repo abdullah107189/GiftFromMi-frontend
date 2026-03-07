@@ -18,30 +18,37 @@ import {
   checkoutSchema,
   type CheckoutCustomerFormData,
 } from "@/zodValidation/checkout.schema";
-import { useCheckoutMutation } from "@/redux/features/checkout/checkout.api";
+import {
+  useCheckoutMutation,
+  usePreviewBulkCheckoutMutation,
+} from "@/redux/features/checkout/checkout.api";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { createFormData } from "@/utils/createFormData";
 
+function safeTrim(value?: string) {
+  return value?.trim() ?? "";
+}
+
 function buildCheckoutFormData(data: CheckoutCustomerFormData) {
   const payload = {
     type: data.type,
-    name: data.name.trim(),
-    email: data.email.trim(),
-    phone: data.phone.trim(),
-    street_address: data.street_address.trim(),
-    country: data.country.trim(),
-    town_city: data.town_city.trim(),
-    district: data.district.trim(),
-    postcode: data.postcode?.trim() ?? "",
-    order_notes: data.order_notes?.trim() ?? "",
-    shippingCountryCode: data.shippingCountryCode.trim(),
-    shippingCountry: data.shippingCountry.trim(),
-    shippingProvince: data.shippingProvince.trim(),
-    shippingCity: data.shippingCity.trim(),
-    shippingAddress: data.shippingAddress.trim(),
-    logisticName: data.logisticName.trim(),
-    fromCountryCode: data.fromCountryCode.trim(),
+    name: safeTrim(data.name),
+    email: safeTrim(data.email),
+    phone: safeTrim(data.phone),
+    street_address: safeTrim(data.street_address),
+    country: safeTrim(data.country),
+    town_city: safeTrim(data.town_city),
+    district: safeTrim(data.district),
+    postcode: safeTrim(data.postcode),
+    order_notes: safeTrim(data.order_notes),
+    shippingCountryCode: safeTrim(data.shippingCountryCode),
+    shippingCountry: safeTrim(data.shippingCountry),
+    shippingProvince: safeTrim(data.shippingProvince),
+    shippingCity: safeTrim(data.shippingCity),
+    shippingAddress: safeTrim(data.shippingAddress),
+    logisticName: safeTrim(data.logisticName),
+    fromCountryCode: safeTrim(data.fromCountryCode),
   };
 
   return createFormData(payload);
@@ -53,6 +60,8 @@ const CheckoutPage = () => {
   const subtotal = useSelector(selectCartSubtotal);
 
   const [checkout, { isLoading: isCheckoutLoading }] = useCheckoutMutation();
+  const [previewBulkCheckout, { isLoading: isBulkCheckoutLoading }] =
+    usePreviewBulkCheckoutMutation();
 
   const [searchParams] = useSearchParams();
   const isBulk = searchParams.get("type") === "bulk";
@@ -79,6 +88,8 @@ const CheckoutPage = () => {
       logisticName: "",
       fromCountryCode: "",
       saveInfo: false,
+      bulkHeaders: [],
+      bulkRows: [],
     },
   });
 
@@ -90,38 +101,80 @@ const CheckoutPage = () => {
     });
   }, [isBulk, methods]);
 
-  const handleProceedCheckout = methods.handleSubmit(async (data) => {
-    try {
-      const formData = buildCheckoutFormData(data);
-      if (import.meta.env.DEV) {
-        console.table(
-          Array.from(formData.entries()).map(([key, value]) => ({
-            key,
-            value: String(value),
-          })),
-        );
+  const handleProceedCheckout = async () => {
+    if (isBulk) {
+      const values = methods.getValues();
+      if (!values.bulkFile) {
+        toast.error("Please upload a CSV file first.");
+        return;
       }
 
-      const res: any = await checkout(formData).unwrap();
+      const bulkFormData = new FormData();
+      bulkFormData.append("type", "bulk");
+      bulkFormData.append("csv_file", values.bulkFile);
 
-      toast.success(res?.message || "Checkout completed successfully!");
+      const bulkPayload = {
+        fileName: values.bulkFile?.name ?? "",
+        fileSize: values.bulkFile?.size ?? 0,
+        headers: values.bulkHeaders ?? [],
+        rows: values.bulkRows ?? [],
+      };
 
-      window.location.replace(res?.data?.url);
-    } catch (err: any) {
-      const backendErrors = err?.data?.errors ?? err?.data;
-      toast.error("Checkout failed. Please check required fields.");
+      console.log("Bulk checkout payload:", bulkPayload);
+      console.log("Order preview:", {
+        items: cartItems,
+        subtotal,
+        total,
+      });
 
-      if (backendErrors && typeof backendErrors === "object") {
-        Object.entries(backendErrors).forEach(([field, msgs]) => {
-          const message = Array.isArray(msgs) ? String(msgs[0]) : String(msgs);
-          methods.setError(field as keyof CheckoutCustomerFormData, {
-            type: "server",
-            message,
-          });
-        });
+      try {
+        const res: any = await checkout(bulkFormData).unwrap();
+        console.log("Bulk preview API response:", res);
+        toast.success(res?.message || "Checkout completed successfully!");
+        window.location.replace(res?.data?.url);
+      } catch (err: any) {
+        const message =
+          err?.data?.message ?? "Bulk preview failed. Please try again.";
+        toast.error(message);
       }
+      return;
     }
-  });
+
+    await methods.handleSubmit(async (data) => {
+      try {
+        const formData = buildCheckoutFormData(data);
+        if (import.meta.env.DEV) {
+          console.table(
+            Array.from(formData.entries()).map(([key, value]) => ({
+              key,
+              value: String(value),
+            })),
+          );
+        }
+
+        const res: any = await checkout(formData).unwrap();
+
+        toast.success(res?.message || "Checkout completed successfully!");
+
+        window.location.replace(res?.data?.url);
+      } catch (err: any) {
+        const backendErrors = err?.data?.errors ?? err?.data;
+        toast.error("Checkout failed. Please check required fields.");
+
+        if (backendErrors && typeof backendErrors === "object") {
+          Object.entries(backendErrors).forEach(([field, msgs]) => {
+            const message = Array.isArray(msgs)
+              ? String(msgs[0])
+              : String(msgs);
+            methods.setError(field as keyof CheckoutCustomerFormData, {
+              type: "server",
+              message,
+            });
+          });
+        }
+      }
+    })();
+  };
 
   return (
     <FormProvider {...methods}>
@@ -141,7 +194,7 @@ const CheckoutPage = () => {
                 cartItems={cartItems}
                 total={total}
                 subtotal={subtotal}
-                isCheckoutLoading={isCheckoutLoading}
+                isCheckoutLoading={isCheckoutLoading || isBulkCheckoutLoading}
                 onProceedCheckout={handleProceedCheckout}
               />
             </div>

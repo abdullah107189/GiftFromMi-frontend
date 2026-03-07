@@ -35,5 +35,8 @@ export const checkoutSchema = z.object({
   fromCountryCode: z.string().min(1, "From country code required"),
 
   saveInfo: z.boolean().optional(),
+  bulkFile: z.instanceof(File).optional(),
+  bulkHeaders: z.array(z.string()).optional(),
+  bulkRows: z.array(z.record(z.string(), z.string())).optional(),
 });
 export type CheckoutCustomerFormData = z.infer<typeof checkoutSchema>;

@@ -13,6 +13,15 @@ export const checkoutApi = baseApi.injectEndpoints({
             invalidatesTags: ["CART"],
             transformResponse: (res) => res,
         }),
+        previewBulkCheckout: builder.mutation({
+            query: (data: FormData) => ({
+                url: "/cart/checkout/preview-bulk",
+                method: "POST",
+                data,
+                headers: { Accept: "application/json" },
+            }),
+            transformResponse: (res) => res,
+        }),
     }),
 });
-export const { useCheckoutMutation } = checkoutApi;
+export const { useCheckoutMutation, usePreviewBulkCheckoutMutation } = checkoutApi;

@@ -84,7 +84,7 @@ export const ShoppingCart = () => {
                 {cartItems.length > 0 ? (
                   cartItems.map((item) => (
                     <TableRow
-                      key={item.key} // ✅ IMPORTANT
+                      key={item.key}
                       className="group border-none hover:bg-transparent"
                     >
                       {/* Product Details */}
