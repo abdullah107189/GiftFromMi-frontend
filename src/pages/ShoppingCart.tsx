@@ -38,7 +38,10 @@ export const ShoppingCart = () => {
     Record<string, number>
   >({});
   const [isOptimisticClear, setIsOptimisticClear] = useState(false);
-  const [updatingKey, setUpdatingKey] = useState<string | null>(null);
+  const [pendingQuantityAction, setPendingQuantityAction] = useState<{
+    key: string;
+    type: "increment" | "decrement";
+  } | null>(null);
   const [deletingKey, setDeletingKey] = useState<string | null>(null);
   const [isClearingPending, setIsClearingPending] = useState(false);
 
@@ -102,7 +105,7 @@ export const ShoppingCart = () => {
     }));
     dispatch(setQty({ key: item.key, qty: nextQty }));
     dispatch(setCartOwnerUserId(user?.id ?? null));
-    setUpdatingKey(item.key);
+    setPendingQuantityAction({ key: item.key, type });
 
     if (user) {
       const cartItemId = getCartItemId(item);
@@ -112,7 +115,7 @@ export const ShoppingCart = () => {
           [item.key]: item.qty,
         }));
         dispatch(setQty({ key: item.key, qty: item.qty }));
-        setUpdatingKey(null);
+        setPendingQuantityAction(null);
         toast.error("Cart sync failed. Refresh and try again.");
         return;
       }
@@ -127,14 +130,14 @@ export const ShoppingCart = () => {
           delete next[item.key];
           return next;
         });
-        setUpdatingKey(null);
+        setPendingQuantityAction(null);
       } catch {
         setOptimisticQtyByKey((prev) => ({
           ...prev,
           [item.key]: item.qty,
         }));
         dispatch(setQty({ key: item.key, qty: item.qty }));
-        setUpdatingKey(null);
+        setPendingQuantityAction(null);
         toast.error("Cart update failed. Please try again.");
       }
       return;
@@ -145,7 +148,7 @@ export const ShoppingCart = () => {
       delete next[item.key];
       return next;
     });
-    setUpdatingKey(null);
+    setPendingQuantityAction(null);
   };
 
   const handleDeleteCart = async (key: string) => {
@@ -291,6 +294,17 @@ export const ShoppingCart = () => {
 
                       {/* Quantity */}
                       <TableCell>
+                        {(() => {
+                          const isQuantityPending =
+                            pendingQuantityAction?.key === item.key;
+                          const isDecrementPending =
+                            pendingQuantityAction?.key === item.key &&
+                            pendingQuantityAction?.type === "decrement";
+                          const isIncrementPending =
+                            pendingQuantityAction?.key === item.key &&
+                            pendingQuantityAction?.type === "increment";
+
+                          return (
                         <div className="flex items-center justify-center">
                           <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
                             <button
@@ -300,12 +314,12 @@ export const ShoppingCart = () => {
                               disabled={
                                 isClearingPending ||
                                 deletingKey === item.key ||
-                                updatingKey === item.key
+                                isQuantityPending
                               }
                               className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                               type="button"
                             >
-                              {updatingKey === item.key ? (
+                              {isDecrementPending ? (
                                 <Loader size="24" className="animate-spin" />
                               ) : (
                                 <svg
@@ -337,12 +351,12 @@ export const ShoppingCart = () => {
                               disabled={
                                 isClearingPending ||
                                 deletingKey === item.key ||
-                                updatingKey === item.key
+                                isQuantityPending
                               }
                               className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                               type="button"
                             >
-                              {updatingKey === item.key ? (
+                              {isIncrementPending ? (
                                 <Loader size="24" className="animate-spin" />
                               ) : (
                                 <svg
@@ -371,6 +385,8 @@ export const ShoppingCart = () => {
                             </button>
                           </div>
                         </div>
+                          );
+                        })()}
                       </TableCell>
 
                       {/* Subtotal */}
