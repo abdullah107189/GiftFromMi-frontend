@@ -10,37 +10,213 @@ import {
 } from "@/components/ui/table";
 import { Link, useNavigate } from "react-router";
 import SEO from "@/components/shared/SEO";
-import {
-  selectCartItemsArray,
-  selectCartItemsCount,
-  selectCartSubtotal,
-  selectCartTotal,
-  selectShipping,
-} from "@/redux/features/cart/cartSelectors";
+import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import {
-  decrementQty,
-  incrementQty,
+  addToCart,
+  clearCart as clearCartLocal,
   removeFromCart,
+  setCartOwnerUserId,
+  setQty,
 } from "@/redux/features/cart/cartSlice";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
+import {
+  useClearCartMutation,
+  useRemoveCartMutation,
+  useUpdateCartMutation,
+} from "@/redux/features/cart/cart.api";
+import { selectUser } from "@/redux/features/auth/authSelectors";
+import { toast } from "sonner";
+import { Loader } from "lucide-react";
 
 export const ShoppingCart = () => {
   const [deleteKey, setDeleteKey] = useState<string | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
+  const [optimisticQtyByKey, setOptimisticQtyByKey] = useState<
+    Record<string, number>
+  >({});
+  const [isOptimisticClear, setIsOptimisticClear] = useState(false);
+  const [updatingKey, setUpdatingKey] = useState<string | null>(null);
+  const [deletingKey, setDeletingKey] = useState<string | null>(null);
+  const [isClearingPending, setIsClearingPending] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItemsArray);
-  const cartItemsCount = useSelector(selectCartItemsCount);
-  const subtotal = useSelector(selectCartSubtotal);
-  const shipping = useSelector(selectShipping);
-  const total = useSelector(selectCartTotal);
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
 
-  const handleDeleteCart = (key: string) => {
+  const [updateCartMutation] = useUpdateCartMutation();
+  const [removeCartMutation] = useRemoveCartMutation();
+  const [clearCartMutation] = useClearCartMutation();
+
+  const displayCartItems = useMemo(() => {
+    if (isOptimisticClear) return [];
+
+    return cartItems.map((item) => ({
+      ...item,
+      qty: optimisticQtyByKey[item.key] ?? item.qty,
+    }));
+  }, [cartItems, isOptimisticClear, optimisticQtyByKey]);
+
+  const cartItemsCount = displayCartItems.reduce(
+    (sum, item) => sum + item.qty,
+    0,
+  );
+  const subtotal = displayCartItems.reduce(
+    (sum, item) => sum + item.originalPrice * item.qty,
+    0,
+  );
+  const shipping = subtotal > 0 ? 24 : 0;
+  const total = subtotal + shipping;
+
+  const getCartItemId = (item: (typeof cartItems)[number]) => {
+    if (
+      typeof item?.cartItemId === "number" &&
+      Number.isFinite(item?.cartItemId)
+    ) {
+      return item?.cartItemId;
+    }
+
+    return null;
+  };
+
+  const handleQuantityChange = async (
+    key: string,
+    type: "increment" | "decrement",
+  ) => {
+    const item = cartItems.find((cartItem) => cartItem.key === key);
+    if (!item) return;
+
+    const nextQty =
+      type === "increment"
+        ? Math.min(item.qty + 1, Math.max(1, item.stockQty))
+        : Math.max(1, item.qty - 1);
+
+    if (nextQty === item.qty) return;
+
+    setOptimisticQtyByKey((prev) => ({
+      ...prev,
+      [item.key]: nextQty,
+    }));
+    dispatch(setQty({ key: item.key, qty: nextQty }));
+    dispatch(setCartOwnerUserId(user?.id ?? null));
+    setUpdatingKey(item.key);
+
+    if (user) {
+      const cartItemId = getCartItemId(item);
+      if (!cartItemId) {
+        setOptimisticQtyByKey((prev) => ({
+          ...prev,
+          [item.key]: item.qty,
+        }));
+        dispatch(setQty({ key: item.key, qty: item.qty }));
+        setUpdatingKey(null);
+        toast.error("Cart sync failed. Refresh and try again.");
+        return;
+      }
+
+      try {
+        await updateCartMutation({
+          cart_item_id: cartItemId,
+          quantity: nextQty,
+        }).unwrap();
+        setOptimisticQtyByKey((prev) => {
+          const next = { ...prev };
+          delete next[item.key];
+          return next;
+        });
+        setUpdatingKey(null);
+      } catch {
+        setOptimisticQtyByKey((prev) => ({
+          ...prev,
+          [item.key]: item.qty,
+        }));
+        dispatch(setQty({ key: item.key, qty: item.qty }));
+        setUpdatingKey(null);
+        toast.error("Cart update failed. Please try again.");
+      }
+      return;
+    }
+
+    setOptimisticQtyByKey((prev) => {
+      const next = { ...prev };
+      delete next[item.key];
+      return next;
+    });
+    setUpdatingKey(null);
+  };
+
+  const handleDeleteCart = async (key: string) => {
+    const item = cartItems.find((cartItem) => cartItem.key === key);
+    if (!item) return;
+
+    setDeletingKey(key);
+    dispatch(setCartOwnerUserId(user?.id ?? null));
+    setOptimisticQtyByKey((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
     dispatch(removeFromCart({ key }));
+
+    if (user) {
+      const cartItemId = getCartItemId(item);
+      if (!cartItemId) {
+        dispatch(addToCart(item));
+        setDeletingKey(null);
+        toast.error("Cart sync failed. Refresh and try again.");
+        return;
+      }
+
+      try {
+        await removeCartMutation({ cart_item_id: cartItemId }).unwrap();
+      } catch {
+        dispatch(addToCart(item));
+        setDeletingKey(null);
+        toast.error("Remove failed. Please try again.");
+        return;
+      }
+    }
+    setDeletingKey(null);
+    toast.success("Item removed from cart");
+  };
+
+  const handleClearCart = async () => {
+    if (!cartItems.length) return;
+
+    const previousItems = [...cartItems];
+    setIsOptimisticClear(true);
+    setIsClearingPending(true);
+    setOptimisticQtyByKey({});
+    dispatch(setCartOwnerUserId(user?.id ?? null));
+    dispatch(clearCartLocal());
+
+    if (user) {
+      const cartItemId = getCartItemId(previousItems[0]);
+      if (!cartItemId) {
+        setIsOptimisticClear(false);
+        previousItems.forEach((item) => dispatch(addToCart(item)));
+        setIsClearingPending(false);
+        toast.error("Cart sync failed. Refresh and try again.");
+        return;
+      }
+
+      try {
+        await clearCartMutation({ cart_item_id: cartItemId }).unwrap();
+      } catch {
+        setIsOptimisticClear(false);
+        previousItems.forEach((item) => dispatch(addToCart(item)));
+        setIsClearingPending(false);
+        toast.error("Clear cart failed. Please try again.");
+        return;
+      }
+    }
+
+    setIsOptimisticClear(false);
+    setIsClearingPending(false);
+    toast.success("Cart cleared");
   };
 
   return (
@@ -51,11 +227,7 @@ export const ShoppingCart = () => {
       />
       <div className="px-3 max-w-container mx-auto">
         <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-medium xl:mb-15 lg:mb-10 mb-5 text-gray-900">
-          Shopping Gift Cart (
-          {cartItems.length
-            .toString()
-            .padStart(cartItemsCount.toString().length, "0")}{" "}
-          Items)
+          Shopping Gift Cart ({cartItemsCount} Items)
         </h1>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-17.5 lg:gap-12 md:gap-8 gap-5">
@@ -81,8 +253,8 @@ export const ShoppingCart = () => {
               </TableHeader>
 
               <TableBody>
-                {cartItems.length > 0 ? (
-                  cartItems.map((item) => (
+                {displayCartItems.length > 0 ? (
+                  displayCartItems.map((item) => (
                     <TableRow
                       key={item.key}
                       className="group border-none hover:bg-transparent"
@@ -92,21 +264,21 @@ export const ShoppingCart = () => {
                         <div className="flex w-60 xl:gap-7.5 md:gap-5 gap-4">
                           <div className="xl:w-37.5 md:w-30 w-20 xl:h-38.25 md:h-30 h-20 rounded-lg bg-gray-100 shrink-0">
                             <img
-                              src={item.image}
+                              src={item?.image}
                               className="w-full h-full object-cover md:rounded-xl rounded-lg"
-                              alt={item.title}
+                              alt={item?.title}
                             />
                           </div>
 
                           <div className="flex max-w-40 relative flex-col justify-between gap-2">
                             <p className="font-medium xl:text-2xl lg:text-xl md:text-lg text-gray-900 line-clamp-4 whitespace-normal break-words">
-                              {item.title}
+                              {item?.title}
                             </p>
                             <p className="text-gray-900 font-manrope">
                               Type: Gift Box
                             </p>
                             <p className="text-sm text-gray-600 font-manrope">
-                              Variant: {item.variantLabel || item.sku}
+                              Variant: {item?.variantLabel || item?.sku}
                             </p>
                           </div>
                         </div>
@@ -114,7 +286,7 @@ export const ShoppingCart = () => {
 
                       {/* Price */}
                       <TableCell className="md:p-4 p-2 text-center font-semibold font-manrope xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                        ${item.originalPrice.toFixed(2)}
+                        ${item.originalPrice?.toFixed(2)}
                       </TableCell>
 
                       {/* Quantity */}
@@ -123,61 +295,79 @@ export const ShoppingCart = () => {
                           <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
                             <button
                               onClick={() =>
-                                dispatch(decrementQty({ key: item.key }))
+                                void handleQuantityChange(item.key, "decrement")
+                              }
+                              disabled={
+                                isClearingPending ||
+                                deletingKey === item.key ||
+                                updatingKey === item.key
                               }
                               className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                               type="button"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <path
-                                  d="M20 12H4"
-                                  stroke="white"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                              {updatingKey === item.key ? (
+                                <Loader size="24" className="animate-spin" />
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M20 12H4"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              )}
                             </button>
 
-                            <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-[24px]">
+                            <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-6">
                               {item.qty}
                             </span>
 
                             <button
                               onClick={() =>
-                                dispatch(incrementQty({ key: item.key }))
+                                void handleQuantityChange(item.key, "increment")
+                              }
+                              disabled={
+                                isClearingPending ||
+                                deletingKey === item.key ||
+                                updatingKey === item.key
                               }
                               className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
                               type="button"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <path
-                                  d="M12 5V19.002"
-                                  stroke="white"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M19.002 12.002H5"
-                                  stroke="white"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                              {updatingKey === item.key ? (
+                                <Loader size="24" className="animate-spin" />
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M12 5V19.002"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                  <path
+                                    d="M19.002 12.002H5"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              )}
                             </button>
                           </div>
                         </div>
@@ -185,7 +375,7 @@ export const ShoppingCart = () => {
 
                       {/* Subtotal */}
                       <TableCell className="text-center font-semibold xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                        ${(item.originalPrice * item.qty).toFixed(2)}
+                        ${(item?.originalPrice * item?.qty)?.toFixed(2)}
                       </TableCell>
 
                       {/* Delete Button */}
@@ -193,9 +383,12 @@ export const ShoppingCart = () => {
                         <button
                           type="button"
                           onClick={() => {
-                            setDeleteKey(item.key);
+                            setDeleteKey(item?.key);
                             setOpenDelete(true);
                           }}
+                          disabled={
+                            isClearingPending || deletingKey === item.key
+                          }
                           className="lg:p-3 md:p-2 p-1 text-red-400 border border-[#DF1C41] rounded-lg hover:bg-red-50 transition-colors group"
                         >
                           <svg
@@ -249,24 +442,34 @@ export const ShoppingCart = () => {
 
             {/* back to shop button */}
 
-            <Button
-              className="mt-8 font-semibold h-auto"
-              onClick={() => navigate(-1)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
+            <div className="flex justify-start gap-4 md:mt-8 mt-5">
+              <Button
+                className=" font-semibold h-auto"
+                onClick={() => navigate(-1)}
               >
-                <path
-                  d="M7.70678 3.30529C7.51926 3.11782 7.26495 3.0125 6.99979 3.0125C6.73462 3.0125 6.48031 3.11782 6.29279 3.30529L0.292786 9.30529C0.105315 9.49282 0 9.74712 0 10.0123C0 10.2775 0.105315 10.5318 0.292786 10.7193L6.29279 16.7193C6.48139 16.9014 6.73399 17.0022 6.99619 17C7.25838 16.9977 7.5092 16.8925 7.6946 16.7071C7.88001 16.5217 7.98518 16.2709 7.98746 16.0087C7.98974 15.7465 7.88894 15.4939 7.70679 15.3053L3.41379 11.0123L14.9998 11.0123C15.265 11.0123 15.5194 10.9069 15.7069 10.7194C15.8944 10.5319 15.9998 10.2775 15.9998 10.0123C15.9998 9.74707 15.8944 9.49272 15.7069 9.30518C15.5194 9.11764 15.265 9.01229 14.9998 9.01229L3.41379 9.01229L7.70679 4.71929C7.89426 4.53176 7.99957 4.27745 7.99957 4.01229C7.99957 3.74712 7.89426 3.49281 7.70678 3.30529Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Continue Gifting
-            </Button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <path
+                    d="M7.70678 3.30529C7.51926 3.11782 7.26495 3.0125 6.99979 3.0125C6.73462 3.0125 6.48031 3.11782 6.29279 3.30529L0.292786 9.30529C0.105315 9.49282 0 9.74712 0 10.0123C0 10.2775 0.105315 10.5318 0.292786 10.7193L6.29279 16.7193C6.48139 16.9014 6.73399 17.0022 6.99619 17C7.25838 16.9977 7.5092 16.8925 7.6946 16.7071C7.88001 16.5217 7.98518 16.2709 7.98746 16.0087C7.98974 15.7465 7.88894 15.4939 7.70679 15.3053L3.41379 11.0123L14.9998 11.0123C15.265 11.0123 15.5194 10.9069 15.7069 10.7194C15.8944 10.5319 15.9998 10.2775 15.9998 10.0123C15.9998 9.74707 15.8944 9.49272 15.7069 9.30518C15.5194 9.11764 15.265 9.01229 14.9998 9.01229L3.41379 9.01229L7.70679 4.71929C7.89426 4.53176 7.99957 4.27745 7.99957 4.01229C7.99957 3.74712 7.89426 3.49281 7.70678 3.30529Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Continue Gifting
+              </Button>
+              <Button
+                variant="outline"
+                className="font-semibold h-auto"
+                disabled={isClearingPending || displayCartItems.length === 0}
+                onClick={() => void handleClearCart()}
+              >
+                Clear Cart
+              </Button>
+            </div>
           </div>
 
           {/* Order Summary */}
@@ -284,7 +487,7 @@ export const ShoppingCart = () => {
                     Sub Total :
                   </span>
                   <span className="font-semibold text-gray-900 md:text-xl">
-                    ${subtotal.toFixed(2)}
+                    ${subtotal?.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between md:py-4 py-2">
@@ -292,7 +495,7 @@ export const ShoppingCart = () => {
                     Shipping :
                   </span>
                   <span className="font-semibold text-gray-900 md:text-xl">
-                    ${shipping.toFixed(2)}
+                    ${shipping?.toFixed(2)}
                   </span>
                 </div>
                 <hr className="border-gray-200 md:mb-4 mb-2" />
@@ -301,7 +504,7 @@ export const ShoppingCart = () => {
                     Total :
                   </span>
                   <span className="md:text-xl font-semibold text-primary">
-                    ${total.toFixed(2)}
+                    ${total?.toFixed(2)}
                   </span>
                 </div>
                 <Link to={"/checkout"}>
@@ -320,7 +523,7 @@ export const ShoppingCart = () => {
         onOpenChange={setOpenDelete}
         onConfirm={() => {
           if (deleteKey) {
-            handleDeleteCart(deleteKey);
+            void handleDeleteCart(deleteKey);
             setDeleteKey(null);
           }
         }}

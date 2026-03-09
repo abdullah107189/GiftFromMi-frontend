@@ -1,7 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from "@/redux/store";
 
-const selectItemsById = (state: RootState) => state.cart.itemsById;
+const defaultCartSync = {
+    ownerUserId: null,
+    status: "idle" as const,
+    error: null,
+};
+
+const selectItemsById = (state: RootState) => state.cart?.itemsById ?? {};
+const selectCartSync = (state: RootState) => state.cart?.sync ?? defaultCartSync;
 
 export const selectCartItemsArray = createSelector(
     [selectItemsById],
@@ -29,4 +36,14 @@ export const selectShipping = createSelector(
 export const selectCartTotal = createSelector(
     [selectCartSubtotal, selectShipping],
     (subtotal, shipping) => subtotal + shipping
+);
+
+export const selectCartOwnerUserId = createSelector(
+    [selectCartSync],
+    (sync) => sync?.ownerUserId,
+);
+
+export const selectCartSyncStatus = createSelector(
+    [selectCartSync],
+    (sync) => sync?.status ?? "idle",
 );

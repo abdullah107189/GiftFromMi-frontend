@@ -13,11 +13,18 @@ import fallbackImage from "@/assets/fallback.png";
 import type { IProduct } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
-import { addToCart } from "@/redux/features/cart/cartSlice";
+import {
+  addToCart,
+  patchCartItem,
+  removeFromCart,
+  setCartOwnerUserId,
+  setQty,
+} from "@/redux/features/cart/cartSlice";
 import { toast } from "sonner";
 import SharedDropdown from "@/components/shared/SharedDropdown";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
 import { selectUser } from "@/redux/features/auth/authSelectors";
+import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
 
 type Variant = {
   id: number;
@@ -40,7 +47,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [addToCartMutation,] = useAddToCartMutation();
   const user = useSelector(selectUser);
-  console.log("user------>", user)
+  const cartItems = useSelector(selectCartItemsArray);
 
 
   const product = data?.productInfo as any;
@@ -73,7 +80,7 @@ const ProductDetails = () => {
   useEffect(() => {
     if (variants.length) setSelectedVariantId(variants[0].id);
     else setSelectedVariantId(null);
-  }, [id, variants.length]);
+  }, [id, variants]);
 
   useEffect(() => {
     const vImg = selectedVariant?.imageUrl || selectedVariant?.image;
@@ -165,11 +172,37 @@ const ProductDetails = () => {
       product_variant_id: v.id,
       quantity: 1,
     };
+    const existingItem = cartItems.find((item) => item.key === cartItem.key);
+
     dispatch(addToCart(cartItem));
+    dispatch(setCartOwnerUserId(user?.id ?? null));
     toast.success("Product added to cart");
+
     if (user) {
-      const result = await addToCartMutation(addToCartItems);
-      console.log(result);
+      try {
+        const response = await addToCartMutation(addToCartItems).unwrap();
+        const serverCartItemId =
+          response?.data?.cart_item_id ??
+          response?.data?.id ??
+          response?.cart_item_id ??
+          response?.id;
+
+        if (serverCartItemId) {
+          dispatch(
+            patchCartItem({
+              key: cartItem.key,
+              changes: { cartItemId: Number(serverCartItemId) },
+            }),
+          );
+        }
+      } catch {
+        if (existingItem) {
+          dispatch(setQty({ key: existingItem.key, qty: existingItem.qty }));
+        } else {
+          dispatch(removeFromCart({ key: cartItem.key }));
+        }
+        toast.error("Add to cart failed. Please try again.");
+      }
     }
   };
 
@@ -211,18 +244,18 @@ const ProductDetails = () => {
                       key={variantThumbs.length ? v.id : index}
                       onClick={() => {
                         if (variantThumbs.length) {
-                          setSelectedVariantId(v.id);
-                          setActiveImage(v.img);
+                          setSelectedVariantId(v?.id);
+                          setActiveImage(v?.img);
                         } else {
-                          setActiveImage(v.img);
+                          setActiveImage(v?.img);
                         }
                       }}
                       className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-orange-500" : "border-transparent"
-                        } ${v.qty <= 0 ? "opacity-50" : ""}`}
-                      title={v.label}
+                        } ${v?.qty <= 0 ? "opacity-50" : ""}`}
+                      title={v?.label}
                     >
                       <img
-                        src={v.img}
+                        src={v?.img}
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           (e.currentTarget as HTMLImageElement).src = fallbackImage;
@@ -318,18 +351,18 @@ const ProductDetails = () => {
                       key={variantThumbs.length ? v.id : index}
                       onClick={() => {
                         if (variantThumbs.length) {
-                          setSelectedVariantId(v.id);
-                          setActiveImage(v.img);
+                          setSelectedVariantId(v?.id);
+                          setActiveImage(v?.img);
                         } else {
-                          setActiveImage(v.img);
+                          setActiveImage(v?.img);
                         }
                       }}
                       className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-primary" : "border-transparent"
-                        } ${v.qty <= 0 ? "opacity-50" : ""}`}
-                      title={v.label}
+                        } ${v?.qty <= 0 ? "opacity-50" : ""}`}
+                      title={v?.label}
                     >
                       <img
-                        src={v.img}
+                        src={v?.img}
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           (e.currentTarget as HTMLImageElement).src = fallbackImage;

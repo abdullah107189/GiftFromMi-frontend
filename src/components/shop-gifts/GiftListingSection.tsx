@@ -118,8 +118,8 @@ const GiftListingSection = ({ products }: { products: any }) => {
                     key={idx}
                     className="flex justify-between items-center text-gray-600 hover:text-primary cursor-pointer transition-colors p-2"
                   >
-                    <span>{cat.name}</span>
-                    <span className="text-[16px]">{cat.products_count}</span>
+                    <span>{cat?.name ?? "Category"}</span>
+                    <span className="text-[16px]">{cat?.products_count ?? 0}</span>
                   </li>
                 ))}
               </ul>
@@ -258,9 +258,13 @@ const GiftListingSection = ({ products }: { products: any }) => {
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products[0].products?.slice(0, 3).map((product: IProduct) => {
+              {products?.[0]?.products?.slice(0, 3)?.map((product: IProduct, index: number) => {
+                if (!product) return null;
                 return (
-                  <GiftBoxCard product={product} key={product.id}></GiftBoxCard>
+                  <GiftBoxCard
+                    product={product}
+                    key={product?.id ?? index}
+                  ></GiftBoxCard>
                 );
               })}
             </div>

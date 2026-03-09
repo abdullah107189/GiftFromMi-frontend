@@ -57,11 +57,13 @@ export function OrderSummary({
               className="flex justify-between items-start self-stretch"
             >
               <div className="space-y-0.5">
-                <p className="  font-medium text-gray-900">{item.name}</p>
-                <p className="text-sm text-gray-900">Qty: {item.qty}</p>
+                <p className="  font-medium text-gray-900">
+                  {item?.name ?? item?.title ?? "Product"}
+                </p>
+                <p className="text-sm text-gray-900">Qty: {item?.qty ?? 0}</p>
               </div>
               <p className="text-2xl font-semibold text-gray-900 font-manrope">
-                ${(item?.originalPrice * item?.qty).toFixed(2)}
+                ${((item?.originalPrice ?? 0) * (item?.qty ?? 0)).toFixed(2)}
               </p>
             </div>
           ))}
@@ -72,14 +74,14 @@ export function OrderSummary({
           <div className="flex justify-between items-center border-y border-[#EBECF0] md:py-6 py-4">
             <span className="text-gray-600 ">Subtotal</span>
             <span className="text-2xl font-semibold font-manrope">
-              ${subtotal.toFixed(2)}
+              ${subtotal?.toFixed(2)}
             </span>
           </div>
 
           <div className="flex justify-between items-center">
             <span className="text-xlfont-semibold text-gray-900">Total</span>
             <span className="text-3xl font-semibold text-primary font-manrope">
-              ${subtotal.toFixed(2)}
+              ${subtotal?.toFixed(2)}
             </span>
           </div>
 
@@ -128,7 +130,7 @@ export function OrderSummary({
           <div className="flex justify-between items-center pt-4 border-t border-gray-100">
             <span className="text-xl font-semibold text-gray-900">Total</span>
             <span className="text-3xl font-semibold text-primary font-manrope">
-              ${total.toFixed(2)}
+              ${total?.toFixed(2)}
             </span>
           </div>
         </div>

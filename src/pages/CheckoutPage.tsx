@@ -58,7 +58,7 @@ const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItemsArray);
   const total = useSelector(selectCartTotal);
   const subtotal = useSelector(selectCartSubtotal);
-
+  
   const [checkout, { isLoading: isCheckoutLoading }] = useCheckoutMutation();
   const [previewBulkCheckout, { isLoading: isBulkCheckoutLoading }] =
     usePreviewBulkCheckoutMutation();
@@ -128,10 +128,9 @@ const CheckoutPage = () => {
       });
 
       try {
-        const res: any = await checkout(bulkFormData).unwrap();
+        const res: any = await previewBulkCheckout(bulkFormData).unwrap();
         console.log("Bulk preview API response:", res);
         toast.success(res?.message || "Checkout completed successfully!");
-        window.location.replace(res?.data?.url);
       } catch (err: any) {
         const message =
           err?.data?.message ?? "Bulk preview failed. Please try again.";
