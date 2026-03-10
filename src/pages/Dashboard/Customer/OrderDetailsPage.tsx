@@ -22,12 +22,6 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-});
-
 const formatLabel = (value?: string) =>
   String(value ?? "")
     .replace(/_/g, " ")
@@ -145,26 +139,29 @@ export default function OrderDetailsPage() {
 
       <section className="overflow-hidden rounded-[32px] shadow-[0_16px_40px_rgba(17,24,39,0.08)]">
         <div className="bg-[linear-gradient(96deg,#D0A15A_5.18%,#C57200_96.62%)] px-5 py-6 text-white md:px-8 md:py-8">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-            <div>
+          <div className="flex gap-4 items-center justify-between">
+            <div className="w-fit">
               <p className="text-sm text-white/80">Order ID</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
                 {detailsOrder.order_id}
               </h2>
             </div>
-            <div>
-              <p className="text-sm text-white/80">Placed On</p>
+
+            <div className="w-fit">
+              <p className="text-sm text-white/80">Estimated Delivery</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
-                {dateFormatter.format(new Date(detailsOrder.created_at))}
+                {detailsOrder?.items?.[0]?.estimated_delivery ?? "N/A"}
               </h2>
             </div>
-            <div>
+
+            <div className="w-fit">
               <p className="text-sm text-white/80">Total Payment</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
                 {currencyFormatter.format(detailsOrder.total)}
               </h2>
             </div>
-            <div>
+
+            <div className="w-fit">
               <p className="text-sm text-white/80">Order Type</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
                 {isBulkOrder ? "Bulk Order" : "Single Order"}

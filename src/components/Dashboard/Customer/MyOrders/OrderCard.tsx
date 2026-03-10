@@ -128,7 +128,9 @@ export default function OrderCard({ order }: OrderCardProps) {
               <td className="pl-4 border-l border-white/20">
                 <div className="space-y-1">
                   <p className="font-medium">Placed On</p>
-                  <p className="font-semibold text-xl">{placedOn}</p>
+                  <p className="font-semibold text-xl">
+                    {order?.items?.[0]?.estimated_delivery ?? "N/A"}
+                  </p>
                 </div>
               </td>
             </tr>
@@ -169,7 +171,7 @@ export default function OrderCard({ order }: OrderCardProps) {
                 <div className="space-y-1">
                   <p className="font-medium">Placed On</p>
                   <p className="font-semibold md:text-2xl text-xl">
-                    {placedOn}
+                    {order?.items?.[0]?.estimated_delivery ?? "N/A"}
                   </p>
                 </div>
               </td>
