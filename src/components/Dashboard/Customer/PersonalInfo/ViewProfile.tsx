@@ -10,14 +10,13 @@ type Props = {
 };
 
 export default function ViewProfile({ profile }: Props) {
-  console.log(profile)
-  const avatarSrc =
-    profile.avatarUrl || profile.avatar || profileImg;
+  console.log(profile);
+  const avatarSrc = profile.avatarUrl || profile.avatar || profileImg;
 
   return (
     <div className="border border-(--Text-gray-200,#E5E7EB) shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] xl:rounded-4xl rounded-2xl  xl:p-10 md:p-6 p-3 border-solid">
       <div className="flex items-start justify-between gap-4">
-        <div className="relative xl:w-[150px] xl:h-[150px] md:w-[120px] md:h-[120px] w-[100px] h-[100px] xl:mb-12 lg:mb-10 md:mb-8 mb-6 shrink-0">
+        <div className="relative xl:w-37.5 xl:h-37.5 md:w-30 md:h-30 w-25 h-25 xl:mb-12 lg:mb-10 md:mb-8 mb-6 shrink-0">
           <img
             src={avatarSrc}
             alt="Profile"
@@ -26,17 +25,19 @@ export default function ViewProfile({ profile }: Props) {
         </div>
 
         <div className="pt-2">
-          <Link className="text-white xl:text-base text-sm font-medium rounded-2xl" to={`/customer-dashboard/edit-profile/${profile.id}`}>Edit Profile</Link>
-
+          <Link
+            className="text-white xl:text-base text-sm font-medium rounded-2xl"
+            to={`/customer-dashboard/edit-profile/${profile.id}`}
+          >
+            Edit Profile
+          </Link>
         </div>
       </div>
 
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <div className="text-gray-700 font-medium mb-2">
-              First Name
-            </div>
+            <div className="text-gray-700 font-medium mb-2">First Name</div>
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-primary" />
               <Input
@@ -48,9 +49,7 @@ export default function ViewProfile({ profile }: Props) {
           </div>
 
           <div>
-            <div className="text-gray-700 font-medium mb-2">
-              Last Name
-            </div>
+            <div className="text-gray-700 font-medium mb-2">Last Name</div>
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-primary" />
               <Input

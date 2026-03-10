@@ -1,45 +1,89 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { IProduct } from "@/types";
+import type { CustomerOrder } from "@/types/orders";
 
 interface OrderCardProps {
-  orderId: string;
-  totalPayment: string;
-  paymentMethod: string;
-  deliveryDate: string;
-  status: "accepted" | "delivered";
-  items: IProduct[];
+  order: CustomerOrder;
 }
 
-export default function OrderCard({
-  orderId,
-  totalPayment,
-  paymentMethod,
-  deliveryDate,
-  status,
-  items,
-}: OrderCardProps) {
-  const isAccepted = status === "accepted";
-  const isDelivered = status === "delivered";
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
+
+const formatLabel = (value: string) =>
+  value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+
+const getFulfillmentStatusClass = (status: string) => {
+  switch (status) {
+    case "delivered":
+      return "bg-primary-200 text-primary";
+    case "processing":
+      return "bg-[#E6F0FF] text-[#155DFC]";
+    case "cancelled":
+      return "bg-[#FFF1F3] text-[#F43F5E]";
+    default:
+      return "bg-[#FEF9C2] text-[#A65F00]";
+  }
+};
+
+const getPaymentStatusClass = (status: string) => {
+  switch (status) {
+    case "paid":
+      return "bg-[#DCFCE7] text-[#008236]";
+    case "failed":
+      return "bg-[#FFF1F3] text-[#F43F5E]";
+    case "refunded":
+      return "bg-[#F3F4F6] text-[#364153]";
+    default:
+      return "bg-[#FEF3C7] text-[#B45309]";
+  }
+};
+
+export default function OrderCard({ order }: OrderCardProps) {
+  const isBulkOrder = Boolean(Number(order.is_bulk));
+  const placedOn = dateFormatter.format(new Date(order.created_at));
+  const fulfillmentStatus = String(order.fulfillment_status).toLowerCase();
+  const paymentStatus = String(order.payment_status).toLowerCase();
+  const previewItems = order.items.slice(0, 4);
+  const hiddenItemsCount = Math.max(order.items.length - previewItems.length, 0);
+  const totalUnits = order.items.reduce(
+    (sum, item) => sum + (item.total_quantity ?? item.quantity ?? 0),
+    0
+  );
+  const firstDeliveryDate = order.items.find(
+    (item) => item.estimated_delivery && item.estimated_delivery !== "—"
+  )?.estimated_delivery;
+  const deliveryLabel = firstDeliveryDate || "Not available";
+  const canTrack = fulfillmentStatus === "processing";
+  const canReview = fulfillmentStatus === "delivered";
+  const canCancel =
+    fulfillmentStatus === "pending" || fulfillmentStatus === "processing";
 
   return (
     <div className="rounded-t-4xl overflow-hidden mb-8 overflow-x-auto!">
-      {/* ✅ XL stays same layout, add mobile/laptop stacking */}
       <div className="bg-[#CA8A32] md:p-6 p-4 text-white">
-        {/* Mobile/Tablet: 2x2 table */}
         <table className="w-full border-collapse md:table xl:hidden">
           <tbody>
             <tr className="align-top">
               <td className="pr-4 pb-4">
                 <div className="space-y-2">
                   <p className="font-medium">Order ID</p>
-                  <p className="font-semibold text-xl">{orderId}</p>
+                  <p className="font-semibold text-xl">{order.order_id}</p>
                 </div>
               </td>
               <td className="pl-4 pb-4 border-l border-white/20">
                 <div className="space-y-1">
                   <p className="font-medium">Total Payment</p>
-                  <p className="font-semibold text-xl">{totalPayment}</p>
+                  <p className="font-semibold text-xl">
+                    {currencyFormatter.format(order.total)}
+                  </p>
                 </div>
               </td>
             </tr>
@@ -48,20 +92,19 @@ export default function OrderCard({
               <td className="pr-4">
                 <div className="space-y-1">
                   <p className="font-medium">Payment Method</p>
-                  <p className="font-semibold text-xl">{paymentMethod}</p>
+                  <p className="font-semibold text-xl">{order.payment_method}</p>
                 </div>
               </td>
               <td className="pl-4 border-l border-white/20">
                 <div className="space-y-1">
-                  <p className="font-medium">Estimated Delivery Date</p>
-                  <p className="font-semibold text-xl">{deliveryDate}</p>
+                  <p className="font-medium">Placed On</p>
+                  <p className="font-semibold text-xl">{placedOn}</p>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
 
-        {/* ✅ XL (Figma) : exactly same (your 4-col look) */}
         <table className="w-full border-collapse hidden xl:table">
           <tbody>
             <tr className="align-top">
@@ -69,7 +112,7 @@ export default function OrderCard({
                 <div className="space-y-2">
                   <p className="font-medium">Order ID</p>
                   <p className="font-semibold md:text-2xl text-xl">
-                    {orderId}
+                    {order.order_id}
                   </p>
                 </div>
               </td>
@@ -78,7 +121,7 @@ export default function OrderCard({
                 <div className="space-y-1">
                   <p className="font-medium">Total Payment</p>
                   <p className="font-semibold md:text-2xl text-xl">
-                    {totalPayment}
+                    {currencyFormatter.format(order.total)}
                   </p>
                 </div>
               </td>
@@ -87,16 +130,16 @@ export default function OrderCard({
                 <div className="space-y-1">
                   <p className="font-medium">Payment Method</p>
                   <p className="font-semibold md:text-2xl text-xl">
-                    {paymentMethod}
+                    {order.payment_method}
                   </p>
                 </div>
               </td>
 
               <td className="pl-4 border-l border-white/20">
                 <div className="space-y-1">
-                  <p className="font-medium">Estimated Delivery Date</p>
+                  <p className="font-medium">Placed On</p>
                   <p className="font-semibold md:text-2xl text-xl">
-                    {deliveryDate}
+                    {placedOn}
                   </p>
                 </div>
               </td>
@@ -105,90 +148,152 @@ export default function OrderCard({
         </table>
       </div>
 
-      {/* ✅ Content padding: keep your xl feel, but allow smaller spacing on small screens */}
       <div className="py-4 md:py-6 space-y-4 md:space-y-6">
-        {items.slice(0, 4).map((item, idx) => (
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge className="bg-[#F5F5F6] text-gray-900 border-none rounded-full px-4 py-2 shadow-none">
+            {isBulkOrder ? "Bulk Order" : "Single Order"}
+          </Badge>
+          <p className="text-gray-500 font-normal text-sm sm:text-base">
+            {isBulkOrder
+              ? `${order.recipient_count ?? 0} recipients • ${totalUnits} total units`
+              : `${totalUnits} item${totalUnits === 1 ? "" : "s"} in this order`}
+          </p>
+          <p className="text-gray-500 font-normal text-sm sm:text-base">
+            Estimated delivery: {deliveryLabel}
+          </p>
+        </div>
+
+        {previewItems.map((item, idx) => (
           <div
-            key={item.id ?? idx}
+            key={`${order.id}-${item.id ?? idx}`}
             className="flex items-center gap-3 md:gap-4 border-b border-gray-200 pb-4 md:pb-5"
           >
-            {/* ✅ Image: keep XL sizes, shrink a bit on mobile */}
             <img
-              src={item.product_image?.[0]?.imageUrl || item.product_image?.[0]?.image || ""}
-              alt={item.title}
+              src={item.image}
+              alt={item.product_title}
               className="
                 w-[90px] h-[92px]
                 sm:w-[110px] sm:h-[113px]
                 lg:w-[130px] lg:h-[133px]
-                xl:lg:w-[150px] xl:lg:h-[153px]
+                xl:w-[150px] xl:h-[153px]
                 rounded-xl object-cover
               "
             />
 
             <div className="space-y-1 min-w-0">
-              {/* ✅ Title: XL keeps your 2xl; smaller screens reduce */}
               <h4 className="font-medium text-gray-900 text-lg sm:text-xl md:text-2xl md:mb-5 mb-3 truncate">
-                {item.title}
+                {item.product_title}
               </h4>
               <p className="text-gray-900 font-manrope text-sm sm:text-base">
-                Type: {item.category_id}
+                Category: {item.category}
+              </p>
+              <p className="text-gray-500 font-manrope text-sm sm:text-base">
+                {isBulkOrder
+                  ? `Quantity: ${item.total_quantity ?? 0} for ${
+                      order.recipient_count ?? 0
+                    } recipients`
+                  : `Quantity: ${item.quantity ?? 0}${
+                      item.sell_price
+                        ? ` • Unit price: ${currencyFormatter.format(
+                            item.sell_price
+                          )}`
+                        : ""
+                    }`}
+              </p>
+              <p className="text-gray-500 font-manrope text-sm sm:text-base">
+                Delivery:{" "}
+                {item.estimated_delivery && item.estimated_delivery !== "—"
+                  ? item.estimated_delivery
+                  : "Not available"}
               </p>
             </div>
           </div>
         ))}
 
-        {/* Footer Actions */}
+        {hiddenItemsCount > 0 && (
+          <p className="text-sm text-gray-500">
+            +{hiddenItemsCount} more item{hiddenItemsCount === 1 ? "" : "s"} in
+            this order
+          </p>
+        )}
+
         <div className="flex flex-col justify-between gap-4 md:gap-6 pt-4">
-          {/* Status */}
           <div className="flex flex-wrap items-center gap-3">
             <Badge
-              className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${
-                isAccepted
-                  ? "bg-primary-200 text-primary"
-                  : "bg-primary-50 text-primary border border-primary"
-              }`}
+              className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getFulfillmentStatusClass(
+                fulfillmentStatus
+              )}`}
             >
-              {status}
+              {formatLabel(fulfillmentStatus)}
+            </Badge>
+            <Badge
+              className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getPaymentStatusClass(
+                paymentStatus
+              )}`}
+            >
+              Payment: {formatLabel(paymentStatus)}
             </Badge>
 
             <p className="text-gray-500 font-normal text-sm sm:text-base">
-              Your Order has been {status.toLowerCase()}
+              Order placed on {placedOn}
             </p>
           </div>
 
-          {/* ✅ Buttons: mobile => stack / wrap nicely, XL keeps same look */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
             <div className="gap-3 md:gap-4 flex flex-wrap">
-              {isAccepted && (
+              {canTrack && (
                 <>
                   <Button
                     className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
                     variant={"secondary"}
                   >
-                    Tracker Order
+                    Track Order
                   </Button>
-                  <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
+                  <Button
+                    variant="outline"
+                    className="px-5 sm:px-6 rounded-2xl"
+                  >
                     Invoice
                   </Button>
                 </>
               )}
 
-              {isDelivered && (
+              {canReview && (
                 <>
                   <Button
                     className="h-auto px-5 sm:px-6 py-3 sm:py-4 rounded-2xl"
                     variant={"secondary"}
                   >
-                    Ad Review
+                    Add Review
                   </Button>
-                  <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
+                  <Button
+                    variant="outline"
+                    className="px-5 sm:px-6 rounded-2xl"
+                  >
+                    Invoice
+                  </Button>
+                </>
+              )}
+
+              {fulfillmentStatus === "pending" && (
+                <>
+                  <Button
+                    className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
+                    variant={"secondary"}
+                  >
+                    View Details
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="px-5 sm:px-6 rounded-2xl"
+                  >
                     Invoice
                   </Button>
                 </>
               )}
             </div>
 
-            {isAccepted && (
+            {canCancel && (
               <Button
                 variant="ghost"
                 className="
