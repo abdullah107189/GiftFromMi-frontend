@@ -55,13 +55,16 @@ export default function OrderCard({ order }: OrderCardProps) {
   const fulfillmentStatus = String(order.fulfillment_status).toLowerCase();
   const paymentStatus = String(order.payment_status).toLowerCase();
   const previewItems = order.items.slice(0, 4);
-  const hiddenItemsCount = Math.max(order.items.length - previewItems.length, 0);
+  const hiddenItemsCount = Math.max(
+    order.items.length - previewItems.length,
+    0,
+  );
   const totalUnits = order.items.reduce(
     (sum, item) => sum + (item.total_quantity ?? item.quantity ?? 0),
-    0
+    0,
   );
   const firstDeliveryDate = order.items.find((item) =>
-    hasDeliveryDate(item.estimated_delivery)
+    hasDeliveryDate(item.estimated_delivery),
   )?.estimated_delivery;
   const deliveryLabel = firstDeliveryDate || "Not available";
   const canTrack = fulfillmentStatus === "processing";
@@ -95,7 +98,9 @@ export default function OrderCard({ order }: OrderCardProps) {
               <td className="pr-4">
                 <div className="space-y-1">
                   <p className="font-medium">Payment Method</p>
-                  <p className="font-semibold text-xl">{order.payment_method}</p>
+                  <p className="font-semibold text-xl">
+                    {order.payment_method}
+                  </p>
                 </div>
               </td>
               <td className="pl-4 border-l border-white/20">
@@ -198,7 +203,7 @@ export default function OrderCard({ order }: OrderCardProps) {
                   : `Quantity: ${item.quantity ?? 0}${
                       item.sell_price
                         ? ` • Unit price: ${currencyFormatter.format(
-                            item.sell_price
+                            item.sell_price,
                           )}`
                         : ""
                     }`}
@@ -224,14 +229,14 @@ export default function OrderCard({ order }: OrderCardProps) {
           <div className="flex flex-wrap items-center gap-3">
             <Badge
               className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getFulfillmentStatusClass(
-                fulfillmentStatus
+                fulfillmentStatus,
               )}`}
             >
               {formatLabel(fulfillmentStatus)}
             </Badge>
             <Badge
               className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getPaymentStatusClass(
-                paymentStatus
+                paymentStatus,
               )}`}
             >
               Payment: {formatLabel(paymentStatus)}

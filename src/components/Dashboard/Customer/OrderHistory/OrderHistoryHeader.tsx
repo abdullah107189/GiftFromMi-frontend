@@ -1,9 +1,8 @@
 import SharedDropdown from "@/components/shared/SharedDropdown";
 
 const historyOptions = [
-  { label: "All History", value: "all" },
+  { label: "All Delivered", value: "all" },
   { label: "Paid Orders", value: "paid" },
-  { label: "Delivered Only", value: "delivered" },
   { label: "Bulk Orders", value: "bulk" },
 ];
 
@@ -25,8 +24,7 @@ export default function OrderHistoryHeader({
           Order History ({totalCount})
         </h2>
         <p className="text-[#64748B] text-sm md:mt-4 mt-2">
-          Review completed and paid orders from the same orders response, then
-          reorder products instantly.
+          Review only delivered orders, then reorder products instantly.
         </p>
       </div>
 
