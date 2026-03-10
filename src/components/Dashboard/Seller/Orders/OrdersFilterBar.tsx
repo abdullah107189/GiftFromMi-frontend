@@ -4,7 +4,7 @@ import * as React from "react";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import { Input } from "@/components/ui/input"; 
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SharedDropdown from "@/components/shared/SharedDropdown";
 

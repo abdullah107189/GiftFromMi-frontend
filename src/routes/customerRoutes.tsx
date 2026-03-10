@@ -1,4 +1,5 @@
 import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
+import OrderDetailsPage from "@/pages/Dashboard/Customer/OrderDetailsPage";
 import OrderHistoryPage from "@/pages/Dashboard/Customer/OrderHistoryPage";
 import { OrderListPage } from "@/pages/Dashboard/Customer/OrderListPage";
 import type { ISidebarItem } from "@/types";
@@ -14,6 +15,12 @@ export const customerRoutes: ISidebarItem[] = [
     title: "Order History",
     url: "/order-history",
     component: OrderHistoryPage,
+  },
+  {
+    title: "Order Details",
+    url: "/order-list/order-details/:orderId",
+    component: OrderDetailsPage,
+    hidden: true,
   },
   {
     title: "Settings",

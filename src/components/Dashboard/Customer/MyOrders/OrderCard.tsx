@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { CustomerOrder } from "@/types/orders";
+import { Link } from "react-router";
 
 interface OrderCardProps {
   order: CustomerOrder;
@@ -63,9 +64,11 @@ export default function OrderCard({ order }: OrderCardProps) {
     (sum, item) => sum + (item.total_quantity ?? item.quantity ?? 0),
     0,
   );
+
   const firstDeliveryDate = order.items.find((item) =>
     hasDeliveryDate(item.estimated_delivery),
   )?.estimated_delivery;
+
   const deliveryLabel = firstDeliveryDate || "Not available";
   const canTrack = fulfillmentStatus === "processing";
   const canReview = fulfillmentStatus === "delivered";
@@ -156,7 +159,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         </table>
       </div>
 
-      <div className="py-4 md:py-6 space-y-4 md:space-y-6">
+      <div className="py-4 md:py-6 space-y-4 md:space-y-6 border border-gray-200 p-2 rounded-b-3xl">
         <div className="flex flex-wrap items-center gap-3">
           <Badge className="bg-[#F5F5F6] text-gray-900 border-none rounded-full px-4 py-2 shadow-none">
             {isBulkOrder ? "Bulk Order" : "Single Order"}
@@ -225,7 +228,7 @@ export default function OrderCard({ order }: OrderCardProps) {
           </p>
         )}
 
-        <div className="flex flex-col justify-between gap-4 md:gap-6 pt-4">
+        <div className="flex flex-col justify-between gap-4 md:gap-6 pt-4 ">
           <div className="flex flex-wrap items-center gap-3">
             <Badge
               className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getFulfillmentStatusClass(
@@ -299,9 +302,16 @@ export default function OrderCard({ order }: OrderCardProps) {
                   </Button>
                 </>
               )}
+              <Link
+                to={`/customer-dashboard/order-list/order-details/${order.id}`}
+              >
+                <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
+                  View All Details
+                </Button>
+              </Link>
             </div>
 
-            {canCancel && (
+            {canCancel && order.payment_status === "pending" && (
               <Button
                 variant="ghost"
                 className="

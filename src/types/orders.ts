@@ -33,7 +33,7 @@ export interface CustomerOrder {
   id: number;
   order_id: string;
   total: number;
-  payment_method: string;
+  payment_method?: string;
   fulfillment_status: OrderFulfillmentStatus | string;
   payment_status: OrderPaymentStatus | string;
   created_at: string;
@@ -44,6 +44,36 @@ export interface CustomerOrder {
 
 export interface CustomerOrdersResponse {
   data: CustomerOrder[];
+  message: string;
+  status: number;
+}
+
+export interface CustomerOrderRecipientItem {
+  id: number;
+  product_title: string;
+  category: string;
+  quantity: number;
+  sell_price: number;
+  image: string;
+  estimated_delivery?: string;
+}
+
+export interface CustomerOrderRecipient {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  full_address: string;
+  items: CustomerOrderRecipientItem[];
+}
+
+export interface CustomerOrderDetails extends Omit<CustomerOrder, "items"> {
+  items?: CustomerOrderItem[];
+  recipients: CustomerOrderRecipient[];
+}
+
+export interface CustomerOrderDetailsResponse {
+  data: CustomerOrderDetails;
   message: string;
   status: number;
 }

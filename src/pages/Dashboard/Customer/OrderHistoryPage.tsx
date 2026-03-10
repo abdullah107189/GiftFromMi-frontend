@@ -62,7 +62,7 @@ const OrderHistoryPage = () => {
         totalCount={historyOrders.length}
       />
       {historyOrders.length === 0 ? (
-        <div className="relative overflow-hidden shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] xl:rounded-4xl lg:rounded-3xl rounded-2xl xl:p-10 lg:p-6 md:p-5 p-4 bg-[radial-gradient(circle_at_top,_rgba(202,138,50,0.14),_transparent_38%),linear-gradient(180deg,#FFFFFF_0%,#FFF9F1_100%)] border border-[#F3E5CC]">
+        <div className="relative overflow-hidden shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] xl:rounded-4xl lg:rounded-3xl rounded-2xl xl:p-10 lg:p-6 md:p-5 p-4 bg-[radial-gradient(circle_at_top,rgba(202,138,50,0.14),transparent_38%),linear-gradient(180deg,#FFFFFF_0%,#FFF9F1_100%)] border border-[#F3E5CC]">
           <div className="mx-auto max-w-2xl text-center py-8 md:py-12">
             <div className="mx-auto mb-6 flex h-18 w-18 md:h-20 md:w-20 items-center justify-center rounded-[28px] bg-white shadow-[0_16px_40px_rgba(202,138,50,0.16)] ring-1 ring-[#E8D7B8]">
               <PackageSearch className="h-9 w-9 text-[#CA8A32]" />

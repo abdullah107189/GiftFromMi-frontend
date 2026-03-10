@@ -18,21 +18,28 @@ export function OrderListPage() {
   const displayedOrders = [...customerOrdersResponse.data]
     .filter((order) => {
       if (filter === "paid_only") {
-        return order.payment_status === "paid";
+        return (
+          order.payment_status === "paid" &&
+          order.fulfillment_status !== "delivered"
+        );
       }
 
       if (filter === "pending_only") {
         return (
-          order.fulfillment_status === "pending" ||
-          order.payment_status === "pending"
+          (order.fulfillment_status === "pending" ||
+            order.payment_status === "pending") &&
+          order.fulfillment_status !== "delivered"
         );
       }
 
       if (filter === "bulk_only") {
-        return Boolean(Number(order.is_bulk));
+        return (
+          Boolean(Number(order.is_bulk)) &&
+          order.fulfillment_status !== "delivered"
+        );
       }
 
-      return true;
+      return order.fulfillment_status !== "delivered";
     })
     .sort((firstOrder, secondOrder) => {
       const firstTime = new Date(firstOrder.created_at).getTime();
@@ -44,7 +51,6 @@ export function OrderListPage() {
 
       return secondTime - firstTime;
     });
-
   return (
     <div className="">
       <SEO
@@ -68,9 +74,11 @@ export function OrderListPage() {
       </div>
 
       <div className="max-w-6xl mx-auto xl:p-10 lg:p-8 md:p-6 p-4 bg-white shadow-[0_6px_16px_0_rgba(0,0,0,0.12)] rounded-4xl overflow-hidden">
-        {displayedOrders.map((order) => (
-          <OrderCard key={order.id} order={order} />
-        ))}
+        {displayedOrders
+          .filter((order) => order.fulfillment_status !== "delivered")
+          .map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
       </div>
     </div>
   );
