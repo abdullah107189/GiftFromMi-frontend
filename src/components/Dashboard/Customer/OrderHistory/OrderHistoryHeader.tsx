@@ -1,31 +1,40 @@
 import SharedDropdown from "@/components/shared/SharedDropdown";
-import { useState } from "react";
 
-const monthOptions = [
-  { label: "Previous Month", value: "previous" },
-  { label: "12 Nov 2025", value: "12 Nov 2025" },
-  { label: "4 Oct 2025", value: "4 Oct 2025" },
+const historyOptions = [
+  { label: "All History", value: "all" },
+  { label: "Paid Orders", value: "paid" },
+  { label: "Delivered Only", value: "delivered" },
+  { label: "Bulk Orders", value: "bulk" },
 ];
 
-export default function OrderHistoryHeader() {
-  const [filter, setFilter] = useState("previous");
+interface OrderHistoryHeaderProps {
+  filter: string;
+  onFilterChange: (value: string) => void;
+  totalCount: number;
+}
 
+export default function OrderHistoryHeader({
+  filter,
+  onFilterChange,
+  totalCount,
+}: OrderHistoryHeaderProps) {
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
       <div>
         <h2 className="text-3xl font-semibold text-gray-900">
-          {filter === "previous" ? "Previous Month Orders" : ""}
+          Order History ({totalCount})
         </h2>
         <p className="text-[#64748B] text-sm md:mt-4 mt-2">
-          Review your last month's orders and reorder products instantly.
+          Review completed and paid orders from the same orders response, then
+          reorder products instantly.
         </p>
       </div>
 
       <div className="flex items-center gap-3">
         <SharedDropdown
-          options={monthOptions}
+          options={historyOptions}
           selectedValue={filter}
-          onValueChange={(val) => setFilter(val)}
+          onValueChange={onFilterChange}
           className="bg-[#F8FAFC] border border-gray-100 rounded-xl px-4 py-2 h-11 min-w-[180px]"
           triggerIcon={
             <svg

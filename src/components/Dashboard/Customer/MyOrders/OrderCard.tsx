@@ -46,6 +46,9 @@ const getPaymentStatusClass = (status: string) => {
   }
 };
 
+const hasDeliveryDate = (delivery?: string) =>
+  Boolean(delivery) && delivery !== "-" && delivery !== "—";
+
 export default function OrderCard({ order }: OrderCardProps) {
   const isBulkOrder = Boolean(Number(order.is_bulk));
   const placedOn = dateFormatter.format(new Date(order.created_at));
@@ -57,8 +60,8 @@ export default function OrderCard({ order }: OrderCardProps) {
     (sum, item) => sum + (item.total_quantity ?? item.quantity ?? 0),
     0
   );
-  const firstDeliveryDate = order.items.find(
-    (item) => item.estimated_delivery && item.estimated_delivery !== "—"
+  const firstDeliveryDate = order.items.find((item) =>
+    hasDeliveryDate(item.estimated_delivery)
   )?.estimated_delivery;
   const deliveryLabel = firstDeliveryDate || "Not available";
   const canTrack = fulfillmentStatus === "processing";
@@ -202,7 +205,7 @@ export default function OrderCard({ order }: OrderCardProps) {
               </p>
               <p className="text-gray-500 font-manrope text-sm sm:text-base">
                 Delivery:{" "}
-                {item.estimated_delivery && item.estimated_delivery !== "—"
+                {hasDeliveryDate(item.estimated_delivery)
                   ? item.estimated_delivery
                   : "Not available"}
               </p>
