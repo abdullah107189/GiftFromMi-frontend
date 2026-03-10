@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { CustomerOrder } from "@/types/orders";
 import { Link } from "react-router";
+import { useLazyExportOrderQuery } from "@/redux/features/order/order.api";
+import { downloadCSVFile } from "@/utils/downloadCSVFile";
 
 interface OrderCardProps {
   order: CustomerOrder;
@@ -51,6 +53,24 @@ const hasDeliveryDate = (delivery?: string) =>
   Boolean(delivery) && delivery !== "-" && delivery !== "—";
 
 export default function OrderCard({ order }: OrderCardProps) {
+  console.log(order.id);
+
+  const [exportOrder, { isLoading: isLoadingExportOrder }] =
+    useLazyExportOrderQuery();
+
+  const handleDownload = async () => {
+    try {
+      const res = await exportOrder(order.id).unwrap();
+
+      if (!res) return;
+
+      const productName = `order_${order.order_id}`;
+
+      downloadCSVFile(res, productName);
+    } catch (error) {
+      console.error("CSV download failed", error);
+    }
+  };
   const isBulkOrder = Boolean(Number(order.is_bulk));
   const placedOn = dateFormatter.format(new Date(order.created_at));
   const fulfillmentStatus = String(order.fulfillment_status).toLowerCase();
@@ -70,8 +90,7 @@ export default function OrderCard({ order }: OrderCardProps) {
   )?.estimated_delivery;
 
   const deliveryLabel = firstDeliveryDate || "Not available";
-  const canTrack = fulfillmentStatus === "processing";
-  const canReview = fulfillmentStatus === "delivered";
+
   const canCancel =
     fulfillmentStatus === "pending" || fulfillmentStatus === "processing";
 
@@ -252,56 +271,15 @@ export default function OrderCard({ order }: OrderCardProps) {
 
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
             <div className="gap-3 md:gap-4 flex flex-wrap">
-              {canTrack && (
-                <>
-                  <Button
-                    className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
-                    variant={"secondary"}
-                  >
-                    Track Order
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="px-5 sm:px-6 rounded-2xl"
-                  >
-                    Invoice
-                  </Button>
-                </>
-              )}
+              <Button
+                onClick={handleDownload}
+                disabled={isLoadingExportOrder}
+                className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
+                variant="secondary"
+              >
+                {isLoadingExportOrder ? "Preparing..." : "Download CSV"}
+              </Button>
 
-              {canReview && (
-                <>
-                  <Button
-                    className="h-auto px-5 sm:px-6 py-3 sm:py-4 rounded-2xl"
-                    variant={"secondary"}
-                  >
-                    Add Review
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="px-5 sm:px-6 rounded-2xl"
-                  >
-                    Invoice
-                  </Button>
-                </>
-              )}
-
-              {fulfillmentStatus === "pending" && (
-                <>
-                  <Button
-                    className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
-                    variant={"secondary"}
-                  >
-                    View Details
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="px-5 sm:px-6 rounded-2xl"
-                  >
-                    Invoice
-                  </Button>
-                </>
-              )}
               <Link
                 to={`/customer-dashboard/order-list/order-details/${order.id}`}
               >

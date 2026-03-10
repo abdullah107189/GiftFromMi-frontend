@@ -10,7 +10,8 @@ import PageLoader from "@/components/shared/PageLoader";
 
 const OrderHistoryPage = () => {
   const [filter, setFilter] = useState("all");
-  const { data: customerOrders = [], isLoading } = useGetAllOrderQuery(undefined);
+  const { data: customerOrders = [], isLoading } =
+    useGetAllOrderQuery(undefined);
 
   if (isLoading) {
     return <PageLoader />;

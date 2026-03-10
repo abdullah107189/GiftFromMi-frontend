@@ -22,7 +22,15 @@ const orderApi = baseApi.injectEndpoints({
       }),
       transformResponse: (res: CustomerOrderDetailsResponse) => res.data,
     }),
+
+    exportOrder: builder.query<string, number>({
+      query: (id) => ({
+        url: `/order/${id}/export`,
+        method: "GET",
+        responseHandler: "text",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllOrderQuery, useGetSingleOrderQuery } = orderApi;
+export const { useGetAllOrderQuery, useGetSingleOrderQuery, useExportOrderQuery, useLazyExportOrderQuery } = orderApi;
