@@ -24,7 +24,7 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
   const isBulkOrder = Boolean(Number(order.is_bulk));
   const totalUnits = order.items.reduce(
     (sum, item) => sum + (item.total_quantity ?? item.quantity ?? 0),
-    0
+    0,
   );
 
   return (
@@ -44,13 +44,6 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
             {formatLabel(String(order.fulfillment_status))}
           </Badge>
         </div>
-
-        <Button
-          variant={"secondary"}
-          className="rounded-lg md:px-2.5! px-2  font-medium"
-        >
-          Reorder All
-        </Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mb-4 md:mb-6">
@@ -100,13 +93,6 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
                   </p>
                 </div>
               </div>
-
-              <Button
-                variant="outline"
-                className="font-medium md:p-2.5! p-2 rounded-lg"
-              >
-                Add Again
-              </Button>
             </div>
 
             {index !== order.items.length - 1 && (
@@ -114,6 +100,17 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
             )}
           </div>
         ))}
+      </div>
+      <div className="mt-3 gap-4 flex">
+        <Button
+          className="h-auto px-5 sm:px-6 py-3 sm:py-4 rounded-2xl"
+          variant={"secondary"}
+        >
+          Add Review
+        </Button>
+        <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
+          Invoice
+        </Button>
       </div>
     </div>
   );

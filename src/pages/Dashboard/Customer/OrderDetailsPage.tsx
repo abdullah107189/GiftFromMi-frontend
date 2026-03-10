@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router";
 import {
+  AlertCircle,
   ArrowLeft,
   CalendarDays,
   Mail,
@@ -13,7 +14,8 @@ import SEO from "@/components/shared/SEO";
 import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getCustomerOrderDetail } from "@/data/customerOrderDetails";
+import PageLoader from "@/components/shared/PageLoader";
+import { useGetSingleOrderQuery } from "@/redux/features/order/order.api";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -50,14 +52,37 @@ const getBadgeClass = (status?: string) => {
   }
 };
 
+const BackToOrdersButton = ({
+  variant = "outline",
+}: {
+  variant?: "default" | "outline";
+}) => (
+  <Link to="/customer-dashboard/order-list">
+    <Button variant={variant} className="rounded-2xl">
+      <ArrowLeft className="h-4 w-4" />
+      Back to Order List
+    </Button>
+  </Link>
+);
+
 export default function OrderDetailsPage() {
   const params = useParams();
   const orderId = Number(params.orderId);
-  const order = Number.isNaN(orderId)
-    ? undefined
-    : getCustomerOrderDetail(orderId);
+  const shouldSkipQuery = Number.isNaN(orderId);
 
-  if (!order) {
+  const {
+    data: detailsOrder,
+    isLoading: isLoadingOrderDetails,
+    isError: isOrderDetailsError,
+  } = useGetSingleOrderQuery(orderId, {
+    skip: shouldSkipQuery,
+  });
+
+  if (isLoadingOrderDetails) {
+    return <PageLoader />;
+  }
+
+  if (shouldSkipQuery || isOrderDetailsError || !detailsOrder) {
     return (
       <div>
         <SEO title="Order Details" description="Review your order details." />
@@ -65,64 +90,57 @@ export default function OrderDetailsPage() {
           <DynamicBreadcrumb customLabel="Order Details" />
         </div>
         <div className="rounded-[32px] border border-[#F3E5CC] bg-[linear-gradient(180deg,#FFFFFF_0%,#FFF8EE_100%)] p-6 text-center shadow-[0_16px_40px_rgba(17,24,39,0.08)] md:p-8">
-          <div className="mx-auto mb-5 flex h-18 w-18 items-center justify-center rounded-[24px] bg-white shadow-[0_16px_32px_rgba(202,138,50,0.14)]">
-            <ReceiptText className="h-8 w-8 text-[#CA8A32]" />
+          <div className="mx-auto mb-5 flex h-[72px] w-[72px] items-center justify-center rounded-[24px] bg-white shadow-[0_16px_32px_rgba(202,138,50,0.14)]">
+            <AlertCircle className="h-8 w-8 text-[#CA8A32]" />
           </div>
           <h1 className="text-2xl font-semibold text-gray-900 md:text-3xl">
-            Order details not found
+            Order details not available
           </h1>
           <p className="mt-3 text-sm text-[#64748B] md:text-base">
-            This dummy order is not available yet. After API integration you can
-            fetch the details here using the order id.
+            We could not load this order right now. Please try again after the
+            API responds with valid order detail data.
           </p>
-          <Button asChild className="mt-8 rounded-2xl">
-            <Link to="/customer-dashboard/order-list">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Order List
-            </Link>
-          </Button>
+          <div className="mt-8 flex justify-center">
+            <BackToOrdersButton variant="default" />
+          </div>
         </div>
       </div>
     );
   }
 
-  const isBulkOrder = Boolean(Number(order.is_bulk));
-  const totalRecipients = order.recipients.length;
-  const totalItems = order.recipients.reduce(
-    (sum, recipient) =>
-      sum +
-      recipient.items.reduce(
-        (recipientSum, item) => recipientSum + item.quantity,
-        0,
-      ),
-    0,
-  );
+  const isBulkOrder = Boolean(Number(detailsOrder.is_bulk));
+  const totalRecipients = detailsOrder.recipients?.length ?? 0;
+  const totalItems =
+    detailsOrder.recipients?.reduce(
+      (sum, recipient) =>
+        sum +
+        recipient.items.reduce(
+          (recipientSum, item) => recipientSum + item.quantity,
+          0,
+        ),
+      0,
+    ) ?? 0;
 
   return (
     <div className="space-y-6">
       <SEO
-        title={`Order Details | ${order.order_id}`}
+        title={`Order Details | ${detailsOrder.order_id}`}
         description="Review your order details, recipients, and item summary."
       />
 
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <DynamicBreadcrumb customLabel={order.order_id} />
+          <DynamicBreadcrumb customLabel={detailsOrder.order_id} />
           <h1 className="mt-3 text-2xl font-semibold text-gray-900 md:text-3xl">
             Order Details
           </h1>
           <p className="mt-2 text-sm text-[#64748B] md:text-base">
-            Detailed view for your {isBulkOrder ? "bulk" : "single"} order with
-            recipient-level delivery information.
+            API-driven details view for your {isBulkOrder ? "bulk" : "single"}{" "}
+            order.
           </p>
         </div>
 
-        <Button asChild variant="outline" className="rounded-2xl">
-          <Link to="/customer-dashboard/order-list">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Order List
-          </Link>
-        </Button>
+        <BackToOrdersButton />
       </div>
 
       <section className="overflow-hidden rounded-[32px] shadow-[0_16px_40px_rgba(17,24,39,0.08)]">
@@ -131,19 +149,19 @@ export default function OrderDetailsPage() {
             <div>
               <p className="text-sm text-white/80">Order ID</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
-                {order.order_id}
+                {detailsOrder.order_id}
               </h2>
             </div>
             <div>
               <p className="text-sm text-white/80">Placed On</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
-                {dateFormatter.format(new Date(order.created_at))}
+                {dateFormatter.format(new Date(detailsOrder.created_at))}
               </h2>
             </div>
             <div>
               <p className="text-sm text-white/80">Total Payment</p>
               <h2 className="mt-2 text-xl font-semibold md:text-2xl">
-                {currencyFormatter.format(order.total)}
+                {currencyFormatter.format(detailsOrder.total)}
               </h2>
             </div>
             <div>
@@ -158,17 +176,17 @@ export default function OrderDetailsPage() {
         <div className="bg-white p-5 md:p-8">
           <div className="flex flex-wrap items-center gap-3">
             <Badge
-              className={`border-none px-4 py-2 shadow-none ${getBadgeClass(order.fulfillment_status)}`}
+              className={`border-none px-4 py-2 shadow-none ${getBadgeClass(detailsOrder.fulfillment_status)}`}
             >
-              {formatLabel(order.fulfillment_status)}
+              {formatLabel(detailsOrder.fulfillment_status)}
             </Badge>
             <Badge
-              className={`border-none px-4 py-2 shadow-none ${getBadgeClass(order.payment_status)}`}
+              className={`border-none px-4 py-2 shadow-none ${getBadgeClass(detailsOrder.payment_status)}`}
             >
-              Payment: {formatLabel(order.payment_status)}
+              Payment: {formatLabel(detailsOrder.payment_status)}
             </Badge>
             <Badge className="border-none bg-[#F5F5F6] px-4 py-2 text-gray-700 shadow-none">
-              {order.payment_method ?? "Card"}
+              {detailsOrder.payment_method ?? "Card"}
             </Badge>
           </div>
 
@@ -207,7 +225,7 @@ export default function OrderDetailsPage() {
                 <span className="text-sm font-medium">Delivery Window</span>
               </div>
               <p className="mt-4 text-3xl font-semibold text-gray-900">
-                {order.recipients.some((recipient) =>
+                {detailsOrder.recipients?.some((recipient) =>
                   recipient.items.some((item) =>
                     hasDeliveryDate(item.estimated_delivery),
                   ),
@@ -216,7 +234,7 @@ export default function OrderDetailsPage() {
                   : "Pending"}
               </p>
               <p className="mt-1 text-sm text-[#64748B]">
-                Estimated delivery will appear here after API integration
+                Recipient-specific delivery estimates from the API
               </p>
             </div>
           </div>
@@ -231,7 +249,8 @@ export default function OrderDetailsPage() {
                 Recipient Breakdown
               </h2>
               <p className="text-sm text-[#64748B] md:text-base">
-                Every recipient and item from this order is shown below.
+                Every recipient and item from the API response is rendered
+                below.
               </p>
             </div>
             <Badge className="w-fit border-none bg-[#F5F5F6] px-4 py-2 text-gray-700 shadow-none">
@@ -240,7 +259,7 @@ export default function OrderDetailsPage() {
           </div>
 
           <div className="mt-6 space-y-5">
-            {order.recipients.map((recipient) => (
+            {detailsOrder.recipients?.map((recipient) => (
               <div
                 key={recipient.id}
                 className="rounded-[28px] border border-[#ECECEC] bg-[#FCFCFC] p-4 md:p-5"
@@ -325,19 +344,19 @@ export default function OrderDetailsPage() {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-[#64748B]">Order total</span>
                 <span className="font-semibold text-gray-900">
-                  {currencyFormatter.format(order.total)}
+                  {currencyFormatter.format(detailsOrder.total)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-[#64748B]">Payment status</span>
                 <span className="font-semibold text-gray-900">
-                  {formatLabel(order.payment_status)}
+                  {formatLabel(detailsOrder.payment_status)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-[#64748B]">Fulfillment</span>
                 <span className="font-semibold text-gray-900">
-                  {formatLabel(order.fulfillment_status)}
+                  {formatLabel(detailsOrder.fulfillment_status)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -349,26 +368,35 @@ export default function OrderDetailsPage() {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-[#64748B]">Payment method</span>
                 <span className="font-semibold text-gray-900">
-                  {order.payment_method ?? "Card"}
+                  {detailsOrder.payment_method ?? "Card"}
                 </span>
               </div>
             </div>
           </div>
 
           <div className="rounded-[32px] border border-[#F3E5CC] bg-[linear-gradient(180deg,#FFF8EE_0%,#FFFFFF_100%)] p-5 shadow-[0_16px_40px_rgba(202,138,50,0.08)] md:p-6">
-            <h2 className="text-xl font-semibold text-gray-900">
-              API Integration Note
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-[#64748B]">
-              This page is wired with dummy detail data for now. Later you can
-              replace the lookup with your order details API and keep the same
-              UI structure.
+            <div className="mb-3 flex items-center gap-3">
+              <ReceiptText className="h-5 w-5 text-[#CA8A32]" />
+              <h2 className="text-xl font-semibold text-gray-900">
+                Live API Ready
+              </h2>
+            </div>
+            <p className="text-sm leading-6 text-[#64748B]">
+              This screen now renders directly from
+              `useGetSingleOrderQuery(orderId)`. Later you only need to refine
+              actions like invoice, cancel, or track.
             </p>
-            <Button asChild variant="outline" className="mt-5 rounded-2xl">
-              <Link to="/customer-dashboard/order-list">
-                Back to active orders
-              </Link>
-            </Button>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Badge className="border-none bg-white px-3 py-1.5 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
+                API data
+              </Badge>
+              <Badge className="border-none bg-white px-3 py-1.5 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
+                Responsive layout
+              </Badge>
+              <Badge className="border-none bg-white px-3 py-1.5 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
+                Bulk + single order support
+              </Badge>
+            </div>
           </div>
         </div>
       </section>
