@@ -10,7 +10,7 @@ const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllOrder: builder.query<CustomerOrder[], void>({
       query: () => ({
-        url: "/orders",
+        url: "/order",
         method: "GET",
       }),
       transformResponse: (res: CustomerOrdersResponse) => res.data,

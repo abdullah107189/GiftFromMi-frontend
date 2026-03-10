@@ -1,14 +1,20 @@
 import OrderHistoryHeader from "@/components/Dashboard/Customer/OrderHistory/OrderHistoryHeader";
 import ReorderCard from "@/components/Dashboard/Customer/OrderHistory/ReorderCard";
 import SEO from "@/components/shared/SEO";
-import { customerOrders } from "@/data/customerOrders";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PackageSearch, ShoppingBag } from "lucide-react";
 import { Link } from "react-router";
+import { useGetAllOrderQuery } from "@/redux/features/order/order.api";
+import PageLoader from "@/components/shared/PageLoader";
 
 const OrderHistoryPage = () => {
   const [filter, setFilter] = useState("all");
+  const { data: customerOrders = [], isLoading } = useGetAllOrderQuery(undefined);
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   const historyOrders = customerOrders
     .filter((order) => order.fulfillment_status === "delivered")

@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import OrderCard from "@/components/Dashboard/Customer/MyOrders/OrderCard";
 import SharedDropdown from "@/components/shared/SharedDropdown";
 import { useState } from "react";
 import SEO from "@/components/shared/SEO";
-import { customerOrdersResponse } from "@/data/customerOrders";
-
+import { useGetAllOrderQuery } from "@/redux/features/order/order.api";
+import PageLoader from "@/components/shared/PageLoader";
 export function OrderListPage() {
+  const { data: customerOrdersResponse, isLoading: isLoadingGetAllOrder } =
+    useGetAllOrderQuery(undefined);
+
   const [filter, setFilter] = useState("all");
   const options = [
     { label: "All", value: "all" },
@@ -14,8 +18,14 @@ export function OrderListPage() {
     { label: "Pending Only", value: "pending_only" },
     { label: "Bulk Orders", value: "bulk_only" },
   ];
-
-  const displayedOrders = [...customerOrdersResponse.data]
+  if (isLoadingGetAllOrder) {
+    return <PageLoader></PageLoader>;
+  }
+  console.log("customerOrdersResponse", customerOrdersResponse);
+  if (!customerOrdersResponse) {
+    return <div>Orders not found</div>;
+  }
+  const displayedOrders = customerOrdersResponse
     .filter((order) => {
       if (filter === "paid_only") {
         return (
@@ -68,7 +78,7 @@ export function OrderListPage() {
             options={options}
             selectedValue={filter}
             onValueChange={(val) => setFilter(val)}
-            className="bg-[#F5F5F6] border-none px-4 py-1 h-10 w-[150px]"
+            className="bg-[#F5F5F6] border-none px-4 py-1 h-10 w-37.5"
           />
         </div>
       </div>
