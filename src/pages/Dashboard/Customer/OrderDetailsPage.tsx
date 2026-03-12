@@ -318,10 +318,10 @@ export default function OrderDetailsPage() {
                           </Badge>
                         </div>
                         <p className="mt-3 text-sm text-[#64748B]">
-                          Estimated delivery:{" "}
-                          {hasDeliveryDate(item.estimated_delivery)
-                            ? item.estimated_delivery
-                            : "Not available"}
+                          Delivery Status:{" "}
+                          {hasDeliveryDate(item?.delivery_status)
+                            ? item?.delivery_status
+                            : "N/A"}
                         </p>
                       </div>
                     </div>

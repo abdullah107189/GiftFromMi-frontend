@@ -56,6 +56,7 @@ export interface CustomerOrderRecipientItem {
   sell_price: number;
   image: string;
   estimated_delivery?: string;
+  delivery_status?: string;
 }
 
 export interface CustomerOrderRecipient {
