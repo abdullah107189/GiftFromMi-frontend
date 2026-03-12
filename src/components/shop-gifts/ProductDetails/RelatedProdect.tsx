@@ -1,5 +1,4 @@
 import GiftBoxCard from "@/components/shared/cards/GiftBoxCard";
-import { Button } from "@/components/ui/button";
 import type { IProduct } from "@/types";
 
 function RelatedProdect({ relatedProducts }: { relatedProducts: IProduct[] }) {

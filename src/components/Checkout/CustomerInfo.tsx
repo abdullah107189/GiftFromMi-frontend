@@ -320,7 +320,7 @@ export function CustomerInfo() {
         </div>
 
         {/* Logistic Name */}
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label className="text-[18px] font-medium text-gray-900">
             Logistic Name<span className="text-red-500">*</span>
           </Label>
@@ -335,7 +335,7 @@ export function CustomerInfo() {
               {errors.logisticName.message}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* From Country Code */}
         <div className="space-y-2 ">
