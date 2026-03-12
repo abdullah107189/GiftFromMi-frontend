@@ -255,6 +255,7 @@ export function CustomerInfo() {
           <Input
             {...register("shippingCountry")}
             required
+            disabled
             placeholder="United States"
             className={inputStyle}
           />
