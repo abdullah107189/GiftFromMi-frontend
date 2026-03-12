@@ -11,7 +11,9 @@ interface FeaturedCardProps {
 
 const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
   if (!featured) return null;
-  const { id, title, description, short_description } = featured;
+  const { id, title, description, short_description, variants } = featured;
+  const sell_price = variants?.[0]?.sell_price;
+  const price = variants?.[0]?.price;
   const images = getImagesFromDescription(description);
   return (
     <div className="flex flex-col items-center lg:p-6 md:p-4 p-2 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all hover:shadow-lg">
@@ -37,16 +39,12 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ featured }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-400">
-              {/* ${price ? price : "N/A"} */}
-              500
+            <span className="text-4xl font-semibold text-primary">
+              ${sell_price || "N/A"}
             </span>
-            {/* {oldPrice && (
-              <span className="text-base text-gray-500 line-through">
-                ${oldPrice}
-              </span>
-            )} */}
-            700
+            <span className="text-gray-500 text-xl font-medium line-through">
+              ${price || "N/A"}
+            </span>
           </div>
         </div>
 

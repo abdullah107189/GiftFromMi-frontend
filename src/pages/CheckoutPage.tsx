@@ -58,7 +58,7 @@ const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItemsArray);
   const total = useSelector(selectCartTotal);
   const subtotal = useSelector(selectCartSubtotal);
-  
+
   const [checkout, { isLoading: isCheckoutLoading }] = useCheckoutMutation();
   const [previewBulkCheckout, { isLoading: isBulkCheckoutLoading }] =
     usePreviewBulkCheckoutMutation();
@@ -90,6 +90,7 @@ const CheckoutPage = () => {
       saveInfo: false,
       bulkHeaders: [],
       bulkRows: [],
+      scheduled_at: new Date().toLocaleDateString("sv-SE").replace(/-/g, "-"),
     },
   });
 

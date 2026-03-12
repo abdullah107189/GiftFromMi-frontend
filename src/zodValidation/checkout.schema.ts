@@ -38,5 +38,6 @@ export const checkoutSchema = z.object({
   bulkFile: z.instanceof(File).optional(),
   bulkHeaders: z.array(z.string()).optional(),
   bulkRows: z.array(z.record(z.string(), z.string())).optional(),
+  scheduled_at: z.string().optional()
 });
 export type CheckoutCustomerFormData = z.infer<typeof checkoutSchema>;
