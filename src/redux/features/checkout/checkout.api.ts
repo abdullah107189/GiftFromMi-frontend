@@ -22,6 +22,15 @@ export const checkoutApi = baseApi.injectEndpoints({
             }),
             transformResponse: (res) => res,
         }),
+        calculateShippingFee: builder.mutation({
+            query: (data: FormData) => ({
+                url: "/cart/calculate-shipping",
+                method: "POST",
+                data,
+                headers: { Accept: "application/json" },
+            }),
+            transformResponse: (res) => res.data,
+        }),
     }),
 });
-export const { useCheckoutMutation, usePreviewBulkCheckoutMutation } = checkoutApi;
+export const { useCheckoutMutation, usePreviewBulkCheckoutMutation, useCalculateShippingFeeMutation } = checkoutApi;

@@ -158,10 +158,11 @@ const ProductDetails = () => {
     }
 
     const cartItem = {
-      productId: product.id,
-      variantId: v.id,
+      productId: product?.id,
+      variantId: v?.id,
       key: `${product.id}_${v.id}`, // ✅ unique
 
+      sku: v.sku,
       title: product.title,
       image:
         v.imageUrl ||
@@ -170,16 +171,10 @@ const ProductDetails = () => {
         fallbackImage,
 
       originalPrice: Number(v.price),
-      sellPrice: Number(v.sell_price),
-
-      brand: product?.brand?.name,
-      shortDescription: product?.short_description,
-
+      sellPrice: Number(v.sell_price ?? v.price),
       qty: 1,
-      stockQty: v.quantity,
+      stockQty: Number(v.quantity ?? 0),
       inStock: v.quantity > 0,
-
-      sku: v.sku,
       cj_product_id: (product as any)?.cj_product_id,
       cj_variant_id: v.cj_variant_id,
       variantLabel: v.color || v.size || v.sku,

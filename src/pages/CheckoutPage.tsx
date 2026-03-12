@@ -19,11 +19,12 @@ import {
   type CheckoutCustomerFormData,
 } from "@/zodValidation/checkout.schema";
 import {
+  useCalculateShippingFeeMutation,
   useCheckoutMutation,
   usePreviewBulkCheckoutMutation,
 } from "@/redux/features/checkout/checkout.api";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createFormData } from "@/utils/createFormData";
 
 function safeTrim(value?: string) {
@@ -59,11 +60,14 @@ const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItemsArray);
   const total = useSelector(selectCartTotal);
   const subtotal = useSelector(selectCartSubtotal);
+  const [shippingFee, setShippingFee] = useState(0);
 
   const [checkout, { isLoading: isCheckoutLoading }] = useCheckoutMutation();
   const [previewBulkCheckout, { isLoading: isBulkCheckoutLoading }] =
     usePreviewBulkCheckoutMutation();
 
+  const [calculateShippingFee, { isLoading: isShippingFeeLoading }] =
+    useCalculateShippingFeeMutation({});
   const [searchParams] = useSearchParams();
   const isBulk = searchParams.get("type") === "bulk";
 
@@ -102,6 +106,19 @@ const CheckoutPage = () => {
       shouldTouch: true,
     });
   }, [isBulk, methods]);
+
+  useEffect(() => {
+    const shippingToastId = "checkout-shipping-fee";
+
+    if (isShippingFeeLoading) {
+      toast.loading("Calculating shipping fee...", {
+        id: shippingToastId,
+      });
+      return;
+    }
+
+    toast.dismiss(shippingToastId);
+  }, [isShippingFeeLoading]);
 
   const handleProceedCheckout = async () => {
     await methods.handleSubmit(
@@ -193,7 +210,28 @@ const CheckoutPage = () => {
       },
     )();
   };
+  const handleCalculateShippingForSingle = async (
+    countryCode: string,
+    type: string,
+  ) => {
+    if (!countryCode) {
+      setShippingFee(0);
+      return;
+    }
 
+    try {
+      const data = createFormData({
+        type,
+        shippingCountryCode: countryCode,
+      });
+      const shippingFeeResponse = await calculateShippingFee(data).unwrap();
+      setShippingFee(shippingFeeResponse?.shipping_cost ?? 0);
+      console.log(shippingFee?.shipping_cost);
+    } catch {
+      setShippingFee(0);
+      toast.error("Unable to calculate shipping fee right now.");
+    }
+  };
   return (
     <FormProvider {...methods}>
       <section className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5">
@@ -203,7 +241,15 @@ const CheckoutPage = () => {
         <div className="max-w-container mx-auto px-3">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 space-y-10">
-              {isBulk ? <BulkCustomerInfo /> : <CustomerInfo />}
+              {isBulk ? (
+                <BulkCustomerInfo />
+              ) : (
+                <CustomerInfo
+                  handleCalculateShippingForSingle={
+                    handleCalculateShippingForSingle
+                  }
+                />
+              )}
               <PaymentMethod />
             </div>
 
@@ -212,6 +258,7 @@ const CheckoutPage = () => {
                 cartItems={cartItems}
                 total={total}
                 subtotal={subtotal}
+                shippingFee={shippingFee}
                 isCheckoutLoading={isCheckoutLoading || isBulkCheckoutLoading}
                 onProceedCheckout={handleProceedCheckout}
               />

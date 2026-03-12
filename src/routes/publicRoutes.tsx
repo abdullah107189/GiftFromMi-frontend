@@ -1,14 +1,22 @@
+import { lazy } from "react";
 import type { ISidebarItem } from "@/types";
-import HowItWorksPage from "@/pages/HowItWorksPage";
-import ShopGiftsPage from "@/pages/ShopGiftsPage";
-import ForProfessionalsPage from "@/pages/ForProfessionalsPage";
-import BulkAutomationPage from "@/pages/BulkAutomationPage";
-import ContactUsPage from "@/pages/ContactUsPage";
-import BookSetupCall from "@/pages/BookSetupCall";
-import CheckoutPage from "@/pages/CheckoutPage";
-import { ShoppingCart } from "@/pages/ShoppingCart";
-import ProductDetails from "@/components/shop-gifts/ProductDetails/ProductDetails";
-import CategoryProductsPage from "@/pages/CategoryProductsPage";
+
+const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
+const ShopGiftsPage = lazy(() => import("@/pages/ShopGiftsPage"));
+const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
+const BulkAutomationPage = lazy(() => import("@/pages/BulkAutomationPage"));
+const ContactUsPage = lazy(() => import("@/pages/ContactUsPage"));
+const BookSetupCall = lazy(() => import("@/pages/BookSetupCall"));
+const CheckoutPage = lazy(() => import("@/pages/CheckoutPage"));
+const ShoppingCart = lazy(() =>
+  import("@/pages/ShoppingCart").then((module) => ({
+    default: module.ShoppingCart,
+  })),
+);
+const ProductDetails = lazy(
+  () => import("@/components/shop-gifts/ProductDetails/ProductDetails"),
+);
+const CategoryProductsPage = lazy(() => import("@/pages/CategoryProductsPage"));
 
 export const publicRoutes: ISidebarItem[] = [
   {

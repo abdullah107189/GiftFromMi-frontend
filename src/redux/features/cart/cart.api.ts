@@ -1,5 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
 import { normalizeCartItems } from "./cartUtils";
+
+type AddToCartPayload = {
+    product_variant_id: number;
+    quantity: number;
+};
+
+type UpdateCartPayload = {
+    cart_item_id: number;
+    quantity: number;
+};
+
+type CartItemActionPayload = {
+    cart_item_id: number;
+};
 
 export const cartApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -9,17 +24,17 @@ export const cartApi = baseApi.injectEndpoints({
                 method: "GET",
             }),
             providesTags: ["CART"],
-            transformResponse: (res) => normalizeCartItems(res.data),
+            transformResponse: (res: any) => normalizeCartItems(res.data),
         }),
-        addToCart: builder.mutation({
-            query: (cartInfo: { product_variant_id: number, quantity: number }) => ({
+        addToCart: builder.mutation<any, AddToCartPayload>({
+            query: (cartInfo) => ({
                 url: "/cart/add",
                 method: "POST",
                 data: cartInfo,
             }),
         }),
-        updateCart: builder.mutation({
-            query: (cartInfo: { cart_item_id: number; quantity: number }) => {
+        updateCart: builder.mutation<any, UpdateCartPayload>({
+            query: (cartInfo) => {
                 const formData = new FormData();
                 formData.append("cart_item_id", String(cartInfo.cart_item_id));
                 formData.append("quantity", String(cartInfo.quantity));
@@ -31,8 +46,8 @@ export const cartApi = baseApi.injectEndpoints({
             },
         }),
 
-        removeCart: builder.mutation({
-            query: (cartInfo: { cart_item_id: number; }) => {
+        removeCart: builder.mutation<any, CartItemActionPayload>({
+            query: (cartInfo) => {
                 const formData = new FormData();
                 formData.append("cart_item_id", String(cartInfo.cart_item_id));
                 return {
@@ -42,8 +57,8 @@ export const cartApi = baseApi.injectEndpoints({
                 };
             },
         }),
-        clearCart: builder.mutation({
-            query: (cartInfo: { cart_item_id: number; }) => {
+        clearCart: builder.mutation<any, CartItemActionPayload>({
+            query: (cartInfo) => {
                 const formData = new FormData();
                 formData.append("cart_item_id", String(cartInfo.cart_item_id));
                 return {

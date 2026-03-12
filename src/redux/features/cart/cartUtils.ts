@@ -25,7 +25,14 @@ type LooseCartRecord = Record<string, unknown> & {
 export const normalizeCartItem = (raw: unknown): CartItem | null => {
     const item = (raw ?? {}) as LooseCartRecord;
     const variant = (item.product_variant ?? item.variant ?? item.variantInfo ?? {}) as Record<string, unknown>;
-    const product = (item.product ?? item.productInfo ?? {}) as Record<string, unknown>;
+    const nestedVariantProduct = (
+        (variant.product ?? variant.productInfo ?? variant.product_detail) ?? {}
+    ) as Record<string, unknown>;
+    const product = (
+        item.product ??
+        item.productInfo ??
+        nestedVariantProduct
+    ) as Record<string, unknown>;
     const variantId = toNumber(
         firstDefined(
             item.variantId,
@@ -50,16 +57,31 @@ export const normalizeCartItem = (raw: unknown): CartItem | null => {
         item.image,
         item.imageUrl,
         item.product_image,
+        item.thumbnail,
         variant.image,
         variant.imageUrl,
         product.image,
+        product.imageUrl,
         Array.isArray(product.product_image)
-            ? (product.product_image[0] as Record<string, unknown> | undefined)?.image
+            ? (
+                (product.product_image[0] as Record<string, unknown> | undefined)?.image ??
+                (product.product_image[0] as Record<string, unknown> | undefined)?.imageUrl
+            )
             : undefined,
         fallbackImage,
     ) as string;
 
-    const title = firstDefined(item.title, item.product_title, product.title, "Product") as string;
+    const title = firstDefined(
+        item.title,
+        item.name,
+        item.product_title,
+        product.title,
+        product.name,
+        product.product_title,
+        variant.title,
+        variant.name,
+        "Product",
+    ) as string;
     const sku = firstDefined(item.sku, variant.sku, `variant-${variantId}`) as string;
 
     return {

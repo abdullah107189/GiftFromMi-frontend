@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/store/cart/cartSlice.ts
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
@@ -79,7 +80,7 @@ function loadCartFromStorage(): CartState {
                         : null,
                 status:
                     parsed.sync?.status === "syncing" ||
-                    parsed.sync?.status === "error"
+                        parsed.sync?.status === "error"
                         ? parsed.sync.status
                         : "idle",
                 error:
@@ -111,7 +112,6 @@ const initialState: CartState =
         ? { itemsById: {}, sync: initialSyncMeta }
         : loadCartFromStorage();
 
-// qty optional
 type AddToCartPayload = Omit<CartItem, "qty"> & { qty?: number };
 
 // helpers

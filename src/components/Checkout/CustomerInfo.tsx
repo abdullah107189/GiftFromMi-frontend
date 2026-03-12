@@ -18,7 +18,16 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
-export function CustomerInfo() {
+type CustomerInfoProps = {
+  handleCalculateShippingForSingle?: (
+    countryCode: string,
+    type: CheckoutCustomerFormData["type"],
+  ) => Promise<void> | void;
+};
+
+export function CustomerInfo({
+  handleCalculateShippingForSingle,
+}: CustomerInfoProps) {
   const inputStyle =
     "bg-[#F0F1F1] border placeholder:text-gray-500 text-base border-[#EBECF0] rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary md:h-[72px] h-[60px]";
   const today = new Date(new Date().setHours(0, 0, 0, 0));
@@ -147,7 +156,7 @@ export function CustomerInfo() {
         {/* Country */}
         <div className="space-y-2 ">
           <Label className="text-[18px] font-medium text-gray-900">
-            Country / Region<span className="text-red-500">*</span>
+            Country / Region
           </Label>
           <Controller
             control={control}
@@ -301,7 +310,12 @@ export function CustomerInfo() {
                 required
                 options={countryCodeOptions}
                 value={field.value}
-                onChange={field.onChange}
+                onChange={(value) => {
+                  field.onChange(value);
+                  if (value) {
+                    void handleCalculateShippingForSingle?.(value, "single");
+                  }
+                }}
                 className="py-4"
                 placeholder="Select Shipping Country Code"
               />

@@ -1,12 +1,12 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
-import LoginPage from "@/pages/auth/LoginPage";
-import RegisterPage from "@/pages/auth/RegisterPage";
-import ForgotPassword from "@/components/auth/ForgotPassword";
-import OTPVerification from "@/components/auth/OTPVerification";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
+const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
+const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
+const ForgotPassword = lazy(() => import("@/components/auth/ForgotPassword"));
+const OTPVerification = lazy(() => import("@/components/auth/OTPVerification"));
 
 const LazyCustomerDashboard = lazy(
   () => import("@/components/layout/CustomerDashboard"),
@@ -15,15 +15,19 @@ const LazyCustomerDashboard = lazy(
 import { generateRoutes } from "@/utils/genarateRoute";
 import { publicRoutes } from "./publicRoutes";
 import { customerRoutes } from "./customerRoutes";
-import PersonalInfoPage from "@/pages/Dashboard/Customer/PersonalInfoPage";
-import NotFound from "@/components/shared/NotFound";
-import ResetPassword from "@/components/auth/ResetPassword";
 import PageLoader from "@/components/shared/PageLoader";
 import { withAuth } from "@/utils/withAuth";
 import { Role } from "@/types";
-import ViewProfilePage from "@/pages/Dashboard/Customer/ViewProfilePage";
-import PaymentCancel from "@/pages/payment/PaymentCancel";
-import PaymentSuccess from "@/pages/payment/PaymentSuccess";
+const PersonalInfoPage = lazy(
+  () => import("@/pages/Dashboard/Customer/PersonalInfoPage"),
+);
+const NotFound = lazy(() => import("@/components/shared/NotFound"));
+const ResetPassword = lazy(() => import("@/components/auth/ResetPassword"));
+const ViewProfilePage = lazy(
+  () => import("@/pages/Dashboard/Customer/ViewProfilePage"),
+);
+const PaymentCancel = lazy(() => import("@/pages/payment/PaymentCancel"));
+const PaymentSuccess = lazy(() => import("@/pages/payment/PaymentSuccess"));
 
 const CustomerProtectedRoutes = withAuth(
   () => (
@@ -57,12 +61,20 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ViewProfilePage></ViewProfilePage>,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ViewProfilePage />
+          </Suspense>
+        ),
       },
 
       {
         path: "edit-profile",
-        element: <PersonalInfoPage></PersonalInfoPage>,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <PersonalInfoPage />
+          </Suspense>
+        ),
       },
 
       ...generateRoutes(customerRoutes),
@@ -72,32 +84,60 @@ const router = createBrowserRouter([
   // auth part routes
   {
     path: "/login",
-    Component: LoginPage,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <LoginPage />
+      </Suspense>
+    ),
   },
   {
     path: "/register",
-    Component: RegisterPage,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <RegisterPage />
+      </Suspense>
+    ),
   },
   {
     path: "/forgot-password",
-    Component: ForgotPassword,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ForgotPassword />
+      </Suspense>
+    ),
   },
   {
     path: "/otp",
-    Component: OTPVerification,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <OTPVerification />
+      </Suspense>
+    ),
   },
   {
     path: "/reset-password",
-    Component: ResetPassword,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ResetPassword />
+      </Suspense>
+    ),
   },
   // ============================ payment ============
   {
     path: "/payment-cancel",
-    Component: PaymentCancel,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <PaymentCancel />
+      </Suspense>
+    ),
   },
   {
     path: "/payment-success",
-    Component: PaymentSuccess,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <PaymentSuccess />
+      </Suspense>
+    ),
   },
   // {
   //   path: "payment-success",
@@ -106,7 +146,11 @@ const router = createBrowserRouter([
   // page handler routes
   {
     path: "*",
-    Component: NotFound,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <NotFound />
+      </Suspense>
+    ),
   },
 ]);
 

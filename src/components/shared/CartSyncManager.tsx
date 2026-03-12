@@ -18,7 +18,10 @@ import {
     selectCartItemsArray,
     selectCartOwnerUserId,
 } from "@/redux/features/cart/cartSelectors";
-import { mergeGuestCartWithServer } from "@/redux/features/cart/cartUtils";
+import {
+    mergeGuestCartWithServer,
+    mergeLocalCartWithServer,
+} from "@/redux/features/cart/cartUtils";
 
 const EMPTY_CART_ITEMS: CartItem[] = [];
 
@@ -109,19 +112,27 @@ const CartSyncManager = () => {
                         subscribe: false,
                     }),
                 ).unwrap();
+                const mergedServerItems = mergeLocalCartWithServer(
+                    cartItems,
+                    refreshedServerItems,
+                );
 
                 dispatch(
                     hydrateServerCart({
-                        items: refreshedServerItems,
+                        items: mergedServerItems,
                         userId: user.id,
                     }),
                 );
                 lastHydratedSignatureRef.current =
                     buildCartSignature(refreshedServerItems);
             } else {
+                const mergedServerItems = mergeLocalCartWithServer(
+                    cartItems,
+                    serverCartItems,
+                );
                 dispatch(
                     hydrateServerCart({
-                        items: serverCartItems,
+                        items: mergedServerItems,
                         userId: user.id,
                     }),
                 );

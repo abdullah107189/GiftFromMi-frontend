@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ComponentType, ElementType, ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 import type { Brand, ProductImage, Variant } from "./product";
 export const Role = {
   customer: "Customer",
@@ -11,7 +11,7 @@ export interface ISidebarItem {
   title: string;
   url: string;
   icon?: ElementType;
-  component?: ComponentType;
+  component?: ElementType;
   children?: ISidebarItem[];
   hidden?: boolean;
 }

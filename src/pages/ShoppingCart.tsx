@@ -16,17 +16,20 @@ import type { AppDispatch } from "@/redux/store";
 import {
   addToCart,
   clearCart as clearCartLocal,
+  hydrateServerCart,
   removeFromCart,
   setCartOwnerUserId,
   setQty,
 } from "@/redux/features/cart/cartSlice";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 import {
   useClearCartMutation,
+  useGetAllCartItemsQuery,
   useRemoveCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/cart/cart.api";
+import { mergeLocalCartWithServer } from "@/redux/features/cart/cartUtils";
 import { selectUser } from "@/redux/features/auth/authSelectors";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
@@ -53,6 +56,24 @@ export const ShoppingCart = () => {
   const [updateCartMutation] = useUpdateCartMutation();
   const [removeCartMutation] = useRemoveCartMutation();
   const [clearCartMutation] = useClearCartMutation();
+  const { data: latestCartItems } = useGetAllCartItemsQuery(undefined, {
+    skip: !user,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+
+  useEffect(() => {
+    if (!user || !latestCartItems) return;
+    const mergedCartItems = mergeLocalCartWithServer(cartItems, latestCartItems);
+
+    dispatch(
+      hydrateServerCart({
+        items: mergedCartItems,
+        userId: user.id,
+      }),
+    );
+  }, [dispatch, latestCartItems, user]);
 
   const displayCartItems = useMemo(() => {
     if (isOptimisticClear) return [];

@@ -1,8 +1,20 @@
-import CustomerSettingPage from "@/pages/Dashboard/Customer/CustomerSettingPage";
-import OrderDetailsPage from "@/pages/Dashboard/Customer/OrderDetailsPage";
-import OrderHistoryPage from "@/pages/Dashboard/Customer/OrderHistoryPage";
-import { OrderListPage } from "@/pages/Dashboard/Customer/OrderListPage";
+import { lazy } from "react";
 import type { ISidebarItem } from "@/types";
+
+const CustomerSettingPage = lazy(
+  () => import("@/pages/Dashboard/Customer/CustomerSettingPage"),
+);
+const OrderDetailsPage = lazy(
+  () => import("@/pages/Dashboard/Customer/OrderDetailsPage"),
+);
+const OrderHistoryPage = lazy(
+  () => import("@/pages/Dashboard/Customer/OrderHistoryPage"),
+);
+const OrderListPage = lazy(() =>
+  import("@/pages/Dashboard/Customer/OrderListPage").then((module) => ({
+    default: module.OrderListPage,
+  })),
+);
 
 export const customerRoutes: ISidebarItem[] = [
   {

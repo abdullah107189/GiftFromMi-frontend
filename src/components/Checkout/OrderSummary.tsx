@@ -5,6 +5,7 @@ interface OrderSummaryProps {
   cartItems: any[];
   total: number;
   subtotal: number;
+  shippingFee: number;
   isCheckoutLoading: boolean;
 }
 
@@ -13,6 +14,7 @@ export function OrderSummary({
   cartItems,
   total,
   subtotal,
+  shippingFee,
   isCheckoutLoading,
 }: OrderSummaryProps) {
   // console.log("OrderSummary received cartItems:", cartItems);
@@ -73,6 +75,13 @@ export function OrderSummary({
             <span className="text-gray-600 ">Subtotal</span>
             <span className="text-2xl font-semibold font-manrope">
               ${subtotal?.toFixed(2)}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center border-t border-[#EBECF0] md:py-6 py-4">
+            <span className="text-gray-600 ">Shipping</span>
+            <span className="text-2xl font-semibold font-manrope">
+              ${shippingFee?.toFixed(2)}
             </span>
           </div>
 
