@@ -17,7 +17,7 @@ export function OrderSummary({
   subtotal,
   isCheckoutLoading,
 }: OrderSummaryProps) {
-  console.log("OrderSummary received cartItems:", cartItems);
+  // console.log("OrderSummary received cartItems:", cartItems);
   return (
     <div className="bg-white rounded-2xl md:p-6 p-4 border border-gray-100 sticky top-8">
       <div className="flex items-center gap-4 mb-8 justify-center">

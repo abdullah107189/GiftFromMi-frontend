@@ -166,15 +166,6 @@ export default function OrderCard({ order }: OrderCardProps) {
                   </p>
                 </div>
               </td>
-
-              <td className="pl-4 border-l border-white/20">
-                <div className="space-y-1">
-                  <p className="font-medium">Placed On</p>
-                  <p className="font-semibold md:text-2xl text-xl">
-                    {order?.items?.[0]?.estimated_delivery ?? "N/A"}
-                  </p>
-                </div>
-              </td>
             </tr>
           </tbody>
         </table>
