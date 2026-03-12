@@ -44,22 +44,27 @@ type Variant = {
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading, isFetching } = useProductDetailsQuery(id!);
+  console.log("data", data);
   const dispatch = useDispatch<AppDispatch>();
-  const [addToCartMutation,] = useAddToCartMutation();
+  const [addToCartMutation] = useAddToCartMutation();
   const user = useSelector(selectUser);
   const cartItems = useSelector(selectCartItemsArray);
-
 
   const product = data?.productInfo as any;
   const relatedProducts = data?.relatedProducts || [];
 
-  const variants: Variant[] = useMemo(() => product?.variants || [], [product?.variants]);
+  const variants: Variant[] = useMemo(
+    () => product?.variants || [],
+    [product?.variants],
+  );
 
   const galleryImages: string[] = useMemo(() => {
     return product?.product_image?.map((img: any) => img.image) || [];
   }, [product?.product_image]);
 
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    null,
+  );
 
   const selectedVariant: Variant | undefined = useMemo(() => {
     if (!variants.length) return undefined;
@@ -93,7 +98,12 @@ const ProductDetails = () => {
       return;
     }
     setActiveImage("");
-  }, [selectedVariant?.id, selectedVariant?.imageUrl, selectedVariant?.image, galleryImages]);
+  }, [
+    selectedVariant?.id,
+    selectedVariant?.imageUrl,
+    selectedVariant?.image,
+    galleryImages,
+  ]);
 
   const variantThumbs = useMemo(() => {
     const list = (variants || [])
@@ -122,13 +132,16 @@ const ProductDetails = () => {
     });
   }, [galleryImages]);
 
-  const thumbsToShow = variantThumbs.length ? variantThumbs.map((v) => v.img) : fallbackThumbs;
+  const thumbsToShow = variantThumbs.length
+    ? variantThumbs.map((v) => v.img)
+    : fallbackThumbs;
 
   if (isFetching || isLoading) return <PageLoader />;
   if (!product) return <p>Not Found</p>;
 
   const price = selectedVariant?.price ?? product?.variants?.[0]?.price ?? 0;
-  const sellPrice = selectedVariant?.sell_price ?? product?.variants?.[0]?.sell_price ?? 0;
+  const sellPrice =
+    selectedVariant?.sell_price ?? product?.variants?.[0]?.sell_price ?? 0;
   const stockQty = selectedVariant?.quantity ?? 0;
   const inStock = stockQty > 0;
 
@@ -150,7 +163,11 @@ const ProductDetails = () => {
       key: `${product.id}_${v.id}`, // ✅ unique
 
       title: product.title,
-      image: v.imageUrl || v.image || product?.product_image?.[0]?.image || fallbackImage,
+      image:
+        v.imageUrl ||
+        v.image ||
+        product?.product_image?.[0]?.image ||
+        fallbackImage,
 
       originalPrice: Number(v.price),
       sellPrice: Number(v.sell_price),
@@ -208,7 +225,10 @@ const ProductDetails = () => {
 
   return (
     <main className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5 overflow-hidden">
-      <SEO title={product?.title || "Product Details"} description={product?.short_description || "Product details page"} />
+      <SEO
+        title={product?.title || "Product Details"}
+        description={product?.short_description || "Product details page"}
+      />
 
       <div className="max-w-container mx-auto px-3">
         <DynamicBreadcrumb customLabel={product?.title} />
@@ -231,13 +251,16 @@ const ProductDetails = () => {
             <div className="flex lg:hidden gap-2 pt-4">
               {(variantThumbs.length
                 ? variantThumbs
-                : thumbsToShow.map((img, i) => ({ id: i, img, label: "", qty: 1 } as any))
+                : thumbsToShow.map(
+                    (img, i) => ({ id: i, img, label: "", qty: 1 }) as any,
+                  )
               )
                 .slice(0, 6)
                 .map((v: any, index: number) => {
-                  const isActive = variantThumbs.length > 0
-                    ? selectedVariant?.id === v.id
-                    : activeImage === v.img;
+                  const isActive =
+                    variantThumbs.length > 0
+                      ? selectedVariant?.id === v.id
+                      : activeImage === v.img;
 
                   return (
                     <div
@@ -250,15 +273,17 @@ const ProductDetails = () => {
                           setActiveImage(v?.img);
                         }
                       }}
-                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-orange-500" : "border-transparent"
-                        } ${v?.qty <= 0 ? "opacity-50" : ""}`}
+                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                        isActive ? "border-orange-500" : "border-transparent"
+                      } ${v?.qty <= 0 ? "opacity-50" : ""}`}
                       title={v?.label}
                     >
                       <img
                         src={v?.img}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = fallbackImage;
+                          (e.currentTarget as HTMLImageElement).src =
+                            fallbackImage;
                         }}
                       />
                     </div>
@@ -278,12 +303,20 @@ const ProductDetails = () => {
                 <div className="flex text-primary">
                   <Rating rating={product?.rating} showText={false} />
                 </div>
-                <span className="font-bold text-primary">{product?.rating ? product.rating.toFixed(1) : 0}</span>
-                <span className="text-sm text-gray-500">{product?.reviewsCount} reviews</span>
+                <span className="font-bold text-primary">
+                  {product?.rating ? product.rating.toFixed(1) : 0}
+                </span>
+                <span className="text-sm text-gray-500">
+                  {product?.reviewsCount} reviews
+                </span>
 
                 <div className="ml-auto flex items-start gap-2">
-                  <span className="text-4xl font-semibold text-primary">${sellPrice}</span>
-                  <span className="text-gray-500 text-xl font-medium line-through">${price}</span>
+                  <span className="text-4xl font-semibold text-primary">
+                    ${sellPrice}
+                  </span>
+                  <span className="text-gray-500 text-xl font-medium line-through">
+                    ${price}
+                  </span>
                 </div>
               </div>
             </div>
@@ -297,7 +330,9 @@ const ProductDetails = () => {
 
                 <SharedDropdown
                   options={variantOptions}
-                  selectedValue={selectedVariant?.id ? String(selectedVariant.id) : undefined}
+                  selectedValue={
+                    selectedVariant?.id ? String(selectedVariant.id) : undefined
+                  }
                   onValueChange={(value) => {
                     const nextId = Number(value);
                     setSelectedVariantId(nextId);
@@ -315,7 +350,9 @@ const ProductDetails = () => {
             )}
 
             <div className="flex items-center gap-2 font-semibold mt-2">
-              <span className={`${inStock ? "text-[#84CC16]" : "text-red-500"}`}>
+              <span
+                className={`${inStock ? "text-[#84CC16]" : "text-red-500"}`}
+              >
                 {inStock ? "In Stock" : "Sold Out"}
               </span>
               <span className="text-gray-700">
@@ -326,7 +363,12 @@ const ProductDetails = () => {
             <p className="xl:mt-8 md:mt-6 mt-2">{product.short_description}</p>
 
             <div className="flex gap-4">
-              <Button variant={"outline"} disabled={!inStock} onClick={() => handleAddToCart(product)} className="w-fit">
+              <Button
+                variant={"outline"}
+                disabled={!inStock}
+                onClick={() => handleAddToCart(product)}
+                className="w-fit"
+              >
                 Add To Cart
               </Button>
               <Link to={"/shopping-cart"} className="w-fit">
@@ -338,13 +380,16 @@ const ProductDetails = () => {
             <div className="hidden lg:flex gap-2 pt-4">
               {(variantThumbs.length
                 ? variantThumbs
-                : thumbsToShow.map((img, i) => ({ id: i, img, label: "", qty: 1 } as any))
+                : thumbsToShow.map(
+                    (img, i) => ({ id: i, img, label: "", qty: 1 }) as any,
+                  )
               )
                 .slice(0, 7)
                 .map((v: any, index: number) => {
-                  const isActive = variantThumbs.length > 0
-                    ? selectedVariant?.id === v.id
-                    : activeImage === v.img;
+                  const isActive =
+                    variantThumbs.length > 0
+                      ? selectedVariant?.id === v.id
+                      : activeImage === v.img;
 
                   return (
                     <div
@@ -357,15 +402,17 @@ const ProductDetails = () => {
                           setActiveImage(v?.img);
                         }
                       }}
-                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-primary" : "border-transparent"
-                        } ${v?.qty <= 0 ? "opacity-50" : ""}`}
+                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                        isActive ? "border-primary" : "border-transparent"
+                      } ${v?.qty <= 0 ? "opacity-50" : ""}`}
                       title={v?.label}
                     >
                       <img
                         src={v?.img}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = fallbackImage;
+                          (e.currentTarget as HTMLImageElement).src =
+                            fallbackImage;
                         }}
                       />
                     </div>
@@ -381,4 +428,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;  
+export default ProductDetails;

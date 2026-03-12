@@ -16,55 +16,8 @@ import PageLoader from "../shared/PageLoader";
 import type { Category } from "@/types/public";
 import { useCategoryListQuery } from "@/redux/features/public/public.api";
 import type { IProduct } from "@/types";
-// import type { IProduct } from "@/types";
+import { Link } from "react-router";
 const GiftListingSection = ({ products }: { products: any }) => {
-  // const PRODUCTS: IProduct[] = [
-  //   {
-  //     id: 1,
-  //     image: [p1],
-  //     title: "Chocolate With Premium Box",
-  //     description: "Experience the Taste of True Luxury",
-  //     price: 20,
-  //     oldPrice: 30,
-  //     rating: 5,
-  //     reviewsCount: 124, // Changed from "5/5" string to number
-  //     stockCount: 15,
-  //     inStock: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     image: [p2],
-  //     title: "Tech Accessories Pack",
-  //     description: "Premium Wireless Charger, Phone Stand",
-  //     price: 220,
-  //     oldPrice: 300,
-  //     rating: 5,
-  //     reviewsCount: 85,
-  //     stockCount: 12,
-  //     inStock: true,
-  //   },
-  //   {
-  //     id: 3,
-  //     image: [p3],
-  //     title: "Perfume box",
-  //     description: "Experience the Premium Perfume",
-  //     price: 20,
-  //     oldPrice: 30,
-  //     rating: 5,
-  //     reviewsCount: 210,
-  //     stockCount: 8,
-  //     inStock: true,
-  //   },
-  // ];
-  // const menu = [
-  //   "All Gifts",
-  //   "Gift Boxes",
-  //   "Custom Item",
-  //   "New Homeowner",
-  //   "Holidays",
-  //   "Birthday",
-  // ];
-
   const priceRanges = [
     "Under $50",
     "$50-$100",
@@ -76,7 +29,8 @@ const GiftListingSection = ({ products }: { products: any }) => {
 
   // console.log("products...........", products[0].products);
   // const products = products?.products
-  const { data: categories, isLoading: categoriesLoading } = useCategoryListQuery(undefined);
+  const { data: categories, isLoading: categoriesLoading } =
+    useCategoryListQuery(undefined);
   if (categoriesLoading) return <PageLoader />;
 
   return (
@@ -119,7 +73,9 @@ const GiftListingSection = ({ products }: { products: any }) => {
                     className="flex justify-between items-center text-gray-600 hover:text-primary cursor-pointer transition-colors p-2"
                   >
                     <span>{cat?.name ?? "Category"}</span>
-                    <span className="text-[16px]">{cat?.products_count ?? 0}</span>
+                    <span className="text-[16px]">
+                      {cat?.products_count ?? 0}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -251,22 +207,29 @@ const GiftListingSection = ({ products }: { products: any }) => {
               <h2 className="text-[20px] font-medium text-gray-900">
                 Gift Boxes
               </h2>
-              <Button variant={"outline"} className="text-gray-700 font-medium">
-                View All
-              </Button>
+              <Link to={`/shop-gifts/category/${products?.[0]?.id}`}>
+                <Button
+                  variant={"outline"}
+                  className="text-gray-700 font-medium"
+                >
+                  View All
+                </Button>
+              </Link>
             </div>
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products?.[0]?.products?.slice(0, 3)?.map((product: IProduct, index: number) => {
-                if (!product) return null;
-                return (
-                  <GiftBoxCard
-                    product={product}
-                    key={product?.id ?? index}
-                  ></GiftBoxCard>
-                );
-              })}
+              {products?.[0]?.products
+                ?.slice(0, 3)
+                ?.map((product: IProduct, index: number) => {
+                  if (!product) return null;
+                  return (
+                    <GiftBoxCard
+                      product={product}
+                      key={product?.id ?? index}
+                    ></GiftBoxCard>
+                  );
+                })}
             </div>
           </main>
         </div>

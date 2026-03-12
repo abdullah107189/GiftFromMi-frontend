@@ -9,6 +9,7 @@ interface GiftBoxCardProps {
   product: IProduct;
 }
 const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
+  console.log(product);
   const navigate = useNavigate();
   if (!product) return null;
   const { id, description, title, short_description } = product;
@@ -34,16 +35,11 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-500">
-              {/* ${price} */} 00
+          <div className="ml-auto flex items-start gap-2">
+            <span className="text-4xl font-semibold text-primary">${0}</span>
+            <span className="text-gray-500 text-xl font-medium line-through">
+              ${0}
             </span>
-            {/* {oldPrice && (
-              <span className="text-base text-gray-500 line-through">
-                ${oldPrice}
-              </span>
-            )} */}
-            00
           </div>
         </div>
 

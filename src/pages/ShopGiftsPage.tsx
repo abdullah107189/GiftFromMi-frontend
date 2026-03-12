@@ -6,8 +6,11 @@ import { useCategorizedProductQuery } from "@/redux/features/public/public.api";
 import PageLoader from "@/components/shared/PageLoader";
 
 function ShopGiftsPage() {
-  const { data, isLoading: categorizedProductLoading } = useCategorizedProductQuery(undefined)
-  if (categorizedProductLoading) return <PageLoader />
+  const { data, isLoading: categorizedProductLoading } =
+    useCategorizedProductQuery(undefined);
+  if (categorizedProductLoading) return <PageLoader />;
+  console.log("data", data);
+
   return (
     <div>
       <SEO
