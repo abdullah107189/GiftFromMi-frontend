@@ -12,7 +12,9 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
   console.log(product);
   const navigate = useNavigate();
   if (!product) return null;
-  const { id, description, title, short_description } = product;
+  const { id, description, title, short_description, variants } = product;
+  const sell_price = variants?.[0]?.sell_price;
+  const price = variants?.[0]?.price;
   return (
     <div className="flex flex-col items-center md:p-4 p-2 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
       <div className="w-full xl:h-83.5 lg:h-72 md:h-64 h-50 overflow-hidden rounded-xl bg-gray-50">
@@ -36,9 +38,11 @@ const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
           </div>
 
           <div className="ml-auto flex items-start gap-2">
-            <span className="text-4xl font-semibold text-primary">${0}</span>
+            <span className="text-4xl font-semibold text-primary">
+              ${sell_price || "N/A"}
+            </span>
             <span className="text-gray-500 text-xl font-medium line-through">
-              ${0}
+              ${price || "N/A"}
             </span>
           </div>
         </div>
