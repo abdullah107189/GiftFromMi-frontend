@@ -40,15 +40,16 @@ function buildCheckoutFormData(data: CheckoutCustomerFormData) {
     country: safeTrim(data.country),
     town_city: safeTrim(data.town_city),
     district: safeTrim(data.district),
-    postcode: safeTrim(data.postcode),
-    order_notes: safeTrim(data.order_notes),
+    postcode: safeTrim(data.postcode) || undefined,
+    order_notes: safeTrim(data.order_notes) || undefined,
     shippingCountryCode: safeTrim(data.shippingCountryCode),
     shippingCountry: safeTrim(data.shippingCountry),
     shippingProvince: safeTrim(data.shippingProvince),
     shippingCity: safeTrim(data.shippingCity),
     shippingAddress: safeTrim(data.shippingAddress),
-    logisticName: safeTrim(data.logisticName),
+    // logisticName: safeTrim(data.logisticName) || undefined,
     fromCountryCode: safeTrim(data.fromCountryCode),
+    scheduled_at: safeTrim(data.scheduled_at),
   };
 
   return createFormData(payload);
@@ -85,12 +86,12 @@ const CheckoutPage = () => {
       shippingProvince: "",
       shippingCity: "",
       shippingAddress: "",
-      logisticName: "",
+      // logisticName: "",
       fromCountryCode: "",
       saveInfo: false,
       bulkHeaders: [],
       bulkRows: [],
-      scheduled_at: new Date().toLocaleDateString("sv-SE").replace(/-/g, "-"),
+      scheduled_at: "",
     },
   });
 
@@ -103,77 +104,94 @@ const CheckoutPage = () => {
   }, [isBulk, methods]);
 
   const handleProceedCheckout = async () => {
-    if (isBulk) {
-      const values = methods.getValues();
-      if (!values.bulkFile) {
-        toast.error("Please upload a CSV file first.");
-        return;
-      }
+    await methods.handleSubmit(
+      async (data) => {
+        if (data.type === "bulk") {
+          const bulkFormData = new FormData();
+          bulkFormData.append("type", "bulk");
+          bulkFormData.append("csv_file", data.bulkFile as File);
 
-      const bulkFormData = new FormData();
-      bulkFormData.append("type", "bulk");
-      bulkFormData.append("csv_file", values.bulkFile);
+          const bulkPayload = {
+            fileName: data.bulkFile?.name ?? "",
+            fileSize: data.bulkFile?.size ?? 0,
+            headers: data.bulkHeaders ?? [],
+            rows: data.bulkRows ?? [],
+          };
 
-      const bulkPayload = {
-        fileName: values.bulkFile?.name ?? "",
-        fileSize: values.bulkFile?.size ?? 0,
-        headers: values.bulkHeaders ?? [],
-        rows: values.bulkRows ?? [],
-      };
-
-      console.log("Bulk checkout payload:", bulkPayload);
-      console.log("Order preview:", {
-        items: cartItems,
-        subtotal,
-        total,
-      });
-
-      try {
-        const res: any = await previewBulkCheckout(bulkFormData).unwrap();
-        console.log("Bulk preview API response:", res);
-        toast.success(res?.message || "Checkout completed successfully!");
-      } catch (err: any) {
-        const message =
-          err?.data?.message ?? "Bulk preview failed. Please try again.";
-        toast.error(message);
-      }
-      return;
-    }
-
-    await methods.handleSubmit(async (data) => {
-      try {
-        const formData = buildCheckoutFormData(data);
-        if (import.meta.env.DEV) {
-          console.table(
-            Array.from(formData.entries()).map(([key, value]) => ({
-              key,
-              value: String(value),
-            })),
-          );
-        }
-
-        const res: any = await checkout(formData).unwrap();
-
-        toast.success(res?.message || "Checkout completed successfully!");
-
-        window.location.replace(res?.data?.url);
-      } catch (err: any) {
-        const backendErrors = err?.data?.errors ?? err?.data;
-        toast.error("Checkout failed. Please check required fields.");
-
-        if (backendErrors && typeof backendErrors === "object") {
-          Object.entries(backendErrors).forEach(([field, msgs]) => {
-            const message = Array.isArray(msgs)
-              ? String(msgs[0])
-              : String(msgs);
-            methods.setError(field as keyof CheckoutCustomerFormData, {
-              type: "server",
-              message,
-            });
+          console.log("Bulk checkout payload:", bulkPayload);
+          console.log("Order preview:", {
+            items: cartItems,
+            subtotal,
+            total,
           });
+
+          try {
+            const previewResult =
+              await previewBulkCheckout(bulkFormData).unwrap();
+            if (previewResult.status === 200) {
+              toast.success(
+                previewResult?.message ||
+                  "Bulk preview completed successfully!",
+              );
+            } else {
+              toast.error(
+                previewResult?.message ||
+                  "Bulk preview failed. Please try again.",
+              );
+              return;
+            }
+            const res: any = await checkout(bulkFormData).unwrap();
+            toast.success(res?.message || "Checkout completed successfully!");
+            window.location.replace(res?.data?.url);
+          } catch (err: any) {
+            const message =
+              err?.data?.message ?? "Bulk preview failed. Please try again.";
+            toast.error(message);
+          }
+          return;
         }
-      }
-    })();
+
+        try {
+          const formData = buildCheckoutFormData(data);
+          if (import.meta.env.DEV) {
+            console.table(
+              Array.from(formData.entries()).map(([key, value]) => ({
+                key,
+                value: String(value),
+              })),
+            );
+          }
+
+          const res: any = await checkout(formData).unwrap();
+
+          toast.success(res?.message || "Checkout completed successfully!");
+
+          window.location.replace(res?.data?.url);
+        } catch (err: any) {
+          const backendErrors = err?.data?.errors ?? err?.data;
+          toast.error("Checkout failed. Please check required fields.");
+
+          if (backendErrors && typeof backendErrors === "object") {
+            Object.entries(backendErrors).forEach(([field, msgs]) => {
+              const message = Array.isArray(msgs)
+                ? String(msgs[0])
+                : String(msgs);
+              methods.setError(field as keyof CheckoutCustomerFormData, {
+                type: "server",
+                message,
+              });
+            });
+          }
+        }
+      },
+      () => {
+        toast.error(
+          isBulk
+            ? "Please upload a valid CSV file before continuing."
+            : "Please complete the required checkout fields.",
+        );
+      },
+    )();
   };
 
   return (

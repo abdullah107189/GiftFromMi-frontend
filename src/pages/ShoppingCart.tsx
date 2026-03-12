@@ -71,8 +71,7 @@ export const ShoppingCart = () => {
     (sum, item) => sum + item.originalPrice * item.qty,
     0,
   );
-  const shipping = subtotal > 0 ? 24 : 0;
-  const total = subtotal + shipping;
+  const total = subtotal;
 
   const getCartItemId = (item: (typeof cartItems)[number]) => {
     if (
@@ -305,86 +304,98 @@ export const ShoppingCart = () => {
                             pendingQuantityAction?.type === "increment";
 
                           return (
-                        <div className="flex items-center justify-center">
-                          <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
-                            <button
-                              onClick={() =>
-                                void handleQuantityChange(item.key, "decrement")
-                              }
-                              disabled={
-                                isClearingPending ||
-                                deletingKey === item.key ||
-                                isQuantityPending
-                              }
-                              className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
-                              type="button"
-                            >
-                              {isDecrementPending ? (
-                                <Loader size="24" className="animate-spin" />
-                              ) : (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center bg-primary text-white xl:rounded-2xl lg:rounded-xl rounded-lg xl:p-4 lg:p-3 md:p-2 p-1 lg:gap-3 md:gap-2 gap-1">
+                                <button
+                                  onClick={() =>
+                                    void handleQuantityChange(
+                                      item.key,
+                                      "decrement",
+                                    )
+                                  }
+                                  disabled={
+                                    isClearingPending ||
+                                    deletingKey === item.key ||
+                                    isQuantityPending
+                                  }
+                                  className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
+                                  type="button"
                                 >
-                                  <path
-                                    d="M20 12H4"
-                                    stroke="white"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              )}
-                            </button>
+                                  {isDecrementPending ? (
+                                    <Loader
+                                      size="24"
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M20 12H4"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  )}
+                                </button>
 
-                            <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-6">
-                              {item.qty}
-                            </span>
+                                <span className="font-semibold xl:text-2xl md:text-xl text-lg text-center min-w-6">
+                                  {item.qty}
+                                </span>
 
-                            <button
-                              onClick={() =>
-                                void handleQuantityChange(item.key, "increment")
-                              }
-                              disabled={
-                                isClearingPending ||
-                                deletingKey === item.key ||
-                                isQuantityPending
-                              }
-                              className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
-                              type="button"
-                            >
-                              {isIncrementPending ? (
-                                <Loader size="24" className="animate-spin" />
-                              ) : (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
+                                <button
+                                  onClick={() =>
+                                    void handleQuantityChange(
+                                      item.key,
+                                      "increment",
+                                    )
+                                  }
+                                  disabled={
+                                    isClearingPending ||
+                                    deletingKey === item.key ||
+                                    isQuantityPending
+                                  }
+                                  className="hover:scale-110 border border-white p-1 rounded-lg transition-transform"
+                                  type="button"
                                 >
-                                  <path
-                                    d="M12 5V19.002"
-                                    stroke="white"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M19.002 12.002H5"
-                                    stroke="white"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              )}
-                            </button>
-                          </div>
-                        </div>
+                                  {isIncrementPending ? (
+                                    <Loader
+                                      size="24"
+                                      className="animate-spin"
+                                    />
+                                  ) : (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M12 5V19.002"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                      <path
+                                        d="M19.002 12.002H5"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  )}
+                                </button>
+                              </div>
+                            </div>
                           );
                         })()}
                       </TableCell>
@@ -506,13 +517,10 @@ export const ShoppingCart = () => {
                     ${subtotal?.toFixed(2)}
                   </span>
                 </div>
-                <div className="flex justify-between md:py-4 py-2">
-                  <span className="text-gray-900 md:text-base text-sm">
-                    Shipping :
-                  </span>
-                  <span className="font-semibold text-gray-900 md:text-xl">
-                    ${shipping?.toFixed(2)}
-                  </span>
+                <div className="md:py-4 py-2 border-b border-dashed">
+                  <p className="text-gray-600 md:text-sm text-xs">
+                    Shipping cost has been removed from checkout totals.
+                  </p>
                 </div>
                 <hr className="border-gray-200 md:mb-4 mb-2" />
                 <div className="flex justify-between items-center">

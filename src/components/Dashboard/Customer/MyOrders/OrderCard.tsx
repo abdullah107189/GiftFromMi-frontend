@@ -195,10 +195,10 @@ export default function OrderCard({ order }: OrderCardProps) {
               src={item.image}
               alt={item.product_title}
               className="
-                w-[90px] h-[92px]
-                sm:w-[110px] sm:h-[113px]
-                lg:w-[130px] lg:h-[133px]
-                xl:w-[150px] xl:h-[153px]
+                w-22.5 h-23
+                sm:w-27.5 sm:h-28.25
+                lg:w-32.5 lg:h-33.25
+                xl:w-37.5 xl:h-38.25
                 rounded-xl object-cover
               "
             />

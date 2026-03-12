@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 
 interface OrderSummaryProps {
   onProceedCheckout?: () => void;
@@ -37,7 +35,7 @@ export function OrderSummary({
         </div>
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">
-            Yur Order Summry
+            Your Order Summary
           </h2>
           <p className="text-gray-900">Please provide your contact details</p>
         </div>
@@ -71,60 +69,11 @@ export function OrderSummary({
 
         {/* Calculation Section */}
         <div className="space-y-4">
-          <div className="flex justify-between items-center border-y border-[#EBECF0] md:py-6 py-4">
+          <div className="flex justify-between items-center border-t border-[#EBECF0] md:py-6 py-4">
             <span className="text-gray-600 ">Subtotal</span>
             <span className="text-2xl font-semibold font-manrope">
               ${subtotal?.toFixed(2)}
             </span>
-          </div>
-
-          <div className="flex justify-between items-center">
-            <span className="text-xlfont-semibold text-gray-900">Total</span>
-            <span className="text-3xl font-semibold text-primary font-manrope">
-              ${subtotal?.toFixed(2)}
-            </span>
-          </div>
-
-          <div className="space-y-4 pt-2">
-            <RadioGroup defaultValue="free" className="space-y-3">
-              <p className="text-xl text-gray-900">Shipping</p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <RadioGroupItem
-                    value="free"
-                    id="free"
-                    className="text-primary active:border-primary! border-gray-200"
-                  />
-                  <div>
-                    <Label htmlFor="free" className="text-gray-900 text-base">
-                      Free Delivery
-                    </Label>
-                    <span className="text-sm text-gray-900">
-                      For orders above $25
-                    </span>
-                  </div>
-                </div>
-                <span className="text-2xl font-semibold text-primary">
-                  Free
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <RadioGroupItem
-                    value="express"
-                    id="express"
-                    className="text-primary active:border-primary! border-gray-200"
-                  />
-                  <Label htmlFor="express" className="text-base text-gray-900">
-                    Express Delivery
-                  </Label>
-                </div>
-                <span className="text-2xl font-semibold text-gray-900 font-manrope">
-                  $5.00
-                </span>
-              </div>
-            </RadioGroup>
           </div>
 
           <div className="flex justify-between items-center pt-4 border-t border-gray-100">

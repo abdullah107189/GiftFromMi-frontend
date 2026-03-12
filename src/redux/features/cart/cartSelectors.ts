@@ -27,10 +27,7 @@ export const selectCartSubtotal = createSelector(
 
 export const selectShipping = createSelector(
     [selectCartSubtotal],
-    (subtotal) => {
-        if (subtotal <= 0) return 0;
-        return 24;
-    }
+    () => 0
 );
 
 export const selectCartTotal = createSelector(

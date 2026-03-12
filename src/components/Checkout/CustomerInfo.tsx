@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { CalendarIcon, ChevronDown, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,10 +8,20 @@ import { countries } from "@/utils/countryCode";
 import { SharedSearchableSelect } from "../shared/SharedSearchableSelect";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import type { CheckoutCustomerFormData } from "@/zodValidation/checkout.schema";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export function CustomerInfo() {
   const inputStyle =
     "bg-[#F0F1F1] border placeholder:text-gray-500 text-base border-[#EBECF0] rounded-2xl md:p-6 p-4 focus-visible:ring-1 focus-visible:ring-primary md:h-[72px] h-[60px]";
+  const today = new Date(new Date().setHours(0, 0, 0, 0));
 
   const {
     control,
@@ -203,6 +213,63 @@ export function CustomerInfo() {
           />
           {errors.postcode && (
             <p className="text-red-500 text-sm">{errors.postcode.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-[18px] font-medium text-gray-900">
+            Scheduled Date<span className="text-red-500">*</span>
+          </Label>
+          <Controller
+            control={control}
+            name="scheduled_at"
+            render={({ field }) => {
+              const selectedDate = field.value
+                ? new Date(`${field.value}T00:00:00`)
+                : undefined;
+
+              return (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start rounded-2xl border-[#EBECF0] bg-[#F0F1F1] px-4 text-left text-base font-normal text-gray-900 shadow-none md:h-18 h-15 hover:bg-[#F0F1F1]",
+                        !selectedDate && "text-gray-500",
+                      )}
+                    >
+                      <CalendarIcon className="mr-3 h-5 w-5 text-gray-400" />
+                      {selectedDate ? (
+                        format(selectedDate, "PPP")
+                      ) : (
+                        <span>Select delivery date</span>
+                      )}
+                      <ChevronDown className="ml-auto h-4 w-4 text-gray-400" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-auto rounded-2xl border border-[#EBECF0] p-0 shadow-xl"
+                    align="start"
+                  >
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={(date) =>
+                        field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                      }
+                      disabled={(date) => date < today}
+                      className="rounded-2xl"
+                    />
+                  </PopoverContent>
+                </Popover>
+              );
+            }}
+          />
+          {errors.scheduled_at && (
+            <p className="text-red-500 text-sm">
+              {errors.scheduled_at.message}
+            </p>
           )}
         </div>
 
