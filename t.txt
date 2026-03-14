@@ -19,3 +19,27 @@ github: https://github.com/abdullah107189/GiftFromMi-frontend
 
 Branch: abdullah
 progress: 77%
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+I have developed a comprehensive User Dashboard with a dynamic Sidebar and Header navigation.
+
+I have implemented the My Order section to track and manage user purchase history.
+
+I have completed the Dashboard Profile Settings and Password Settings for secure account management.
+
+I have redesigned the Service Section to provide a modern and professional user interface.
+
+I have engineered a dedicated Finance Page and Finance Section for transaction tracking.
+
+I have developed the Contact Section integrated with a Real-time Map Location.
+
+I have completed the Footer, Privacy & Policy, and Terms & Conditions sections for legal compliance.
