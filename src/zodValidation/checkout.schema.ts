@@ -18,7 +18,7 @@ export const checkoutSchema = z
     shippingCity: z.string().optional(),
     shippingAddress: z.string().optional(),
     // logisticName: z.string().optional(),
-    fromCountryCode: z.string().optional(),
+    // fromCountryCode: z.string().optional(),
     saveInfo: z.boolean().optional(),
     bulkFile: z.instanceof(File).optional(),
     bulkHeaders: z.array(z.string()).optional(),
@@ -52,7 +52,6 @@ export const checkoutSchema = z
       const requiredSingleFields: Array<[keyof typeof data, string]> = [
         ["phone", "Phone number required"],
         ["street_address", "Address required"],
-        ["country", "Country required"],
         ["town_city", "City required"],
         ["district", "District required"],
         ["shippingCountryCode", "Shipping country code required"],
@@ -60,8 +59,6 @@ export const checkoutSchema = z
         ["shippingProvince", "Shipping province required"],
         ["shippingCity", "Shipping city required"],
         ["shippingAddress", "Shipping address required"],
-        ["fromCountryCode", "From country code required"],
-        ["scheduled_at", "Scheduled date is required"],
       ];
 
       requiredSingleFields.forEach(([field, message]) => {

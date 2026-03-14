@@ -1,25 +1,23 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import Rating from "../Rating";
 import { useNavigate } from "react-router";
 import type { IProduct } from "@/types";
-import { getImagesFromDescription } from "@/utils/converter/getImagesFromDescription";
 
-interface GiftBoxCardProps {
-  product: IProduct;
-}
-const GiftBoxCard: React.FC<GiftBoxCardProps> = ({ product }) => {
+// interface GiftBoxCardProps {
+//   product: IProduct;
+// }
+const GiftBoxCard = ({ product }: { product: IProduct }) => {
   console.log(product);
   const navigate = useNavigate();
   if (!product) return null;
-  const { id, description, title, short_description, variants } = product;
+  const { id, product_image, title, short_description, variants } = product;
   const sell_price = variants?.[0]?.sell_price;
   const price = variants?.[0]?.price;
   return (
     <div className="flex flex-col items-center md:p-4 p-2 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
       <div className="w-full xl:h-83.5 lg:h-72 md:h-64 h-50 overflow-hidden rounded-xl bg-gray-50">
         <img
-          src={getImagesFromDescription(description)[0]}
+          src={product_image?.[0]?.imageUrl}
           alt={title}
           className="w-full h-full object-cover"
         />

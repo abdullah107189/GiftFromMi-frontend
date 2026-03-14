@@ -49,7 +49,6 @@ function buildCheckoutFormData(data: CheckoutCustomerFormData) {
     shippingCity: safeTrim(data.shippingCity),
     shippingAddress: safeTrim(data.shippingAddress),
     // logisticName: safeTrim(data.logisticName) || undefined,
-    fromCountryCode: safeTrim(data.fromCountryCode),
     scheduled_at: safeTrim(data.scheduled_at),
   };
 
@@ -91,7 +90,6 @@ const CheckoutPage = () => {
       shippingCity: "",
       shippingAddress: "",
       // logisticName: "",
-      fromCountryCode: "",
       saveInfo: false,
       bulkHeaders: [],
       bulkRows: [],

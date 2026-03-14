@@ -156,7 +156,7 @@ export function CustomerInfo({
         {/* Country */}
         <div className="space-y-2 ">
           <Label className="text-[18px] font-medium text-gray-900">
-            Country / Region
+            Country / Region (optional)
           </Label>
           <Controller
             control={control}
@@ -227,7 +227,7 @@ export function CustomerInfo({
 
         <div className="space-y-2">
           <Label className="text-[18px] font-medium text-gray-900">
-            Scheduled Date<span className="text-red-500">*</span>
+            Scheduled Date (optional)
           </Label>
           <Controller
             control={control}
@@ -419,7 +419,7 @@ export function CustomerInfo({
           )}
         </div> */}
 
-        {/* From Country Code */}
+        {/* From Country Code
         <div className="space-y-2 ">
           <Label className="text-[18px] font-medium text-gray-900">
             From Country Code<span className="text-red-500">*</span>
@@ -443,7 +443,7 @@ export function CustomerInfo({
               {errors.fromCountryCode.message}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* Save info checkbox */}
         <div className="flex items-center gap-3 mt-2">
