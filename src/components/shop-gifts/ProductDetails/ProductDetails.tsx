@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link, useParams } from "react-router";
 import {
   MessageSquareText,
+  MoreHorizontal,
   PackageCheck,
+  PencilLine,
   Sparkles,
   Star,
   Store,
@@ -17,10 +19,7 @@ import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
 import Rating from "@/components/shared/Rating";
 import RelatedProdect from "./RelatedProdect";
 import SEO from "@/components/shared/SEO";
-import {
-  useCreateProductReviewMutation,
-  useProductDetailsQuery,
-} from "@/redux/features/public/public.api";
+import { useProductDetailsQuery } from "@/redux/features/public/public.api";
 import PageLoader from "@/components/shared/PageLoader";
 import fallbackImage from "@/assets/fallback.png";
 import type { IProduct } from "@/types";
@@ -41,7 +40,13 @@ import {
   selectUser,
 } from "@/redux/features/auth/authSelectors";
 import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
+import {
+  useCreateReviewMutation,
+  useUpdateReviewMutation,
+} from "@/redux/features/review/review.api";
 import { cn } from "@/lib/utils";
+
+const REVIEW_PREVIEW_LENGTH = 180;
 
 type ProductReview = {
   id: number;
@@ -99,7 +104,9 @@ const ProductDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [addToCartMutation] = useAddToCartMutation();
   const [createProductReview, { isLoading: isSubmittingReview }] =
-    useCreateProductReviewMutation();
+    useCreateReviewMutation();
+  const [updateReview, { isLoading: isUpdatingReview }] =
+    useUpdateReviewMutation();
   const user = useSelector(selectUser);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const cartItems = useSelector(selectCartItemsArray);
@@ -121,6 +128,12 @@ const ProductDetails = () => {
   );
   const [activeImage, setActiveImage] = useState<string>("");
   const [reviewForm, setReviewForm] = useState({
+    review: 0,
+    message: "",
+  });
+  const [expandedReviewIds, setExpandedReviewIds] = useState<number[]>([]);
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [editReviewForm, setEditReviewForm] = useState({
     review: 0,
     message: "",
   });
@@ -238,6 +251,33 @@ const ProductDetails = () => {
       }),
     [reviews, totalReviews],
   );
+
+  const toggleReviewExpanded = (reviewId: number) => {
+    setExpandedReviewIds((prev) =>
+      prev.includes(reviewId)
+        ? prev.filter((itemId) => itemId !== reviewId)
+        : [...prev, reviewId],
+    );
+  };
+
+  const startEditingReview = (reviewItem: ProductReview) => {
+    setEditingReviewId(reviewItem.id);
+    setEditReviewForm({
+      review: Number(reviewItem.review) || 0,
+      message: reviewItem.message || "",
+    });
+    setExpandedReviewIds((prev) =>
+      prev.includes(reviewItem.id) ? prev : [...prev, reviewItem.id],
+    );
+  };
+
+  const cancelEditingReview = () => {
+    setEditingReviewId(null);
+    setEditReviewForm({
+      review: 0,
+      message: "",
+    });
+  };
 
   if (isFetching || isLoading) return <PageLoader />;
   if (!product) return <p>Not Found</p>;
@@ -357,6 +397,37 @@ const ProductDetails = () => {
     } catch (error) {
       toast.error(
         getApiErrorMessage(error, "Could not submit your review right now."),
+      );
+    }
+  };
+
+  const handleReviewUpdate = async (reviewItem: ProductReview) => {
+    if (!editReviewForm.review) {
+      toast.error("Please choose a rating.");
+      return;
+    }
+
+    if (!editReviewForm.message.trim()) {
+      toast.error("Please write a short review message.");
+      return;
+    }
+
+    try {
+      const response: any = await updateReview({
+        id: reviewItem.id,
+        data: {
+          product_id: product.id,
+          review: editReviewForm.review,
+          message: editReviewForm.message.trim(),
+        },
+      }).unwrap();
+
+      toast.success(response?.message || "Review updated successfully.");
+      cancelEditingReview();
+      await refetch();
+    } catch (error) {
+      toast.error(
+        getApiErrorMessage(error, "Could not update your review right now."),
       );
     }
   };
@@ -853,10 +924,23 @@ const ProductDetails = () => {
                   ))}
                 </div>
 
-                <div className="space-y-4">
+                {/* reviews */}
+                <div className="space-y-4 h-100 md:h-125 lg:h-137.5 overflow-y-auto">
                   {reviews.length > 0 ? (
                     reviews.map((reviewItem) => {
                       const displayName = getDisplayName(reviewItem);
+                      const isOwnReview = user?.id === reviewItem.user_id;
+                      const isExpanded = expandedReviewIds.includes(
+                        reviewItem.id,
+                      );
+                      const isEditing = editingReviewId === reviewItem.id;
+                      const reviewMessage =
+                        reviewItem.message || "No written feedback.";
+                      const isLongMessage =
+                        reviewMessage.length > REVIEW_PREVIEW_LENGTH;
+                      const previewMessage = isLongMessage
+                        ? `${reviewMessage.slice(0, REVIEW_PREVIEW_LENGTH).trim()}...`
+                        : reviewMessage;
 
                       return (
                         <div
@@ -897,9 +981,128 @@ const ProductDetails = () => {
                                 </div>
                               </div>
 
-                              <p className="mt-4 text-sm leading-7 text-gray-600">
-                                {reviewItem.message || "No written feedback."}
-                              </p>
+                              <div className="mt-4 space-y-3">
+                                {isEditing ? (
+                                  <div className="space-y-4 rounded-2xl border border-primary-200 bg-white p-4">
+                                    <div>
+                                      <p className="mb-3 text-sm font-medium text-gray-700">
+                                        Update your rating
+                                      </p>
+                                      <div className="flex flex-wrap gap-2">
+                                        {[1, 2, 3, 4, 5].map((starValue) => (
+                                          <button
+                                            key={starValue}
+                                            type="button"
+                                            onClick={() =>
+                                              setEditReviewForm((prev) => ({
+                                                ...prev,
+                                                review: starValue,
+                                              }))
+                                            }
+                                            className={cn(
+                                              "inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition-all",
+                                              editReviewForm.review >= starValue
+                                                ? "border-primary bg-primary-50 text-primary"
+                                                : "border-gray-200 bg-white text-gray-600 hover:border-primary-200",
+                                            )}
+                                          >
+                                            <Star
+                                              className={cn(
+                                                "h-4 w-4",
+                                                editReviewForm.review >=
+                                                  starValue
+                                                  ? "fill-primary text-primary"
+                                                  : "text-gray-300",
+                                              )}
+                                            />
+                                            {starValue}
+                                          </button>
+                                        ))}
+                                      </div>
+                                    </div>
+
+                                    <div>
+                                      <p className="mb-3 text-sm font-medium text-gray-700">
+                                        Update your comment
+                                      </p>
+                                      <Textarea
+                                        rows={5}
+                                        value={editReviewForm.message}
+                                        onChange={(event) =>
+                                          setEditReviewForm((prev) => ({
+                                            ...prev,
+                                            message: event.target.value,
+                                          }))
+                                        }
+                                      />
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-3">
+                                      <Button
+                                        type="button"
+                                        onClick={() =>
+                                          handleReviewUpdate(reviewItem)
+                                        }
+                                        disabled={isUpdatingReview}
+                                      >
+                                        {isUpdatingReview
+                                          ? "Saving..."
+                                          : "Save changes"}
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={cancelEditingReview}
+                                        disabled={isUpdatingReview}
+                                      >
+                                        Cancel
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <p className="text-sm leading-7 text-gray-600">
+                                      {isExpanded
+                                        ? reviewMessage
+                                        : previewMessage}
+                                    </p>
+
+                                    {(isLongMessage || isOwnReview) && (
+                                      <div className="flex flex-wrap items-center gap-3">
+                                        {isLongMessage ? (
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              toggleReviewExpanded(
+                                                reviewItem.id,
+                                              )
+                                            }
+                                            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-opacity hover:opacity-80"
+                                          >
+                                            <MoreHorizontal className="h-4 w-4" />
+                                            {isExpanded
+                                              ? "Show less"
+                                              : "Read more"}
+                                          </button>
+                                        ) : null}
+
+                                        {isOwnReview ? (
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              startEditingReview(reviewItem)
+                                            }
+                                            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-700 transition-opacity hover:opacity-80"
+                                          >
+                                            <PencilLine className="h-4 w-4" />
+                                            Edit review
+                                          </button>
+                                        ) : null}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              </div>
 
                               {reviewItem.reply ? (
                                 <div className="mt-4 rounded-2xl border border-primary-200 bg-white p-4">
@@ -925,107 +1128,113 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <div className="rounded-4xl border border-primary-200 bg-white p-6 md:p-8 shadow-sm">
-              <span className="inline-flex rounded-full bg-primary-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                Write a review
-              </span>
-              <h2 className="mt-3 text-2xl font-semibold text-gray-900">
-                Share your experience
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-gray-500">
-                Add a manual rating and a short comment for this product.
-              </p>
+            <div className="">
+              <div className="rounded-4xl border border-primary-200 bg-white p-6 md:p-8 shadow-sm">
+                <span className="inline-flex rounded-full bg-primary-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                  Write a review
+                </span>
+                <h2 className="mt-3 text-2xl font-semibold text-gray-900">
+                  Share your experience
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  Add a manual rating and a short comment for this product.
+                </p>
 
-              {isLoggedIn ? (
-                <form className="mt-6 space-y-5" onSubmit={handleReviewSubmit}>
-                  <div>
-                    <label className="mb-3 block text-sm font-medium text-gray-700">
-                      Your rating
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                      {[1, 2, 3, 4, 5].map((starValue) => (
-                        <button
-                          key={starValue}
-                          type="button"
-                          onClick={() =>
-                            setReviewForm((prev) => ({
-                              ...prev,
-                              review: starValue,
-                            }))
-                          }
-                          className={cn(
-                            "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all",
-                            reviewForm.review >= starValue
-                              ? "border-primary bg-primary-50 text-primary"
-                              : "border-gray-200 bg-white text-gray-600 hover:border-primary-200",
-                          )}
-                        >
-                          <Star
-                            className={cn(
-                              "h-4 w-4",
-                              reviewForm.review >= starValue
-                                ? "fill-primary text-primary"
-                                : "text-gray-300",
-                            )}
-                          />
-                          {starValue}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="review-message"
-                      className="mb-3 block text-sm font-medium text-gray-700"
-                    >
-                      Your review
-                    </label>
-                    <Textarea
-                      id="review-message"
-                      rows={6}
-                      value={reviewForm.message}
-                      onChange={(event) =>
-                        setReviewForm((prev) => ({
-                          ...prev,
-                          message: event.target.value,
-                        }))
-                      }
-                      placeholder="Write what you liked, quality impression, delivery feel, or any practical feedback."
-                    />
-                  </div>
-
-                  <div className="rounded-3xl bg-primary-50 p-4 text-sm leading-6 text-gray-600">
-                    Posting as{" "}
-                    <span className="font-semibold text-gray-900">
-                      {user?.first_name || user?.last_name
-                        ? `${user?.first_name || ""} ${user?.last_name || ""}`.trim()
-                        : user?.email}
-                    </span>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmittingReview}
-                    className="w-full"
+                {isLoggedIn ? (
+                  <form
+                    className="mt-6 space-y-5"
+                    onSubmit={handleReviewSubmit}
                   >
-                    {isSubmittingReview
-                      ? "Submitting review..."
-                      : "Submit review"}
-                  </Button>
-                </form>
-              ) : (
-                <div className="mt-6 rounded-3xl border border-dashed border-primary-200 bg-primary-50 p-5">
-                  <p className="text-sm leading-6 text-gray-600">
-                    Login to add a rating and comment for this product. After
-                    submission, the review will appear in the customer review
-                    list.
-                  </p>
-                  <Link to="/login" className="mt-4 inline-block">
-                    <Button>Login to review</Button>
-                  </Link>
-                </div>
-              )}
+                    <div>
+                      <label className="mb-3 block text-sm font-medium text-gray-700">
+                        Your rating
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {[1, 2, 3, 4, 5].map((starValue) => (
+                          <button
+                            key={starValue}
+                            type="button"
+                            onClick={() =>
+                              setReviewForm((prev) => ({
+                                ...prev,
+                                review: starValue,
+                              }))
+                            }
+                            className={cn(
+                              "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all",
+                              reviewForm.review >= starValue
+                                ? "border-primary bg-primary-50 text-primary"
+                                : "border-gray-200 bg-white text-gray-600 hover:border-primary-200",
+                            )}
+                          >
+                            <Star
+                              className={cn(
+                                "h-4 w-4",
+                                reviewForm.review >= starValue
+                                  ? "fill-primary text-primary"
+                                  : "text-gray-300",
+                              )}
+                            />
+                            {starValue}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="review-message"
+                        className="mb-3 block text-sm font-medium text-gray-700"
+                      >
+                        Your review
+                      </label>
+                      <Textarea
+                      className="rounded-xl"
+                        id="review-message"
+                        rows={6}
+                        value={reviewForm.message}
+                        onChange={(event) =>
+                          setReviewForm((prev) => ({
+                            ...prev,
+                            message: event.target.value,
+                          }))
+                        }
+                        placeholder="Write what you liked, quality impression, delivery feel, or any practical feedback."
+                      />
+                    </div>
+
+                    <div className="rounded-3xl bg-primary-50 p-4 text-sm leading-6 text-gray-600">
+                      Posting as{" "}
+                      <span className="font-semibold text-gray-900">
+                        {user?.first_name || user?.last_name
+                          ? `${user?.first_name || ""} ${user?.last_name || ""}`.trim()
+                          : user?.email}
+                      </span>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmittingReview}
+                      className="w-full"
+                    >
+                      {isSubmittingReview
+                        ? "Submitting review..."
+                        : "Submit review"}
+                    </Button>
+                  </form>
+                ) : (
+                  <div className="mt-6 rounded-3xl border border-dashed border-primary-200 bg-primary-50 p-5">
+                    <p className="text-sm leading-6 text-gray-600">
+                      Login to add a rating and comment for this product. After
+                      submission, the review will appear in the customer review
+                      list.
+                    </p>
+                    <Link to="/login" className="mt-4 inline-block">
+                      <Button>Login to review</Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </section>

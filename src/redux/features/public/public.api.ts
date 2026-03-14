@@ -33,16 +33,6 @@ export const landingApi = baseApi.injectEndpoints({
             transformResponse: (res) => res.data,
             providesTags: (_result, _error, id) => [{ type: "PRODUCT", id }],
         }),
-        createProductReview: builder.mutation({
-            query: (reviewInfo) => ({
-                url: "/review",
-                method: "POST",
-                data: reviewInfo,
-            }),
-            invalidatesTags: (_result, _error, reviewInfo) => [
-                { type: "PRODUCT", id: reviewInfo?.product_id },
-            ],
-        }),
     })
 });
 
@@ -52,5 +42,4 @@ export const {
     useCategorizedProductQuery,
     useProductDetailsQuery,
     useCategorizedProductByIdQuery,
-    useCreateProductReviewMutation,
 } = landingApi;
