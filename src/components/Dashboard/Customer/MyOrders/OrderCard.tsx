@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { CustomerOrder } from "@/types/orders";
 import { Link } from "react-router";
 import { useLazyExportOrderQuery } from "@/redux/features/order/order.api";
 import { downloadCSVFile } from "@/utils/downloadCSVFile";
+import { useOrderPayMutation } from "@/redux/features/checkout/checkout.api";
+import { toast } from "sonner";
 
 interface OrderCardProps {
   order: CustomerOrder;
@@ -53,10 +56,10 @@ const hasDeliveryDate = (delivery?: string) =>
   Boolean(delivery) && delivery !== "-" && delivery !== "—";
 
 export default function OrderCard({ order }: OrderCardProps) {
-  console.log(order.id);
-
   const [exportOrder, { isLoading: isLoadingExportOrder }] =
     useLazyExportOrderQuery();
+
+  const [orderPay, { isLoading: isLoadingOrderPay }] = useOrderPayMutation();
 
   const handleDownload = async () => {
     try {
@@ -93,7 +96,23 @@ export default function OrderCard({ order }: OrderCardProps) {
 
   const canCancel =
     fulfillmentStatus === "pending" || fulfillmentStatus === "processing";
+  const paymentPending = paymentStatus === "pending";
 
+  const handlePay = async () => {
+    try {
+      const result = await orderPay(order.id).unwrap();
+      console.log(result);
+      if (result?.url) {
+        toast.success(result.message);
+        window.location.replace(result.url);
+      } else {
+        toast.error(result.message || "Redirect failed!");
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Payment failed!");
+      console.error(err);
+    }
+  };
   return (
     <div className="rounded-t-4xl overflow-hidden mb-8 overflow-x-auto!">
       <div className="bg-[#CA8A32] md:p-6 p-4 text-white">
@@ -280,6 +299,16 @@ export default function OrderCard({ order }: OrderCardProps) {
                   View All Details
                 </Button>
               </Link>
+              {paymentPending && (
+                <Button
+                  disabled={isLoadingExportOrder}
+                  onClick={() => handlePay()}
+                  variant="outline"
+                  className="px-5 sm:px-6 rounded-2xl"
+                >
+                  {isLoadingOrderPay ? "Paying..." : "Pay"}
+                </Button>
+              )}
             </div>
 
             {canCancel && order.payment_status === "pending" && (

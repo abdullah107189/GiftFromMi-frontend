@@ -31,6 +31,13 @@ export const checkoutApi = baseApi.injectEndpoints({
             }),
             transformResponse: (res) => res.data,
         }),
+        orderPay: builder.mutation({
+            query: (id) => ({
+                url: `/order/pay/${id}`,
+                method: "POST",
+            }),
+            transformResponse: (res) => res.data,
+        })
     }),
 });
-export const { useCheckoutMutation, usePreviewBulkCheckoutMutation, useCalculateShippingFeeMutation } = checkoutApi;
+export const { useCheckoutMutation, usePreviewBulkCheckoutMutation, useCalculateShippingFeeMutation, useOrderPayMutation } = checkoutApi;

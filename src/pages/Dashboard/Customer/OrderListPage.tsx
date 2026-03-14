@@ -21,7 +21,6 @@ export function OrderListPage() {
   if (isLoadingGetAllOrder) {
     return <PageLoader></PageLoader>;
   }
-  console.log("customerOrdersResponse", customerOrdersResponse);
   if (!customerOrdersResponse) {
     return <div>Orders not found</div>;
   }
