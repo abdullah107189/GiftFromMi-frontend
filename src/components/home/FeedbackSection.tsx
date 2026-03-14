@@ -58,7 +58,7 @@ import Rating from "../shared/Rating";
 
 const FeedbackSection = ({ reviews }: { reviews: any }) => {
   return (
-    <section className="pb-15">
+    <section className="pt-15">
       <SectionHeader
         title=" Loved by professionals"
         subtitle="Join hundreds of professionals who are building stronger client

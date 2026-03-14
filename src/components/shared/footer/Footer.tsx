@@ -1,19 +1,20 @@
 import logo from "@/assets/icons/logo.png";
+import { Link } from "react-router";
 
 const Footer = () => {
   const footerLinks = {
-    products: [
-      { name: "Home", href: "#" },
-      { name: "How Its Work", href: "#" },
-      { name: "Shop Gifts", href: "#" },
-      { name: "For Professionals", href: "#" },
-      { name: "Bulk & Automation", href: "#" },
+    quickLink: [
+      { name: "Home", href: "/" },
+      { name: "How Its Work", href: "/how-it-works" },
+      { name: "Shop Gifts", href: "/shop-gifts" },
+      { name: "For Professionals", href: "/for-professionals" },
+      { name: "Bulk & Automation", href: "/bulk-automation" },
     ],
     support: [
       { name: "About Us", href: "#" },
-      { name: "FAQ", href: "#" },
+      { name: "FAQ", href: "/#faqSection" },
       { name: "Privacy Policy", href: "#" },
-      { name: "Contact", href: "#" },
+      { name: "Contact", href: "/contact-us" },
     ],
   };
 
@@ -40,14 +41,14 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <h3 className="font-bold text-gray-900 text-lg">Quick Link</h3>
             <ul className="flex flex-col gap-3">
-              {footerLinks.products.map((link) => (
+              {footerLinks.quickLink.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link?.href}
                     className="text-gray-500 hover:text-primary transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -59,12 +60,12 @@ const Footer = () => {
             <ul className="flex flex-col gap-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-gray-500 hover:text-primary transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -135,7 +136,7 @@ const Footer = () => {
                   +880 123456789
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-gray-500">
+              {/* <li className="flex items-center gap-3 text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -153,7 +154,7 @@ const Footer = () => {
                   />
                 </svg>
                 <span>123 Green Energy TX 78701</span>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
@@ -161,12 +162,12 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-15 pt-8 border-t border-[#BABABA] flex flex-col md:flex-row justify-center items-center gap-6">
           <div className="flex gap-8 text-gray-500 text-sm">
-            <a href="#" className="hover:text-[#C57200]">
+            <Link to="#" className="hover:text-[#C57200]">
               Terms of Service
-            </a>
-            <a href="#" className="hover:text-[#C57200]">
+            </Link>
+            <Link to="#" className="hover:text-[#C57200]">
               Privacy Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>

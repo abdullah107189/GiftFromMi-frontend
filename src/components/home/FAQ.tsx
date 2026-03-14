@@ -50,9 +50,9 @@ import { parseDescriptionToText } from "@/utils/converter/parseDescriptionToText
 //   },
 // ];
 
-const FAQ = ({ faqs }: { faqs: { title: string, description: string }[] }) => {
+const FAQ = ({ faqs }: { faqs: { title: string; description: string }[] }) => {
   return (
-    <section className="pb-15 bg-primary-50">
+    <section className="pb-15 mt-15 bg-primary-50" id="faqSection">
       <div className="max-w-container mx-auto px-3">
         {/* Using your custom SectionHeader */}
         <SectionHeader

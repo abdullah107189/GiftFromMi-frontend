@@ -4,8 +4,6 @@ import GiftBoxCard from "../shared/cards/GiftBoxCard";
 import { Link } from "react-router";
 
 const GiftCategoriesSection = ({ categories }: { categories: Category[] }) => {
-  console.log("categories", categories);
-
   if (!categories) return null;
   return (
     <section className="py-16 bg-background">

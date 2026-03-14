@@ -226,7 +226,6 @@ const CheckoutPage = () => {
       });
       const shippingFeeResponse = await calculateShippingFee(data).unwrap();
       setShippingFee(shippingFeeResponse?.shipping_cost ?? 0);
-      console.log(shippingFee?.shipping_cost);
     } catch {
       setShippingFee(0);
       toast.error("Unable to calculate shipping fee right now.");
