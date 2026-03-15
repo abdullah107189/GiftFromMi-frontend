@@ -3,6 +3,7 @@ import {
   clearCart,
   hydrateServerCart,
   resetCartSyncMeta,
+  setCartLoading,
   setCartSyncStatus,
 } from "@/redux/features/cart/cartSlice";
 import type { CartItem } from "@/redux/features/cart/cartSlice";
@@ -41,14 +42,19 @@ const CartSyncManager = () => {
   const [addToCartMutation] = useAddToCartMutation();
   const [updateCartMutation] = useUpdateCartMutation();
 
-  const { data: serverCartItemsData = EMPTY_CART_ITEMS, isSuccess: isServerCartLoaded } =
-    useGetAllCartItemsQuery(undefined, {
-      skip: !user,
-      refetchOnMountOrArgChange: true,
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
-    });
-
+  const {
+    data: serverCartItemsData = EMPTY_CART_ITEMS,
+    isSuccess: isServerCartLoaded,
+    isLoading: isServerCartLoading,
+  } = useGetAllCartItemsQuery(undefined, {
+    skip: !user,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+  useEffect(() => {
+    dispatch(setCartLoading(isServerCartLoading));
+  }, [dispatch, isServerCartLoading]);
   const previousUserIdRef = useRef<number | null>(null);
   const pendingLoginMergeUserIdRef = useRef<number | null>(null);
   const isMergingGuestCartRef = useRef(false);
@@ -95,7 +101,8 @@ const CartSyncManager = () => {
           userId: user.id,
         }),
       );
-      lastHydratedSignatureRef.current = buildCartSignature(serverCartItemsData);
+      lastHydratedSignatureRef.current =
+        buildCartSignature(serverCartItemsData);
       pendingLoginMergeUserIdRef.current = null;
       dispatch(setCartSyncStatus({ status: "idle" }));
       return;

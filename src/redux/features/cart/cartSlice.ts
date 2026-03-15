@@ -37,8 +37,9 @@ export type CartSyncMeta = {
 };
 
 export type CartState = {
-    itemsById: Record<string, CartItem>; // key-based map
+    itemsById: Record<string, CartItem>;
     sync: CartSyncMeta;
+    isServerCartLoading?: boolean;
 };
 
 const CART_STORAGE_KEY = "app_cart_v1";
@@ -86,7 +87,7 @@ function loadCartFromStorage(): CartState {
                         : "idle",
                 error:
                     typeof parsed.sync?.error === "string" ? parsed.sync.error : null,
-                },
+            },
         };
 
         // Safety rule:
@@ -250,6 +251,10 @@ const cartSlice = createSlice({
         resetCartSyncMeta(state) {
             state.sync = createInitialSyncMeta();
         },
+
+        setCartLoading: (state: CartState, action: PayloadAction<boolean>) => {
+            state.isServerCartLoading = action.payload;
+        },
     },
 });
 
@@ -267,6 +272,7 @@ export const {
     setCartSyncStatus,
     hydrateServerCart,
     resetCartSyncMeta,
+    setCartLoading,
 } = cartSlice.actions;
 
 export { CART_STORAGE_KEY };
