@@ -103,12 +103,6 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
         ))}
       </div>
       <div className="mt-3 gap-4 flex">
-        <Button
-          className="h-auto px-5 sm:px-6 py-3 sm:py-4 rounded-2xl"
-          variant={"secondary"}
-        >
-          Add Review
-        </Button>
         <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
           Invoice
         </Button>
