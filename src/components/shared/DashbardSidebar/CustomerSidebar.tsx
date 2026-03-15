@@ -165,7 +165,11 @@ export function CustomerSidebar({ className }: { className?: string }) {
       <SidebarContent className="p-1">
         <SidebarMenu className="xl:gap-4 md:gap-3 gap-2 p-4 shadow-[0_0_8px_-4px_rgba(145,158,171,0.28)] rounded-2xl bg-currentColor border border-gray-50">
           {customerItems.map((item) => {
-            const isActive = pathname === item.url;
+            const isProfileSection =
+              item.url === "/customer-dashboard" &&
+              (pathname === "/customer-dashboard" ||
+                pathname.startsWith("/customer-dashboard/update-profile"));
+            const isActive = isProfileSection || pathname === item.url;
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton

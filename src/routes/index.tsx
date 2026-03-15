@@ -21,11 +21,11 @@ import { Role } from "@/types";
 const PersonalInfoPage = lazy(
   () => import("@/pages/Dashboard/Customer/PersonalInfoPage"),
 );
+const UpdateProfilePage = lazy(
+  () => import("@/pages/Dashboard/Customer/UpdateProfilePage"),
+);
 const NotFound = lazy(() => import("@/components/shared/NotFound"));
 const ResetPassword = lazy(() => import("@/components/auth/ResetPassword"));
-const ViewProfilePage = lazy(
-  () => import("@/pages/Dashboard/Customer/ViewProfilePage"),
-);
 const PaymentCancel = lazy(() => import("@/pages/payment/PaymentCancel"));
 const PaymentSuccess = lazy(() => import("@/pages/payment/PaymentSuccess"));
 
@@ -63,16 +63,16 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <Suspense fallback={<PageLoader />}>
-            <ViewProfilePage />
+            <PersonalInfoPage />
           </Suspense>
         ),
       },
 
       {
-        path: "edit-profile",
+        path: "update-profile",
         element: (
           <Suspense fallback={<PageLoader />}>
-            <PersonalInfoPage />
+            <UpdateProfilePage />
           </Suspense>
         ),
       },

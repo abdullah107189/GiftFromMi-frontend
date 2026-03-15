@@ -55,7 +55,7 @@ export default function CategoryProductsPage() {
           </p>
           <div className="mt-8 flex justify-center">
             <Link to="/shop-gifts">
-              <Button asChild className="rounded-2xl">
+              <Button className="rounded-2xl">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Shop Gifts
               </Button>
@@ -97,7 +97,7 @@ export default function CategoryProductsPage() {
               </div>
 
               <Link to="/shop-gifts">
-                <Button 
+                <Button
                   variant="outline"
                   className="rounded-2xl bg-white/10 text-white border-white/25 hover:bg-white hover:text-primary"
                 >

@@ -1,8 +1,8 @@
 import { baseApi } from "@/redux/baseApi";
 
-export const adminApi = baseApi.injectEndpoints({
+export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Users
+    // Current user and admin user endpoints live here.
     getAllUsers: builder.query({
       query: () => ({ url: "/users", method: "GET" }),
       providesTags: ["USERS"],
@@ -11,7 +11,7 @@ export const adminApi = baseApi.injectEndpoints({
 
     getSingleUser: builder.query({
       query: () => ({ url: "/user-detail", method: "GET" }),
-      providesTags: ["USERS"],
+      providesTags: ["USERS", "PROFILE"],
       transformResponse: (res) => res,
     }),
 
@@ -21,7 +21,7 @@ export const adminApi = baseApi.injectEndpoints({
         method: "POST",
         data: credentials,
       }),
-      invalidatesTags: ["USERS"],
+      invalidatesTags: ["USERS", "PROFILE"],
     }),
 
     userProfileUpdate: builder.mutation({
@@ -30,7 +30,7 @@ export const adminApi = baseApi.injectEndpoints({
         method: "POST",
         data: credentials,
       }),
-      invalidatesTags: ["USERS"],
+      invalidatesTags: ["USERS", "PROFILE"],
     }),
 
     userAvaterUpload: builder.mutation({
@@ -39,17 +39,24 @@ export const adminApi = baseApi.injectEndpoints({
         method: "POST",
         data: credentials,
       }),
-      invalidatesTags: ["USERS"],
+      invalidatesTags: ["USERS", "PROFILE"],
     }),
-    
+
     userAvaterRemove: builder.mutation({
       query: (credentials) => ({
         url: "/profile-avatar-remove",
         method: "POST",
         data: credentials,
       }),
-      invalidatesTags: ["USERS"],
-    })
+      invalidatesTags: ["USERS", "PROFILE"],
+    }),
   }),
 });
-export const { useGetAllUsersQuery } = adminApi;
+export const {
+  useGetAllUsersQuery,
+  useGetSingleUserQuery,
+  useUserChangePasswordMutation,
+  useUserProfileUpdateMutation,
+  useUserAvaterUploadMutation,
+  useUserAvaterRemoveMutation,
+} = userApi;
