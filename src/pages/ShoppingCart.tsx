@@ -14,9 +14,7 @@ import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import {
-  addToCart,
   clearCart as clearCartLocal,
-  hydrateServerCart,
   removeFromCart,
   setCartOwnerUserId,
   setQty,
@@ -25,11 +23,9 @@ import { useEffect, useMemo, useState } from "react";
 import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 import {
   useClearCartMutation,
-  useGetAllCartItemsQuery,
   useRemoveCartMutation,
   useUpdateCartMutation,
 } from "@/redux/features/cart/cart.api";
-import { mergeLocalCartWithServer } from "@/redux/features/cart/cartUtils";
 import { selectUser } from "@/redux/features/auth/authSelectors";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
@@ -56,24 +52,22 @@ export const ShoppingCart = () => {
   const [updateCartMutation] = useUpdateCartMutation();
   const [removeCartMutation] = useRemoveCartMutation();
   const [clearCartMutation] = useClearCartMutation();
-  const { data: latestCartItems } = useGetAllCartItemsQuery(undefined, {
-    skip: !user,
-    refetchOnMountOrArgChange: true,
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
-  });
 
   useEffect(() => {
-    if (!user || !latestCartItems) return;
-    const mergedCartItems = mergeLocalCartWithServer(cartItems, latestCartItems);
+    setOptimisticQtyByKey((prev) => {
+      const next = { ...prev };
+      let hasChanges = false;
 
-    dispatch(
-      hydrateServerCart({
-        items: mergedCartItems,
-        userId: user.id,
-      }),
-    );
-  }, [dispatch, latestCartItems, user]);
+      for (const item of cartItems) {
+        if (next[item.key] === item.qty) {
+          delete next[item.key];
+          hasChanges = true;
+        }
+      }
+
+      return hasChanges ? next : prev;
+    });
+  }, [cartItems]);
 
   const displayCartItems = useMemo(() => {
     if (isOptimisticClear) return [];
@@ -119,22 +113,19 @@ export const ShoppingCart = () => {
 
     if (nextQty === item.qty) return;
 
-    setOptimisticQtyByKey((prev) => ({
-      ...prev,
-      [item.key]: nextQty,
-    }));
-    dispatch(setQty({ key: item.key, qty: nextQty }));
-    dispatch(setCartOwnerUserId(user?.id ?? null));
     setPendingQuantityAction({ key: item.key, type });
 
     if (user) {
+      setOptimisticQtyByKey((prev) => ({
+        ...prev,
+        [item.key]: nextQty,
+      }));
       const cartItemId = getCartItemId(item);
       if (!cartItemId) {
         setOptimisticQtyByKey((prev) => ({
           ...prev,
           [item.key]: item.qty,
         }));
-        dispatch(setQty({ key: item.key, qty: item.qty }));
         setPendingQuantityAction(null);
         toast.error("Cart sync failed. Refresh and try again.");
         return;
@@ -156,18 +147,14 @@ export const ShoppingCart = () => {
           ...prev,
           [item.key]: item.qty,
         }));
-        dispatch(setQty({ key: item.key, qty: item.qty }));
         setPendingQuantityAction(null);
         toast.error("Cart update failed. Please try again.");
       }
       return;
     }
 
-    setOptimisticQtyByKey((prev) => {
-      const next = { ...prev };
-      delete next[item.key];
-      return next;
-    });
+    dispatch(setQty({ key: item.key, qty: nextQty }));
+    dispatch(setCartOwnerUserId(null));
     setPendingQuantityAction(null);
   };
 
@@ -176,18 +163,10 @@ export const ShoppingCart = () => {
     if (!item) return;
 
     setDeletingKey(key);
-    dispatch(setCartOwnerUserId(user?.id ?? null));
-    setOptimisticQtyByKey((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
-    dispatch(removeFromCart({ key }));
 
     if (user) {
       const cartItemId = getCartItemId(item);
       if (!cartItemId) {
-        dispatch(addToCart(item));
         setDeletingKey(null);
         toast.error("Cart sync failed. Refresh and try again.");
         return;
@@ -196,12 +175,17 @@ export const ShoppingCart = () => {
       try {
         await removeCartMutation({ cart_item_id: cartItemId }).unwrap();
       } catch {
-        dispatch(addToCart(item));
         setDeletingKey(null);
         toast.error("Remove failed. Please try again.");
         return;
       }
+      setDeletingKey(null);
+      toast.success("Item removed from cart");
+      return;
     }
+
+    dispatch(removeFromCart({ key }));
+    dispatch(setCartOwnerUserId(null));
     setDeletingKey(null);
     toast.success("Item removed from cart");
   };
@@ -210,17 +194,12 @@ export const ShoppingCart = () => {
     if (!cartItems.length) return;
 
     const previousItems = [...cartItems];
-    setIsOptimisticClear(true);
     setIsClearingPending(true);
     setOptimisticQtyByKey({});
-    dispatch(setCartOwnerUserId(user?.id ?? null));
-    dispatch(clearCartLocal());
 
     if (user) {
       const cartItemId = getCartItemId(previousItems[0]);
       if (!cartItemId) {
-        setIsOptimisticClear(false);
-        previousItems.forEach((item) => dispatch(addToCart(item)));
         setIsClearingPending(false);
         toast.error("Cart sync failed. Refresh and try again.");
         return;
@@ -229,14 +208,18 @@ export const ShoppingCart = () => {
       try {
         await clearCartMutation({ cart_item_id: cartItemId }).unwrap();
       } catch {
-        setIsOptimisticClear(false);
-        previousItems.forEach((item) => dispatch(addToCart(item)));
         setIsClearingPending(false);
         toast.error("Clear cart failed. Please try again.");
         return;
       }
+      setIsClearingPending(false);
+      toast.success("Cart cleared");
+      return;
     }
 
+    setIsOptimisticClear(true);
+    dispatch(clearCartLocal());
+    dispatch(setCartOwnerUserId(null));
     setIsOptimisticClear(false);
     setIsClearingPending(false);
     toast.success("Cart cleared");

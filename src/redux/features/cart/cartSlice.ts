@@ -42,12 +42,6 @@ export type CartState = {
 };
 
 const CART_STORAGE_KEY = "app_cart_v1";
-const initialSyncMeta: CartSyncMeta = {
-    ownerUserId: null,
-    status: "idle",
-    error: null,
-};
-
 const createInitialSyncMeta = (): CartSyncMeta => ({
     ownerUserId: null,
     status: "idle",
@@ -62,14 +56,21 @@ const ensureSyncMeta = (state: CartState) => {
     return state.sync;
 };
 
+// Guest users start from an empty Redux cart.
+// Logged-in users also start empty and are hydrated from the server later.
+export const createEmptyCartState = (): CartState => ({
+    itemsById: {},
+    sync: createInitialSyncMeta(),
+});
+
 function loadCartFromStorage(): CartState {
     try {
         const raw = localStorage.getItem(CART_STORAGE_KEY);
-        if (!raw) return { itemsById: {}, sync: initialSyncMeta };
+        if (!raw) return createEmptyCartState();
         const parsed = JSON.parse(raw) as CartState;
 
         if (!parsed?.itemsById || typeof parsed.itemsById !== "object") {
-            return { itemsById: {}, sync: initialSyncMeta };
+            return createEmptyCartState();
         }
         const normalized: CartState = {
             itemsById: {},
@@ -85,8 +86,15 @@ function loadCartFromStorage(): CartState {
                         : "idle",
                 error:
                     typeof parsed.sync?.error === "string" ? parsed.sync.error : null,
-            },
+                },
         };
+
+        // Safety rule:
+        // if the stored cart belongs to a logged-in user, ignore it.
+        // Logged-in carts must come from the server, not localStorage.
+        if (normalized.sync.ownerUserId !== null) {
+            return createEmptyCartState();
+        }
 
         for (const [storedKey, item] of Object.entries(parsed.itemsById)) {
             if (!item || typeof item !== "object") continue;
@@ -103,18 +111,18 @@ function loadCartFromStorage(): CartState {
 
         return normalized;
     } catch {
-        return { itemsById: {}, sync: initialSyncMeta };
+        return createEmptyCartState();
     }
 }
 
 const initialState: CartState =
     typeof window === "undefined"
-        ? { itemsById: {}, sync: initialSyncMeta }
+        ? createEmptyCartState()
         : loadCartFromStorage();
 
 type AddToCartPayload = Omit<CartItem, "qty"> & { qty?: number };
 
-// helpers
+// Keep quantity safe and within stock limits.
 const clampQty = (qty: number, stockQty: number) => {
     const base = Number.isFinite(qty) ? qty : 1;
     const safe = Math.max(1, Math.floor(base));
@@ -129,18 +137,15 @@ const cartSlice = createSlice({
         addToCart(state, action: PayloadAction<AddToCartPayload>) {
             const payload = action.payload;
 
-            // ✅ ensure key exists (fallback to productId_variantId)
+            // Every cart item is tracked by productId + variantId.
             const key = payload.key || `${payload.productId}_${payload.variantId}`;
 
             const existing = state.itemsById[key];
 
             if (existing) {
-                // ✅ merge only qty, keep variant identity + image stable
                 const add = payload.qty ?? 1;
                 existing.qty = clampQty(existing.qty + add, existing.stockQty);
                 existing.cartItemId = payload.cartItemId ?? existing.cartItemId;
-
-                // optional: stock updated হলে reflect করতে চাইলে
                 existing.stockQty = payload.stockQty;
                 existing.inStock = payload.inStock;
             } else {
@@ -228,6 +233,7 @@ const cartSlice = createSlice({
             state,
             action: PayloadAction<{ items: CartItem[]; userId: number }>,
         ) {
+            // After login, Redux becomes a UI cache of the server cart.
             state.itemsById = action.payload.items.reduce<Record<string, CartItem>>(
                 (acc, item) => {
                     acc[item.key] = item;

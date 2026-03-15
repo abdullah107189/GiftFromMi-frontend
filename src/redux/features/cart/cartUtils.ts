@@ -130,6 +130,8 @@ export const mergeGuestCartWithServer = (
     guestItems: CartItem[],
     serverItems: CartItem[],
 ) => {
+    // Start with the server cart because, after login, the database becomes
+    // the source of truth.
     const mergedMap = new Map<string, CartItem>();
     const itemsToCreate: CartItem[] = [];
     const itemsToUpdate: Array<{ cartItemId: number; quantity: number }> = [];
@@ -142,11 +144,13 @@ export const mergeGuestCartWithServer = (
         const existingServerItem = mergedMap.get(guestItem.key);
 
         if (!existingServerItem) {
+            // Guest item does not exist on the server yet, so it must be created.
             mergedMap.set(guestItem.key, guestItem);
             itemsToCreate.push(guestItem);
             return;
         }
 
+        // If both carts contain the same item, merge the quantities.
         const mergedQty = clampQty(
             existingServerItem.qty + guestItem.qty,
             Math.max(existingServerItem.stockQty, guestItem.stockQty),
@@ -175,32 +179,4 @@ export const mergeGuestCartWithServer = (
         itemsToCreate,
         itemsToUpdate,
     };
-};
-
-export const mergeLocalCartWithServer = (
-    localItems: CartItem[],
-    serverItems: CartItem[],
-) => {
-    const mergedMap = new Map<string, CartItem>();
-
-    serverItems.forEach((serverItem) => {
-        mergedMap.set(serverItem.key, serverItem);
-    });
-
-    localItems.forEach((localItem) => {
-        const serverItem = mergedMap.get(localItem.key);
-
-        if (!serverItem) {
-            mergedMap.set(localItem.key, localItem);
-            return;
-        }
-
-        mergedMap.set(localItem.key, {
-            ...serverItem,
-            ...localItem,
-            cartItemId: serverItem.cartItemId ?? localItem.cartItemId,
-        });
-    });
-
-    return Array.from(mergedMap.values());
 };

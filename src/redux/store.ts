@@ -26,7 +26,10 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "cart"]
+  // The cart is intentionally NOT persisted here.
+  // Guest cart persistence is handled separately by cartPersistMiddleware.
+  // Logged-in cart must always come from the server.
+  whitelist: ["auth"]
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

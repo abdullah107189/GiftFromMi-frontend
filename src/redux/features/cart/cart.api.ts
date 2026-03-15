@@ -23,6 +23,7 @@ export const cartApi = baseApi.injectEndpoints({
                 url: "/cart",
                 method: "GET",
             }),
+            // Logged-in cart always comes from the server.
             providesTags: ["CART"],
             transformResponse: (res: any) => normalizeCartItems(res.data),
         }),
@@ -32,9 +33,11 @@ export const cartApi = baseApi.injectEndpoints({
                 method: "POST",
                 data: cartInfo,
             }),
+            invalidatesTags: ["CART"]
         }),
         updateCart: builder.mutation<any, UpdateCartPayload>({
             query: (cartInfo) => {
+                // Backend expects form-data here.
                 const formData = new FormData();
                 formData.append("cart_item_id", String(cartInfo.cart_item_id));
                 formData.append("quantity", String(cartInfo.quantity));
@@ -44,10 +47,12 @@ export const cartApi = baseApi.injectEndpoints({
                     data: formData,
                 };
             },
+            invalidatesTags: ["CART"]
         }),
 
         removeCart: builder.mutation<any, CartItemActionPayload>({
             query: (cartInfo) => {
+                // Backend expects form-data here too.
                 const formData = new FormData();
                 formData.append("cart_item_id", String(cartInfo.cart_item_id));
                 return {
@@ -56,9 +61,11 @@ export const cartApi = baseApi.injectEndpoints({
                     data: formData,
                 };
             },
+            invalidatesTags: ["CART"]
         }),
         clearCart: builder.mutation<any, CartItemActionPayload>({
             query: (cartInfo) => {
+                // Kept in the current project shape because the API already exists.
                 const formData = new FormData();
                 formData.append("cart_item_id", String(cartInfo.cart_item_id));
                 return {
@@ -67,6 +74,7 @@ export const cartApi = baseApi.injectEndpoints({
                     data: formData,
                 };
             },
+            invalidatesTags: ["CART"]
         }),
     })
 })

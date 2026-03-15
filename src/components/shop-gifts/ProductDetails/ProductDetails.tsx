@@ -27,10 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import {
   addToCart,
-  patchCartItem,
-  removeFromCart,
   setCartOwnerUserId,
-  setQty,
 } from "@/redux/features/cart/cartSlice";
 import { toast } from "sonner";
 import SharedDropdown from "@/components/shared/SharedDropdown";
@@ -39,7 +36,6 @@ import {
   selectIsLoggedIn,
   selectUser,
 } from "@/redux/features/auth/authSelectors";
-import { selectCartItemsArray } from "@/redux/features/cart/cartSelectors";
 import {
   useCreateReviewMutation,
   useUpdateReviewMutation,
@@ -109,7 +105,6 @@ const ProductDetails = () => {
     useUpdateReviewMutation();
   const user = useSelector(selectUser);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const cartItems = useSelector(selectCartItemsArray);
 
   const product = data?.productInfo as ProductInfo | undefined;
   const relatedProducts = data?.relatedProducts || [];
@@ -329,38 +324,19 @@ const ProductDetails = () => {
       product_variant_id: variant.id,
       quantity: 1,
     };
-    const existingItem = cartItems.find((item) => item.key === cartItem.key);
-
-    dispatch(addToCart(cartItem));
-    dispatch(setCartOwnerUserId(user?.id ?? null));
-    toast.success("Product added to cart");
-
     if (user) {
       try {
-        const response = await addToCartMutation(addToCartItems).unwrap();
-        const serverCartItemId =
-          response?.data?.cart_item_id ??
-          response?.data?.id ??
-          response?.cart_item_id ??
-          response?.id;
-
-        if (serverCartItemId) {
-          dispatch(
-            patchCartItem({
-              key: cartItem.key,
-              changes: { cartItemId: Number(serverCartItemId) },
-            }),
-          );
-        }
+        await addToCartMutation(addToCartItems).unwrap();
+        toast.success("Product added to cart");
       } catch {
-        if (existingItem) {
-          dispatch(setQty({ key: existingItem.key, qty: existingItem.qty }));
-        } else {
-          dispatch(removeFromCart({ key: cartItem.key }));
-        }
         toast.error("Add to cart failed. Please try again.");
       }
+      return;
     }
+
+    dispatch(addToCart(cartItem));
+    dispatch(setCartOwnerUserId(null));
+    toast.success("Product added to cart");
   };
 
   const handleReviewSubmit = async (event: FormEvent<HTMLFormElement>) => {
