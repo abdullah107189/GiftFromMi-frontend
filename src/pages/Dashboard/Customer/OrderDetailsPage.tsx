@@ -7,7 +7,6 @@ import {
   MapPin,
   Package2,
   Phone,
-  ReceiptText,
   Users,
 } from "lucide-react";
 import SEO from "@/components/shared/SEO";
@@ -239,134 +238,138 @@ export default function OrderDetailsPage() {
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.5fr_0.9fr]">
-        <div className="rounded-[32px] border border-gray-200 bg-white p-5 shadow-[0_16px_40px_rgba(17,24,39,0.06)] md:p-8">
-          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 md:text-2xl">
-                Recipient Breakdown
-              </h2>
-              <p className="text-sm text-[#64748B] md:text-base">
-                Every recipient and item from the API response is rendered
-                below.
-              </p>
+        <div>
+          <div className="rounded-4xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_rgba(17,24,39,0.06)] md:p-8">
+            <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 md:text-2xl">
+                  Recipient Breakdown
+                </h2>
+                <p className="text-sm text-[#64748B] md:text-base">
+                  Every recipient and item from the API response is rendered
+                  below.
+                </p>
+              </div>
+              <Badge className="w-fit border-none bg-[#F5F5F6] px-4 py-2 text-gray-700 shadow-none">
+                {isBulkOrder ? "Bulk dispatch view" : "Single delivery view"}
+              </Badge>
             </div>
-            <Badge className="w-fit border-none bg-[#F5F5F6] px-4 py-2 text-gray-700 shadow-none">
-              {isBulkOrder ? "Bulk dispatch view" : "Single delivery view"}
-            </Badge>
-          </div>
 
-          <div className="mt-6 space-y-5">
-            {detailsOrder.recipients?.map((recipient) => (
-              <div
-                key={recipient.id}
-                className="rounded-[28px] border border-[#ECECEC] bg-[#FCFCFC] p-4 md:p-5"
-              >
-                <div className="flex flex-col gap-4 border-b border-dashed border-[#E5E7EB] pb-4 md:flex-row md:items-start md:justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 md:text-xl">
-                      {recipient.name}
-                    </h3>
-                    <div className="mt-3 space-y-2 text-sm text-[#64748B]">
-                      <p className="flex items-start gap-2">
-                        <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#CA8A32]" />
-                        <span className="break-all">{recipient.email}</span>
-                      </p>
-                      <p className="flex items-start gap-2">
-                        <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#CA8A32]" />
-                        <span>{recipient.phone}</span>
-                      </p>
-                      <p className="flex items-start gap-2">
-                        <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#CA8A32]" />
-                        <span>{recipient.full_address}</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <Badge className="w-fit border-none bg-white px-4 py-2 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
-                    {recipient.items.length} item
-                    {recipient.items.length === 1 ? "" : "s"}
-                  </Badge>
-                </div>
-
-                <div className="mt-4 space-y-4">
-                  {recipient.items.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex flex-col gap-4 rounded-[24px] bg-white p-4 ring-1 ring-[#F0F0F0] sm:flex-row"
-                    >
-                      <div className="h-[110px] w-full shrink-0 overflow-hidden rounded-[20px] bg-[#F6F6F6] sm:w-[110px]">
-                        <img
-                          src={item.image}
-                          alt={item.product_title}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-
-                      <div className="min-w-0 flex-1">
-                        <h4 className="text-base font-semibold text-gray-900 md:text-lg">
-                          {item.product_title}
-                        </h4>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          <Badge className="border-none bg-[#F5F5F6] px-3 py-1.5 text-gray-700 shadow-none">
-                            {item.category}
-                          </Badge>
-                          <Badge className="border-none bg-[#F5F5F6] px-3 py-1.5 text-gray-700 shadow-none">
-                            Qty: {item.quantity}
-                          </Badge>
-                          <Badge className="border-none bg-[#F5F5F6] px-3 py-1.5 text-gray-700 shadow-none">
-                            {currencyFormatter.format(item.sell_price)}
-                          </Badge>
-                        </div>
-                        <p className="mt-3 text-sm text-[#64748B]">
-                          Delivery Status:{" "}
-                          {hasDeliveryDate(item?.delivery_status)
-                            ? item?.delivery_status
-                            : "N/A"}
+            <div className="mt-6 space-y-5">
+              {detailsOrder.recipients?.map((recipient) => (
+                <div
+                  key={recipient.id}
+                  className="rounded-[28px] border border-[#ECECEC] bg-[#FCFCFC] p-4 md:p-5"
+                >
+                  <div className="flex flex-col gap-4 border-b border-dashed border-[#E5E7EB] pb-4 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 md:text-xl">
+                        {recipient.name}
+                      </h3>
+                      <div className="mt-3 space-y-2 text-sm text-[#64748B]">
+                        <p className="flex items-start gap-2">
+                          <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#CA8A32]" />
+                          <span className="break-all">{recipient.email}</span>
+                        </p>
+                        <p className="flex items-start gap-2">
+                          <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#CA8A32]" />
+                          <span>{recipient.phone}</span>
+                        </p>
+                        <p className="flex items-start gap-2">
+                          <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#CA8A32]" />
+                          <span>{recipient.full_address}</span>
                         </p>
                       </div>
                     </div>
-                  ))}
+
+                    <Badge className="w-fit border-none bg-white px-4 py-2 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
+                      {recipient.items.length} item
+                      {recipient.items.length === 1 ? "" : "s"}
+                    </Badge>
+                  </div>
+
+                  <div className="mt-4 space-y-4">
+                    {recipient.items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex flex-col gap-4 rounded-[24px] bg-white p-4 ring-1 ring-[#F0F0F0] sm:flex-row"
+                      >
+                        <div className="h-[110px] w-full shrink-0 overflow-hidden rounded-[20px] bg-[#F6F6F6] sm:w-[110px]">
+                          <img
+                            src={item.image}
+                            alt={item.product_title}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <h4 className="text-base font-semibold text-gray-900 md:text-lg">
+                            {item.product_title}
+                          </h4>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            <Badge className="border-none bg-[#F5F5F6] px-3 py-1.5 text-gray-700 shadow-none">
+                              {item.category}
+                            </Badge>
+                            <Badge className="border-none bg-[#F5F5F6] px-3 py-1.5 text-gray-700 shadow-none">
+                              Qty: {item.quantity}
+                            </Badge>
+                            <Badge className="border-none bg-[#F5F5F6] px-3 py-1.5 text-gray-700 shadow-none">
+                              {currencyFormatter.format(item.sell_price)}
+                            </Badge>
+                          </div>
+                          <p className="mt-3 text-sm text-[#64748B]">
+                            Delivery Status:{" "}
+                            {hasDeliveryDate(item?.delivery_status)
+                              ? item?.delivery_status
+                              : "N/A"}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="rounded-[32px] border border-gray-200 bg-white p-5 shadow-[0_16px_40px_rgba(17,24,39,0.06)] md:p-6">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Order Snapshot
-            </h2>
-            <div className="mt-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[#64748B]">Order total</span>
-                <span className="font-semibold text-gray-900">
-                  {currencyFormatter.format(detailsOrder.total)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[#64748B]">Payment status</span>
-                <span className="font-semibold text-gray-900">
-                  {formatLabel(detailsOrder.payment_status)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[#64748B]">Fulfillment</span>
-                <span className="font-semibold text-gray-900">
-                  {formatLabel(detailsOrder.fulfillment_status)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[#64748B]">Recipients</span>
-                <span className="font-semibold text-gray-900">
-                  {totalRecipients}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[#64748B]">Payment method</span>
-                <span className="font-semibold text-gray-900">
-                  {detailsOrder.payment_method ?? "Card"}
-                </span>
+        <div className="sticky top-38 self-start space-y-6">
+          <div className="space-y-6 md:sticky top-30! z-50">
+            <div className="rounded-4xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_rgba(17,24,39,0.06)] md:p-6">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Order Snapshot
+              </h2>
+              <div className="mt-5 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[#64748B]">Order total</span>
+                  <span className="font-semibold text-gray-900">
+                    {currencyFormatter.format(detailsOrder.total)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[#64748B]">Payment status</span>
+                  <span className="font-semibold text-gray-900">
+                    {formatLabel(detailsOrder.payment_status)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[#64748B]">Fulfillment</span>
+                  <span className="font-semibold text-gray-900">
+                    {formatLabel(detailsOrder.fulfillment_status)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[#64748B]">Recipients</span>
+                  <span className="font-semibold text-gray-900">
+                    {totalRecipients}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[#64748B]">Payment method</span>
+                  <span className="font-semibold text-gray-900">
+                    {detailsOrder.payment_method ?? "Card"}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
