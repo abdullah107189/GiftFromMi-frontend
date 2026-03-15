@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { CustomerOrder } from "@/types/orders";
+import { Link } from "react-router";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
@@ -111,6 +112,11 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
         <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
           Invoice
         </Button>
+        <Link to={`/customer-dashboard/order-list/order-details/${order.id}`}>
+          <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
+            View All Details
+          </Button>
+        </Link>
       </div>
     </div>
   );
