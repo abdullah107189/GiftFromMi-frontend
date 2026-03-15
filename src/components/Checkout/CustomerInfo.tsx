@@ -312,9 +312,7 @@ export function CustomerInfo({
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);
-                  if (value) {
-                    void handleCalculateShippingForSingle?.(value, "single");
-                  }
+                  void handleCalculateShippingForSingle?.(value, "single");
                 }}
                 className="py-4"
                 placeholder="Select Shipping Country Code"

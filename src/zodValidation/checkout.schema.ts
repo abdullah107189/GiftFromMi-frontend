@@ -55,7 +55,6 @@ export const checkoutSchema = z
         ["town_city", "City required"],
         ["district", "District required"],
         ["shippingCountryCode", "Shipping country code required"],
-        ["shippingCountry", "Shipping country required"],
         ["shippingProvince", "Shipping province required"],
         ["shippingCity", "Shipping city required"],
         ["shippingAddress", "Shipping address required"],

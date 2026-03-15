@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { toast } from "sonner";
 
 type CsvPreview = {
   headers: string[];
@@ -85,7 +86,13 @@ function parseCsvContent(content: string): CsvPreview {
   return { headers, rows };
 }
 
-export const BulkCustomerInfo = () => {
+type BulkCustomerInfoProps = {
+  handleCalculateShippingForBulk?: (file?: File) => Promise<void> | void;
+};
+
+export const BulkCustomerInfo = ({
+  handleCalculateShippingForBulk,
+}: BulkCustomerInfoProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
 
   const {
@@ -105,6 +112,7 @@ export const BulkCustomerInfo = () => {
     setValue("bulkHeaders", [], { shouldDirty: true });
     setValue("bulkRows", [], { shouldDirty: true });
     clearErrors("bulkFile");
+    void handleCalculateShippingForBulk?.(undefined);
   };
 
   const handleFileUpload = async (file: File) => {
@@ -132,6 +140,14 @@ export const BulkCustomerInfo = () => {
         type: "manual",
         message: "Invalid CSV format. Please check the file content.",
       });
+      toast.error("CSV upload failed. Please check the file content.");
+      return;
+    }
+
+    try {
+      await handleCalculateShippingForBulk?.(file);
+    } catch {
+      // Shipping error is handled by the page-level callback.
     }
   };
 

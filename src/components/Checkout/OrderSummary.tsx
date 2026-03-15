@@ -17,7 +17,8 @@ export function OrderSummary({
   shippingFee,
   isCheckoutLoading,
 }: OrderSummaryProps) {
-  // console.log("OrderSummary received cartItems:", cartItems);
+  const calculatedTotal = subtotal + shippingFee;
+
   return (
     <div className="bg-white rounded-2xl md:p-6 p-4 border border-gray-100 sticky top-8">
       <div className="flex items-center gap-4 mb-8 justify-center">
@@ -88,7 +89,7 @@ export function OrderSummary({
           <div className="flex justify-between items-center pt-4 border-t border-gray-100">
             <span className="text-xl font-semibold text-gray-900">Total</span>
             <span className="text-3xl font-semibold text-primary font-manrope">
-              ${total?.toFixed(2)}
+              ${(Number.isFinite(total) ? total : calculatedTotal).toFixed(2)}
             </span>
           </div>
         </div>

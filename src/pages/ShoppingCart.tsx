@@ -20,7 +20,7 @@ import {
   setCartOwnerUserId,
   setQty,
 } from "@/redux/features/cart/cartSlice";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 import {
   useClearCartMutation,
@@ -35,9 +35,6 @@ import { useAppSelector } from "@/redux/hook";
 export const ShoppingCart = () => {
   const [deleteKey, setDeleteKey] = useState<string | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
-  const [optimisticQtyByKey, setOptimisticQtyByKey] = useState<
-    Record<string, number>
-  >({});
   const isServerCartLoading = useAppSelector(
     (state) => state.cart.isServerCartLoading,
   );
@@ -52,7 +49,6 @@ export const ShoppingCart = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItemsArray);
-  console.log("asdflkasdkj", cartItems);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
 
@@ -60,30 +56,7 @@ export const ShoppingCart = () => {
   const [removeCartMutation] = useRemoveCartMutation();
   const [clearCartMutation] = useClearCartMutation();
 
-  useEffect(() => {
-    setOptimisticQtyByKey((prev) => {
-      const next = { ...prev };
-      let hasChanges = false;
-
-      for (const item of cartItems) {
-        if (next[item.key] === item.qty) {
-          delete next[item.key];
-          hasChanges = true;
-        }
-      }
-
-      return hasChanges ? next : prev;
-    });
-  }, [cartItems]);
-
-  const displayCartItems = useMemo(() => {
-    if (isOptimisticClear) return [];
-
-    return cartItems.map((item) => ({
-      ...item,
-      qty: optimisticQtyByKey[item.key] ?? item.qty,
-    }));
-  }, [cartItems, isOptimisticClear, optimisticQtyByKey]);
+  const displayCartItems = isOptimisticClear ? [] : cartItems;
 
   const cartItemsCount = displayCartItems.reduce(
     (sum, item) => sum + item.qty,
@@ -123,16 +96,8 @@ export const ShoppingCart = () => {
     setPendingQuantityAction({ key: item.key, type });
 
     if (user) {
-      setOptimisticQtyByKey((prev) => ({
-        ...prev,
-        [item.key]: nextQty,
-      }));
       const cartItemId = getCartItemId(item);
       if (!cartItemId) {
-        setOptimisticQtyByKey((prev) => ({
-          ...prev,
-          [item.key]: item.qty,
-        }));
         setPendingQuantityAction(null);
         toast.error("Cart sync failed. Refresh and try again.");
         return;
@@ -143,17 +108,8 @@ export const ShoppingCart = () => {
           cart_item_id: cartItemId,
           quantity: nextQty,
         }).unwrap();
-        setOptimisticQtyByKey((prev) => {
-          const next = { ...prev };
-          delete next[item.key];
-          return next;
-        });
         setPendingQuantityAction(null);
       } catch {
-        setOptimisticQtyByKey((prev) => ({
-          ...prev,
-          [item.key]: item.qty,
-        }));
         setPendingQuantityAction(null);
         toast.error("Cart update failed. Please try again.");
       }
@@ -202,7 +158,6 @@ export const ShoppingCart = () => {
 
     const previousItems = [...cartItems];
     setIsClearingPending(true);
-    setOptimisticQtyByKey({});
 
     if (user) {
       const cartItemId = getCartItemId(previousItems[0]);

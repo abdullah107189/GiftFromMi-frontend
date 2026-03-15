@@ -8,7 +8,6 @@ import SEO from "@/components/shared/SEO";
 import {
   selectCartItemsArray,
   selectCartSubtotal,
-  selectCartTotal,
 } from "@/redux/features/cart/cartSelectors";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
@@ -24,7 +23,7 @@ import {
   usePreviewBulkCheckoutMutation,
 } from "@/redux/features/checkout/checkout.api";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFormData } from "@/utils/createFormData";
 
 function safeTrim(value?: string) {
@@ -57,7 +56,6 @@ function buildCheckoutFormData(data: CheckoutCustomerFormData) {
 
 const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItemsArray);
-  const total = useSelector(selectCartTotal);
   const subtotal = useSelector(selectCartSubtotal);
   const [shippingFee, setShippingFee] = useState(0);
 
@@ -97,6 +95,21 @@ const CheckoutPage = () => {
     },
   });
 
+  const bulkRows = methods.watch("bulkRows") ?? [];
+  const bulkRecipientCount = isBulk && bulkRows.length > 0 ? bulkRows.length : 1;
+
+  // In bulk checkout, the same cart is sent once for each CSV recipient row.
+  const displayCartItems = useMemo(
+    () =>
+      cartItems.map((item) => ({
+        ...item,
+        qty: (item?.qty ?? 0) * bulkRecipientCount,
+      })),
+    [bulkRecipientCount, cartItems],
+  );
+  const displaySubtotal = subtotal * bulkRecipientCount;
+  const orderTotal = displaySubtotal + shippingFee;
+
   // ✅ keep type synced with URL
   useEffect(() => {
     methods.setValue("type", isBulk ? "bulk" : "single", {
@@ -134,11 +147,13 @@ const CheckoutPage = () => {
           };
 
           console.log("Bulk checkout payload:", bulkPayload);
-          console.log("Order preview:", {
-            items: cartItems,
-            subtotal,
-            total,
-          });
+            console.log("Order preview:", {
+              items: displayCartItems,
+              recipientCount: bulkRecipientCount,
+              subtotal: displaySubtotal,
+              shippingFee,
+              total: orderTotal,
+            });
 
           try {
             const previewResult =
@@ -169,12 +184,12 @@ const CheckoutPage = () => {
         try {
           const formData = buildCheckoutFormData(data);
           if (import.meta.env.DEV) {
-            console.table(
-              Array.from(formData.entries()).map(([key, value]) => ({
-                key,
-                value: String(value),
-              })),
-            );
+            // console.table(
+            //   Array.from(formData.entries()).map(([key, value]) => ({
+            //     key,
+            //     value: String(value),
+            //   })),
+            // );
           }
 
           const res: any = await checkout(formData).unwrap();
@@ -184,7 +199,11 @@ const CheckoutPage = () => {
           window.location.replace(res?.data?.url);
         } catch (err: any) {
           const backendErrors = err?.data?.errors ?? err?.data;
-          toast.error("Checkout failed. Please check required fields.");
+
+          toast.error(
+            err?.data?.message ||
+              "Checkout failed. Please check required fields.",
+          );
 
           if (backendErrors && typeof backendErrors === "object") {
             Object.entries(backendErrors).forEach(([field, msgs]) => {
@@ -229,6 +248,27 @@ const CheckoutPage = () => {
       toast.error("Unable to calculate shipping fee right now.");
     }
   };
+
+  const handleCalculateShippingForBulk = async (file?: File) => {
+    if (!file) {
+      setShippingFee(0);
+      return;
+    }
+
+    try {
+      const data = new FormData();
+      data.append("type", "bulk");
+      data.append("csv_file", file);
+
+      const shippingFeeResponse = await calculateShippingFee(data).unwrap();
+      setShippingFee(shippingFeeResponse?.shipping_cost ?? 0);
+    } catch {
+      setShippingFee(0);
+      toast.error("Unable to calculate bulk shipping right now.");
+      throw new Error("Bulk shipping calculation failed");
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <section className="relative max-w-main xl:mt-36 md:mt-30 mt-15 xl:pb-15 md:pb-10 pb-5">
@@ -239,7 +279,11 @@ const CheckoutPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 space-y-10">
               {isBulk ? (
-                <BulkCustomerInfo />
+                <BulkCustomerInfo
+                  handleCalculateShippingForBulk={
+                    handleCalculateShippingForBulk
+                  }
+                />
               ) : (
                 <CustomerInfo
                   handleCalculateShippingForSingle={
@@ -252,9 +296,9 @@ const CheckoutPage = () => {
 
             <div className="lg:col-span-5 sticky self-start top-40">
               <OrderSummary
-                cartItems={cartItems}
-                total={total}
-                subtotal={subtotal}
+                cartItems={displayCartItems}
+                total={orderTotal}
+                subtotal={displaySubtotal}
                 shippingFee={shippingFee}
                 isCheckoutLoading={isCheckoutLoading || isBulkCheckoutLoading}
                 onProceedCheckout={handleProceedCheckout}

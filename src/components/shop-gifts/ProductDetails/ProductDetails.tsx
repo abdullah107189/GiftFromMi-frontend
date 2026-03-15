@@ -25,10 +25,7 @@ import fallbackImage from "@/assets/fallback.png";
 import type { IProduct } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
-import {
-  addToCart,
-  setCartOwnerUserId,
-} from "@/redux/features/cart/cartSlice";
+import { addToCart, setCartOwnerUserId } from "@/redux/features/cart/cartSlice";
 import { toast } from "sonner";
 import SharedDropdown from "@/components/shared/SharedDropdown";
 import { useAddToCartMutation } from "@/redux/features/cart/cart.api";
@@ -1165,7 +1162,7 @@ const ProductDetails = () => {
                         Your review
                       </label>
                       <Textarea
-                      className="rounded-xl"
+                        className="rounded-xl"
                         id="review-message"
                         rows={6}
                         value={reviewForm.message}
