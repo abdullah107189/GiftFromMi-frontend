@@ -370,31 +370,6 @@ export default function OrderDetailsPage() {
               </div>
             </div>
           </div>
-
-          <div className="rounded-[32px] border border-[#F3E5CC] bg-[linear-gradient(180deg,#FFF8EE_0%,#FFFFFF_100%)] p-5 shadow-[0_16px_40px_rgba(202,138,50,0.08)] md:p-6">
-            <div className="mb-3 flex items-center gap-3">
-              <ReceiptText className="h-5 w-5 text-[#CA8A32]" />
-              <h2 className="text-xl font-semibold text-gray-900">
-                Live API Ready
-              </h2>
-            </div>
-            <p className="text-sm leading-6 text-[#64748B]">
-              This screen now renders directly from
-              `useGetSingleOrderQuery(orderId)`. Later you only need to refine
-              actions like invoice, cancel, or track.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Badge className="border-none bg-white px-3 py-1.5 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
-                API data
-              </Badge>
-              <Badge className="border-none bg-white px-3 py-1.5 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
-                Responsive layout
-              </Badge>
-              <Badge className="border-none bg-white px-3 py-1.5 text-gray-700 shadow-none ring-1 ring-[#E5E7EB]">
-                Bulk + single order support
-              </Badge>
-            </div>
-          </div>
         </div>
       </section>
     </div>
