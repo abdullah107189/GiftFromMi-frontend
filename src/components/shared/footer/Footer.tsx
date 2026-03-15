@@ -13,7 +13,7 @@ const Footer = () => {
     support: [
       { name: "About Us", href: "#" },
       { name: "FAQ", href: "/#faqSection" },
-      { name: "Privacy Policy", href: "#" },
+      { name: "Privacy Policy", href: "/privacy_policy" },
       { name: "Contact", href: "/contact-us" },
     ],
   };
@@ -165,7 +165,7 @@ const Footer = () => {
             <Link to="#" className="hover:text-[#C57200]">
               Terms of Service
             </Link>
-            <Link to="#" className="hover:text-[#C57200]">
+            <Link to="/privacy_policy" className="hover:text-[#C57200]">
               Privacy Policy
             </Link>
           </div>

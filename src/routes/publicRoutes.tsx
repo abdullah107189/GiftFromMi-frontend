@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import type { ISidebarItem } from "@/types";
 
+const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
 const ShopGiftsPage = lazy(() => import("@/pages/ShopGiftsPage"));
 const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
@@ -70,5 +71,10 @@ export const publicRoutes: ISidebarItem[] = [
     title: "Checkout",
     url: "/checkout",
     component: CheckoutPage,
+  },
+  {
+    title: "Privacy Policy",
+    url: "/privacy_policy",
+    component: PrivacyPolicy,
   },
 ];

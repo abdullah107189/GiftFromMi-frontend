@@ -33,6 +33,12 @@ export const landingApi = baseApi.injectEndpoints({
             transformResponse: (res) => res.data,
             providesTags: (_result, _error, id) => [{ type: "PRODUCT", id }],
         }),
+        privacyPolicy: builder.query({
+            query: () => ({
+                url: `/settings`,
+            }),
+            transformResponse: (res) => res.data,
+        }),
     })
 });
 
@@ -42,4 +48,5 @@ export const {
     useCategorizedProductQuery,
     useProductDetailsQuery,
     useCategorizedProductByIdQuery,
+    usePrivacyPolicyQuery,
 } = landingApi;
