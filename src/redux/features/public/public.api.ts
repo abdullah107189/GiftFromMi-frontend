@@ -39,6 +39,12 @@ export const landingApi = baseApi.injectEndpoints({
             }),
             transformResponse: (res) => res.data,
         }),
+        pricingQuery: builder.query({
+            query: (range) => ({
+                url: `/categorized-product?price_range=${range}`,
+            }),
+            transformResponse: (res) => res.data,
+        }),
     })
 });
 
@@ -49,4 +55,5 @@ export const {
     useProductDetailsQuery,
     useCategorizedProductByIdQuery,
     usePrivacyPolicyQuery,
+    usePricingQueryQuery,
 } = landingApi;

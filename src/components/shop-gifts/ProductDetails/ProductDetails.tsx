@@ -746,24 +746,10 @@ const ProductDetails = () => {
                       ${saveAmount}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between border-b border-dashed border-gray-200 pb-4">
+                  <div className="flex items-center justify-between   pb-4">
                     <span className="text-sm text-gray-500">Variants</span>
                     <span className="font-medium text-gray-800">
                       {variants.length}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-dashed border-gray-200 pb-4">
-                    <span className="text-sm text-gray-500">
-                      Gallery images
-                    </span>
-                    <span className="font-medium text-gray-800">
-                      {galleryImages.length}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-500">Featured</span>
-                    <span className="font-medium text-gray-800">
-                      {product?.is_featured ? "Yes" : "No"}
                     </span>
                   </div>
                 </div>

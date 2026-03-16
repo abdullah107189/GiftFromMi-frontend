@@ -19,12 +19,12 @@ import type { IProduct } from "@/types";
 import { Link } from "react-router";
 const GiftListingSection = ({ products }: { products: any }) => {
   const priceRanges = [
-    "Under $50",
-    "$50-$100",
-    "$100-$150",
-    "$150-$200",
-    "$200-$250",
-    "$250+",
+    { label: "Under $50", value: "under_50" },
+    { label: "$50-$100", value: "50_100" },
+    { label: "$100-$150", value: "100_150" },
+    { label: "$150-$200", value: "150_200" },
+    { label: "$200-$250", value: "200_250" },
+    { label: "$250+", value: "250_plus" },
   ];
 
   // console.log("products...........", products[0].products);
@@ -130,7 +130,7 @@ const GiftListingSection = ({ products }: { products: any }) => {
                     </div>
 
                     <span className="text-gray-600 group-hover:text-primary transition-colors">
-                      {range}
+                      {range.label}
                     </span>
                   </label>
                 ))}
