@@ -342,12 +342,6 @@ const ClientListPage = () => {
             <h1 className="text-2xl font-semibold text-slate-950 md:text-3xl">
               Manage recipients for bulk gifting
             </h1>
-            <p className="max-w-3xl text-sm leading-6 text-slate-600 md:text-base">
-              This page is frontend-ready for future API integration. Right now
-              it uses CSV-shaped client records so later you can replace the
-              local list with backend data without changing the table or bulk
-              order flow.
-            </p>
           </div>
         </div>
       </div>
@@ -554,7 +548,7 @@ const ClientListPage = () => {
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl rounded-[28px] border-slate-200 bg-white p-0">
+        <DialogContent className="max-w-5xl! rounded-[28px] border-slate-200 bg-white p-0">
           <DialogHeader className="border-b border-slate-200 px-6 py-5 md:px-8">
             <DialogTitle className="text-2xl font-semibold text-slate-950">
               {editingClient ? "Update Client" : "Add New Client"}
