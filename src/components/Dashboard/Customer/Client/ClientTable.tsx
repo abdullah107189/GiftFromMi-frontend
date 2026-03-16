@@ -15,11 +15,11 @@ import type { IClientRecord } from "@/types/client";
 import { countries } from "@/utils/countryCode";
 
 type ClientTableProps = {
-  clients: IClientRecord[];
   selectedIds: string[];
+  clients: IClientRecord[];
   isLoading?: boolean;
+  isFetchingGetAllClients?: boolean;
   onToggleClient: (clientId: string, checked: boolean) => void;
-  onToggleSelectAll: (checked: boolean) => void;
   onEdit: (client: IClientRecord) => void;
   onDelete: (client: IClientRecord) => void;
 };
@@ -29,31 +29,19 @@ const countryLabelByCode = Object.fromEntries(
 ) as Record<string, string>;
 
 export default function ClientTable({
-  clients,
   selectedIds,
   isLoading = false,
+  clients,
+  isFetchingGetAllClients = false,
   onToggleClient,
-  onToggleSelectAll,
   onEdit,
   onDelete,
 }: ClientTableProps) {
-  const isAllFilteredSelected =
-    clients.length > 0 &&
-    clients.every((client) => selectedIds.includes(String(client.id)));
-
   return (
     <div className="overflow-x-auto rounded-3xl border border-slate-200">
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50 hover:bg-slate-50">
-            <TableHead className="w-14">
-              <Checkbox
-                checked={isAllFilteredSelected}
-                onCheckedChange={(checked) =>
-                  onToggleSelectAll(Boolean(checked))
-                }
-              />
-            </TableHead>
             <TableHead>Client</TableHead>
             <TableHead>Country</TableHead>
             <TableHead>City / District</TableHead>
@@ -73,7 +61,9 @@ export default function ClientTable({
                 Loading clients...
               </TableCell>
             </TableRow>
-          ) : clients.length === 0 ? (
+          ) : clients?.length === 0 &&
+            !isFetchingGetAllClients &&
+            !isLoading ? (
             <TableRow>
               <TableCell
                 colSpan={7}
@@ -83,7 +73,7 @@ export default function ClientTable({
               </TableCell>
             </TableRow>
           ) : (
-            clients.map((client) => {
+            clients?.map((client: IClientRecord) => {
               const clientId = String(client.id);
               const isSelected = selectedIds.includes(clientId);
 
@@ -92,15 +82,6 @@ export default function ClientTable({
                   key={clientId}
                   className={isSelected ? "bg-primary/5" : ""}
                 >
-                  <TableCell>
-                    <Checkbox
-                      checked={isSelected}
-                      onCheckedChange={(checked) =>
-                        onToggleClient(clientId, Boolean(checked))
-                      }
-                    />
-                  </TableCell>
-
                   <TableCell className="min-w-72">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">

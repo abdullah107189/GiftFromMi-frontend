@@ -11,7 +11,6 @@ type ClientTableSectionProps = {
   selectedIds: string[];
   isLoading?: boolean;
   onToggleClient: (clientId: string, checked: boolean) => void;
-  onToggleSelectAll: (checked: boolean) => void;
   onEdit: (client: IClientRecord) => void;
   onDelete: (client: IClientRecord) => void;
 };
@@ -23,7 +22,6 @@ export default function ClientTableSection({
   selectedIds,
   isLoading = false,
   onToggleClient,
-  onToggleSelectAll,
   onEdit,
   onDelete,
 }: ClientTableSectionProps) {
@@ -35,10 +33,6 @@ export default function ClientTableSection({
             <h2 className="text-xl font-semibold text-slate-950">
               All client recipients
             </h2>
-            <p className="text-sm leading-6 text-slate-600">
-              Select one or more clients, then start a bulk order. Checkout
-              will receive the generated CSV-style data automatically.
-            </p>
           </div>
 
           <div className="w-full lg:max-w-sm">
@@ -56,7 +50,6 @@ export default function ClientTableSection({
           selectedIds={selectedIds}
           isLoading={isLoading}
           onToggleClient={onToggleClient}
-          onToggleSelectAll={onToggleSelectAll}
           onEdit={onEdit}
           onDelete={onDelete}
         />

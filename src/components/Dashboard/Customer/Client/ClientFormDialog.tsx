@@ -166,26 +166,26 @@ export default function ClientFormDialog({
             </Field>
 
             <Field label="Country Code" error={errors.country_code?.message}>
-                <Controller
-                  control={control}
-                  name="country_code"
-                  render={({ field }) => (
-                    <SharedSearchableSelect
-                      options={countryOptions}
-                      value={field.value}
-                      onChange={(code) => {
-                        const matchedCountry = countries.find(
-                          (country) => country.value.toUpperCase() === code,
-                        );
+              <Controller
+                control={control}
+                name="country_code"
+                render={({ field }) => (
+                  <SharedSearchableSelect
+                    options={countryOptions}
+                    value={field.value}
+                    onChange={(code) => {
+                      const matchedCountry = countries.find(
+                        (country) => country.value.toUpperCase() === code,
+                      );
 
-                        field.onChange(code);
-                        setValue("country", matchedCountry?.label ?? "", {
-                          shouldDirty: true,
-                          shouldTouch: true,
-                        });
-                      }}
-                      isClearable
-                      placeholder="Select country code"
+                      field.onChange(code);
+                      setValue("country", matchedCountry?.label ?? "", {
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      });
+                    }}
+                    isClearable
+                    placeholder="Select country code"
                     className="min-h-12!"
                   />
                 )}
