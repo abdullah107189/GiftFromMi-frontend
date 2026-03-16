@@ -4,6 +4,9 @@ import type { ISidebarItem } from "@/types";
 const CustomerSettingPage = lazy(
   () => import("@/pages/Dashboard/Customer/CustomerSettingPage"),
 );
+const ClientListPage = lazy(
+  () => import("@/pages/Dashboard/Customer/ClientListPage"),
+);
 const OrderDetailsPage = lazy(
   () => import("@/pages/Dashboard/Customer/OrderDetailsPage"),
 );
@@ -21,6 +24,11 @@ export const customerRoutes: ISidebarItem[] = [
     title: "Order List",
     url: "/order-list",
     component: OrderListPage,
+  },
+  {
+    title: "Client List",
+    url: "/client-list",
+    component: ClientListPage,
   },
 
   {

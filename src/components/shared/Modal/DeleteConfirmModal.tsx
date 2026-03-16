@@ -13,12 +13,18 @@ interface DeleteConfirmModalProps {
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
     onConfirm: () => void;
+    title?: string;
+    description?: string;
+    confirmLabel?: string;
 }
 
 const DeleteConfirmModal = ({
     isOpen,
     onOpenChange,
     onConfirm,
+    title = "Delete Item?",
+    description = "This item will be removed from your cart permanently.",
+    confirmLabel = "Yes, Delete",
 }: DeleteConfirmModalProps) => {
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -30,11 +36,11 @@ const DeleteConfirmModal = ({
 
                     <div className="space-y-2 text-center">
                         <DialogTitle className="text-2xl font-bold text-gray-900 font-manrope">
-                            Delete Item?
+                            {title}
                         </DialogTitle>
 
                         <DialogDescription className="text-gray-500 text-base font-inter">
-                            This item will be removed from your cart permanently.
+                            {description}
                         </DialogDescription>
                     </div>
                 </DialogHeader>
@@ -57,7 +63,7 @@ const DeleteConfirmModal = ({
                         }}
                         className="flex-1 h-12 rounded-xl font-bold bg-destructive text-white hover:bg-red-600 transition-all cursor-pointer"
                     >
-                        Yes, Delete
+                        {confirmLabel}
                     </Button>
                 </DialogFooter>
             </DialogContent>

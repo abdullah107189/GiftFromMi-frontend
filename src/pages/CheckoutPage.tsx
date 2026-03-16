@@ -10,7 +10,7 @@ import {
   selectCartSubtotal,
 } from "@/redux/features/cart/cartSelectors";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router";
+import { useLocation, useSearchParams } from "react-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,8 +22,9 @@ import {
   useCheckoutMutation,
   usePreviewBulkCheckoutMutation,
 } from "@/redux/features/checkout/checkout.api";
+import type { IBulkClientSelection } from "@/types/client";
 import { toast } from "sonner";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFormData } from "@/utils/createFormData";
 
 function safeTrim(value?: string) {
@@ -66,7 +67,9 @@ const CheckoutPage = () => {
   const [calculateShippingFee, { isLoading: isShippingFeeLoading }] =
     useCalculateShippingFeeMutation({});
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const isBulk = searchParams.get("type") === "bulk";
+  const hydratedBulkSelectionRef = useRef<string | null>(null);
 
   const methods = useForm<CheckoutCustomerFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -268,6 +271,44 @@ const CheckoutPage = () => {
       throw new Error("Bulk shipping calculation failed");
     }
   };
+
+  useEffect(() => {
+    const navigationState = location.state as
+      | { bulkClientSelection?: IBulkClientSelection }
+      | undefined;
+    const bulkClientSelection = navigationState?.bulkClientSelection;
+
+    if (!isBulk || !bulkClientSelection) return;
+
+    const selectionSignature = `${bulkClientSelection.fileName}:${bulkClientSelection.rows.length}:${bulkClientSelection.csvContent.length}`;
+
+    if (hydratedBulkSelectionRef.current === selectionSignature) return;
+
+    hydratedBulkSelectionRef.current = selectionSignature;
+
+    const generatedFile = new File(
+      [bulkClientSelection.csvContent],
+      bulkClientSelection.fileName,
+      { type: "text/csv" },
+    );
+
+    methods.setValue("type", "bulk", {
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+    methods.setValue("bulkFile", generatedFile, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    methods.setValue("bulkHeaders", bulkClientSelection.headers, {
+      shouldDirty: true,
+    });
+    methods.setValue("bulkRows", bulkClientSelection.rows, {
+      shouldDirty: true,
+    });
+
+    void handleCalculateShippingForBulk(generatedFile);
+  }, [isBulk, location.state, methods]);
 
   return (
     <FormProvider {...methods}>

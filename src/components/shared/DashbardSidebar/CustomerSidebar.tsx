@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, useLocation, useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
-import { LogOut } from "lucide-react";
+import { LogOut, Users } from "lucide-react";
 import LogoutModal from "../Modal/LogoutModal";
 import { useState } from "react";
 import type { ISidebarItem } from "@/types";
@@ -51,6 +51,11 @@ export function CustomerSidebar({ className }: { className?: string }) {
           />
         </svg>
       ),
+    },
+    {
+      title: "Client List",
+      url: "/customer-dashboard/client-list",
+      icon: () => <Users size={22} />,
     },
     {
       title: "Order List",
