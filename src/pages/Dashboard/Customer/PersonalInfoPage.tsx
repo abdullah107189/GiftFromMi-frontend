@@ -1,8 +1,8 @@
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import ViewProfile from "@/components/Dashboard/Customer/PersonalInfo/ViewProfile";
-import ProfileFormSkeleton from "@/components/Dashboard/Customer/PersonalInfo/ProfileFormSkeleton";
 import { useGetSingleUserQuery } from "@/redux/features/user/user.api";
+import ViewProfileSkeleton from "@/components/shared/loadingEffect/ViewProfileSkeleton";
 
 const PersonalInfoPage = () => {
   const {
@@ -12,7 +12,7 @@ const PersonalInfoPage = () => {
     refetch,
   } = useGetSingleUserQuery(undefined);
 
-  if (isLoading) return <ProfileFormSkeleton></ProfileFormSkeleton>;
+  if (isLoading) return <ViewProfileSkeleton></ViewProfileSkeleton>;
 
   return (
     <div>
