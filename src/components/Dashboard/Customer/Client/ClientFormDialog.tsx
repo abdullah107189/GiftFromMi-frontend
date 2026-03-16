@@ -23,7 +23,7 @@ const clientSchema = z.object({
   name: z.string().trim().min(2, "Client name is required"),
   email: z.string().trim().email("Valid email is required"),
   phone: z.string().trim().min(7, "Phone number is required"),
-  country: z.string().trim().min(2, "Country is required"),
+  country: z.string().trim().optional(),
   country_code: z.string().trim().min(2, "Country code is required"),
   town: z.string().trim().min(2, "Town is required"),
   district: z.string().trim().min(2, "District is required"),
@@ -71,6 +71,7 @@ export default function ClientFormDialog({
     register,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<ClientFormValues>({
     resolver: zodResolver(clientSchema),
@@ -127,7 +128,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("key")}
                 placeholder="Enter unique key"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
@@ -135,7 +136,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("name")}
                 placeholder="Enter name"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
@@ -143,7 +144,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("email")}
                 placeholder="Enter email address"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
@@ -151,29 +152,40 @@ export default function ClientFormDialog({
               <Input
                 {...register("phone")}
                 placeholder="Enter phone number"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
             <Field label="Country" error={errors.country?.message}>
               <Input
                 {...register("country")}
-                placeholder="Enter country name"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                readOnly
+                placeholder="Country auto filled"
+                className="h-12 rounded-2xl bg-slate-50"
               />
             </Field>
 
             <Field label="Country Code" error={errors.country_code?.message}>
-              <Controller
-                control={control}
-                name="country_code"
-                render={({ field }) => (
-                  <SharedSearchableSelect
-                    options={countryOptions}
-                    value={field.value}
-                    onChange={field.onChange}
-                    isClearable
-                    placeholder="Select country code"
+                <Controller
+                  control={control}
+                  name="country_code"
+                  render={({ field }) => (
+                    <SharedSearchableSelect
+                      options={countryOptions}
+                      value={field.value}
+                      onChange={(code) => {
+                        const matchedCountry = countries.find(
+                          (country) => country.value.toUpperCase() === code,
+                        );
+
+                        field.onChange(code);
+                        setValue("country", matchedCountry?.label ?? "", {
+                          shouldDirty: true,
+                          shouldTouch: true,
+                        });
+                      }}
+                      isClearable
+                      placeholder="Select country code"
                     className="min-h-12!"
                   />
                 )}
@@ -184,7 +196,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("town")}
                 placeholder="Enter town"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
@@ -192,15 +204,18 @@ export default function ClientFormDialog({
               <Input
                 {...register("district")}
                 placeholder="Enter district"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
-            <Field label="Street Address" error={errors.street_address?.message}>
+            <Field
+              label="Street Address"
+              error={errors.street_address?.message}
+            >
               <Input
                 {...register("street_address")}
                 placeholder="Enter street address"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
@@ -208,7 +223,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("postal_code")}
                 placeholder="Enter postal code"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50 shadow-none focus-visible:ring-primary/20"
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
           </div>
@@ -218,11 +233,11 @@ export default function ClientFormDialog({
               type="button"
               variant="outline"
               disabled={isBusy}
-              className="border-slate-300"
               onClick={() => handleClose(false)}
             >
               Cancel
             </Button>
+
             <Button type="submit" disabled={isBusy}>
               {isBusy
                 ? "Saving..."
