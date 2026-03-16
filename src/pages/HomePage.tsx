@@ -6,13 +6,14 @@ import HeroSection from "@/components/Home/HeroSection";
 import HowItWorks from "@/components/Home/HowItWorks";
 import OccasionGallery from "@/components/Home/OccasionGallery";
 import SEO from "@/components/shared/SEO";
-import Loading from "@/components/shared/PageLoader";
 import { useLangdingApiQuery } from "@/redux/features/public/public.api";
+// import PageLoader from "@/components/shared/PageLoader";
 
 function HomePage() {
-  const { data, isLoading } = useLangdingApiQuery(undefined);
-  if (isLoading) return <Loading variant="page"></Loading>;
-// console.log(data.products);
+  const { data: data, isLoading: isHomeLoading } =
+    useLangdingApiQuery(undefined);
+  // if (isHomeLoading) return <PageLoader></PageLoader>;
+
   return (
     <div>
       <SEO
@@ -22,10 +23,13 @@ function HomePage() {
       <HeroSection></HeroSection>
       <div className="max-w-container mx-auto px-3">
         <HowItWorks></HowItWorks>
-        <GiftCollection PRODUCTS={data?.products}></GiftCollection>
+        <GiftCollection
+          isHomeLoading={isHomeLoading}
+          PRODUCTS={data?.products}
+        ></GiftCollection>
         <OccasionGallery></OccasionGallery>
         <FeatureSection></FeatureSection>
-        <FeedbackSection reviews={data?.reviews}></FeedbackSection>
+        <FeedbackSection isHomeLoading={isHomeLoading} reviews={data?.reviews}></FeedbackSection>
       </div>
       <FAQ faqs={data?.faq}></FAQ>
     </div>

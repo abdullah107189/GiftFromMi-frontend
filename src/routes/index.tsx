@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
 
-const HomePage = lazy(() => import("@/pages/HomePage"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const ForgotPassword = lazy(() => import("@/components/auth/ForgotPassword"));
@@ -18,6 +17,7 @@ import { customerRoutes } from "./customerRoutes";
 import PageLoader from "@/components/shared/PageLoader";
 import { withAuth } from "@/utils/withAuth";
 import { Role } from "@/types";
+import HomePage from "@/pages/HomePage";
 const PersonalInfoPage = lazy(
   () => import("@/pages/Dashboard/Customer/PersonalInfoPage"),
 );
@@ -45,11 +45,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <HomePage />
-          </Suspense>
-        ),
+        element: <HomePage />,
       },
       ...generateRoutes(publicRoutes),
     ],

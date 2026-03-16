@@ -3,52 +3,15 @@ import type { IProduct } from "@/types";
 import FeaturedCard from "../shared/cards/FeaturedCard";
 import { SectionHeader } from "../shared/headers/SectionHeader";
 import { Button } from "../ui/button";
-// import p1 from "@/assets/products/p1.png";
-// import p2 from "@/assets/products/p2.png";
-// import p3 from "@/assets/products/p3.png";
 import { Link } from "react-router";
 
-function GiftCollection({ PRODUCTS }: { PRODUCTS: IProduct[] }) {
-  // console.log("products", PRODUCTS);
-  // const PRODUCTS: IProduct[] = [
-  //   {
-  //     id: 1,
-  //     image: [p1, "/extra-1.png", "/extra-2.png"], // Array format
-  //     title: "Chocolate With Premium Box",
-  //     description: "Experience the Taste of True Luxury",
-  //     price: 20,
-  //     oldPrice: 30,
-  //     rating: 5,
-  //     reviewsCount: 150,
-  //     stockCount: 10,
-  //     inStock: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     image: [p2],
-  //     title: "Tech Accessories Pack",
-  //     description: "Premium Wireless Charger, Phone Stand",
-  //     price: 220,
-  //     oldPrice: 300,
-  //     rating: 5,
-  //     reviewsCount: 85,
-  //     stockCount: 5,
-  //     inStock: true,
-  //   },
-  //   {
-  //     id: 3,
-  //     image: [p3],
-  //     title: "Perfume box",
-  //     description: "Experience the Premium Perfume",
-  //     price: 20,
-  //     oldPrice: 30,
-  //     rating: 5,
-  //     reviewsCount: 210,
-  //     stockCount: 0,
-  //     inStock: false,
-  //   },
-  // ];
-
+function GiftCollection({
+  isHomeLoading,
+  PRODUCTS,
+}: {
+  isHomeLoading: boolean;
+  PRODUCTS: IProduct[];
+}) {
   return (
     <section className="pb-15">
       <div className="max-w-container mx-auto px-3 ">
@@ -60,9 +23,40 @@ function GiftCollection({ PRODUCTS }: { PRODUCTS: IProduct[] }) {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PRODUCTS?.map((product: IProduct) => (
-            <FeaturedCard key={product.id} featured={product} />
-          ))}
+          {isHomeLoading
+            ? Array.from({ length: 3 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col items-center lg:p-6 md:p-4 p-2 gap-8 flex-1 rounded-2xl border border-primary-100 bg-white transition-all animate-pulse"
+                >
+                  {/* Image skeleton */}
+                  <div className="w-full xl:h-70 lg:h-60 md:h-50 h-40 bg-gray-200 rounded-t-xl" />
+
+                  {/* Info skeleton */}
+                  <div className="w-full flex flex-col gap-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex flex-col gap-2">
+                        <div className="h-5 w-3/4 bg-gray-300 rounded" />
+                        <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <div className="h-8 w-14 bg-gray-300 rounded" />
+                        <div className="h-6 w-10 bg-gray-200 rounded" />
+                      </div>
+                    </div>
+
+                    {/* Rating skeleton */}
+                    <div className="h-4 w-20 bg-gray-300 rounded" />
+
+                    {/* Button skeleton */}
+                    <div className="h-10 w-full bg-gray-300 rounded" />
+                  </div>
+                </div>
+              ))
+            : PRODUCTS?.map((product: IProduct) => (
+                <FeaturedCard key={product.id} featured={product} />
+              ))}
         </div>
 
         {/* Centered "View All" Button */}
