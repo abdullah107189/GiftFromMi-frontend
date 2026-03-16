@@ -22,7 +22,30 @@ progress: 77%
 
 
 
+----------------------------------------------
+STATUS OF THE DAY
+Date: 15-03-2026
+Name: MD. Abdullah All Shamem
+Team Name: MERN Mavericks
 
+Project: shalineheng
+
+- I have created the Privacy Policy page.
+- I have updated the add to cart functionality and improved the bulk price calculation logic.
+- I have removed the add review feature.
+- I have updated the order details page using a sticky layout.
+- I have removed unnecessary content from the Live API response.
+- I have created the View All details button on the order history page.
+- I have improved the UI/UX according to the API response for the user info and updated the related page.
+- I have completed the user profile API setup.
+- I have implemented a better loading effect on the cart page.
+- I have improved the cart system functionality.
+- I have updated the reviews system.
+
+github: https://github.com/abdullah107189/GiftFromMi-frontend
+
+Branch: abdullah
+progress: 78%
 
 
 

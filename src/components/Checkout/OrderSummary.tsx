@@ -64,7 +64,7 @@ export function OrderSummary({
                 <p className="text-sm text-gray-900">Qty: {item?.qty ?? 0}</p>
               </div>
               <p className="text-2xl font-semibold text-gray-900 font-manrope">
-                ${((item?.originalPrice ?? 0) * (item?.qty ?? 0)).toFixed(2)}
+                ${((item?.sellPrice ?? 0) * (item?.qty ?? 0)).toFixed(2)}
               </p>
             </div>
           ))}

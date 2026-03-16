@@ -22,7 +22,7 @@ export const selectCartItemsCount = createSelector(
 
 export const selectCartSubtotal = createSelector(
     [selectCartItemsArray],
-    (items) => items.reduce((sum, i) => sum + i.originalPrice * i.qty, 0)
+    (items) => items.reduce((sum, i) => sum + i.sellPrice * i.qty, 0)
 );
 
 export const selectShipping = createSelector(
