@@ -1,14 +1,15 @@
 export interface IClientRecord {
   id: string;
+  key: string;
   name: string;
   email: string;
   phone: string;
   country: string;
-  town_city: string;
+  country_code: string;
+  town: string;
   district: string;
   street_address: string;
-  postcode: string;
-  order_notes: string;
+  postal_code: string;
 }
 
 export interface IBulkClientSelection {

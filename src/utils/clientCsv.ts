@@ -27,12 +27,14 @@ export const clientToCheckoutRow = (
   name: client.name,
   email: client.email,
   phone: client.phone,
-  country: client.country,
-  town_city: client.town_city,
+  // Checkout bulk flow still expects the older CSV field names.
+  // We map the new client schema into that stable payload here.
+  country: client.country_code || client.country,
+  town_city: client.town,
   district: client.district,
   street_address: client.street_address,
-  postcode: client.postcode,
-  order_notes: client.order_notes,
+  postcode: client.postal_code,
+  order_notes: "",
 });
 
 export const buildBulkClientSelection = (
