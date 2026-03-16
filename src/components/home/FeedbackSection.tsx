@@ -4,58 +4,6 @@ import { SectionHeader } from "../shared/headers/SectionHeader";
 import quote from "@/assets/icons/quote.svg";
 import Rating from "../shared/Rating";
 
-// Testimonial data from your image
-// const testimonials = [
-//   {
-//     name: "Tina Morris",
-//     role: "Creative Director",
-//     image: "https://i.pravatar.cc/150?u=tina", // Use your local image path
-//     rating: 5.0,
-//     content:
-//       "GiftFromMi has transformed how I connect with my clients. The automatic delivery and personalized touches make my clients feel truly valued. My referral rate has increased by 40%!",
-//   },
-//   {
-//     name: "Amanda Reyes",
-//     role: "Business Owner",
-//     image: "https://i.pravatar.cc/150?u=amanda",
-//     rating: 5.0,
-//     content:
-//       "A small business, managing client gifts used to be stressful. GiftFromMi made it effortless. Their customization options and branding quality are truly premium.",
-//   },
-//   {
-//     name: "Sarah Thompson",
-//     role: "Real Estate Agent",
-//     image: "https://i.pravatar.cc/150?u=sarah",
-//     rating: 5.0,
-//     content:
-//       "GiftFromMi has completely transformed the way I follow up with clients. Birthdays, move-in anniversaries, and milestone gifts go out automatically beautifully packaged and on time. My clients LOVE it.",
-//   },
-//   {
-//     name: "Jonathan Lee",
-//     role: "Sales Team Leader",
-//     image: "https://i.pravatar.cc/150?u=jonathan",
-//     rating: 5.0,
-//     content:
-//       "My team doesn't have to manually send gifts anymore. The dashboard, tracking, and scheduling are so smooth. It feels like having an extra team member.",
-//   },
-//   {
-//     name: "Marcus Hill",
-//     role: "Repeat User",
-//     image: "https://i.pravatar.cc/150?u=marcus",
-//     rating: 5.0,
-//     content:
-//       "I tried multiple gifting platforms, but none come close to GiftFromMi simplicity and elegance. It truly elevates client experience.",
-//   },
-//   {
-//     name: "Tina Morris", // Duplicate in your image reference
-//     role: "Creative Director",
-//     image: "https://i.pravatar.cc/150?u=tina2",
-//     rating: 5.0,
-//     content:
-//       "As a small business owner, client retention is everything. GiftFromMi makes it effortless to maintain relationships with personalized gifts. The dashboard tracking is incredibly helpful.",
-//   },
-// ];
-
 const FeedbackSection = ({
   isHomeLoading,
   reviews,
@@ -109,7 +57,7 @@ const FeedbackSection = ({
                 <div className="flex justify-between items-start mb-5">
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.image}
+                      src={item.avatar}
                       alt={item.name}
                       className="w-14 h-14 rounded-full object-cover"
                     />
@@ -127,7 +75,7 @@ const FeedbackSection = ({
                 </div>
 
                 <Rating rating={5} />
-                <p className="text-gray-600 mt-5">"{item.content}"</p>
+                <p className="text-gray-600 mt-5">{item.message}</p>
               </div>
             ))}
       </div>
