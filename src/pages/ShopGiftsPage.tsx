@@ -3,7 +3,7 @@ import GiftListingSection from "@/components/shop-gifts/GiftListingSection";
 import ShopGiftsHero from "@/components/shop-gifts/ShopGiftsHero";
 import SEO from "@/components/shared/SEO";
 import { usePricingQueryQuery } from "@/redux/features/public/public.api";
-import PageLoader from "@/components/shared/PageLoader";
+// import PageLoader from "@/components/shared/PageLoader";
 import { useState } from "react";
 
 function ShopGiftsPage() {
@@ -18,7 +18,7 @@ function ShopGiftsPage() {
     setSelectedPrice(value);
   };
 
-  if (isPricingLoading) return <PageLoader />;
+  // if (isPricingLoading) return <PageLoader />;
 
   const actions = {
     selectedPrice,

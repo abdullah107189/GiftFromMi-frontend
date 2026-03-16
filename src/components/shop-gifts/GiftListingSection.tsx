@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "../ui/button";
-import PageLoader from "../shared/PageLoader";
+// import PageLoader from "../shared/PageLoader";
 import type { Category } from "@/types/public";
 import { useCategoryListQuery } from "@/redux/features/public/public.api";
 import type { IProduct } from "@/types";
@@ -33,7 +33,8 @@ const GiftListingSection = ({
 }) => {
   const { data: categories, isLoading: categoriesLoading } =
     useCategoryListQuery(undefined);
-  if (categoriesLoading) return <PageLoader />;
+
+  // if (categoriesLoading) return <PageLoader />;
   const priceRanges = [
     { label: "All", value: "" },
     { label: "Under $50", value: "under-50" },
@@ -78,17 +79,30 @@ const GiftListingSection = ({
                 </h3>
               </div>
               <ul className="flex flex-col xl:gap-4 gap-2">
-                {categories?.map((cat: Category, idx: number) => (
-                  <li
-                    key={idx}
-                    className="flex justify-between items-center text-gray-600 hover:text-primary cursor-pointer transition-colors p-2"
-                  >
-                    <span>{cat?.name ?? "Category"}</span>
-                    <span className="text-[16px]">
-                      {cat?.products_count ?? 0}
-                    </span>
-                  </li>
-                ))}
+                {categoriesLoading
+                  ? Array.from({ length: 5 }).map((_, idx) => (
+                      <li
+                        key={idx}
+                        className="flex justify-between items-center p-2"
+                      >
+                        {/* Left: Category name skeleton */}
+                        <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+
+                        {/* Right: Product count skeleton */}
+                        <div className="h-4 w-6 bg-gray-200 rounded animate-pulse"></div>
+                      </li>
+                    ))
+                  : categories?.map((cat: Category, idx: number) => (
+                      <li
+                        key={idx}
+                        className="flex justify-between items-center text-gray-600 hover:text-primary cursor-pointer transition-colors p-2"
+                      >
+                        <span>{cat?.name ?? "Category"}</span>
+                        <span className="text-[16px]">
+                          {cat?.products_count ?? 0}
+                        </span>
+                      </li>
+                    ))}
               </ul>
 
               {/* Price Range Card */}
@@ -267,7 +281,7 @@ const GiftListingSection = ({
                         />
                       );
                     })}
-              {products?.length === 0 && (
+              {products?.length === 0 && !actions.isFetching && (
                 <p className="text-center col-span-3 text-gray-900 text-[20px] font-medium">
                   No products found
                 </p>

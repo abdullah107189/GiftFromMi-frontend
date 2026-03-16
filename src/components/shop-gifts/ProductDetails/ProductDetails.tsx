@@ -38,6 +38,7 @@ import {
   useUpdateReviewMutation,
 } from "@/redux/features/review/review.api";
 import { cn } from "@/lib/utils";
+import "./available.css";
 
 const REVIEW_PREVIEW_LENGTH = 180;
 
@@ -755,78 +756,82 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              <div className="rounded-4xl border border-primary-200 bg-white p-6 md:p-8 shadow-sm">
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Available options
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-gray-500">
-                  Select the variation that matches your order.
-                </p>
+              <div className="overflow-hidden rounded-4xl">
+                <div className="rounded-4xl h-100 overflow-y-scroll custom-scrollbar border border-primary-200 bg-white p-6 md:p-8 shadow-sm">
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    Available options
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-gray-500">
+                    Select the variation that matches your order.
+                  </p>
 
-                <div className="mt-6 space-y-3">
-                  {variants.length > 0 ? (
-                    variants.map((variant) => {
-                      const isActive = selectedVariant?.id === variant.id;
-                      return (
-                        <button
-                          type="button"
-                          key={variant.id}
-                          onClick={() => {
-                            setSelectedVariantId(variant.id);
-                            const nextImage =
-                              variant.imageUrl || variant.image || activeImage;
-                            if (nextImage) setActiveImage(nextImage);
-                          }}
-                          className={cn(
-                            "w-full rounded-3xl border p-4 text-left transition-all",
-                            isActive
-                              ? "border-primary bg-primary-50 shadow-sm"
-                              : "border-gray-200 bg-white hover:border-primary-200",
-                          )}
-                        >
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <p className="font-semibold text-gray-900">
-                                {variant.color || variant.size || variant.sku}
-                              </p>
-                              <p className="mt-1 text-sm text-gray-500">
-                                SKU: {variant.sku}
-                              </p>
+                  <div className="mt-6 space-y-3">
+                    {variants.length > 0 ? (
+                      variants.map((variant) => {
+                        const isActive = selectedVariant?.id === variant.id;
+                        return (
+                          <button
+                            type="button"
+                            key={variant.id}
+                            onClick={() => {
+                              setSelectedVariantId(variant.id);
+                              const nextImage =
+                                variant.imageUrl ||
+                                variant.image ||
+                                activeImage;
+                              if (nextImage) setActiveImage(nextImage);
+                            }}
+                            className={cn(
+                              "w-full rounded-3xl border p-4 text-left transition-all",
+                              isActive
+                                ? "border-primary bg-primary-50 shadow-sm"
+                                : "border-gray-200 bg-white hover:border-primary-200",
+                            )}
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div>
+                                <p className="font-semibold text-gray-900">
+                                  {variant.color || variant.size || variant.sku}
+                                </p>
+                                <p className="mt-1 text-sm text-gray-500">
+                                  SKU: {variant.sku}
+                                </p>
+                              </div>
+                              <Badge
+                                variant="outline"
+                                className={cn(
+                                  "bg-white",
+                                  variant.quantity > 0
+                                    ? "text-[#84CC16]"
+                                    : "text-red-500",
+                                )}
+                              >
+                                {variant.quantity > 0
+                                  ? `${variant.quantity} in stock`
+                                  : "Out of stock"}
+                              </Badge>
                             </div>
-                            <Badge
-                              variant="outline"
-                              className={cn(
-                                "bg-white",
-                                variant.quantity > 0
-                                  ? "text-[#84CC16]"
-                                  : "text-red-500",
-                              )}
-                            >
-                              {variant.quantity > 0
-                                ? `${variant.quantity} in stock`
-                                : "Out of stock"}
-                            </Badge>
-                          </div>
 
-                          <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-                            <span className="text-gray-500">
-                              Sell price:{" "}
-                              <span className="font-semibold text-primary">
-                                ${variant.sell_price}
+                            <div className="mt-3 flex items-center justify-between gap-3 text-sm">
+                              <span className="text-gray-500">
+                                Sell price:{" "}
+                                <span className="font-semibold text-primary">
+                                  ${variant.sell_price}
+                                </span>
                               </span>
-                            </span>
-                            <span className="text-gray-400 line-through">
-                              ${variant.price}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })
-                  ) : (
-                    <div className="rounded-3xl border border-dashed border-gray-200 px-4 py-6 text-sm text-gray-500">
-                      No variant options available for this product.
-                    </div>
-                  )}
+                              <span className="text-gray-400 line-through">
+                                ${variant.price}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <div className="rounded-3xl border border-dashed border-gray-200 px-4 py-6 text-sm text-gray-500">
+                        No variant options available for this product.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
