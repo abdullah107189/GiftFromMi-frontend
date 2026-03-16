@@ -238,14 +238,16 @@ const GiftListingSection = ({
               <h2 className="text-[20px] font-medium text-gray-900">
                 {products?.[0]?.name}
               </h2>
-              <Link to={`/shop-gifts/category/${products?.[0]?.id}`}>
-                <Button
-                  variant={"outline"}
-                  className="text-gray-700 font-medium"
-                >
-                  View All
-                </Button>
-              </Link>
+              {products?.length !== 0 && (
+                <Link to={`/shop-gifts/category/${products?.[0]?.id}`}>
+                  <Button
+                    variant={"outline"}
+                    className="text-gray-700 font-medium"
+                  >
+                    View All
+                  </Button>
+                </Link>
+              )}
             </div>
 
             {/* Product Grid */}
@@ -265,6 +267,11 @@ const GiftListingSection = ({
                         />
                       );
                     })}
+              {products?.length === 0 && (
+                <p className="text-center col-span-3 text-gray-900 text-[20px] font-medium">
+                  No products found
+                </p>
+              )}
             </div>
           </main>
         </div>

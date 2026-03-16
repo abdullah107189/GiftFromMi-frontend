@@ -109,11 +109,6 @@ export default function ViewProfile({ profile }: Props) {
                   <h1 className="text-2xl font-semibold text-slate-950 md:text-3xl">
                     {fullName}
                   </h1>
-                  <p className="max-w-2xl text-sm leading-6 text-slate-600 md:text-base">
-                    Your user details now follow the exact `/user-detail`
-                    response shape, so address, birth date, gender, and avatar
-                    all render from the real nested profile data.
-                  </p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
@@ -166,7 +161,7 @@ export default function ViewProfile({ profile }: Props) {
           </div>
         </div>
 
-        <div className="grid gap-4 border-t border-slate-200 bg-slate-50/70 p-5 md:grid-cols-2 xl:grid-cols-4 xl:p-8">
+        <div className="grid gap-4 border-t border-slate-200 bg-slate-50/70 p-3 md:grid-cols-2 xl:grid-cols-4 xl:p-8">
           <SnapshotCard
             icon={Mail}
             label="Email Address"

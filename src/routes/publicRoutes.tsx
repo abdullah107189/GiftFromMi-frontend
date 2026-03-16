@@ -1,9 +1,9 @@
 import { lazy } from "react";
 import type { ISidebarItem } from "@/types";
+import ShopGiftsPage from "@/pages/ShopGiftsPage";
 
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
-const ShopGiftsPage = lazy(() => import("@/pages/ShopGiftsPage"));
 const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
 const BulkAutomationPage = lazy(() => import("@/pages/BulkAutomationPage"));
 const ContactUsPage = lazy(() => import("@/pages/ContactUsPage"));
