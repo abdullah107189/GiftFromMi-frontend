@@ -17,22 +17,33 @@ import type { Category } from "@/types/public";
 import { useCategoryListQuery } from "@/redux/features/public/public.api";
 import type { IProduct } from "@/types";
 import { Link } from "react-router";
-const GiftListingSection = ({ products }: { products: any }) => {
-  const priceRanges = [
-    { label: "Under $50", value: "under_50" },
-    { label: "$50-$100", value: "50_100" },
-    { label: "$100-$150", value: "100_150" },
-    { label: "$150-$200", value: "150_200" },
-    { label: "$200-$250", value: "200_250" },
-    { label: "$250+", value: "250_plus" },
-  ];
-
-  // console.log("products...........", products[0].products);
-  // const products = products?.products
+import GiftBoxCardSkeleton from "../shared/loadingEffect/GiftBoxCardSkeleton";
+interface Props {
+  selectedPrice: string;
+  handlePriceChange: (value: string) => void;
+  isPricingLoading: boolean;
+  isFetching: boolean;
+}
+const GiftListingSection = ({
+  products,
+  actions,
+}: {
+  products: any;
+  actions: Props;
+}) => {
   const { data: categories, isLoading: categoriesLoading } =
     useCategoryListQuery(undefined);
   if (categoriesLoading) return <PageLoader />;
-
+  const priceRanges = [
+    { label: "All", value: "" },
+    { label: "Under $50", value: "under-50" },
+    { label: "$50-$100", value: "50-100" },
+    { label: "$100-$150", value: "100-150" },
+    { label: "$150-$200", value: "150-200" },
+    { label: "$200-$250", value: "200-250" },
+    { label: "$250+", value: "250-plus" },
+  ];
+  console.log(actions);
   return (
     <section className="xl:py-15 md:py-10 py-5 ">
       <div className="max-w-container mx-auto px-3">
@@ -82,9 +93,27 @@ const GiftListingSection = ({ products }: { products: any }) => {
 
               {/* Price Range Card */}
               <hr className="xl:my-6 md:my-4 my-2 text-gray-200" />
-              <h3 className="text-xl font-bold text-gray-700 mb-6 p-2">
+              <h3 className="text-xl font-bold text-gray-700 mb-6 p-2 flex gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M4 6H20M4 12H20M4 18H20"
+                    stroke="#CA8A32"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                  <circle cx="9" cy="6" r="2" fill="#CA8A32" />
+                  <circle cx="15" cy="12" r="2" fill="#CA8A32" />
+                  <circle cx="11" cy="18" r="2" fill="#CA8A32" />
+                </svg>
                 Price Range
               </h3>
+
               <div className="flex flex-col xl:gap-4 gap-2">
                 {priceRanges?.map((range, idx) => (
                   <label
@@ -92,27 +121,29 @@ const GiftListingSection = ({ products }: { products: any }) => {
                     className="flex items-center gap-3 cursor-pointer group p-2"
                   >
                     <div className="relative w-6 h-6 flex items-center justify-center">
-                      {/* Hidden Native Checkbox */}
+                      {/* Hidden Input */}
                       <input
                         type="checkbox"
+                        checked={actions.selectedPrice === range.value}
+                        onChange={() => actions.handlePriceChange(range.value)}
                         className="peer absolute opacity-0 w-full h-full cursor-pointer z-10"
                       />
 
-                      {/* Unchecked State SVG (Default Border) */}
+                      {/* Unchecked SVG */}
                       <svg
-                        className="absolute inset-0 w-full h-full  peer-checked:opacity-0"
+                        className="absolute inset-0 w-full h-full peer-checked:opacity-0"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="none"
                       >
                         <path
-                          d="M22.5594 1.44037C21.5992 0.480122 20.4428 0 19.0907 0H4.90898C3.55685 0 2.40055 0.480122 1.44019 1.44037C0.480122 2.40073 0 3.55679 0 4.90916V19.0909C0 20.443 0.480122 21.5992 1.44019 22.5596C2.40055 23.5199 3.55685 24.0001 4.90898 24.0001H19.0907C20.4428 24.0001 21.5988 23.5199 22.5595 22.5596C23.5198 21.5992 23.9998 20.443 23.9998 19.0909V4.90916C23.9996 3.55703 23.5195 2.40073 22.5594 1.44037ZM21.8178 19.0909C21.8178 19.8407 21.5509 20.4828 21.0169 21.0171C20.4828 21.5512 19.8409 21.8178 19.0906 21.8178H4.90898C4.15895 21.8178 3.51691 21.5512 2.98276 21.0171C2.44873 20.4828 2.18168 19.8407 2.18168 19.0909V4.90916C2.18168 4.15918 2.44873 3.51715 2.98276 2.98294C3.51691 2.44885 4.15895 2.18186 4.90898 2.18186H19.0907C19.8409 2.18186 20.4828 2.44891 21.0169 2.98294C21.551 3.51709 21.8178 4.15912 21.8178 4.90916V19.0909Z"
+                          d="M22.5594 1.44037C21.5992 0.480122 20.4428 0 19.0907 0H4.90898C3.55685 0 2.40055 0.480122 1.44019 1.44037C0.480122 2.40073 0 3.55679 0 4.90916V19.0909C0 20.443 0.480122 21.5992 1.44019 22.5596C2.40055 23.5199 3.55685 24.0001 4.90898 24.0001H19.0907C20.4428 24.0001 21.5988 23.5199 22.5595 22.5596C23.5198 21.5992 23.9998 20.443 23.9998 19.0909V4.90916C23.9996 3.55703 23.5195 2.40073 22.5594 1.44037Z"
                           fill="#E5E7EB"
                         />
                       </svg>
 
-                      {/* Checked State SVG (The same SVG but with Orange fill and a White Tick) */}
-                      <div className="hidden peer-checked:flex items-center justify-center w-full h-full bg-primary rounded-md transition-all">
+                      {/* Checked State */}
+                      <div className="hidden peer-checked:flex items-center justify-center w-full h-full bg-primary rounded-md">
                         <svg
                           className="w-4 h-4 text-white"
                           fill="none"
@@ -205,7 +236,7 @@ const GiftListingSection = ({ products }: { products: any }) => {
             {/* Gift Grid Header */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-[20px] font-medium text-gray-900">
-                Gift Boxes
+                {products?.[0]?.name}
               </h2>
               <Link to={`/shop-gifts/category/${products?.[0]?.id}`}>
                 <Button
@@ -219,17 +250,21 @@ const GiftListingSection = ({ products }: { products: any }) => {
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products?.[0]?.products
-                ?.slice(0, 3)
-                ?.map((product: IProduct, index: number) => {
-                  if (!product) return null;
-                  return (
-                    <GiftBoxCard
-                      product={product}
-                      key={product?.id ?? index}
-                    ></GiftBoxCard>
-                  );
-                })}
+              {actions.isFetching
+                ? Array.from({ length: 3 }).map((_, i) => (
+                    <GiftBoxCardSkeleton key={i} />
+                  ))
+                : products?.[0]?.products
+                    ?.slice(0, 3)
+                    ?.map((product: IProduct, index: number) => {
+                      if (!product) return null;
+                      return (
+                        <GiftBoxCard
+                          product={product}
+                          key={product?.id ?? index}
+                        />
+                      );
+                    })}
             </div>
           </main>
         </div>

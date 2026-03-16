@@ -2,15 +2,30 @@ import GiftCategoriesSection from "@/components/shop-gifts/GiftCategoriesSection
 import GiftListingSection from "@/components/shop-gifts/GiftListingSection";
 import ShopGiftsHero from "@/components/shop-gifts/ShopGiftsHero";
 import SEO from "@/components/shared/SEO";
-import { useCategorizedProductQuery } from "@/redux/features/public/public.api";
+import { usePricingQueryQuery } from "@/redux/features/public/public.api";
 import PageLoader from "@/components/shared/PageLoader";
+import { useState } from "react";
 
 function ShopGiftsPage() {
-  const { data, isLoading: categorizedProductLoading } =
-    useCategorizedProductQuery(undefined);
-  if (categorizedProductLoading) return <PageLoader />;
-  console.log("data", data);
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const {
+    data: products,
+    isLoading: isPricingLoading,
+    isFetching,
+  } = usePricingQueryQuery(selectedPrice);
 
+  const handlePriceChange = (value: string) => {
+    setSelectedPrice(value);
+  };
+
+  if (isPricingLoading) return <PageLoader />;
+
+  const actions = {
+    selectedPrice,
+    handlePriceChange,
+    isPricingLoading,
+    isFetching,
+  };
   return (
     <div>
       <SEO
@@ -18,8 +33,11 @@ function ShopGiftsPage() {
         description="Browse our collection of personalized gifts."
       />
       <ShopGiftsHero></ShopGiftsHero>
-      <GiftListingSection products={data}></GiftListingSection>
-      <GiftCategoriesSection categories={data}></GiftCategoriesSection>
+      <GiftListingSection
+        products={products}
+        actions={actions}
+      ></GiftListingSection>
+      <GiftCategoriesSection categories={products}></GiftCategoriesSection>
     </div>
   );
 }
