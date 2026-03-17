@@ -78,3 +78,45 @@ export interface CustomerOrderDetailsResponse {
   message: string;
   status: number;
 }
+
+export interface OrderInvoiceItem {
+  id: number;
+  product_title: string;
+  sku: string;
+  sell_price: number;
+  quantity: number;
+  estimated_delivery?: string;
+  delivery_status?: string;
+  product?: {
+    imageUrl?: string;
+    color?: string;
+  };
+}
+
+export interface OrderInvoicePayment {
+  id: number;
+  payment_status: string;
+  amount: string | number;
+  currency: string;
+}
+
+export interface OrderInvoice {
+  id: number;
+  user_id: number;
+  order_uuid: string;
+  subtotal: number;
+  shipping_cost: number;
+  total: number;
+  is_bulk: number | boolean;
+  scheduled_at?: string | null;
+  payment_status: string;
+  fulfillment_status: string;
+  items: OrderInvoiceItem[];
+  payment?: OrderInvoicePayment;
+}
+
+export interface OrderInvoiceResponse {
+  data: OrderInvoice;
+  message: string;
+  status: number;
+}

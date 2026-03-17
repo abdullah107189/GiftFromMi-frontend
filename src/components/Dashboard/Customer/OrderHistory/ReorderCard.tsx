@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { CustomerOrder } from "@/types/orders";
 import { Link } from "react-router";
+import { toast } from "sonner";
+
+import { useLazyGetOrderInvoiceQuery } from "@/redux/features/order/order.api";
+import { generateInvoicePdf } from "@/utils/invoicePdf";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
@@ -21,12 +25,24 @@ const hasDeliveryDate = (delivery?: string) =>
   Boolean(delivery) && delivery !== "-" && delivery !== "—";
 
 export default function ReorderCard({ order }: { order: CustomerOrder }) {
+  const [getOrderInvoice, { isFetching: isInvoiceLoading }] =
+    useLazyGetOrderInvoiceQuery();
   const orderDate = dateFormatter.format(new Date(order.created_at));
   const isBulkOrder = Boolean(Number(order.is_bulk));
   const totalUnits = order.items.reduce(
     (sum, item) => sum + (item.total_quantity ?? item.quantity ?? 0),
     0,
   );
+
+  const handleDownloadInvoice = async () => {
+    try {
+      const invoice = await getOrderInvoice(order.id).unwrap();
+      generateInvoicePdf(invoice);
+    } catch (error) {
+      console.error("Invoice download failed", error);
+      toast.error("Unable to generate invoice right now.");
+    }
+  };
 
   return (
     <div className="bg-white border border-gray-300 md:p-4 p-2 md:rounded-2xl rounded-xl">
@@ -103,8 +119,13 @@ export default function ReorderCard({ order }: { order: CustomerOrder }) {
         ))}
       </div>
       <div className="mt-3 gap-4 flex">
-        <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
-          Invoice
+        <Button
+          variant="outline"
+          className="px-5 sm:px-6 rounded-2xl"
+          disabled={isInvoiceLoading}
+          onClick={() => void handleDownloadInvoice()}
+        >
+          {isInvoiceLoading ? "Preparing Invoice..." : "Invoice"}
         </Button>
         <Link to={`/customer-dashboard/order-list/order-details/${order.id}`}>
           <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">

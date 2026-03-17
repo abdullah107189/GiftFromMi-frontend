@@ -4,6 +4,8 @@ import type {
   CustomerOrderDetails,
   CustomerOrderDetailsResponse,
   CustomerOrdersResponse,
+  OrderInvoice,
+  OrderInvoiceResponse,
 } from "@/types/orders";
 
 const orderApi = baseApi.injectEndpoints({
@@ -21,6 +23,13 @@ const orderApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (res: CustomerOrderDetailsResponse) => res.data,
+    }),
+    getOrderInvoice: builder.query<OrderInvoice, number>({
+      query: (id) => ({
+        url: `/order/invoice/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (res: OrderInvoiceResponse) => res.data,
     }),
 
     exportOrder: builder.query<string, number>({
@@ -42,6 +51,8 @@ const orderApi = baseApi.injectEndpoints({
 export const {
   useGetAllOrderQuery,
   useGetSingleOrderQuery,
+  useGetOrderInvoiceQuery,
+  useLazyGetOrderInvoiceQuery,
   useExportOrderQuery,
   useLazyExportOrderQuery,
   useCancleOrderMutation,
