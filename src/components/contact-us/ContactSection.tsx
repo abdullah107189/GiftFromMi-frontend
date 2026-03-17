@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormData } from "@/utils/createFormData";
 import { useContactUsMutation } from "@/redux/features/public/public.api";
 import { toast } from "sonner";
+import ContactRecaptchaField from "./ContactRecaptchaField";
 
 const contactSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -135,13 +136,13 @@ const ContactSection = ({
   });
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = form;
 
-  const onSubmit = async (data: ContactFormValues) => {
-    console.log("Contact form data:", data);
+  const onSubmit = async (data: ContactFormValues) => { 
     const finalData = {
       name: data.firstName + " " + data.lastName,
       email: data.email,
@@ -151,8 +152,7 @@ const ContactSection = ({
     const formData = createFormData(finalData);
 
     try {
-      const result = await contactUs(formData).unwrap();
-      console.log("Message sent successfully:", result);
+      const result = await contactUs(formData).unwrap(); 
       toast.success(result.message || "Message sent successfully!");
       form.reset();
     } catch (error: any) {
@@ -316,27 +316,20 @@ const ContactSection = ({
                 )}
               </div>
 
-              <div className="p-3 border border-gray-300 rounded-xl w-fit flex items-center gap-3 xl:my-8 lg:my-6 my-4">
-                <input
-                  type="checkbox"
-                  {...register("captcha")}
-                  className="w-5 h-5 accent-[#CA8A32]"
-                />
-                <span className="text-sm text-gray-500 font-medium">
-                  I'm not a robot
-                </span>
-                <img
-                  src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-                  alt="recaptcha"
-                  className="w-6 h-6 ml-4"
+              <div className="xl:my-8 lg:my-6 my-4">
+                <Controller
+                  control={control}
+                  name="captcha"
+                  render={({ field }) => (
+                    <ContactRecaptchaField
+                      checked={Boolean(field.value)}
+                      disabled={isSubmitting || isContactUsLoading}
+                      error={errors.captcha?.message}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
                 />
               </div>
-
-              {errors.captcha && (
-                <p className="text-sm text-red-500 mb-3">
-                  {errors.captcha.message}
-                </p>
-              )}
 
               <Button
                 type="submit"

@@ -99,7 +99,8 @@ const CheckoutPage = () => {
   });
 
   const bulkRows = methods.watch("bulkRows") ?? [];
-  const bulkRecipientCount = isBulk && bulkRows.length > 0 ? bulkRows.length : 1;
+  const bulkRecipientCount =
+    isBulk && bulkRows.length > 0 ? bulkRows.length : 1;
 
   // In bulk checkout, the same cart is sent once for each CSV recipient row.
   const displayCartItems = useMemo(
@@ -150,13 +151,13 @@ const CheckoutPage = () => {
           };
 
           console.log("Bulk checkout payload:", bulkPayload);
-            console.log("Order preview:", {
-              items: displayCartItems,
-              recipientCount: bulkRecipientCount,
-              subtotal: displaySubtotal,
-              shippingFee,
-              total: orderTotal,
-            });
+          console.log("Order preview:", {
+            items: displayCartItems,
+            recipientCount: bulkRecipientCount,
+            subtotal: displaySubtotal,
+            shippingFee,
+            total: orderTotal,
+          });
 
           try {
             const previewResult =
@@ -272,6 +273,33 @@ const CheckoutPage = () => {
     }
   };
 
+  const clearBulkSelectionFromHistory = () => {
+    const currentState = window.history.state;
+
+    if (
+      !currentState ||
+      typeof currentState !== "object" ||
+      !("usr" in currentState) ||
+      !currentState.usr ||
+      typeof currentState.usr !== "object" ||
+      !("bulkClientSelection" in currentState.usr)
+    ) {
+      return;
+    }
+
+    const nextUserState = { ...currentState.usr };
+    delete nextUserState.bulkClientSelection;
+
+    window.history.replaceState(
+      {
+        ...currentState,
+        usr: nextUserState,
+      },
+      "",
+      window.location.href,
+    );
+  };
+
   useEffect(() => {
     const navigationState = location.state as
       | { bulkClientSelection?: IBulkClientSelection }
@@ -307,6 +335,7 @@ const CheckoutPage = () => {
       shouldDirty: true,
     });
 
+    clearBulkSelectionFromHistory();
     void handleCalculateShippingForBulk(generatedFile);
   }, [isBulk, location.state, methods]);
 

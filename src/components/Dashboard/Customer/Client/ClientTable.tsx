@@ -44,7 +44,8 @@ export default function ClientTable({
   onEdit,
   onDelete,
 }: ClientTableProps) {
-  const allSelected = clients.length > 0 && selectedClientIds.length === clients.length;
+  const allSelected =
+    clients.length > 0 && selectedClientIds.length === clients.length;
 
   return (
     <div className="overflow-x-auto rounded-3xl border border-slate-200">
@@ -54,7 +55,9 @@ export default function ClientTable({
             <TableHead className="w-14">
               <Checkbox
                 checked={allSelected}
-                onCheckedChange={(checked) => onToggleSelectAll(Boolean(checked))}
+                onCheckedChange={(checked) =>
+                  onToggleSelectAll(Boolean(checked))
+                }
                 aria-label="Select all clients"
               />
             </TableHead>
