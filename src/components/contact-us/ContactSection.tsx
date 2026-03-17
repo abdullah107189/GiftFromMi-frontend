@@ -28,7 +28,13 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-const ContactSection = () => {
+const ContactSection = ({
+  settings,
+  isLoading,
+}: {
+  settings: any;
+  isLoading: boolean;
+}) => {
   const [contactUs, { isLoading: isContactUsLoading }] = useContactUsMutation();
   const contactCard = [
     {
@@ -70,8 +76,8 @@ const ContactSection = () => {
         </svg>
       ),
       label: "Give Us A Call",
-      value: "(+01) 789 859 654",
-      href: "tel:+01789859654",
+      value: isLoading ? "Loading..." : settings?.number || "N/A",
+      href: `tel:${settings?.number}`,
     },
     {
       icon: (
@@ -89,8 +95,8 @@ const ContactSection = () => {
         </svg>
       ),
       label: "Send Us A Message",
-      value: "info@domain.com",
-      href: "mailto:info@domain.com",
+      value: isLoading ? "Loading..." : settings?.email || "N/A",
+      href: `mailto:${settings?.email}`,
     },
     {
       icon: (
@@ -112,8 +118,7 @@ const ContactSection = () => {
         </svg>
       ),
       label: "Visit Our Location",
-      value: "45 Avenue, USA",
-      href: "https://www.google.com/maps/search/?api=1&query=45+Avenue+USA",
+      value: isLoading ? "Loading..." : settings?.address || "N/A",
     },
   ];
 

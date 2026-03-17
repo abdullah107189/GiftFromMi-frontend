@@ -30,7 +30,19 @@ const orderApi = baseApi.injectEndpoints({
         responseHandler: "text",
       }),
     }),
+    cancleOrder: builder.mutation({
+      query: (id) => ({
+        url: `/order/delete/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllOrderQuery, useGetSingleOrderQuery, useExportOrderQuery, useLazyExportOrderQuery } = orderApi;
+export const {
+  useGetAllOrderQuery,
+  useGetSingleOrderQuery,
+  useExportOrderQuery,
+  useLazyExportOrderQuery,
+  useCancleOrderMutation,
+} = orderApi;

@@ -1,16 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 import type { CustomerOrder } from "@/types/orders";
 import { Link } from "react-router";
-import { useLazyExportOrderQuery } from "@/redux/features/order/order.api";
+import {
+  useCancleOrderMutation,
+  useLazyExportOrderQuery,
+} from "@/redux/features/order/order.api";
 import { downloadCSVFile } from "@/utils/downloadCSVFile";
 import { useOrderPayMutation } from "@/redux/features/checkout/checkout.api";
 import { toast } from "sonner";
+import { useState } from "react";
 
 interface OrderCardProps {
   order: CustomerOrder;
+  onCancelled?: () => void | Promise<void>;
 }
+
+const getSuccessMessage = (response: unknown, fallback: string) => {
+  if (
+    response &&
+    typeof response === "object" &&
+    "message" in response &&
+    typeof response.message === "string"
+  ) {
+    return response.message;
+  }
+
+  if (typeof response === "string" && response.trim()) {
+    return response;
+  }
+
+  return fallback;
+};
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -55,11 +78,14 @@ const getPaymentStatusClass = (status: string) => {
 const hasDeliveryDate = (delivery?: string) =>
   Boolean(delivery) && delivery !== "-" && delivery !== "—";
 
-export default function OrderCard({ order }: OrderCardProps) {
+export default function OrderCard({ order, onCancelled }: OrderCardProps) {
   const [exportOrder, { isLoading: isLoadingExportOrder }] =
     useLazyExportOrderQuery();
+  const [cancleOrder, { isLoading: isCancellingOrder }] =
+    useCancleOrderMutation();
 
   const [orderPay, { isLoading: isLoadingOrderPay }] = useOrderPayMutation();
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
   const handleDownload = async () => {
     try {
@@ -113,221 +139,251 @@ export default function OrderCard({ order }: OrderCardProps) {
       console.error(err);
     }
   };
+
+  const handleCancelOrder = async () => {
+    try {
+      const response = await cancleOrder(order.id).unwrap();
+
+      toast.success(getSuccessMessage(response, "Order cancelled successfully."));
+      setIsCancelModalOpen(false);
+      await onCancelled?.();
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Unable to cancel this order.");
+    }
+  };
+
   return (
-    <div className="rounded-t-4xl overflow-hidden mb-8 overflow-x-auto!">
-      <div className="bg-[#CA8A32] md:p-6 p-4 text-white">
-        <table className="w-full border-collapse md:table xl:hidden">
-          <tbody>
-            <tr className="align-top">
-              <td className="pr-4 pb-4">
-                <div className="space-y-2">
-                  <p className="font-medium">Order ID</p>
-                  <p className="font-semibold text-xl">{order.order_id}</p>
-                </div>
-              </td>
-              <td className="pl-4 pb-4 border-l border-white/20">
-                <div className="space-y-1">
-                  <p className="font-medium">Total Payment</p>
-                  <p className="font-semibold text-xl">
-                    {currencyFormatter.format(order.total)}
-                  </p>
-                </div>
-              </td>
-            </tr>
+    <>
+      <div className="rounded-t-4xl overflow-hidden mb-8 overflow-x-auto!">
+        <div className="bg-[#CA8A32] md:p-6 p-4 text-white">
+          <table className="w-full border-collapse md:table xl:hidden">
+            <tbody>
+              <tr className="align-top">
+                <td className="pr-4 pb-4">
+                  <div className="space-y-2">
+                    <p className="font-medium">Order ID</p>
+                    <p className="font-semibold text-xl">{order.order_id}</p>
+                  </div>
+                </td>
+                <td className="pl-4 pb-4 border-l border-white/20">
+                  <div className="space-y-1">
+                    <p className="font-medium">Total Payment</p>
+                    <p className="font-semibold text-xl">
+                      {currencyFormatter.format(order.total)}
+                    </p>
+                  </div>
+                </td>
+              </tr>
 
-            <tr className="align-top">
-              <td className="pr-4">
-                <div className="space-y-1">
-                  <p className="font-medium">Payment Method</p>
-                  <p className="font-semibold text-xl">
-                    {order.payment_method}
-                  </p>
-                </div>
-              </td>
-              <td className="pl-4 border-l border-white/20">
-                <div className="space-y-1">
-                  <p className="font-medium">Placed On</p>
-                  <p className="font-semibold text-xl">
-                    {order?.items?.[0]?.estimated_delivery ?? "N/A"}
-                  </p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr className="align-top">
+                <td className="pr-4">
+                  <div className="space-y-1">
+                    <p className="font-medium">Payment Method</p>
+                    <p className="font-semibold text-xl">
+                      {order.payment_method}
+                    </p>
+                  </div>
+                </td>
+                <td className="pl-4 border-l border-white/20">
+                  <div className="space-y-1">
+                    <p className="font-medium">Placed On</p>
+                    <p className="font-semibold text-xl">
+                      {order?.items?.[0]?.estimated_delivery ?? "N/A"}
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-        <table className="w-full border-collapse hidden xl:table">
-          <tbody>
-            <tr className="align-top">
-              <td className="pr-4">
-                <div className="space-y-2">
-                  <p className="font-medium">Order ID</p>
-                  <p className="font-semibold md:text-2xl text-xl">
-                    {order.order_id}
-                  </p>
-                </div>
-              </td>
+          <table className="w-full border-collapse hidden xl:table">
+            <tbody>
+              <tr className="align-top">
+                <td className="pr-4">
+                  <div className="space-y-2">
+                    <p className="font-medium">Order ID</p>
+                    <p className="font-semibold md:text-2xl text-xl">
+                      {order.order_id}
+                    </p>
+                  </div>
+                </td>
 
-              <td className="pl-4 border-l border-white/20">
-                <div className="space-y-1">
-                  <p className="font-medium">Total Payment</p>
-                  <p className="font-semibold md:text-2xl text-xl">
-                    {currencyFormatter.format(order.total)}
-                  </p>
-                </div>
-              </td>
+                <td className="pl-4 border-l border-white/20">
+                  <div className="space-y-1">
+                    <p className="font-medium">Total Payment</p>
+                    <p className="font-semibold md:text-2xl text-xl">
+                      {currencyFormatter.format(order.total)}
+                    </p>
+                  </div>
+                </td>
 
-              <td className="pl-4 border-l border-white/20">
-                <div className="space-y-1">
-                  <p className="font-medium">Payment Method</p>
-                  <p className="font-semibold md:text-2xl text-xl">
-                    {order.payment_method}
-                  </p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div className="py-4 md:py-6 space-y-4 md:space-y-6 border border-gray-200 p-2 rounded-b-3xl">
-        <div className="flex flex-wrap items-center gap-3">
-          <Badge className="bg-[#F5F5F6] text-gray-900 border-none rounded-full px-4 py-2 shadow-none">
-            {isBulkOrder ? "Bulk Order" : "Single Order"}
-          </Badge>
-          <p className="text-gray-500 font-normal text-sm sm:text-base">
-            {isBulkOrder
-              ? `${order.recipient_count ?? 0} recipients • ${totalUnits} total units`
-              : `${totalUnits} item${totalUnits === 1 ? "" : "s"} in this order`}
-          </p>
-          <p className="text-gray-500 font-normal text-sm sm:text-base">
-            Estimated delivery: {deliveryLabel}
-          </p>
+                <td className="pl-4 border-l border-white/20">
+                  <div className="space-y-1">
+                    <p className="font-medium">Payment Method</p>
+                    <p className="font-semibold md:text-2xl text-xl">
+                      {order.payment_method}
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        {previewItems.map((item, idx) => (
-          <div
-            key={`${order.id}-${item.id ?? idx}`}
-            className="flex items-center gap-3 md:gap-4 border-b border-gray-200 pb-4 md:pb-5"
-          >
-            <img
-              src={item.image}
-              alt={item.product_title}
-              className="
+        <div className="py-4 md:py-6 space-y-4 md:space-y-6 border border-gray-200 p-2 rounded-b-3xl">
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge className="bg-[#F5F5F6] text-gray-900 border-none rounded-full px-4 py-2 shadow-none">
+              {isBulkOrder ? "Bulk Order" : "Single Order"}
+            </Badge>
+            <p className="text-gray-500 font-normal text-sm sm:text-base">
+              {isBulkOrder
+                ? `${order.recipient_count ?? 0} recipients • ${totalUnits} total units`
+                : `${totalUnits} item${totalUnits === 1 ? "" : "s"} in this order`}
+            </p>
+            <p className="text-gray-500 font-normal text-sm sm:text-base">
+              Estimated delivery: {deliveryLabel}
+            </p>
+          </div>
+
+          {previewItems.map((item, idx) => (
+            <div
+              key={`${order.id}-${item.id ?? idx}`}
+              className="flex items-center gap-3 md:gap-4 border-b border-gray-200 pb-4 md:pb-5"
+            >
+              <img
+                src={item.image}
+                alt={item.product_title}
+                className="
                 w-22.5 h-23
                 sm:w-27.5 sm:h-28.25
                 lg:w-32.5 lg:h-33.25
                 xl:w-37.5 xl:h-38.25
                 rounded-xl object-cover
               "
-            />
+              />
 
-            <div className="space-y-1 min-w-0">
-              <h4 className="font-medium text-gray-900 text-lg sm:text-xl md:text-2xl md:mb-5 mb-3 truncate">
-                {item.product_title}
-              </h4>
-              <p className="text-gray-900 font-manrope text-sm sm:text-base">
-                Category: {item.category}
-              </p>
-              <p className="text-gray-500 font-manrope text-sm sm:text-base">
-                {isBulkOrder
-                  ? `Quantity: ${item.total_quantity ?? 0} for ${
-                      order.recipient_count ?? 0
-                    } recipients`
-                  : `Quantity: ${item.quantity ?? 0}${
-                      item.sell_price
-                        ? ` • Unit price: ${currencyFormatter.format(
-                            item.sell_price,
-                          )}`
-                        : ""
-                    }`}
-              </p>
-              <p className="text-gray-500 font-manrope text-sm sm:text-base">
-                Delivery:{" "}
-                {hasDeliveryDate(item.estimated_delivery)
-                  ? item.estimated_delivery
-                  : "Not available"}
-              </p>
+              <div className="space-y-1 min-w-0">
+                <h4 className="font-medium text-gray-900 text-lg sm:text-xl md:text-2xl md:mb-5 mb-3 truncate">
+                  {item.product_title}
+                </h4>
+                <p className="text-gray-900 font-manrope text-sm sm:text-base">
+                  Category: {item.category}
+                </p>
+                <p className="text-gray-500 font-manrope text-sm sm:text-base">
+                  {isBulkOrder
+                    ? `Quantity: ${item.total_quantity ?? 0} for ${
+                        order.recipient_count ?? 0
+                      } recipients`
+                    : `Quantity: ${item.quantity ?? 0}${
+                        item.sell_price
+                          ? ` • Unit price: ${currencyFormatter.format(
+                              item.sell_price,
+                            )}`
+                          : ""
+                      }`}
+                </p>
+                <p className="text-gray-500 font-manrope text-sm sm:text-base">
+                  Delivery:{" "}
+                  {hasDeliveryDate(item.estimated_delivery)
+                    ? item.estimated_delivery
+                    : "Not available"}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-        {hiddenItemsCount > 0 && (
-          <p className="text-sm text-gray-500">
-            +{hiddenItemsCount} more item{hiddenItemsCount === 1 ? "" : "s"} in
-            this order
-          </p>
-        )}
-
-        <div className="flex flex-col justify-between gap-4 md:gap-6 pt-4 ">
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge
-              className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getFulfillmentStatusClass(
-                fulfillmentStatus,
-              )}`}
-            >
-              {formatLabel(fulfillmentStatus)}
-            </Badge>
-            <Badge
-              className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getPaymentStatusClass(
-                paymentStatus,
-              )}`}
-            >
-              Payment: {formatLabel(paymentStatus)}
-            </Badge>
-
-            <p className="text-gray-500 font-normal text-sm sm:text-base">
-              Order placed on {placedOn}
+          {hiddenItemsCount > 0 && (
+            <p className="text-sm text-gray-500">
+              +{hiddenItemsCount} more item{hiddenItemsCount === 1 ? "" : "s"}{" "}
+              in this order
             </p>
-          </div>
+          )}
 
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-            <div className="gap-3 md:gap-4 flex flex-wrap">
-              <Button
-                onClick={handleDownload}
-                disabled={isLoadingExportOrder}
-                className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
-                variant="secondary"
+          <div className="flex flex-col justify-between gap-4 md:gap-6 pt-4 ">
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge
+                className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getFulfillmentStatusClass(
+                  fulfillmentStatus,
+                )}`}
               >
-                {isLoadingExportOrder ? "Preparing..." : "Download CSV"}
-              </Button>
+                {formatLabel(fulfillmentStatus)}
+              </Badge>
+              <Badge
+                className={`px-4 py-2 rounded-full font-medium text-sm shadow-none ${getPaymentStatusClass(
+                  paymentStatus,
+                )}`}
+              >
+                Payment: {formatLabel(paymentStatus)}
+              </Badge>
 
-              <Link
-                to={`/customer-dashboard/order-list/order-details/${order.id}`}
-              >
-                <Button variant="outline" className="px-5 sm:px-6 rounded-2xl">
-                  View All Details
-                </Button>
-              </Link>
-              {paymentPending && (
-                <Button
-                  disabled={isLoadingExportOrder}
-                  onClick={() => handlePay()}
-                  variant="outline"
-                  className="px-5 sm:px-6 rounded-2xl"
-                >
-                  {isLoadingOrderPay ? "Paying..." : "Pay"}
-                </Button>
-              )}
+              <p className="text-gray-500 font-normal text-sm sm:text-base">
+                Order placed on {placedOn}
+              </p>
             </div>
 
-            {canCancel && order.payment_status === "pending" && (
-              <Button
-                variant="ghost"
-                className="
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+              <div className="gap-3 md:gap-4 flex flex-wrap">
+                <Button
+                  onClick={handleDownload}
+                  disabled={isLoadingExportOrder}
+                  className="px-5 sm:px-6 py-3 sm:py-4 h-auto rounded-2xl"
+                  variant="secondary"
+                >
+                  {isLoadingExportOrder ? "Preparing..." : "Download CSV"}
+                </Button>
+
+                <Link
+                  to={`/customer-dashboard/order-list/order-details/${order.id}`}
+                >
+                  <Button
+                    variant="outline"
+                    className="px-5 sm:px-6 rounded-2xl"
+                  >
+                    View All Details
+                  </Button>
+                </Link>
+                {paymentPending && (
+                  <Button
+                    disabled={isLoadingExportOrder}
+                    onClick={() => handlePay()}
+                    variant="outline"
+                    className="px-5 sm:px-6 rounded-2xl"
+                  >
+                    {isLoadingOrderPay ? "Paying..." : "Pay"}
+                  </Button>
+                )}
+              </div>
+
+              {canCancel && order.payment_status === "pending" && (
+                <Button
+                  variant="ghost"
+                  disabled={isCancellingOrder}
+                  onClick={() => setIsCancelModalOpen(true)}
+                  className="
                   bg-[#FFF1F3] h-auto py-3 sm:py-4
                   text-[#F43F5E] hover:bg-[#FFE4E8] hover:text-[#E11D48]
                   rounded-xl px-6 sm:px-7 text-sm font-medium transition-all
                   md:ml-4
                   w-full md:w-auto
                 "
-              >
-                Cancel Order
-              </Button>
-            )}
+                >
+                  {isCancellingOrder ? "Cancelling..." : "Cancel Order"}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <DeleteConfirmModal
+        isOpen={isCancelModalOpen}
+        onOpenChange={setIsCancelModalOpen}
+        onConfirm={handleCancelOrder}
+        isBusy={isCancellingOrder}
+        title="Cancel Order?"
+        description="This order will be cancelled and removed from your active order flow."
+        confirmLabel={isCancellingOrder ? "Cancelling..." : "Cancel Order"}
+      />
+    </>
   );
 }

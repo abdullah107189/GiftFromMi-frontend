@@ -57,7 +57,7 @@ const FeedbackSection = ({
                 <div className="flex justify-between items-start mb-5">
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.avatar}
+                      src={item?.avatar}
                       alt={item.name}
                       className="w-14 h-14 rounded-full object-cover"
                     />

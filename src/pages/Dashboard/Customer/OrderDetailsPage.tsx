@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useParams } from "react-router";
 import {
   AlertCircle,
@@ -11,10 +12,16 @@ import {
 } from "lucide-react";
 import SEO from "@/components/shared/SEO";
 import DynamicBreadcrumb from "@/components/shared/DynamicBreadcrumb";
+import DeleteConfirmModal from "@/components/shared/Modal/DeleteConfirmModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import PageLoader from "@/components/shared/PageLoader";
-import { useGetSingleOrderQuery } from "@/redux/features/order/order.api";
+import {
+  useCancleOrderMutation,
+  useGetSingleOrderQuery,
+} from "@/redux/features/order/order.api";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -58,15 +65,36 @@ const BackToOrdersButton = ({
   </Link>
 );
 
+const getSuccessMessage = (response: unknown, fallback: string) => {
+  if (
+    response &&
+    typeof response === "object" &&
+    "message" in response &&
+    typeof response.message === "string"
+  ) {
+    return response.message;
+  }
+
+  if (typeof response === "string" && response.trim()) {
+    return response;
+  }
+
+  return fallback;
+};
+
 export default function OrderDetailsPage() {
   const params = useParams();
   const orderId = Number(params.orderId);
   const shouldSkipQuery = Number.isNaN(orderId);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [cancleOrder, { isLoading: isCancellingOrder }] =
+    useCancleOrderMutation();
 
   const {
     data: detailsOrder,
     isLoading: isLoadingOrderDetails,
     isError: isOrderDetailsError,
+    refetch,
   } = useGetSingleOrderQuery(orderId, {
     skip: shouldSkipQuery,
   });
@@ -102,6 +130,13 @@ export default function OrderDetailsPage() {
   }
 
   const isBulkOrder = Boolean(Number(detailsOrder.is_bulk));
+  const fulfillmentStatus = String(
+    detailsOrder.fulfillment_status,
+  ).toLowerCase();
+  const paymentStatus = String(detailsOrder.payment_status).toLowerCase();
+  const canCancel =
+    (fulfillmentStatus === "pending" || fulfillmentStatus === "processing") &&
+    paymentStatus === "pending";
   const totalRecipients = detailsOrder.recipients?.length ?? 0;
   const totalItems =
     detailsOrder.recipients?.reduce(
@@ -113,6 +148,18 @@ export default function OrderDetailsPage() {
         ),
       0,
     ) ?? 0;
+
+  const handleCancelOrder = async () => {
+    try {
+      const response = await cancleOrder(orderId).unwrap();
+
+      toast.success(getSuccessMessage(response, "Order cancelled successfully."));
+      setIsCancelModalOpen(false);
+      await refetch();
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Unable to cancel this order.");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -234,6 +281,19 @@ export default function OrderDetailsPage() {
               </p>
             </div>
           </div>
+
+          {canCancel ? (
+            <div className="mt-6">
+              <Button
+                variant="ghost"
+                disabled={isCancellingOrder}
+                onClick={() => setIsCancelModalOpen(true)}
+                className="bg-[#FFF1F3] text-[#F43F5E] hover:bg-[#FFE4E8] hover:text-[#E11D48] rounded-2xl px-6"
+              >
+                {isCancellingOrder ? "Cancelling..." : "Cancel Order"}
+              </Button>
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -375,6 +435,16 @@ export default function OrderDetailsPage() {
           </div>
         </div>
       </section>
+
+      <DeleteConfirmModal
+        isOpen={isCancelModalOpen}
+        onOpenChange={setIsCancelModalOpen}
+        onConfirm={handleCancelOrder}
+        isBusy={isCancellingOrder}
+        title="Cancel Order?"
+        description="This order will be cancelled and removed from your active order flow."
+        confirmLabel={isCancellingOrder ? "Cancelling..." : "Cancel Order"}
+      />
     </div>
   );
 }

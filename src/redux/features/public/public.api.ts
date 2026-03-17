@@ -52,6 +52,14 @@ export const landingApi = baseApi.injectEndpoints({
                 data
             })
         }),
+        settings: builder.query({
+            query: () => ({
+                url: `/settings`,
+            }),
+            transformResponse: (res) => res.data,
+            providesTags: ["SETTINGS"],
+        })
+
     })
 });
 
@@ -64,4 +72,5 @@ export const {
     usePrivacyPolicyQuery,
     usePricingQueryQuery,
     useContactUsMutation,
+    useSettingsQuery
 } = landingApi;

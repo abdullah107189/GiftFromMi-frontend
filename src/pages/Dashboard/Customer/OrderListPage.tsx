@@ -6,8 +6,12 @@ import SEO from "@/components/shared/SEO";
 import { useGetAllOrderQuery } from "@/redux/features/order/order.api";
 import PageLoader from "@/components/shared/PageLoader";
 export function OrderListPage() {
-  const { data: customerOrdersResponse, isLoading: isLoadingGetAllOrder } =
-    useGetAllOrderQuery(undefined);
+  const {
+    data: customerOrdersResponse,
+    isLoading: isLoadingGetAllOrder,
+    isFetching: isFetchingOrdersList,
+    refetch: refetchOrdersList,
+  } = useGetAllOrderQuery(undefined);
 
   const [filter, setFilter] = useState("all");
   const options = [
@@ -18,7 +22,7 @@ export function OrderListPage() {
     { label: "Pending Only", value: "pending_only" },
     { label: "Bulk Orders", value: "bulk_only" },
   ];
-  if (isLoadingGetAllOrder) {
+  if (isLoadingGetAllOrder || isFetchingOrdersList) {
     return <PageLoader></PageLoader>;
   }
   if (!customerOrdersResponse) {
@@ -86,7 +90,13 @@ export function OrderListPage() {
         {displayedOrders
           .filter((order) => order.fulfillment_status !== "delivered")
           .map((order) => (
-            <OrderCard key={order.id} order={order} />
+            <OrderCard
+              key={order.id}
+              order={order}
+              onCancelled={async () => {
+                await refetchOrdersList();
+              }}
+            />
           ))}
       </div>
     </div>
