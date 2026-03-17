@@ -89,8 +89,7 @@ export default function ClientTable({
                 </TableCell>
               </TableRow>
             ))
-          ) : clients?.length === 0 &&
-            !isLoading ? (
+          ) : clients?.length === 0 && !isLoading ? (
             <TableRow>
               <TableCell
                 colSpan={5}
@@ -104,7 +103,7 @@ export default function ClientTable({
               const isPendingRow = pendingClientId === String(client.id);
 
               return (
-                <TableRow key={client.id}>
+                <TableRow key={client.id} className="hover:bg-primary-50">
                   <TableCell className="min-w-72">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
@@ -173,7 +172,9 @@ export default function ClientTable({
                         onClick={() => onEdit(client)}
                       >
                         <Edit className="size-4" />
-                        {isPendingRow && isUpdatingClient ? "Updating..." : "Edit"}
+                        {isPendingRow && isUpdatingClient
+                          ? "Updating..."
+                          : "Edit"}
                       </Button>
                       <Button
                         type="button"
@@ -184,7 +185,9 @@ export default function ClientTable({
                         onClick={() => onDelete(client)}
                       >
                         <Trash2 className="size-4" />
-                        {isPendingRow && isDeletingClient ? "Deleting..." : "Delete"}
+                        {isPendingRow && isDeletingClient
+                          ? "Deleting..."
+                          : "Delete"}
                       </Button>
                     </div>
                   </TableCell>
