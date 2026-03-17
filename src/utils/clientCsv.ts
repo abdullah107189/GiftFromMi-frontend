@@ -9,7 +9,6 @@ export const CLIENT_CSV_HEADERS = [
   "district",
   "street_address",
   "postcode",
-  "order_notes",
 ] as const;
 
 const escapeCsvValue = (value: string) => {
@@ -34,7 +33,6 @@ export const clientToCheckoutRow = (
   district: client.district,
   street_address: client.street_address,
   postcode: client.postal_code,
-  order_notes: "",
 });
 
 export const buildBulkClientSelection = (

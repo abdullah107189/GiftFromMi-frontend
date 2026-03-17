@@ -46,7 +46,7 @@ export interface IProduct {
   meta_title: string
   meta_description: any
   deleted_at: any
-  product_image?: ProductImage
+  product_image?: ProductImage[]
   brand?: Brand
   reviews?: any[]
   variants?: Variant[]

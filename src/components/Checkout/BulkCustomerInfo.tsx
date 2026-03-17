@@ -21,6 +21,10 @@ import {
   TableRow,
 } from "../ui/table";
 import { toast } from "sonner";
+import {
+  BULK_CSV_REQUIRED_HEADERS,
+  validateBulkCsvHeaders,
+} from "@/utils/bulkCsvTemplate";
 
 type CsvPreview = {
   headers: string[];
@@ -74,16 +78,28 @@ function parseCsvContent(content: string): CsvPreview {
   const headers = rawHeaders.map(
     (header, index) => header || `Column_${index + 1}`,
   );
+  const headerValidation = validateBulkCsvHeaders(headers);
+
+  if (!headerValidation.isValid) {
+    throw new Error(headerValidation.message);
+  }
+
+  const normalizedHeaders = headerValidation.normalizedHeaders;
 
   const rows = lines.slice(1).map((line) => {
     const values = parseCsvLine(line);
-    return headers.reduce<Record<string, string>>((acc, header, index) => {
-      acc[header] = values[index] ?? "";
+    return normalizedHeaders.reduce<Record<string, string>>((acc, header, index) => {
+      if (BULK_CSV_REQUIRED_HEADERS.includes(header as (typeof BULK_CSV_REQUIRED_HEADERS)[number])) {
+        acc[header] = values[index] ?? "";
+      }
       return acc;
     }, {});
   });
 
-  return { headers, rows };
+  return {
+    headers: [...BULK_CSV_REQUIRED_HEADERS],
+    rows,
+  };
 }
 
 type BulkCustomerInfoProps = {
@@ -135,12 +151,17 @@ export const BulkCustomerInfo = ({
       setValue("bulkRows", parsed.rows, { shouldDirty: true });
       clearErrors("bulkFile");
       setPreviewOpen(true);
-    } catch {
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Invalid CSV format. Please check the file content.";
+
       setError("bulkFile", {
         type: "manual",
-        message: "Invalid CSV format. Please check the file content.",
+        message: errorMessage,
       });
-      toast.error("CSV upload failed. Please check the file content.");
+      toast.error(errorMessage);
       return;
     }
 
@@ -206,6 +227,9 @@ export const BulkCustomerInfo = ({
               </Button>
               <p className="text-gray-700 text-sm mt-1">
                 File must be CSV with max size of 15 MB
+              </p>
+              <p className="mt-2 text-center text-sm text-gray-500">
+                Required fields: {BULK_CSV_REQUIRED_HEADERS.join(", ")}
               </p>
             </div>
           )}
