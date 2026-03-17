@@ -12,11 +12,12 @@ const GiftBoxCard = ({ product }: { product: IProduct }) => {
   const { id, product_image, title, short_description, variants } = product;
   const sell_price = variants?.[0]?.sell_price;
   const price = variants?.[0]?.price;
+  console.log("product", product);
   return (
     <div className="flex flex-col items-center md:p-4 p-2 lg:gap-6 gap-4 flex-1 rounded-2xl border border-primary-200 bg-background transition-all">
       <div className="w-full xl:h-83.5 lg:h-72 md:h-64 h-50 overflow-hidden rounded-xl bg-gray-50">
         <img
-          src={product_image?.[0]?.imageUrl}
+          src={product_image?.imageUrl}
           alt={title}
           className="w-full h-full object-cover"
         />
