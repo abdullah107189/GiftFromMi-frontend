@@ -12,7 +12,7 @@ export default function ClientListHeader({
   onNewClient,
 }: ClientListHeaderProps) {
   return (
-    <div className="rounded-4xl border border-slate-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)] md:p-8">
+    <div className="rounded-4xl border border-slate-200 bg-white p-5  md:p-8">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
         <div className="space-y-2">
           <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-primary">

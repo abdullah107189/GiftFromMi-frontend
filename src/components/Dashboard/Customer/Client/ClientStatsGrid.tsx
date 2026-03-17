@@ -42,7 +42,7 @@ function SummaryCard({
   description: string;
 }) {
   return (
-    <Card className="rounded-[28px] border-slate-200 py-0 shadow-[0_14px_32px_rgba(15,23,42,0.06)]">
+    <Card className="rounded-[28px] border-slate-200 py-0 ">
       <CardContent className="space-y-2 p-5">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
           {title}

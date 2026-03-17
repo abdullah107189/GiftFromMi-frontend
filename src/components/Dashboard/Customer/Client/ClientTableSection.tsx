@@ -9,6 +9,9 @@ type ClientTableSectionProps = {
   pendingClientId?: string | null;
   isDeletingClient?: boolean;
   isUpdatingClient?: boolean;
+  selectedClientIds: string[];
+  onToggleClient: (clientId: string) => void;
+  onToggleSelectAll: (checked: boolean) => void;
   onEdit: (client: IClientRecord) => void;
   onDelete: (client: IClientRecord) => void;
 };
@@ -19,11 +22,14 @@ export default function ClientTableSection({
   pendingClientId,
   isDeletingClient = false,
   isUpdatingClient = false,
+  selectedClientIds,
+  onToggleClient,
+  onToggleSelectAll,
   onEdit,
   onDelete,
 }: ClientTableSectionProps) {
   return (
-    <Card className="rounded-4xl border-slate-200 py-0 shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
+    <Card className="rounded-4xl border-slate-200 py-0 ">
       <CardContent className="space-y-6 p-5 md:p-7">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-1">
@@ -44,6 +50,9 @@ export default function ClientTableSection({
           pendingClientId={pendingClientId}
           isDeletingClient={isDeletingClient}
           isUpdatingClient={isUpdatingClient}
+          selectedClientIds={selectedClientIds}
+          onToggleClient={onToggleClient}
+          onToggleSelectAll={onToggleSelectAll}
           onEdit={onEdit}
           onDelete={onDelete}
         />

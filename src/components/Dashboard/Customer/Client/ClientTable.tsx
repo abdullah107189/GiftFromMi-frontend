@@ -2,6 +2,7 @@ import { Edit, Mail, MapPin, Phone, Trash2, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -20,6 +21,9 @@ type ClientTableProps = {
   pendingClientId?: string | null;
   isDeletingClient?: boolean;
   isUpdatingClient?: boolean;
+  selectedClientIds: string[];
+  onToggleClient: (clientId: string) => void;
+  onToggleSelectAll: (checked: boolean) => void;
   onEdit: (client: IClientRecord) => void;
   onDelete: (client: IClientRecord) => void;
 };
@@ -34,14 +38,26 @@ export default function ClientTable({
   pendingClientId,
   isDeletingClient = false,
   isUpdatingClient = false,
+  selectedClientIds,
+  onToggleClient,
+  onToggleSelectAll,
   onEdit,
   onDelete,
 }: ClientTableProps) {
+  const allSelected = clients.length > 0 && selectedClientIds.length === clients.length;
+
   return (
     <div className="overflow-x-auto rounded-3xl border border-slate-200">
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50 hover:bg-slate-50">
+            <TableHead className="w-14">
+              <Checkbox
+                checked={allSelected}
+                onCheckedChange={(checked) => onToggleSelectAll(Boolean(checked))}
+                aria-label="Select all clients"
+              />
+            </TableHead>
             <TableHead>Client</TableHead>
             <TableHead>Country</TableHead>
             <TableHead>Town / District</TableHead>
@@ -54,6 +70,9 @@ export default function ClientTable({
           {isLoading ? (
             Array.from({ length: 5 }).map((_, index) => (
               <TableRow key={`client-skeleton-${index}`}>
+                <TableCell>
+                  <Skeleton className="h-4 w-4 rounded-sm" />
+                </TableCell>
                 <TableCell className="min-w-72">
                   <div className="flex items-center gap-3">
                     <Skeleton className="h-10 w-10 rounded-full" />
@@ -92,7 +111,7 @@ export default function ClientTable({
           ) : clients?.length === 0 && !isLoading ? (
             <TableRow>
               <TableCell
-                colSpan={5}
+                colSpan={6}
                 className="py-10 text-center text-sm text-slate-500"
               >
                 No clients found.
@@ -101,9 +120,17 @@ export default function ClientTable({
           ) : (
             clients?.map((client: IClientRecord) => {
               const isPendingRow = pendingClientId === String(client.id);
+              const isSelected = selectedClientIds.includes(String(client.id));
 
               return (
                 <TableRow key={client.id} className="hover:bg-primary-50">
+                  <TableCell>
+                    <Checkbox
+                      checked={isSelected}
+                      onCheckedChange={() => onToggleClient(String(client.id))}
+                      aria-label={`Select ${client.name}`}
+                    />
+                  </TableCell>
                   <TableCell className="min-w-72">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
