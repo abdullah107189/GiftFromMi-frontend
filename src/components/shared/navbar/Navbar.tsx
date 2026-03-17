@@ -33,7 +33,7 @@ const ResponsiveNavbar = () => {
     { label: "Home", path: "/" },
     { label: "How It Works", path: "/how-it-works" },
     { label: "Shop Gifts", path: "/shop-gifts" },
-    { label: "For Professionals", path: "/for-professionals" },
+    // { label: "For Professionals", path: "/for-professionals" },
     { label: "Bulk Automation", path: "/bulk-automation" },
     { label: "Contact Us", path: "/contact-us" },
   ];
@@ -87,9 +87,9 @@ const ResponsiveNavbar = () => {
                 <Button variant={"outline"}>Login</Button>
               </Link>
 
-              <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
+              {/* <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
                 <Button variant={"default"}>Book A Setup Call</Button>
-              </Link>
+              </Link> */}
             </div>
           ) :
             (
@@ -237,9 +237,9 @@ const ResponsiveNavbar = () => {
                 Login
               </Button>
             </Link>
-            <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
+            {/* <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
               <Button variant={"default"} className="w-full">Book A Setup Call</Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </nav>

@@ -45,6 +45,13 @@ export const landingApi = baseApi.injectEndpoints({
             }),
             transformResponse: (res) => res.data,
         }),
+        contactUs: builder.mutation({
+            query: (data) => ({
+                url: `/enquiry`,
+                method: "POST",
+                data
+            })
+        }),
     })
 });
 
@@ -56,4 +63,5 @@ export const {
     useCategorizedProductByIdQuery,
     usePrivacyPolicyQuery,
     usePricingQueryQuery,
+    useContactUsMutation,
 } = landingApi;

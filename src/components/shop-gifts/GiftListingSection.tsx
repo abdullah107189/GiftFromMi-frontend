@@ -44,7 +44,6 @@ const GiftListingSection = ({
     { label: "$200-$250", value: "200-250" },
     { label: "$250+", value: "250-plus" },
   ];
-  console.log(actions);
   return (
     <section className="xl:py-15 md:py-10 py-5 ">
       <div className="max-w-container mx-auto px-3">

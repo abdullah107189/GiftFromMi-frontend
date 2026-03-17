@@ -52,9 +52,9 @@ function HeroSection() {
                   <Link to="/shop-gifts">
                     <Button>Start Sending Gift</Button>
                   </Link>
-                  <Link to={"/book-call"}>
+                  {/* <Link to={"/book-call"}>
                     <Button variant="outline">Book a Setup Call</Button>
-                  </Link>
+                  </Link> */}
                 </div>
 
                 <div className="flex flex-wrap gap-8 ml-4 items-center sm:pb-0 pb-4">

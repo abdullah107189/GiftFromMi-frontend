@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createFormData } from "@/utils/createFormData";
+import { useContactUsMutation } from "@/redux/features/public/public.api";
+import { toast } from "sonner";
 
 const contactSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -25,6 +29,7 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 const ContactSection = () => {
+  const [contactUs, { isLoading: isContactUsLoading }] = useContactUsMutation();
   const contactCard = [
     {
       icon: (
@@ -132,6 +137,23 @@ const ContactSection = () => {
 
   const onSubmit = async (data: ContactFormValues) => {
     console.log("Contact form data:", data);
+    const finalData = {
+      name: data.firstName + " " + data.lastName,
+      email: data.email,
+      phone: data.phone,
+      message: data.message,
+    };
+    const formData = createFormData(finalData);
+
+    try {
+      const result = await contactUs(formData).unwrap();
+      console.log("Message sent successfully:", result);
+      toast.success(result.message || "Message sent successfully!");
+      form.reset();
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again.");
+    }
   };
 
   return (
@@ -311,8 +333,13 @@ const ContactSection = () => {
                 </p>
               )}
 
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Submit Your Message"}
+              <Button
+                type="submit"
+                disabled={isSubmitting || isContactUsLoading}
+              >
+                {isSubmitting || isContactUsLoading
+                  ? "Sending..."
+                  : "Submit Your Message"}
               </Button>
             </form>
           </div>

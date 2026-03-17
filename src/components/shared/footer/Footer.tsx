@@ -7,7 +7,7 @@ const Footer = () => {
       { name: "Home", href: "/" },
       { name: "How Its Work", href: "/how-it-works" },
       { name: "Shop Gifts", href: "/shop-gifts" },
-      { name: "For Professionals", href: "/for-professionals" },
+      // { name: "For Professionals", href: "/for-professionals" },
       { name: "Bulk & Automation", href: "/bulk-automation" },
     ],
     support: [

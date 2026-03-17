@@ -7,7 +7,6 @@ import type { IProduct } from "@/types";
 //   product: IProduct;
 // }
 const GiftBoxCard = ({ product }: { product: IProduct }) => {
-  console.log(product);
   const navigate = useNavigate();
   if (!product) return null;
   const { id, product_image, title, short_description, variants } = product;

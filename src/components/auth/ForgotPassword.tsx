@@ -28,7 +28,8 @@ const forgotPasswordSchema = z.object({
 });
 
 const ForgotPassword = () => {
-  const [forgotPassword, { isLoading: forgotLoading }] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading: forgotLoading }] =
+    useForgotPasswordMutation();
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -38,17 +39,16 @@ const ForgotPassword = () => {
   });
 
   async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
-
     const result = await forgotPassword({ email: values.email });
     if (result.data?.otp) {
-      console.log('OTP is : ---------> ', result.data.otp);
+      console.log("OTP is : ---------> ", result.data.otp);
       toast.success("Otp sent successfully");
       navigate("/otp", { state: { email: values.email, type: "forgot" } });
+    } else {
+      toast.error(
+        (result as any)?.error?.data?.message || "Password reset failed",
+      );
     }
-    else {
-      toast.error((result as any)?.error?.data?.message || "Password reset failed");
-    }
-
   }
 
   return (
@@ -122,7 +122,7 @@ const ForgotPassword = () => {
                         className={cn(
                           "rounded-xl h-12 bg-white border-gray-200 focus-visible:ring-primary transition-all",
                           fieldState.error &&
-                          "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
+                            "border-destructive bg-destructive/5 focus-visible:ring-destructive text-destructive",
                         )}
                       />
                     </FormControl>
@@ -136,9 +136,12 @@ const ForgotPassword = () => {
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-semibold transition-all"
               >
-                {forgotLoading ? <ButtonLoading loadingText="Sending OTP"></ButtonLoading> : "Forgot Password"}
+                {forgotLoading ? (
+                  <ButtonLoading loadingText="Sending OTP"></ButtonLoading>
+                ) : (
+                  "Forgot Password"
+                )}
               </Button>
-
             </form>
           </Form>
 

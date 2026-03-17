@@ -4,10 +4,10 @@ import ShopGiftsPage from "@/pages/ShopGiftsPage";
 
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
-const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
+// const ForProfessionalsPage = lazy(() => import("@/pages/ForProfessionalsPage"));
 const BulkAutomationPage = lazy(() => import("@/pages/BulkAutomationPage"));
 const ContactUsPage = lazy(() => import("@/pages/ContactUsPage"));
-const BookSetupCall = lazy(() => import("@/pages/BookSetupCall"));
+// const BookSetupCall = lazy(() => import("@/pages/BookSetupCall"));
 const CheckoutPage = lazy(() => import("@/pages/CheckoutPage"));
 const ShoppingCart = lazy(() =>
   import("@/pages/ShoppingCart").then((module) => ({
@@ -42,11 +42,11 @@ export const publicRoutes: ISidebarItem[] = [
     component: CategoryProductsPage,
     hidden: true,
   },
-  {
-    title: "For Professionals",
-    url: "/for-professionals",
-    component: ForProfessionalsPage,
-  },
+  // {
+  //   title: "For Professionals",
+  //   url: "/for-professionals",
+  //   component: ForProfessionalsPage,
+  // },
   {
     title: "Bulk Automation",
     url: "/bulk-automation",
@@ -57,11 +57,11 @@ export const publicRoutes: ISidebarItem[] = [
     url: "/contact-us",
     component: ContactUsPage,
   },
-  {
-    title: "Book A Call",
-    url: "/book-call",
-    component: BookSetupCall,
-  },
+  // {
+  //   title: "Book A Call",
+  //   url: "/book-call",
+  //   component: BookSetupCall,
+  // },
   {
     title: "Shopping Cart",
     url: "/shopping-cart",
