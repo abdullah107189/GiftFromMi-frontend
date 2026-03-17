@@ -142,7 +142,7 @@ const ContactSection = ({
     formState: { errors, isSubmitting },
   } = form;
 
-  const onSubmit = async (data: ContactFormValues) => { 
+  const onSubmit = async (data: ContactFormValues) => {
     const finalData = {
       name: data.firstName + " " + data.lastName,
       email: data.email,
@@ -152,7 +152,7 @@ const ContactSection = ({
     const formData = createFormData(finalData);
 
     try {
-      const result = await contactUs(formData).unwrap(); 
+      const result = await contactUs(formData).unwrap();
       toast.success(result.message || "Message sent successfully!");
       form.reset();
     } catch (error: any) {

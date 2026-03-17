@@ -63,7 +63,7 @@ export const ShoppingCart = () => {
     0,
   );
   const subtotal = displayCartItems.reduce(
-    (sum, item) => sum + item.originalPrice * item.qty,
+    (sum, item) => sum + item.sellPrice * item.qty,
     0,
   );
   const total = subtotal;
@@ -286,7 +286,7 @@ export const ShoppingCart = () => {
 
                         {/* Price */}
                         <TableCell className="md:p-4 p-2 text-center font-semibold font-manrope xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                          ${item.originalPrice?.toFixed(2)}
+                          ${item.sellPrice?.toFixed(2)}
                         </TableCell>
 
                         {/* Quantity */}
@@ -400,7 +400,7 @@ export const ShoppingCart = () => {
 
                         {/* Subtotal */}
                         <TableCell className="text-center font-semibold xl:text-2xl lg:text-xl md:text-lg text-base text-gray-700">
-                          ${(item?.originalPrice * item?.qty)?.toFixed(2)}
+                          ${(item?.sellPrice * item?.qty)?.toFixed(2)}
                         </TableCell>
 
                         {/* Delete Button */}
