@@ -57,12 +57,10 @@ const Login = () => {
       password: values.password,
     });
     try {
-      console.log("Attempting login with:", formData);
       const result = await login(formData).unwrap();
-      toast.success("Login successful!");
 
       if (result?.data?.role === Role.admin) {
-        window.location.replace("https://shalineheng.thewarriors.team");
+        return toast.error("Login failed. Please try again.");
       } else {
         dispatch(
           setCredentials({
@@ -70,11 +68,10 @@ const Login = () => {
             user: result?.data,
           }),
         );
-        console.log(result?.data);
+        toast.success("Login successful!");
         navigate("/");
       }
     } catch (error: any) {
-      console.error("Login Error:", error?.data?.message);
       toast.error(error?.data?.message || "Login failed. Please try again.");
     }
   }

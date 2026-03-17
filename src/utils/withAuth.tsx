@@ -1,4 +1,3 @@
-
 import PageLoader from "@/components/shared/PageLoader";
 import { useGetMeQuery } from "@/redux/features/auth/auth.api";
 import type { ComponentType } from "react";
