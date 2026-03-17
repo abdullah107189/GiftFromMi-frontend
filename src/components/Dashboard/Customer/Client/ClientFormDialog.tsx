@@ -19,11 +19,10 @@ import type { IClientRecord } from "@/types/client";
 import { countries } from "@/utils/countryCode";
 
 const clientSchema = z.object({
-  key: z.string().trim().min(1, "Key is required"),
   name: z.string().trim().min(2, "Client name is required"),
   email: z.string().trim().email("Valid email is required"),
   phone: z.string().trim().min(7, "Phone number is required"),
-  country: z.string().trim().optional(),
+  country: z.string().trim().min(2, "Country is required"),
   country_code: z.string().trim().min(2, "Country code is required"),
   town: z.string().trim().min(2, "Town is required"),
   district: z.string().trim().min(2, "District is required"),
@@ -34,7 +33,6 @@ const clientSchema = z.object({
 export type ClientFormValues = z.infer<typeof clientSchema>;
 
 const defaultFormValues: ClientFormValues = {
-  key: "",
   name: "",
   email: "",
   phone: "",
@@ -53,16 +51,22 @@ const countryOptions = countries.map((country) => ({
 
 type ClientFormDialogProps = {
   open: boolean;
+  isAddingClient: boolean;
+  isUpdatingClient: boolean;
   editingClient: IClientRecord | null;
   isBusy: boolean;
+  pendingLabel?: string | null;
   onOpenChange: (open: boolean) => void;
   onSubmit: (values: ClientFormValues) => Promise<void> | void;
 };
 
 export default function ClientFormDialog({
   open,
+  isAddingClient,
+  isUpdatingClient,
   editingClient,
   isBusy,
+  pendingLabel,
   onOpenChange,
   onSubmit,
 }: ClientFormDialogProps) {
@@ -87,7 +91,6 @@ export default function ClientFormDialog({
     }
 
     reset({
-      key: editingClient.key,
       name: editingClient.name,
       email: editingClient.email,
       phone: editingClient.phone,
@@ -123,19 +126,18 @@ export default function ClientFormDialog({
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-6 px-6 py-6 md:px-8"
         >
-          <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Key" error={errors.key?.message}>
-              <Input
-                {...register("key")}
-                placeholder="Enter unique key"
-                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
-              />
-            </Field>
+          {pendingLabel ? (
+            <div className="rounded-2xl border border-primary/15 bg-primary/5 px-4 py-3 text-sm text-slate-700">
+              {pendingLabel}
+            </div>
+          ) : null}
 
+          <div className="grid gap-5 md:grid-cols-2">
             <Field label="Name" error={errors.name?.message}>
               <Input
                 {...register("name")}
                 placeholder="Enter name"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -144,6 +146,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("email")}
                 placeholder="Enter email address"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -152,6 +155,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("phone")}
                 placeholder="Enter phone number"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -160,8 +164,9 @@ export default function ClientFormDialog({
               <Input
                 {...register("country")}
                 readOnly
-                placeholder="Country auto filled"
-                className="h-12 rounded-2xl bg-slate-50"
+                placeholder="Country auto-filled"
+                disabled={isBusy}
+                className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
 
@@ -185,6 +190,7 @@ export default function ClientFormDialog({
                       });
                     }}
                     isClearable
+                    isDisabled={isBusy}
                     placeholder="Select country code"
                     className="min-h-12!"
                   />
@@ -196,6 +202,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("town")}
                 placeholder="Enter town"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -204,6 +211,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("district")}
                 placeholder="Enter district"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -215,6 +223,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("street_address")}
                 placeholder="Enter street address"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -223,6 +232,7 @@ export default function ClientFormDialog({
               <Input
                 {...register("postal_code")}
                 placeholder="Enter postal code"
+                disabled={isBusy}
                 className="h-12 rounded-2xl border-slate-200 bg-slate-50"
               />
             </Field>
@@ -238,12 +248,16 @@ export default function ClientFormDialog({
               Cancel
             </Button>
 
-            <Button type="submit" disabled={isBusy}>
-              {isBusy
-                ? "Saving..."
-                : editingClient
-                  ? "Save Client"
-                  : "Create Client"}
+            <Button type="submit" disabled={isBusy || isAddingClient}>
+              {isAddingClient
+                ? "Creating..."
+                : isUpdatingClient
+                  ? "Updating..."
+                  : isBusy
+                    ? "Saving..."
+                    : editingClient
+                      ? "Save Client"
+                      : "Create Client"}
             </Button>
           </DialogFooter>
         </form>

@@ -2,7 +2,7 @@ import { Edit, Mail, MapPin, Phone, Trash2, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -15,11 +15,11 @@ import type { IClientRecord } from "@/types/client";
 import { countries } from "@/utils/countryCode";
 
 type ClientTableProps = {
-  selectedIds: string[];
   clients: IClientRecord[];
   isLoading?: boolean;
-  isFetchingGetAllClients?: boolean;
-  onToggleClient: (clientId: string, checked: boolean) => void;
+  pendingClientId?: string | null;
+  isDeletingClient?: boolean;
+  isUpdatingClient?: boolean;
   onEdit: (client: IClientRecord) => void;
   onDelete: (client: IClientRecord) => void;
 };
@@ -29,11 +29,11 @@ const countryLabelByCode = Object.fromEntries(
 ) as Record<string, string>;
 
 export default function ClientTable({
-  selectedIds,
   isLoading = false,
   clients,
-  isFetchingGetAllClients = false,
-  onToggleClient,
+  pendingClientId,
+  isDeletingClient = false,
+  isUpdatingClient = false,
   onEdit,
   onDelete,
 }: ClientTableProps) {
@@ -44,29 +44,56 @@ export default function ClientTable({
           <TableRow className="bg-slate-50 hover:bg-slate-50">
             <TableHead>Client</TableHead>
             <TableHead>Country</TableHead>
-            <TableHead>City / District</TableHead>
+            <TableHead>Town / District</TableHead>
             <TableHead>Address</TableHead>
-            <TableHead>Key</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {isLoading ? (
-            <TableRow>
-              <TableCell
-                colSpan={7}
-                className="py-10 text-center text-sm text-slate-500"
-              >
-                Loading clients...
-              </TableCell>
-            </TableRow>
+            Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={`client-skeleton-${index}`}>
+                <TableCell className="min-w-72">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-40" />
+                      <Skeleton className="h-3 w-56" />
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="space-y-2">
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-3 w-20" />
+                  </div>
+                </TableCell>
+                <TableCell className="min-w-72">
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-56" />
+                    <Skeleton className="h-3 w-28" />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-end gap-2">
+                    <Skeleton className="h-9 w-20 rounded-xl" />
+                    <Skeleton className="h-9 w-24 rounded-xl" />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))
           ) : clients?.length === 0 &&
-            !isFetchingGetAllClients &&
             !isLoading ? (
             <TableRow>
               <TableCell
-                colSpan={7}
+                colSpan={5}
                 className="py-10 text-center text-sm text-slate-500"
               >
                 No clients found.
@@ -74,14 +101,10 @@ export default function ClientTable({
             </TableRow>
           ) : (
             clients?.map((client: IClientRecord) => {
-              const clientId = String(client.id);
-              const isSelected = selectedIds.includes(clientId);
+              const isPendingRow = pendingClientId === String(client.id);
 
               return (
-                <TableRow
-                  key={clientId}
-                  className={isSelected ? "bg-primary/5" : ""}
-                >
+                <TableRow key={client.id}>
                   <TableCell className="min-w-72">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
@@ -139,12 +162,6 @@ export default function ClientTable({
                     </div>
                   </TableCell>
 
-                  <TableCell className="min-w-56">
-                    <p className="text-sm leading-6 text-slate-600">
-                      {client.key || "No key"}
-                    </p>
-                  </TableCell>
-
                   <TableCell>
                     <div className="flex items-center justify-end gap-2">
                       <Button
@@ -152,20 +169,22 @@ export default function ClientTable({
                         variant="outline"
                         size="sm"
                         className="border-slate-300"
+                        disabled={isPendingRow}
                         onClick={() => onEdit(client)}
                       >
                         <Edit className="size-4" />
-                        Edit
+                        {isPendingRow && isUpdatingClient ? "Updating..." : "Edit"}
                       </Button>
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
                         className="text-rose-600 hover:bg-rose-50 hover:text-rose-700"
+                        disabled={isPendingRow}
                         onClick={() => onDelete(client)}
                       >
                         <Trash2 className="size-4" />
-                        Delete
+                        {isPendingRow && isDeletingClient ? "Deleting..." : "Delete"}
                       </Button>
                     </div>
                   </TableCell>

@@ -1,6 +1,5 @@
 export interface IClientRecord {
   id: string;
-  key: string;
   name: string;
   email: string;
   phone: string;

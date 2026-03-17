@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 import ClientFormDialog, {
@@ -19,7 +18,6 @@ import {
   useUpdateClientMutation,
 } from "@/redux/features/clients/clients.api";
 import type { IClientRecord } from "@/types/client";
-import { buildBulkClientSelection } from "@/utils/clientCsv";
 import ClientTableSection from "@/components/Dashboard/Customer/Client/ClientTableSection";
 
 const getErrorMessage = (error: unknown, fallback: string) => {
@@ -39,7 +37,6 @@ const getErrorMessage = (error: unknown, fallback: string) => {
 };
 
 const ClientListPage = () => {
-  const navigate = useNavigate();
   const {
     data: clientsResponse,
     isLoading,
@@ -47,63 +44,27 @@ const ClientListPage = () => {
     refetch: refetchClients,
   } = useGetAllClientsQuery(undefined);
   const [addClient, { isLoading: isAddingClient }] = useAddClientMutation();
-
   const [updateClient, { isLoading: isUpdatingClient }] =
     useUpdateClientMutation();
 
   const [deleteClient, { isLoading: isDeletingClient }] =
     useDeleteClientMutation();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingClient, setEditingClient] = useState<IClientRecord | null>(
     null,
   );
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [pendingClientId, setPendingClientId] = useState<string | null>(null);
 
   const clients = Array.isArray(clientsResponse?.data)
     ? clientsResponse.data
     : Array.isArray(clientsResponse)
       ? clientsResponse
       : [];
-
-  const filteredClients = clients.filter((client: IClientRecord) => {
-    if (!searchTerm.trim()) return true;
-
-    const searchValue = searchTerm.toLowerCase();
-
-    return [
-      client.name,
-      client.key,
-      client.email,
-      client.phone,
-      client.country,
-      client.country_code,
-      client.town,
-      client.district,
-      client.street_address,
-    ]
-      .join(" ")
-      .toLowerCase()
-      .includes(searchValue);
-  });
-
-  const selectedClients = clients.filter((client: IClientRecord) =>
-    selectedIds.includes(String(client.id)),
-  );
-
   const selectedCountriesCount = new Set(
-    selectedClients.map((client: IClientRecord) => client.country_code),
+    clients.map((client: IClientRecord) => client.country_code),
   ).size;
-
-  const handleToggleClient = (clientId: string, checked: boolean) => {
-    setSelectedIds((prev) =>
-      checked
-        ? [...new Set([...prev, clientId])]
-        : prev.filter((id) => id !== clientId),
-    );
-  };
 
   const handleOpenNewClient = () => {
     setEditingClient(null);
@@ -117,7 +78,6 @@ const ClientListPage = () => {
 
   const handleClientSubmit = async (values: ClientFormValues) => {
     const payload = {
-      key: values.key,
       name: values.name,
       email: values.email,
       phone: values.phone,
@@ -131,22 +91,26 @@ const ClientListPage = () => {
 
     try {
       if (editingClient) {
+        setPendingClientId(String(editingClient.id));
         const response: any = await updateClient({
           id: editingClient.id,
           data: payload,
         }).unwrap();
-        await refetchClients();
+        setIsDialogOpen(false);
         toast.success(response?.message || "Client updated successfully.");
+        await refetchClients();
       } else {
+        setPendingClientId("new");
         const response: any = await addClient(payload).unwrap();
+        setIsDialogOpen(false);
         await refetchClients();
         toast.success(response?.message || "Client added successfully.");
       }
-
-      setIsDialogOpen(false);
       setEditingClient(null);
     } catch (error) {
       toast.error(getErrorMessage(error, "Client save failed."));
+    } finally {
+      setPendingClientId(null);
     }
   };
 
@@ -154,36 +118,28 @@ const ClientListPage = () => {
     if (!deleteId) return;
 
     try {
+      setPendingClientId(deleteId);
       const response: any = await deleteClient(deleteId).unwrap();
-      await refetchClients();
-      setSelectedIds((prev) => prev.filter((id) => id !== deleteId));
       setDeleteId(null);
       setIsDeleteOpen(false);
+      await refetchClients();
       toast.success(response?.message || "Client deleted successfully.");
     } catch (error) {
       toast.error(getErrorMessage(error, "Client delete failed."));
+    } finally {
+      setPendingClientId(null);
     }
   };
 
-  const handleStartBulkOrder = () => {
-    if (!selectedClients.length) return;
-
-    // Selected clients are converted into the same CSV-shaped structure
-    // that the bulk checkout page already understands.
-    const bulkSelection = buildBulkClientSelection(selectedClients);
-
-    navigate("/checkout?type=bulk", {
-      state: {
-        bulkClientSelection: bulkSelection,
-      },
-    });
-
-    toast.success(
-      `${selectedClients.length} clients prepared for bulk checkout.`,
-    );
-  };
-
   const isBusy = isAddingClient || isUpdatingClient || isDeletingClient;
+  const isRefreshing = isFetchingGetAllClients && !isLoading;
+  const currentActionLabel = isAddingClient
+    ? "Adding client..."
+    : isUpdatingClient
+      ? "Updating client..."
+      : isDeletingClient
+        ? "Deleting client..."
+        : null;
 
   if (isLoading) {
     return <PageLoader />;
@@ -197,24 +153,23 @@ const ClientListPage = () => {
       />
 
       <ClientListHeader
-        selectedCount={selectedClients.length}
-        onNewOrder={handleStartBulkOrder}
+        selectedCount={0}
+        onNewOrder={() => {}}
         onNewClient={handleOpenNewClient}
       />
 
       <ClientStatsGrid
         totalClients={clients.length}
-        selectedClients={selectedClients.length}
+        selectedClients={clients.length}
         countriesCount={selectedCountriesCount}
       />
 
       <ClientTableSection
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        clients={filteredClients}
-        selectedIds={selectedIds}
-        isLoading={isFetchingGetAllClients}
-        onToggleClient={handleToggleClient}
+        clients={clients}
+        isLoading={isRefreshing}
+        pendingClientId={pendingClientId}
+        isDeletingClient={isDeletingClient}
+        isUpdatingClient={isUpdatingClient}
         onEdit={handleOpenEditClient}
         onDelete={(client) => {
           setDeleteId(String(client.id));
@@ -226,6 +181,9 @@ const ClientListPage = () => {
         open={isDialogOpen}
         editingClient={editingClient}
         isBusy={isBusy}
+        isAddingClient={isAddingClient}
+        isUpdatingClient={isUpdatingClient}
+        pendingLabel={currentActionLabel}
         onOpenChange={(open) => {
           setIsDialogOpen(open);
           if (!open) {
@@ -239,6 +197,7 @@ const ClientListPage = () => {
         isOpen={isDeleteOpen}
         onOpenChange={setIsDeleteOpen}
         onConfirm={handleDeleteClient}
+        isBusy={isDeletingClient}
         title="Delete Client?"
         description="This client will be removed from your saved recipient list."
         confirmLabel={isDeletingClient ? "Deleting..." : "Delete Client"}
