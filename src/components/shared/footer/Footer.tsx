@@ -1,7 +1,9 @@
-import logo from "@/assets/icons/logo.png";
+import { useSettingsQuery } from "@/redux/features/public/public.api";
 import { Link } from "react-router";
 
 const Footer = () => {
+  const { data: settings, isLoading: isFooterLoading } =
+    useSettingsQuery(undefined);
   const footerLinks = {
     quickLink: [
       { name: "Home", href: "/" },
@@ -26,11 +28,15 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <h3 className="font-semibold text-gray-900 text-lg">Products</h3>
             <div className="p-4 border border-gray-400 rounded-xl">
-              <img
-                src={logo}
-                alt="GiftFromMi"
-                className="h-14 w-14 object-cover mb-4"
-              />
+              {isFooterLoading ? (
+                <div className="w-14 h-14 rounded-full bg-gray-300 animate-pulse"></div>
+              ) : (
+                <img
+                  src={settings?.logo}
+                  alt="GiftFromMi"
+                  className="h-14 w-14 object-cover mb-4"
+                />
+              )}
               <p className="text-[#667085] text-sm leading-relaxed">
                 Where care meets beautiful gifting, delivered for you.
               </p>
@@ -88,7 +94,9 @@ const Footer = () => {
                     fill="#CA8A32"
                   />
                 </svg>
-                <span>demomail@gmail.com</span>
+                <span>
+                  {isFooterLoading ? "Loading..." : settings?.email || "N/A"}
+                </span>
               </li>
               <li className="flex items-center gap-3 text-gray-500">
                 <svg
@@ -133,7 +141,9 @@ const Footer = () => {
                   href="tel:+880123456789"
                   className="hover:text-[#CA8A32] transition-colors duration-200"
                 >
-                  +880 123456789
+                  <span>
+                    {isFooterLoading ? "Loading..." : settings?.number || "N/A"}
+                  </span>
                 </a>
               </li>
               {/* <li className="flex items-center gap-3 text-gray-500">

@@ -5,7 +5,7 @@ import SEO from "@/components/shared/SEO";
 import { useSettingsQuery } from "@/redux/features/public/public.api";
 
 function ContactUsPage() {
-  const { data: settings, isLoading } = useSettingsQuery(undefined);
+const { data: settings, isLoading } = useSettingsQuery(undefined);
   return (
     <div>
       <SEO

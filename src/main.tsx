@@ -13,11 +13,10 @@ createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       {/* <HelmetProvider> */}
       <PersistGate loading={null} persistor={persistor}>
-
         <Toaster />
         <RouterProvider router={router} />
         {/* </HelmetProvider> */}
       </PersistGate>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );

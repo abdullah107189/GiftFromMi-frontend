@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import logo from "@/assets/icons/logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router";
 import { Button } from "../../ui/button";
@@ -10,12 +9,14 @@ import { selectUser } from "@/redux/features/auth/authSelectors";
 import { useSelector } from "react-redux";
 import { selectCartItemsCount } from "@/redux/features/cart/cartSelectors";
 import { Role } from "@/types";
+import { useSettingsQuery } from "@/redux/features/public/public.api";
 
 const ResponsiveNavbar = () => {
+  const { data: settings, isLoading: isNavbarLoading } =
+    useSettingsQuery(undefined);
   const userInfo = useSelector(selectUser);
   const user = userInfo?.role;
   const cartDispatch = useSelector(selectCartItemsCount);
-
 
   const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -46,11 +47,15 @@ const ResponsiveNavbar = () => {
     >
       <nav className="flex items-center justify-between max-w-container mx-auto px-3 lg:px-0">
         <Link to="/" className="shrink-0 relative z-60">
-          <img
-            src={logo}
-            className={cn("transition-all duration-300 w-auto h-12 md:h-16")}
-            alt="logo"
-          />
+          {isNavbarLoading ? (
+            <div className="w-15 h-15 mx-auto rounded-full bg-gray-300 animate-pulse"></div>
+          ) : (
+            <img
+              src={settings?.logo}
+              className={cn("transition-all duration-300 w-auto h-12 md:h-16")}
+              alt="logo"
+            />
+          )}
         </Link>
         {/* desktop */}
         <ul className="hidden xl:flex items-center md:gap-4 lg:gap-6 xl:gap-8">
@@ -81,18 +86,18 @@ const ResponsiveNavbar = () => {
         </ul>
 
         <div className="items-center gap-4 flex pr-3 relative z-60">
-          {!user || user !== Role.customer ? (
-            <div className="hidden sm:flex items-center gap-4">
-              <Link to={"/login"}>
-                <Button variant={"outline"}>Login</Button>
-              </Link>
+          {
+            !user || user !== Role.customer ? (
+              <div className="hidden sm:flex items-center gap-4">
+                <Link to={"/login"}>
+                  <Button variant={"outline"}>Login</Button>
+                </Link>
 
-              {/* <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
+                {/* <Link to={"/book-call"} onClick={() => setIsMenuOpen(false)}>
                 <Button variant={"default"}>Book A Setup Call</Button>
               </Link> */}
-            </div>
-          ) :
-            (
+              </div>
+            ) : (
               <Link to={"/customer-dashboard"}>
                 <Button variant={"secondary"} size={"icon"}>
                   <svg
@@ -148,7 +153,6 @@ const ResponsiveNavbar = () => {
             </Button>
           </Link> */
             /* ) : (user as string) === Role.customer ? ( */
-
           }
 
           {/* Cart Icon */}
