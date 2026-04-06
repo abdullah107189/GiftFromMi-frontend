@@ -39,9 +39,9 @@ const GiftBoxCard = ({ product }: { product: IProduct }) => {
             <span className="text-4xl font-semibold text-primary">
               ${sell_price || "N/A"}
             </span>
-            <span className="text-gray-500 text-xl font-medium line-through">
+            {/* <span className="text-gray-500 text-xl font-medium line-through">
               ${price || "N/A"}
-            </span>
+            </span> */}
           </div>
         </div>
 

@@ -300,26 +300,8 @@ const Register = () => {
             </p>
           </div>
 
-          <div className="relative xl:mt-8 xl:mb-6 lg:my-4 my-2">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-400"></span>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-2 text-gray-500">
-                or connect with
-              </span>
-            </div>
-          </div>
 
-          <Button variant="outline" className="w-full">
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              loading="lazy"
-              alt="google logo"
-              className="h-8 w-8"
-            />
-            Google
-          </Button>
+
         </div>
       </div>
     </section>

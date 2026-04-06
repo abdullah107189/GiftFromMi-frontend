@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import shopHeroImg from "@/assets/banner_and_background/b1.png";
+import shopHeroImg from "@/assets/banner_and_background/Send-gift.svg";
 import sidbar1 from "@/assets/banner_and_background/sidebar1.png";
 import sidbar2 from "@/assets/banner_and_background/sidebar2.png";
 import { Link } from "react-router";
@@ -46,7 +46,7 @@ const ShopGiftsHero = () => {
 
           {/* Right Side: Illustration Area */}
           <div className="flex-1 hidden xl:flex w-full order-1 lg:order-2">
-            <div className=" max-w-[600px] object-contain relative flex justify-center lg:justify-end">
+            <div className=" w-[600px]  object-contain relative flex justify-center lg:justify-end">
               <img
                 src={shopHeroImg}
                 alt="Shop Gifts Illustration"

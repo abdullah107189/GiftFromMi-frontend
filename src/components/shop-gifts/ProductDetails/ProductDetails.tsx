@@ -105,6 +105,9 @@ const ProductDetails = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const product = data?.productInfo as ProductInfo | undefined;
+
+  console.log("data", data?.productInfo?.description);
+  // console.log("product", product);
   const relatedProducts = data?.relatedProducts || [];
 
   const variants: Variant[] = useMemo(
@@ -433,9 +436,9 @@ const ProductDetails = () => {
               {(variantThumbs.length
                 ? variantThumbs
                 : thumbsToShow.map(
-                    (img, index) =>
-                      ({ id: index, img, label: "", qty: 1 }) as const,
-                  )
+                  (img, index) =>
+                    ({ id: index, img, label: "", qty: 1 }) as const,
+                )
               )
                 .slice(0, 6)
                 .map((variant, index) => {
@@ -455,9 +458,8 @@ const ProductDetails = () => {
                           setActiveImage(variant.img);
                         }
                       }}
-                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                        isActive ? "border-orange-500" : "border-transparent"
-                      } ${variant.qty <= 0 ? "opacity-50" : ""}`}
+                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-orange-500" : "border-transparent"
+                        } ${variant.qty <= 0 ? "opacity-50" : ""}`}
                       title={variant.label}
                     >
                       <img
@@ -494,9 +496,9 @@ const ProductDetails = () => {
                   <span className="text-4xl font-semibold text-primary">
                     ${sellPrice}
                   </span>
-                  <span className="text-gray-500 text-xl font-medium line-through">
+                  {/* <span className="text-gray-500 text-xl font-medium line-through">
                     ${price}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>
@@ -558,9 +560,9 @@ const ProductDetails = () => {
               {(variantThumbs.length
                 ? variantThumbs
                 : thumbsToShow.map(
-                    (img, index) =>
-                      ({ id: index, img, label: "", qty: 1 }) as const,
-                  )
+                  (img, index) =>
+                    ({ id: index, img, label: "", qty: 1 }) as const,
+                )
               )
                 .slice(0, 7)
                 .map((variant, index) => {
@@ -580,9 +582,8 @@ const ProductDetails = () => {
                           setActiveImage(variant.img);
                         }
                       }}
-                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                        isActive ? "border-primary" : "border-transparent"
-                      } ${variant.qty <= 0 ? "opacity-50" : ""}`}
+                      className={`w-28.75 h-24 aspect-115/96 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${isActive ? "border-primary" : "border-transparent"
+                        } ${variant.qty <= 0 ? "opacity-50" : ""}`}
                       title={variant.label}
                     >
                       <img
@@ -711,13 +712,14 @@ const ProductDetails = () => {
                 </div>
 
                 <div
-                  className="mt-4 text-sm leading-7 text-gray-600 [&_h1]:mb-4 [&_h1]:text-2xl [&_h1]:font-semibold [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_img]:hidden [&_p]:mb-4 [&_strong]:font-semibold"
+                  className="h-120 mt-2 overflow-y-auto"
                   dangerouslySetInnerHTML={{
                     __html:
-                      product.description ||
+                      product?.description ||
                       "<p>No detailed description available for this product yet.</p>",
                   }}
                 />
+                {/* <div className="mt-4 text-sm leading-7 text-gray-600 [&_h1]:mb-4 [&_h1]:text-2xl [&_h1]:font-semibold [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_img]:hidden [&_p]:mb-4 [&_strong]:font-semibold" dangerouslySetInnerHTML={{ __html: data?.productInfo?.description }} /> */}
               </div>
             </div>
 
@@ -819,9 +821,9 @@ const ProductDetails = () => {
                                   ${variant.sell_price}
                                 </span>
                               </span>
-                              <span className="text-gray-400 line-through">
+                              {/* <span className="text-gray-400 line-through">
                                 ${variant.price}
-                              </span>
+                              </span> */}
                             </div>
                           </button>
                         );

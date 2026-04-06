@@ -98,7 +98,7 @@ export default function OrderDetailsPage() {
   } = useGetSingleOrderQuery(orderId, {
     skip: shouldSkipQuery,
   });
-
+  console.log(detailsOrder)
   if (isLoadingOrderDetails) {
     return <PageLoader />;
   }
@@ -143,11 +143,12 @@ export default function OrderDetailsPage() {
       (sum, recipient) =>
         sum +
         recipient.items.reduce(
-          (recipientSum, item) => recipientSum + item.quantity,
-          0,
+          (recipientSum, item) => recipientSum + Number(item.quantity), // convert to number
+          0
         ),
-      0,
+      0
     ) ?? 0;
+
 
   const handleCancelOrder = async () => {
     try {
@@ -255,6 +256,7 @@ export default function OrderDetailsPage() {
                 <span className="text-sm font-medium">Total Units</span>
               </div>
               <p className="mt-4 text-3xl font-semibold text-gray-900">
+
                 {totalItems}
               </p>
               <p className="mt-1 text-sm text-[#64748B]">
